@@ -1,0 +1,14 @@
+language: objective-c
+osx_image: xcode8
+env:
+- DESTINATION="OS=10.0,name=iPhone 7" SCHEME="Palladium" SDK=iphonesimulator10.0
+
+before_install:
+- brew update
+- brew outdated carthage || brew upgrade carthage
+- carthage update --platform iOS
+- gem install xcpretty --no-rdoc --no-ri --no-document --quiet
+
+script:
+- xcodebuild clean build -project Palladium.xcodeproj -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c
+- xcodebuild test -project Palladium.xcodeproj -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c
