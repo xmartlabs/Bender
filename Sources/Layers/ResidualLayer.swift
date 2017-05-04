@@ -8,6 +8,7 @@
 
 import MetalPerformanceShaders
 
+//TODO: make residual the base for parallel layers
 class ResidualLayer: NetworkLayer {
     var descriptor: MPSImageDescriptor?
     

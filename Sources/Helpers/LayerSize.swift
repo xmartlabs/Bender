@@ -26,7 +26,7 @@ struct LayerSize {
 }
 
 struct ConvSize {
-    let layerSize: LayerSize
+    let outputChannels: Int
     let kernelSize: Int
     let stride: Int
 }

@@ -8,32 +8,27 @@
 
 import MetalPerformanceShaders
 
-class LanczosLayer: NetworkLayer {
+class Scale: NetworkLayer {
 
-    var outputLayerSize: LayerSize {
-        return layerSize
-    }
+    var outputSize: LayerSize!
 
-    var layerSize: LayerSize!
     var lanczos: MPSImageLanczosScale!
 
     // Intermediate images
-    var descriptor: MPSImageDescriptor?
     var outputImage: MPSImage!
 
     init(layerSize: LayerSize) {
-        self.layerSize = layerSize
+        self.outputSize = layerSize
     }
 
     func initialize(device: MTLDevice, prevSize: LayerSize) {
         lanczos = MPSImageLanczosScale(device: device)
-        descriptor = MPSImageDescriptor(channelFormat: .float16, width: layerSize.w, height: layerSize.h, featureChannels: layerSize.f)
-        outputImage = createImage(device: device)
+        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
 
     func updateCheckpoint(new: String, old: String, device: MTLDevice) {}
 
-    func execute(commandBuffer: MTLCommandBuffer, inputImage: MPSImage, originalImage: MPSImage?) -> MPSImage {
+    func execute(commandBuffer: MTLCommandBuffer, inputImage: MPSImage) -> MPSImage {
         lanczos.encode(commandBuffer: commandBuffer, sourceTexture: inputImage.texture, destinationTexture: outputImage.texture)
 
         return outputImage

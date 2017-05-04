@@ -8,23 +8,18 @@
 
 import MetalPerformanceShaders
 
-class LuminanceLayer: NetworkLayer {
+/// Receives two input images. The first is used to take the color and the second is used to take the luminance for the output image.
+class Luminance: NetworkLayerUnion {
 
-    var outputLayerSize: LayerSize {
-        return layerSize
-    }
-
-    var layerSize: LayerSize!
+    var outputSize: LayerSize!
 
     // Custom kernels
     let pipelineLuminance: MTLComputePipelineState
 
     // Intermediate images
-    var descriptor: MPSImageDescriptor?
     var outputImage: MPSImage!
 
-    init(device: MTLDevice, layerSize: LayerSize) {
-        self.layerSize = layerSize
+    init(device: MTLDevice) {
         do {
             let library = device.newDefaultLibrary()!
             let kernel = library.makeFunction(name: "luminance_transfer")
@@ -35,22 +30,18 @@ class LuminanceLayer: NetworkLayer {
     }
 
     func initialize(device: MTLDevice, prevSize: LayerSize) {
-        descriptor = MPSImageDescriptor(channelFormat: .float16, width: layerSize.w, height: layerSize.h, featureChannels: layerSize.f)
-        outputImage = createImage(device: device)
+        outputSize = prevSize
+        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: prevSize))
     }
 
     func updateCheckpoint(new: String, old: String, device: MTLDevice) {}
 
-    func execute(commandBuffer: MTLCommandBuffer, inputImage: MPSImage, originalImage: MPSImage?) -> MPSImage {
-        guard let originalImage = originalImage else {
-            return inputImage
-        }
-
+    func execute(commandBuffer: MTLCommandBuffer, inputImages: MPSImage...) -> MPSImage {
         let encoder = commandBuffer.makeComputeCommandEncoder()
         encoder.label = "Luminance encoder"
         encoder.setComputePipelineState(pipelineLuminance)
-        encoder.setTexture(inputImage.texture, at: 0)
-        encoder.setTexture(originalImage.texture, at: 1)
+        encoder.setTexture(inputImages[0].texture, at: 0)
+        encoder.setTexture(inputImages[1].texture, at: 1)
         encoder.setTexture(outputImage.texture, at: 2)
         let threadsPerGroups = MTLSizeMake(32, 8, 1)
         let threadGroups = MTLSizeMake(outputImage.texture.width / threadsPerGroups.width,
