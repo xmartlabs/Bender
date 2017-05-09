@@ -25,7 +25,7 @@ class ComputeFunctions {
 
     private func setupPipelineStates(device: MTLDevice) {
         do {
-            let defaultLibrary = device.newDefaultLibrary()!
+            let defaultLibrary = device.makeMyLibrary()
 
             let meanKernel =  defaultLibrary.makeFunction(name: "meanA")
             meanKernel?.label = "meanKernel"

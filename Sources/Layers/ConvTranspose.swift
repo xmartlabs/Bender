@@ -13,9 +13,7 @@ struct WeightData {
     var data: UnsafePointer<Float>
 }
 
-class ConvTranspose: NetworkLayer {
-
-    var outputSize: LayerSize!
+open class ConvTranspose: NetworkLayer {
 
     let size: ConvSize
     private var prevSize: LayerSize!
@@ -27,17 +25,14 @@ class ConvTranspose: NetworkLayer {
     var weightsFile: String
     var weights: MTLBuffer!
 
-    var outputImage: MPSImage
-
-
-    init(device: MTLDevice, size: ConvSize, neuron: ActivationNeuronType = .relu, weightsFile: String) {
+    public init(device: MTLDevice, size: ConvSize, neuron: ActivationNeuronType = .relu, weightsFile: String, id: String? = nil) {
         self.size = size
         self.weightsFile = weightsFile
         
         // Load custom metal kernels
 
         do {
-            let library = device.newDefaultLibrary()!
+            let library = device.makeMyLibrary()
             let calculateFunc = library.makeFunction(name: "transpose_conv_calculate")
             let shiftLeftFunc = library.makeFunction(name: "transpose_conv_shift_left")
             let shiftTopFunc = library.makeFunction(name: "transpose_conv_shift_top")
@@ -50,36 +45,36 @@ class ConvTranspose: NetworkLayer {
         } catch {
             fatalError("Error initializing compute pipeline")
         }
-
+        super.init(id: id)
         self.outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
     
-    func initialize(device: MTLDevice, prevSize: LayerSize) {
+    open override func initialize(device: MTLDevice) {
 
-        self.prevSize = prevSize
+        self.prevSize = getIncoming().first?.outputSize
 
         updateWeights(device: device)
     }
 
-    func updateCheckpoint(new checkpoint: String, old: String, device: MTLDevice) {
+    open override func updateCheckpoint(new checkpoint: String, old: String, device: MTLDevice) {
         weightsFile = weightsFile.replacingOccurrences(of: old, with: checkpoint, options: String.CompareOptions.anchored)
 
         updateWeights(device: device)
     }
 
-    func updateWeights(device: MTLDevice) {
+    open func updateWeights(device: MTLDevice) {
         let vector = loadWeights(from: weightsFile, size: getWeightsSize())
         weights.contents().copyBytes(from: vector, count: getWeightsSize())
     }
 
-    func getWeightsSize() -> Int {
+    open func getWeightsSize() -> Int {
         return prevSize.f * size.kernelSize * size.kernelSize * size.outputChannels
     }
 
-    func execute(commandBuffer: MTLCommandBuffer, inputImage: MPSImage) -> MPSImage {
+    open override func execute(commandBuffer: MTLCommandBuffer) {
 
         // thread group size variables
-
+        let incoming = getIncoming()
         let w = pipelineStateCalculate.threadExecutionWidth
         let d = 1
         assert(pipelineStateCalculate.maxTotalThreadsPerThreadgroup / w / d >= 1, "ERROR: wrong thread group size")
@@ -89,8 +84,8 @@ class ConvTranspose: NetworkLayer {
         let step2ImageSize = LayerSize(f: outputSize.f, w: outputSize.w, h: outputSize.h + prevSize.h)
 
         let threadsPerGroups = MTLSizeMake(w, h, d)
-        let threadgroupsPerGrid = MTLSize(width: (inputImage.texture.width + w - 1) / w,
-                                          height: (inputImage.texture.height + h - 1) / h,
+        let threadgroupsPerGrid = MTLSize(width: (incoming[0].outputImage.texture.width + w - 1) / w,
+                                          height: (incoming[0].outputImage.texture.height + h - 1) / h,
                                           depth: (outputImage.texture.arrayLength + d - 1) / d)
 
         let step1Img = MPSTemporaryImage(commandBuffer: commandBuffer, imageDescriptor: MPSImageDescriptor(layerSize: step1ImageSize))
@@ -99,7 +94,7 @@ class ConvTranspose: NetworkLayer {
         let encoder = commandBuffer.makeComputeCommandEncoder()
         encoder.label = "convT compute encoder"
         encoder.setComputePipelineState(pipelineStateCalculate)
-        encoder.setTexture(inputImage.texture, at: 0)
+        encoder.setTexture(incoming[0].outputImage.texture, at: 0)
         encoder.setTexture(step1Img.texture, at: 1)
         encoder.setBuffer(weights, offset: 0, at: 0)
 
@@ -131,8 +126,6 @@ class ConvTranspose: NetworkLayer {
         encoder3.endEncoding()
 
         step2Img.readCount = 0
-
-        return outputImage
     }
 
 //    func loadWeightsForFixedSize(file: String) -> UnsafeMutableRawPointer {

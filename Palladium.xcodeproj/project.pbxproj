@@ -13,17 +13,23 @@
 		8F3DE15A1EBB962200D81949 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3DE1591EBB962200D81949 /* Network.swift */; };
 		8F3DE15D1EBB9ACC00D81949 /* ComputeFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3DE15C1EBB9ACC00D81949 /* ComputeFunctions.swift */; };
 		8F3DE15F1EBBD0C700D81949 /* Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3DE15E1EBBD0C700D81949 /* Add.swift */; };
-		8FA983F81EBA70F200586D1B /* InstanceNorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983F51EBA70F200586D1B /* InstanceNorm.swift */; };
-		8FA983F91EBA70F200586D1B /* NetworkPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983F61EBA70F200586D1B /* NetworkPipeline.swift */; };
-		8FA983FA1EBA70F200586D1B /* StyleNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983F71EBA70F200586D1B /* StyleNet.swift */; };
+		8F79B7F91EC21AC2002D02C8 /* ConvTranspose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FC1EBA70F900586D1B /* ConvTranspose.swift */; };
+		8F79B7FA1EC21BE8002D02C8 /* Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FD1EBA70F900586D1B /* Crop.swift */; };
+		8F79B7FB1EC21C1D002D02C8 /* InstanceNorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983F51EBA70F200586D1B /* InstanceNorm.swift */; };
+		8F79B7FC1EC21EDE002D02C8 /* Luminance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FF1EBA70F900586D1B /* Luminance.swift */; };
+		8F79B7FE1EC2302C002D02C8 /* Scale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FE1EBA70F900586D1B /* Scale.swift */; };
+		8F79B8001EC233A8002D02C8 /* ActivationNeuronType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B7FF1EC233A8002D02C8 /* ActivationNeuronType.swift */; };
+		8F79B8011EC233F3002D02C8 /* Identity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8E31C1EC0AE5800E8BAD8 /* Identity.swift */; };
+		8F79B8021EC23444002D02C8 /* Neuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8E31E1EC0B2B100E8BAD8 /* Neuron.swift */; };
+		8F79B8031EC23563002D02C8 /* ResidualLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA9841E1EBA74D700586D1B /* ResidualLayer.swift */; };
+		8F79B8081EC248CD002D02C8 /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B8071EC248CD002D02C8 /* Dummy.swift */; };
+		8F79B80A1EC2514A002D02C8 /* MTLDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B8091EC2514A002D02C8 /* MTLDevice.swift */; };
+		8FA8E3211EC0B8B500E8BAD8 /* BGRAtoRGBA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8E3201EC0B8B500E8BAD8 /* BGRAtoRGBA.swift */; };
+		8FA8E32C1EC0F05800E8BAD8 /* SlimMPSCNN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA984021EBA70F900586D1B /* SlimMPSCNN.swift */; };
+		8FA8E32E1EC0FD8800E8BAD8 /* Start.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8E32D1EC0FD8800E8BAD8 /* Start.swift */; };
+		8FA8E3301EC0FE2700E8BAD8 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8E32F1EC0FE2700E8BAD8 /* Operators.swift */; };
 		8FA984041EBA70F900586D1B /* Convolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FB1EBA70F900586D1B /* Convolution.swift */; };
-		8FA984051EBA70F900586D1B /* ConvTranspose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FC1EBA70F900586D1B /* ConvTranspose.swift */; };
-		8FA984061EBA70F900586D1B /* Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FD1EBA70F900586D1B /* Crop.swift */; };
-		8FA984071EBA70F900586D1B /* Scale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FE1EBA70F900586D1B /* Scale.swift */; };
-		8FA984081EBA70F900586D1B /* Luminance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FF1EBA70F900586D1B /* Luminance.swift */; };
 		8FA984091EBA70F900586D1B /* NetworkLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA984001EBA70F900586D1B /* NetworkLayer.swift */; };
-		8FA9840A1EBA70F900586D1B /* ScaleToFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA984011EBA70F900586D1B /* ScaleToFloat.swift */; };
-		8FA9840B1EBA70F900586D1B /* SlimMPSCNN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA984021EBA70F900586D1B /* SlimMPSCNN.swift */; };
 		8FA984131EBA710000586D1B /* ColorShaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8FA9840D1EBA710000586D1B /* ColorShaders.metal */; };
 		8FA984141EBA710000586D1B /* conv_transpose.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8FA9840E1EBA710000586D1B /* conv_transpose.metal */; };
 		8FA984151EBA710000586D1B /* convolution.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8FA9840F1EBA710000586D1B /* convolution.metal */; };
@@ -32,7 +38,6 @@
 		8FA984181EBA710000586D1B /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8FA984121EBA710000586D1B /* Shaders.metal */; };
 		8FA9841B1EBA723500586D1B /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA9841A1EBA723500586D1B /* Helpers.swift */; };
 		8FA9841D1EBA726B00586D1B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA9841C1EBA726B00586D1B /* Constants.swift */; };
-		8FA9841F1EBA74D700586D1B /* ResidualLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA9841E1EBA74D700586D1B /* ResidualLayer.swift */; };
 		8FA984211EBA778900586D1B /* MTLTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA984201EBA778900586D1B /* MTLTexture.swift */; };
 		8FA984241EBA77AE00586D1B /* MPSImageDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA984231EBA77AE00586D1B /* MPSImageDescriptor.swift */; };
 		8FA984261EBA77E400586D1B /* LayerSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA984251EBA77E400586D1B /* LayerSize.swift */; };
@@ -58,9 +63,15 @@
 		8F3DE1591EBB962200D81949 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		8F3DE15C1EBB9ACC00D81949 /* ComputeFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComputeFunctions.swift; sourceTree = "<group>"; };
 		8F3DE15E1EBBD0C700D81949 /* Add.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Add.swift; sourceTree = "<group>"; };
+		8F79B7FF1EC233A8002D02C8 /* ActivationNeuronType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivationNeuronType.swift; sourceTree = "<group>"; };
+		8F79B8071EC248CD002D02C8 /* Dummy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
+		8F79B8091EC2514A002D02C8 /* MTLDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MTLDevice.swift; sourceTree = "<group>"; };
+		8FA8E31C1EC0AE5800E8BAD8 /* Identity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identity.swift; sourceTree = "<group>"; };
+		8FA8E31E1EC0B2B100E8BAD8 /* Neuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Neuron.swift; sourceTree = "<group>"; };
+		8FA8E3201EC0B8B500E8BAD8 /* BGRAtoRGBA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BGRAtoRGBA.swift; sourceTree = "<group>"; };
+		8FA8E32D1EC0FD8800E8BAD8 /* Start.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Start.swift; sourceTree = "<group>"; };
+		8FA8E32F1EC0FE2700E8BAD8 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		8FA983F51EBA70F200586D1B /* InstanceNorm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstanceNorm.swift; sourceTree = "<group>"; };
-		8FA983F61EBA70F200586D1B /* NetworkPipeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkPipeline.swift; sourceTree = "<group>"; };
-		8FA983F71EBA70F200586D1B /* StyleNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleNet.swift; sourceTree = "<group>"; };
 		8FA983FB1EBA70F900586D1B /* Convolution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convolution.swift; sourceTree = "<group>"; };
 		8FA983FC1EBA70F900586D1B /* ConvTranspose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvTranspose.swift; sourceTree = "<group>"; };
 		8FA983FD1EBA70F900586D1B /* Crop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crop.swift; sourceTree = "<group>"; };
@@ -143,14 +154,22 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
+		8F79B8041EC23747002D02C8 /* Obsolete */ = {
+			isa = PBXGroup;
+			children = (
+				8F3DE15C1EBB9ACC00D81949 /* ComputeFunctions.swift */,
+			);
+			name = Obsolete;
+			sourceTree = "<group>";
+		};
 		8FA983F21EBA70A400586D1B /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				8FA984001EBA70F900586D1B /* NetworkLayer.swift */,
-				8FA983F61EBA70F200586D1B /* NetworkPipeline.swift */,
-				8FA983F71EBA70F200586D1B /* StyleNet.swift */,
+				8F79B8041EC23747002D02C8 /* Obsolete */,
+				8F79B7FF1EC233A8002D02C8 /* ActivationNeuronType.swift */,
 				8F3DE1591EBB962200D81949 /* Network.swift */,
-				8F3DE15C1EBB9ACC00D81949 /* ComputeFunctions.swift */,
+				8FA984001EBA70F900586D1B /* NetworkLayer.swift */,
+				8FA8E32F1EC0FE2700E8BAD8 /* Operators.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -159,15 +178,20 @@
 			isa = PBXGroup;
 			children = (
 				8F3DE15E1EBBD0C700D81949 /* Add.swift */,
+				8FA8E3201EC0B8B500E8BAD8 /* BGRAtoRGBA.swift */,
 				8FA983FB1EBA70F900586D1B /* Convolution.swift */,
+				8FA984021EBA70F900586D1B /* SlimMPSCNN.swift */,
 				8FA983FC1EBA70F900586D1B /* ConvTranspose.swift */,
 				8FA983FD1EBA70F900586D1B /* Crop.swift */,
+				8F79B8071EC248CD002D02C8 /* Dummy.swift */,
+				8FA8E31C1EC0AE5800E8BAD8 /* Identity.swift */,
 				8FA983F51EBA70F200586D1B /* InstanceNorm.swift */,
 				8FA983FF1EBA70F900586D1B /* Luminance.swift */,
-				8FA983FE1EBA70F900586D1B /* Scale.swift */,
-				8FA984011EBA70F900586D1B /* ScaleToFloat.swift */,
-				8FA984021EBA70F900586D1B /* SlimMPSCNN.swift */,
+				8FA8E31E1EC0B2B100E8BAD8 /* Neuron.swift */,
 				8FA9841E1EBA74D700586D1B /* ResidualLayer.swift */,
+				8FA983FE1EBA70F900586D1B /* Scale.swift */,
+				8FA8E32D1EC0FD8800E8BAD8 /* Start.swift */,
+				8FA984011EBA70F900586D1B /* ScaleToFloat.swift */,
 			);
 			path = Layers;
 			sourceTree = "<group>";
@@ -202,6 +226,7 @@
 			children = (
 				8FA984201EBA778900586D1B /* MTLTexture.swift */,
 				8FA984231EBA77AE00586D1B /* MPSImageDescriptor.swift */,
+				8F79B8091EC2514A002D02C8 /* MTLDevice.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -317,30 +342,35 @@
 			files = (
 				8FA984131EBA710000586D1B /* ColorShaders.metal in Sources */,
 				8FA984091EBA70F900586D1B /* NetworkLayer.swift in Sources */,
-				8FA984081EBA70F900586D1B /* Luminance.swift in Sources */,
-				8FA983F91EBA70F200586D1B /* NetworkPipeline.swift in Sources */,
-				8FA9841F1EBA74D700586D1B /* ResidualLayer.swift in Sources */,
+				8FA8E3301EC0FE2700E8BAD8 /* Operators.swift in Sources */,
+				8F79B8031EC23563002D02C8 /* ResidualLayer.swift in Sources */,
+				8FA8E3211EC0B8B500E8BAD8 /* BGRAtoRGBA.swift in Sources */,
 				8FA984161EBA710000586D1B /* instanceNorm.metal in Sources */,
-				8FA983F81EBA70F200586D1B /* InstanceNorm.swift in Sources */,
+				8F79B7FE1EC2302C002D02C8 /* Scale.swift in Sources */,
+				8F79B7FB1EC21C1D002D02C8 /* InstanceNorm.swift in Sources */,
 				8FA984181EBA710000586D1B /* Shaders.metal in Sources */,
-				8FA984061EBA70F900586D1B /* Crop.swift in Sources */,
 				8FA984041EBA70F900586D1B /* Convolution.swift in Sources */,
 				8F3DE15A1EBB962200D81949 /* Network.swift in Sources */,
+				8F79B7F91EC21AC2002D02C8 /* ConvTranspose.swift in Sources */,
 				8F3DE15F1EBBD0C700D81949 /* Add.swift in Sources */,
 				8FA984141EBA710000586D1B /* conv_transpose.metal in Sources */,
 				8FA984171EBA710000586D1B /* instanceNorm3.metal in Sources */,
 				8F3DE15D1EBB9ACC00D81949 /* ComputeFunctions.swift in Sources */,
+				8F79B8081EC248CD002D02C8 /* Dummy.swift in Sources */,
+				8FA8E32E1EC0FD8800E8BAD8 /* Start.swift in Sources */,
 				8FA984151EBA710000586D1B /* convolution.metal in Sources */,
-				8FA984051EBA70F900586D1B /* ConvTranspose.swift in Sources */,
 				8FA984241EBA77AE00586D1B /* MPSImageDescriptor.swift in Sources */,
-				8FA984071EBA70F900586D1B /* Scale.swift in Sources */,
 				8FA9841D1EBA726B00586D1B /* Constants.swift in Sources */,
+				8F79B7FC1EC21EDE002D02C8 /* Luminance.swift in Sources */,
 				8FA984261EBA77E400586D1B /* LayerSize.swift in Sources */,
+				8F79B7FA1EC21BE8002D02C8 /* Crop.swift in Sources */,
+				8FA8E32C1EC0F05800E8BAD8 /* SlimMPSCNN.swift in Sources */,
+				8F79B80A1EC2514A002D02C8 /* MTLDevice.swift in Sources */,
 				8FA984211EBA778900586D1B /* MTLTexture.swift in Sources */,
-				8FA9840B1EBA70F900586D1B /* SlimMPSCNN.swift in Sources */,
+				8F79B8021EC23444002D02C8 /* Neuron.swift in Sources */,
+				8F79B8001EC233A8002D02C8 /* ActivationNeuronType.swift in Sources */,
 				8FA9841B1EBA723500586D1B /* Helpers.swift in Sources */,
-				8FA9840A1EBA70F900586D1B /* ScaleToFloat.swift in Sources */,
-				8FA983FA1EBA70F200586D1B /* StyleNet.swift in Sources */,
+				8F79B8011EC233F3002D02C8 /* Identity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

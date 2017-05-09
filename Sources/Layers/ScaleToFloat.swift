@@ -11,23 +11,18 @@ import MetalPerformanceShaders
 /**
  Adjusts [-1.0-1.0] -> [0.0-1.0]
  **/
-class ScaleToFloat: NetworkLayer {
+open class ScaleToFloat: NetworkLayer {
 
-    var outputSize: LayerSize!
-
-    // Intermediate images
-    var outputImage : MPSImage!
+    public init() {}
     
-    init() {}
-    
-    func initialize(device: MTLDevice, prevSize: LayerSize) {
+    open func initialize(device: MTLDevice, prevSize: LayerSize) {
         outputSize = prevSize
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: prevSize))
     }
 
-    func updateCheckpoint(new: String, old: String, device: MTLDevice) {}
+    open func updateCheckpoint(new: String, old: String, device: MTLDevice) {}
 
-    func execute(commandBuffer: MTLCommandBuffer, inputImage: MPSImage) -> MPSImage {
+    open func execute(commandBuffer: MTLCommandBuffer, inputImage: MPSImage) -> MPSImage {
         
         let encoder = commandBuffer.makeComputeCommandEncoder()
         encoder.label = "ScaleToFloat encoder"

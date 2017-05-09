@@ -9,47 +9,45 @@
 import MetalPerformanceShaders
 
 /// Receives two input images. The first is used to take the color and the second is used to take the luminance for the output image.
-class Add: NetworkLayerUnion {
-
-    var outputSize: LayerSize!
+open class Add: NetworkLayer {
 
     // Custom kernels
-    let pipelineAdd: MTLComputePipelineState
+    let pipelineAdd: MTLComputePipelineState!
 
-    // Intermediate images
-    var outputImage: MPSImage!
-
-    init(device: MTLDevice) {
+    public init(device: MTLDevice, id: String? = nil) {
         do {
-            let library = device.newDefaultLibrary()!
+            let library = device.makeMyLibrary()
             let kernel = library.makeFunction(name: "sum_matrix")
             pipelineAdd = try device.makeComputePipelineState(function: kernel!)
         } catch {
             fatalError("Error initializing compute pipeline")
         }
+        super.init(id: id)
     }
 
-    func initialize(device: MTLDevice, prevSize: LayerSize) {
-        outputSize = prevSize
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: prevSize))
+    open override func initialize(device: MTLDevice) {
+        //TODO: check that all prevSizes are of the same size
+        let incoming = getIncoming()
+        assert(incoming.count == 2, "Add works for two layers")
+        outputSize = incoming.first?.outputSize
+        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
 
-    func updateCheckpoint(new: String, old: String, device: MTLDevice) {}
+    open override func updateCheckpoint(new: String, old: String, device: MTLDevice) {}
 
-    func execute(commandBuffer: MTLCommandBuffer, inputImages: MPSImage...) -> MPSImage {
+    open override func execute(commandBuffer: MTLCommandBuffer) {
+        let incoming = getIncoming()
         let commandEncoder = commandBuffer.makeComputeCommandEncoder()
         commandEncoder.label = "sum matrix encoder"
         // mean calculation 1st step
         let tpTG = MTLSizeMake(32, 8, 1)
         commandEncoder.setComputePipelineState(pipelineAdd)
 
-        commandEncoder.setTexture(inputImages[0].texture, at: 0)
-        commandEncoder.setTexture(inputImages[1].texture, at: 1)
+        commandEncoder.setTexture(incoming[0].outputImage.texture, at: 0)
+        commandEncoder.setTexture(incoming[1].outputImage.texture, at: 1)
         commandEncoder.setTexture(outputImage.texture, at: 2)
-        let threadgroupsPerGrid = inputImages[0].texture.threadGrid(threadGroup: tpTG)
+        let threadgroupsPerGrid = incoming[0].outputImage.texture.threadGrid(threadGroup: tpTG)
         commandEncoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: tpTG)
         commandEncoder.endEncoding()
-
-        return outputImage
     }
 }

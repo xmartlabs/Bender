@@ -8,44 +8,43 @@
 
 import MetalPerformanceShaders
 
-class InstanceNorm: NetworkLayer {
-
-    var outputSize: LayerSize!
+open class InstanceNorm: NetworkLayer {
 
     // Intermediate images and buffers
-    var scaleFilename: String
-    var shiftFilename: String
-    var scaleWeights: MTLBuffer!
-    var shiftWeights: MTLBuffer!
-    var outputImage: MPSImage!
+    public var scaleFilename: String
+    public var shiftFilename: String
+    public var scaleWeights: MTLBuffer!
+    public var shiftWeights: MTLBuffer!
 
-    init(scaleFile: String, shiftFile: String) {
+    public init(scaleFile: String, shiftFile: String, id: String? = nil) {
         self.scaleFilename = scaleFile
         self.shiftFilename = shiftFile
+        super.init(id: id)
     }
 
-    func initialize(device: MTLDevice, prevSize: LayerSize) {
-        outputSize = prevSize
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: prevSize))
         scaleWeights = device.makeBuffer(bytes: loadVectorWeights(fromFilePath: scaleFilename, channels: prevSize.f),
                                          length: max(4, prevSize.f) * Constants.FloatSize,
                                          options: [])
         shiftWeights = device.makeBuffer(bytes: loadVectorWeights(fromFilePath: shiftFilename, channels: prevSize.f),
                                          length: max(4, prevSize.f) * Constants.FloatSize,
                                          options: [])
+    open override func initialize(device: MTLDevice) {
+        outputSize = getIncoming().first?.outputSize
+        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
 
-    func updateCheckpoint(new: String, old: String, device: MTLDevice) {
+    open override func updateCheckpoint(new: String, old: String, device: MTLDevice) {
         scaleFilename = scaleFilename.replacingOccurrences(of: old, with: new, options: String.CompareOptions.anchored)
         shiftFilename = shiftFilename.replacingOccurrences(of: old, with: new, options: String.CompareOptions.anchored)
 
-        scaleWeights.contents().copyBytes(from: loadVectorWeights(fromFilePath: scaleFilename, channels: outputSize.f), count: max(4, outputSize.f) * Constants.FloatSize)
-        shiftWeights.contents().copyBytes(from: loadVectorWeights(fromFilePath: shiftFilename, channels: outputSize.f), count: max(4, outputSize.f) * Constants.FloatSize)
+        scaleWeights.contents().copyBytes(from: loadWeights(from: scaleFilename, size: outputSize.f), count: max(4, outputSize.f) * Constants.FloatSize)
+        shiftWeights.contents().copyBytes(from: loadWeights(from: shiftFilename, size: outputSize.f), count: max(4, outputSize.f) * Constants.FloatSize)
     }
 
-    func execute(commandBuffer: MTLCommandBuffer, inputImage: MPSImage) -> MPSImage {
+    open override func execute(commandBuffer: MTLCommandBuffer) {
 
         var meanPS, avgMeanPS, varPS, avgVarPS, inormPS: MTLComputePipelineState
+        let inputImage: MPSImage = getIncoming()[0].outputImage
         let isArray = outputSize.f > 4
         meanPS = isArray ? ComputeFunctions.meanPS : ComputeFunctions.meanPS_3
         avgMeanPS = isArray ? ComputeFunctions.avgMeanPS : ComputeFunctions.avgMeanPS_3
@@ -128,7 +127,5 @@ class InstanceNorm: NetworkLayer {
 
         meanImg.readCount = 0
         varianceImg.readCount = 0
-
-        return outputImage
     }
 }

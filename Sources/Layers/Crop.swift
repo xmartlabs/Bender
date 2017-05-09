@@ -8,51 +8,24 @@
 
 import MetalPerformanceShaders
 
-class Crop: NetworkLayer {
-
-    var outputSize: LayerSize!
+open class Crop: NetworkLayer {
     
-    let lanczos: MPSImageLanczosScale?
-
-    // Custom kernels
-//    let pipelineBGRAtoRGBA: MTLComputePipelineState
-
-    // Intermediate images
-    let outputImage: MPSImage
-    
-    init(device: MTLDevice, croppedSize: LayerSize, scale: Bool = true) {
-        if scale {
-            lanczos = MPSImageLanczosScale(device: device)
-        }
+    public init(device: MTLDevice, croppedSize: LayerSize, id: String? = nil) {
+        super.init(id: id)
         self.outputSize = croppedSize
-
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: croppedSize))
-//        // Load custom metal kernels
-//        do {
-//            let library = device.newDefaultLibrary()!
-//            let bgra_to_rgba = library.makeFunction(name: "bgra_to_rgba")
-//            pipelineBGRAtoRGBA = try device.makeComputePipelineState(function: bgra_to_rgba!)
-//        } catch {
-//            print(error)
-//            fatalError("Error initializing compute pipeline")
-//        }
+        self.outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: croppedSize))
     }
     
-    func initialize(device: MTLDevice, prevSize: LayerSize) {}
-
-    func updateCheckpoint(new: String, old: String, device: MTLDevice) {}
-    
-    func execute(commandBuffer: MTLCommandBuffer, inputImage: MPSImage) -> MPSImage {
+    open override func execute(commandBuffer: MTLCommandBuffer) {
+        let input = getIncoming()
         let blitEncoder = commandBuffer.makeBlitCommandEncoder()
-        blitEncoder.copy(from: inputImage.texture, sourceSlice: 0, sourceLevel: 0,
+        blitEncoder.copy(from: input[0].outputImage.texture, sourceSlice: 0, sourceLevel: 0,
                          sourceOrigin: MTLOrigin(x: 0,
-                                                 y: (inputImage.texture.height - outputSize.h) / 2,
+                                                 y: (input[0].outputImage.texture.height - outputSize.h) / 2,
                                                  z: 0),
                          sourceSize: MTLSizeMake(outputSize.w, outputSize.h, 1),
                          to: outputImage.texture, destinationSlice: 0, destinationLevel: 0,
                          destinationOrigin: MTLOrigin(x: 0, y: 0, z: 0))
         blitEncoder.endEncoding()
-
-        return outputImage
     }
 }
