@@ -16,9 +16,16 @@ open class InstanceNorm: NetworkLayer {
     public var scaleWeights: MTLBuffer!
     public var shiftWeights: MTLBuffer!
 
+    var meanPS: MTLComputePipelineState!
+    var avgMeanPS: MTLComputePipelineState!
+    var varPS: MTLComputePipelineState!
+    var avgVarPS: MTLComputePipelineState!
+    var inormPS: MTLComputePipelineState!
+
     public init(scaleFile: String, shiftFile: String, id: String? = nil) {
         self.scaleFilename = scaleFile
         self.shiftFilename = shiftFile
+
         super.init(id: id)
     }
 
@@ -31,6 +38,12 @@ open class InstanceNorm: NetworkLayer {
     open override func initialize(device: MTLDevice) {
         outputSize = getIncoming().first?.outputSize
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+        let isArray = outputSize.f > 4
+        meanPS = MetalShaderManager.shared.getFunction(name: isArray ? "meanA" : "meanA_3", in: Bundle(for: InstanceNorm.self))
+        varPS = MetalShaderManager.shared.getFunction(name: isArray ? "varianceA" : "varianceA_3", in: Bundle(for: InstanceNorm.self))
+        avgMeanPS = MetalShaderManager.shared.getFunction(name: isArray ? "avgMean" : "avgMean_3", in: Bundle(for: InstanceNorm.self))
+        avgVarPS = MetalShaderManager.shared.getFunction(name: isArray ? "avgVar" : "avgVar_3", in: Bundle(for: InstanceNorm.self))
+        inormPS = MetalShaderManager.shared.getFunction(name: isArray ? "instanceNorm" : "instanceNorm_3", in: Bundle(for: InstanceNorm.self))
     }
 
     open override func updateCheckpoint(new: String, old: String, device: MTLDevice) {
@@ -43,14 +56,7 @@ open class InstanceNorm: NetworkLayer {
 
     open override func execute(commandBuffer: MTLCommandBuffer) {
 
-        var meanPS, avgMeanPS, varPS, avgVarPS, inormPS: MTLComputePipelineState
         let inputImage: MPSImage = getIncoming()[0].outputImage
-        let isArray = outputSize.f > 4
-        meanPS = isArray ? ComputeFunctions.meanPS : ComputeFunctions.meanPS_3
-        avgMeanPS = isArray ? ComputeFunctions.avgMeanPS : ComputeFunctions.avgMeanPS_3
-        varPS = isArray ? ComputeFunctions.variancePS : ComputeFunctions.variancePS_3
-        avgVarPS = isArray ? ComputeFunctions.avgVarPS : ComputeFunctions.avgVarPS_3
-        inormPS = isArray ? ComputeFunctions.inormPS : ComputeFunctions.inormPS_3
 
         let tempImg2 = MPSTemporaryImage(commandBuffer: commandBuffer, imageDescriptor: MPSImageDescriptor(channelFormat: .float16, width: outputSize.w, height: 1, featureChannels: outputSize.f))
         let meanImg = MPSTemporaryImage(commandBuffer: commandBuffer, imageDescriptor: MPSImageDescriptor(channelFormat: .float16, width: 1, height: 1, featureChannels: outputSize.f))

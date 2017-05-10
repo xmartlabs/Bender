@@ -18,9 +18,9 @@ open class ConvTranspose: NetworkLayer {
     let size: ConvSize
     private var prevSize: LayerSize!
     
-    let pipelineStateCalculate: MTLComputePipelineState
-    let pipelineStateShifLeft: MTLComputePipelineState
-    let pipelineStateShiftTop: MTLComputePipelineState
+    let pipelineCalculate: MTLComputePipelineState
+    let pipelineShifLeft: MTLComputePipelineState
+    let pipelineShiftTop: MTLComputePipelineState
 
     var weightsFile: String
     var weights: MTLBuffer!
@@ -30,21 +30,9 @@ open class ConvTranspose: NetworkLayer {
         self.weightsFile = weightsFile
         
         // Load custom metal kernels
-
-        do {
-            let library = device.makeMyLibrary()
-            let calculateFunc = library.makeFunction(name: "transpose_conv_calculate")
-            let shiftLeftFunc = library.makeFunction(name: "transpose_conv_shift_left")
-            let shiftTopFunc = library.makeFunction(name: "transpose_conv_shift_top")
-            calculateFunc?.label = "convT_calculate"
-            shiftLeftFunc?.label = "convT Shift Left"
-            shiftTopFunc?.label = "convT Shift Top"
-            pipelineStateCalculate = try device.makeComputePipelineState(function: calculateFunc!)
-            pipelineStateShifLeft = try device.makeComputePipelineState(function: shiftLeftFunc!)
-            pipelineStateShiftTop = try device.makeComputePipelineState(function: shiftTopFunc!)
-        } catch {
-            fatalError("Error initializing compute pipeline")
-        }
+        pipelineCalculate = MetalShaderManager.shared.getFunction(name: "transpose_conv_calculate", in: Bundle(for: ConvTranspose.self))
+        pipelineShifLeft = MetalShaderManager.shared.getFunction(name: "transpose_conv_shift_left", in: Bundle(for: ConvTranspose.self))
+        pipelineShiftTop = MetalShaderManager.shared.getFunction(name: "transpose_conv_shift_top", in: Bundle(for: ConvTranspose.self))
         super.init(id: id)
         self.outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
@@ -75,10 +63,10 @@ open class ConvTranspose: NetworkLayer {
 
         // thread group size variables
         let incoming = getIncoming()
-        let w = pipelineStateCalculate.threadExecutionWidth
+        let w = pipelineCalculate.threadExecutionWidth
         let d = 1
-        assert(pipelineStateCalculate.maxTotalThreadsPerThreadgroup / w / d >= 1, "ERROR: wrong thread group size")
-        let h = pipelineStateCalculate.maxTotalThreadsPerThreadgroup / w / d
+        assert(pipelineCalculate.maxTotalThreadsPerThreadgroup / w / d >= 1, "ERROR: wrong thread group size")
+        let h = pipelineCalculate.maxTotalThreadsPerThreadgroup / w / d
 
         let step1ImageSize = LayerSize(f: outputSize.f, w: outputSize.w + prevSize.w)
         let step2ImageSize = LayerSize(f: outputSize.f, w: outputSize.w, h: outputSize.h + prevSize.h)
@@ -93,7 +81,7 @@ open class ConvTranspose: NetworkLayer {
         // calculation step
         let encoder = commandBuffer.makeComputeCommandEncoder()
         encoder.label = "convT compute encoder"
-        encoder.setComputePipelineState(pipelineStateCalculate)
+        encoder.setComputePipelineState(pipelineCalculate)
         encoder.setTexture(incoming[0].outputImage.texture, at: 0)
         encoder.setTexture(step1Img.texture, at: 1)
         encoder.setBuffer(weights, offset: 0, at: 0)
@@ -106,7 +94,7 @@ open class ConvTranspose: NetworkLayer {
         // shift left step
         let encoder2 = commandBuffer.makeComputeCommandEncoder()
         encoder2.label = "convT shift left encoder"
-        encoder2.setComputePipelineState(pipelineStateShifLeft)
+        encoder2.setComputePipelineState(pipelineShifLeft)
         encoder2.setTexture(step1Img.texture, at: 0)
         encoder2.setTexture(step2Img.texture, at: 1)
 
@@ -118,7 +106,7 @@ open class ConvTranspose: NetworkLayer {
         // shift top step
         let encoder3 = commandBuffer.makeComputeCommandEncoder()
         encoder3.label = "convT shift top encoder"
-        encoder3.setComputePipelineState(pipelineStateShiftTop)
+        encoder3.setComputePipelineState(pipelineShiftTop)
         encoder3.setTexture(step2Img.texture, at: 0)
         encoder3.setTexture(outputImage.texture, at: 1)
 

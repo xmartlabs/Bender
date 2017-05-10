@@ -36,7 +36,7 @@ open class NetworkLayer: NetworkItem {
     public var outputSize: LayerSize!
     public var outputImage: MPSImage!
 
-    init(id: String? = nil) {
+    public init(id: String? = nil) {
         self.id = id
     }
 

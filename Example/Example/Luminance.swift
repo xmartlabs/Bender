@@ -7,6 +7,7 @@
 //
 
 import MetalPerformanceShaders
+import Palladium
 
 /// Receives two input images. The first is used to take the color and the second is used to take the luminance for the output image.
 class Luminance: NetworkLayer {
@@ -15,13 +16,7 @@ class Luminance: NetworkLayer {
     let pipelineLuminance: MTLComputePipelineState
 
     init(device: MTLDevice, id: String? = nil) {
-        do {
-            let library = device.makeMyLibrary()
-            let kernel = library.makeFunction(name: "luminance_transfer")
-            pipelineLuminance = try device.makeComputePipelineState(function: kernel!)
-        } catch {
-            fatalError("Error initializing compute pipeline")
-        }
+        pipelineLuminance = MetalShaderManager.shared.getFunction(name: "luminance_transfer")
         super.init(id: id)
     }
 
