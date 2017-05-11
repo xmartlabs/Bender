@@ -17,7 +17,8 @@ open class Scale: NetworkLayer {
         self.outputSize = layerSize
     }
 
-    open override func initialize(device: MTLDevice) {
+    open override func initialize(network: Network, device: MTLDevice) {
+        super.initialize(network: network, device: device)
         lanczos = MPSImageLanczosScale(device: device)
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }

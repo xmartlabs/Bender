@@ -8,12 +8,17 @@
 
 import Foundation
 
+/// Hash key for MTLComputePipelineState
 struct ComputePipelineDef: Hashable {
 
     var hashValue: Int {
         return function.hashValue
     }
+
+    /// Name of compute kernel function
     var function: String
+
+    /// Function constants for the compute kernel function
     var constants: [FunctionConstantBase]
 
 }

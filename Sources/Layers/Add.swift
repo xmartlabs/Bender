@@ -19,15 +19,14 @@ open class Add: NetworkLayer {
         super.init(id: id)
     }
 
-    open override func initialize(device: MTLDevice) {
+    open override func initialize(network: Network, device: MTLDevice) {
+        super.initialize(network: network, device: device)
         //TODO: check that all prevSizes are of the same size
         let incoming = getIncoming()
         assert(incoming.count == 2, "Add works for two layers")
         outputSize = incoming.first?.outputSize
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
-
-    open override func updateCheckpoint(new: String, old: String, device: MTLDevice) {}
 
     open override func execute(commandBuffer: MTLCommandBuffer) {
         let incoming = getIncoming()

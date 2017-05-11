@@ -10,7 +10,8 @@ import MetalPerformanceShaders
 
 open class Identity: NetworkLayer {
 
-    open override func initialize(device: MTLDevice) {
+    open override func initialize(network: Network, device: MTLDevice) {
+        super.initialize(network: network, device: device)
         outputSize = getIncoming()[0].outputSize
     }
 

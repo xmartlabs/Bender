@@ -10,32 +10,34 @@ import MetalPerformanceShaders
 
 open class Convolution: NetworkLayer {
 
+    static var weightModifier: String = ""
+    static var biasModifier: String = "bias"
+
     private var prevSize: LayerSize!
     public var convSize: ConvSize
 
-    public var padding: Bool
     var conv: SlimMPSCNNConvolution?
-
-    var weightsFile: String
-    var biasFile: String?
-    
     let neuronType: ActivationNeuronType
+    public var padding: Bool
 
-    public init(convSize: ConvSize, neuronType: ActivationNeuronType = .relu, weightsFile: String, biasFile: String? = nil, padding: Bool = true, id: String? = nil) {
+    var useBias: Bool
+
+    public init(convSize: ConvSize, neuronType: ActivationNeuronType = .relu, useBias: Bool = false, padding: Bool = true, id: String? = nil) {
         self.convSize = convSize
         self.neuronType = neuronType
-        self.weightsFile = weightsFile
-        self.biasFile = biasFile
+        self.useBias = useBias
         self.padding = padding
         super.init(id: id)
     }
     
-    open override func initialize(device: MTLDevice) {
+    open override func initialize(network: Network, device: MTLDevice) {
+        super.initialize(network: network, device: device)
         let incoming = getIncoming()
         assert(incoming.count == 1, "Convolution must have an input")
-        self.prevSize = incoming.first?.outputSize
+        prevSize = incoming.first?.outputSize
         outputSize = LayerSize(f: convSize.outputChannels,
                                w: padding ? prevSize.w / convSize.stride : (prevSize.w - convSize.kernelSize) / convSize.stride + 1)
+
         updateWeights(device: device)
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
@@ -44,17 +46,19 @@ open class Convolution: NetworkLayer {
         return prevSize.f * convSize.kernelSize * convSize.kernelSize * convSize.outputChannels
     }
 
-    open override func updateCheckpoint(new checkpoint: String, old: String, device: MTLDevice) {
-        weightsFile = weightsFile.replacingOccurrences(of: old, with: checkpoint, options: String.CompareOptions.anchored)
-        biasFile = biasFile?.replacingOccurrences(of: old, with: checkpoint, options: String.CompareOptions.anchored)
+    open override func updatedCheckpoint(device: MTLDevice) {
         updateWeights(device: device)
     }
 
     open func updateWeights(device: MTLDevice) {
-        let weights = loadWeights(from: weightsFile, size: getWeightsSize())
+        guard let network = network else {
+            return
+        }
+
+        let weights = network.parameterLoader.loadWeights(for: id, modifier: Convolution.weightModifier, size: getWeightsSize())
         var bias: UnsafePointer<Float>? = nil
-        if let biasFile = biasFile {
-            bias = loadWeights(from: biasFile, size: convSize.outputChannels)
+        if useBias {
+            bias = network.parameterLoader.loadWeights(for: id, modifier: Convolution.biasModifier, size: convSize.outputChannels)
         }
 
         makeConv(device: device, weights: weights, bias: bias)

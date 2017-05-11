@@ -2,6 +2,9 @@
 #include <metal_stdlib>
 using namespace metal;
 
+constant float imageScale [[ function_constant(0) ]];
+constant float imageShift [[ function_constant(1) ]];
+
 kernel void sum_matrix(texture2d_array<float, access::read> texA [[texture(0)]],
                        texture2d_array<float, access::read> texB [[texture(1)]],
                        texture2d_array<float, access::write> outTexture [[texture(2)]],
@@ -21,16 +24,14 @@ kernel void bgra_to_rgba(
     outTexture.write(float4(i.z, i.y, i.x, 0.0), gid);
 }
 
-kernel void scale_to_float(
+kernel void scale_to_image(
                            texture2d<float, access::read> inTexture [[texture(0)]],
                            texture2d<float, access::write> outTexture [[texture(1)]],
                            ushort2 gid [[thread_position_in_grid]]
                            ) {
     half4 i = half4(inTexture.read(gid));
-    half r = clamp((i.x+1.0h)*0.5h, 0.0h, 1.0h);
-    half g = clamp((i.y+1.0h)*0.5h, 0.0h, 1.0h);
-    half b = clamp((i.z+1.0h)*0.5h, 0.0h, 1.0h);
-    outTexture.write(float4(r, g, b, 1.0), ushort2(gid.x,gid.y));
+    half4 out = clamp(i*imageScale + imageShift, 0.0h, 1.0h);
+    outTexture.write(float4(out.r, out.g, out.b, 1.0), ushort2(gid.x,gid.y));
 }
 
 kernel void apply_watermark(

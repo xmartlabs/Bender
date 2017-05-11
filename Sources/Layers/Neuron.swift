@@ -13,7 +13,7 @@ open class Neuron: NetworkLayer {
     public var type: ActivationNeuronType
     public var neuron: MPSCNNNeuron!
 
-    init(type: ActivationNeuronType, id: String? = nil) {
+    public init(type: ActivationNeuronType, id: String? = nil) {
         switch type {
         case .none:
             assertionFailure("Cannot create empty neuron layer")
@@ -24,7 +24,8 @@ open class Neuron: NetworkLayer {
         super.init(id: id)
     }
 
-    open override func initialize(device: MTLDevice) {
+    open override func initialize(network: Network, device: MTLDevice) {
+        super.initialize(network: network, device: device)
         outputSize = getIncoming()[0].outputSize
 
         self.neuron = type.createNeuron(device: device)!
