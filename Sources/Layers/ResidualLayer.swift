@@ -14,26 +14,24 @@ import MetalPerformanceShaders
  */
 open class ResidualLayer: CompositeLayer {
 
+    static var AConvID = "A"
+    static var AConvInstanceNormID = "A-instanceNorm"
+    static var BConvID = "B"
+    static var BConvInstanceNormID = "B-instanceNorm"
     public var input: NetworkLayer
     public var output: NetworkLayer
     
-    public init(device: MTLDevice, convSize: ConvSize, id: String? = nil, weightFiles: String...) {
-        assert(weightFiles.count == 6 || weightFiles.count == 8)
-        var biasA: String?
-        var biasB: String?
-        if weightFiles.count == 8 {
-            biasA = weightFiles[6]
-            biasB = weightFiles[7]
-        }
-
-        let residual = Dummy()
-                       ->> [Identity(id: "resID"),
-                            Convolution(convSize: convSize, neuronType: .relu, weightsFile: weightFiles[0], biasFile: biasA, id: "resConvA")
-                            ->> InstanceNorm(scaleFile: weightFiles[1], shiftFile: weightFiles[2], id: "resINormA")
-                            ->> Neuron(type: .relu, id: "resRelu")
-                            ->> Convolution(convSize: convSize, neuronType: .none, weightsFile: weightFiles[3], biasFile: biasB, id: "resConvB")
-                            ->> InstanceNorm(scaleFile: weightFiles[4], shiftFile: weightFiles[5], id: "resINormB")]
-                        ->> Add(device: device, id: "resADD")
+    public init(device: MTLDevice, convSize: ConvSize, useBias: Bool = false, id: String? = nil) {
+        // We need a Dummy here because the Residual starts with a fork. When the network is initialized both of the layers on the fork will be connected to the residual's input. The dummy helps with pointer management.
+        let resId = id ?? ""
+        let residual = Dummy() // gets removed after graph is complete
+                       ->> [Identity(id: resId + "ID"),
+                            Convolution(convSize: convSize, neuronType: .none, useBias: useBias, id: resId + ResidualLayer.AConvID)
+                                ->> InstanceNorm(id: resId + ResidualLayer.AConvInstanceNormID)
+                                ->> Neuron(type: .relu, id: resId + "RELU")
+                                ->> Convolution(convSize: convSize, neuronType: .none, useBias: useBias, id: resId + ResidualLayer.BConvID)
+                                ->> InstanceNorm(id: resId + ResidualLayer.BConvInstanceNormID)]
+                        ->> Add(device: device, id: resId + "ADD")
 
         self.input = residual.input
         self.output = residual.output

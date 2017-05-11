@@ -10,9 +10,10 @@ import MetalPerformanceShaders
 
 open class InstanceNorm: NetworkLayer {
 
+    public static var scaleModifier = "scale"
+    public static var shiftModifier = "shift"
+
     // Intermediate images and buffers
-    public var scaleFilename: String
-    public var shiftFilename: String
     public var scaleWeights: MTLBuffer!
     public var shiftWeights: MTLBuffer!
 
@@ -22,22 +23,16 @@ open class InstanceNorm: NetworkLayer {
     var avgVarPS: MTLComputePipelineState!
     var inormPS: MTLComputePipelineState!
 
-    public init(scaleFile: String, shiftFile: String, id: String? = nil) {
-        self.scaleFilename = scaleFile
-        self.shiftFilename = shiftFile
-
-        super.init(id: id)
-    }
-
-        scaleWeights = device.makeBuffer(bytes: loadVectorWeights(fromFilePath: scaleFilename, channels: prevSize.f),
-                                         length: max(4, prevSize.f) * Constants.FloatSize,
-                                         options: [])
-        shiftWeights = device.makeBuffer(bytes: loadVectorWeights(fromFilePath: shiftFilename, channels: prevSize.f),
-                                         length: max(4, prevSize.f) * Constants.FloatSize,
-                                         options: [])
-    open override func initialize(device: MTLDevice) {
+    open override func initialize(network: Network, device: MTLDevice) {
+        super.initialize(network: network, device: device)
         outputSize = getIncoming().first?.outputSize
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+        scaleWeights = device.makeBuffer(bytes: network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.scaleModifier, size: outputSize.f),
+                                         length: max(4, outputSize.f) * Constants.FloatSize,
+                                         options: [])
+        shiftWeights = device.makeBuffer(bytes: network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.shiftModifier, size: outputSize.f),
+                                         length: max(4, outputSize.f) * Constants.FloatSize,
+                                         options: [])
         let isArray = outputSize.f > 4
         meanPS = MetalShaderManager.shared.getFunction(name: isArray ? "meanA" : "meanA_3", in: Bundle(for: InstanceNorm.self))
         varPS = MetalShaderManager.shared.getFunction(name: isArray ? "varianceA" : "varianceA_3", in: Bundle(for: InstanceNorm.self))
@@ -46,12 +41,12 @@ open class InstanceNorm: NetworkLayer {
         inormPS = MetalShaderManager.shared.getFunction(name: isArray ? "instanceNorm" : "instanceNorm_3", in: Bundle(for: InstanceNorm.self))
     }
 
-    open override func updateCheckpoint(new: String, old: String, device: MTLDevice) {
-        scaleFilename = scaleFilename.replacingOccurrences(of: old, with: new, options: String.CompareOptions.anchored)
-        shiftFilename = shiftFilename.replacingOccurrences(of: old, with: new, options: String.CompareOptions.anchored)
-
-        scaleWeights.contents().copyBytes(from: loadWeights(from: scaleFilename, size: outputSize.f), count: max(4, outputSize.f) * Constants.FloatSize)
-        shiftWeights.contents().copyBytes(from: loadWeights(from: shiftFilename, size: outputSize.f), count: max(4, outputSize.f) * Constants.FloatSize)
+    open override func updatedCheckpoint(device: MTLDevice) {
+        guard let network = network else { return }
+        scaleWeights.contents().copyBytes(from: network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.scaleModifier, size: outputSize.f),
+                                          count: max(4, outputSize.f) * Constants.FloatSize)
+        shiftWeights.contents().copyBytes(from: network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.shiftModifier, size: outputSize.f),
+                                          count: max(4, outputSize.f) * Constants.FloatSize)
     }
 
     open override func execute(commandBuffer: MTLCommandBuffer) {

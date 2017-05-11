@@ -11,53 +11,55 @@ import MetalPerformanceShaders
 
 open class Network {
 
-    public var start: NetworkLayer
+    public var start: Start
     var nodes = [NetworkLayer]()
     fileprivate var device: MTLDevice
-    private var oldCheckpoint: String
+    public var parameterLoader: ParameterLoader
 
-    public init(device: MTLDevice, checkpoint: String, inputSize: LayerSize) {
+    public init(device: MTLDevice, inputSize: LayerSize, parameterLoader: ParameterLoader) {
         start = Start(size: inputSize)
         self.device = device
-        self.oldCheckpoint = checkpoint
+        self.parameterLoader = parameterLoader
     }
 
     open func initialize() {
-        measure("building execution list") {
-            buildExecutionList(node: start)
+        buildExecutionList(node: start)
+        for layer in nodes {
+            layer.initialize(network: self, device: device)
         }
-        measure("initializing") {
-            for layer in nodes {
-                layer.initialize(device: device)
-            }
-            nodes = nodes.filter { !($0 is Dummy) }
-            _ = nodes.map { print($0.id ?? "nil")}
+        nodes = nodes.filter { !($0 is Dummy) }
+        _ = nodes.map {
+            print($0.id ?? "nil")
         }
     }
 
-//    public func run(inputImage: MPSImage, queue: MTLCommandQueue, result: @escaping (MPSImage) -> Void) {
-//
-//        queue.insertDebugCaptureBoundary()
-//        let commandBuffer = queue.makeCommandBuffer()
-//        commandBuffer.label = "Network run buffer"
-//        autoreleasepool {
-//            for layer in nodes {
-//                layer.execute(commandBuffer: commandBuffer)
-//            }
-//            commandBuffer.commit()
-//            //TODO: We should execute this on another queue
-//            commandBuffer.waitUntilCompleted()
-//            result(nodes.last!.outputImage)
-//        }
-//    }
-//
-//    public func changeToCheckpoint(checkpoint: String) {
-//        if checkpoint == oldCheckpoint {
-//            return
-//        }
-//        root.updateCheckpoint(new: checkpoint, old: oldCheckpoint, device: device)
-//        oldCheckpoint = checkpoint
-//    }
+    public func run(inputImage: MPSImage, queue: MTLCommandQueue, result: @escaping (MPSImage) -> Void) {
+
+        queue.insertDebugCaptureBoundary()
+        let commandBuffer = queue.makeCommandBuffer()
+        commandBuffer.label = "Network run buffer"
+        start.inputImage = inputImage
+        autoreleasepool {
+            for layer in nodes {
+                layer.execute(commandBuffer: commandBuffer)
+            }
+            commandBuffer.commit()
+            //TODO: We should execute this on another queue
+            commandBuffer.waitUntilCompleted()
+            result(nodes.last!.outputImage)
+        }
+    }
+
+    public func change(to checkpoint: String) {
+        if checkpoint == parameterLoader.checkpoint {
+            return
+        }
+
+        parameterLoader.checkpoint = checkpoint
+        for layer in nodes {
+            layer.updatedCheckpoint(device: device)
+        }
+    }
 
     func buildExecutionList(node: NetworkLayer) {
         guard !node.getIncoming().contains (where: { incoming in

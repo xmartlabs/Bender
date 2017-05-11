@@ -1,34 +1,38 @@
 //
-//  BGRAtoRGBA.swift
+//  ImageLinearTransform.swift
 //  Palladium
 //
-//  Created by Mathias Claassen on 5/8/17.
+//  Created by Mathias Claassen on 5/11/17.
 //
 //
 
 import MetalPerformanceShaders
 
-open class BGRAtoRGBA: NetworkLayer {
+open class ImageLinearTransform: NetworkLayer {
 
     // Custom kernels
-    let pipelineBGRAtoRGBA: MTLComputePipelineState!
+    let pipeline: MTLComputePipelineState!
 
-    public init(device: MTLDevice, id: String? = nil) {
+    public init(device: MTLDevice, scale: Float = 0.5, shift: Float = 0.5, id: String? = nil) {
         // Load custom metal kernels
-        pipelineBGRAtoRGBA = MetalShaderManager.shared.getFunction(name: "bgra_to_rgba", in: Bundle(for: BGRAtoRGBA.self))
+        pipeline = MetalShaderManager.shared.getFunction(name: "image_linear_transform",
+                                                         in: Bundle(for: ImageLinearTransform.self),
+                                                         constants: [FunctionConstant<Float>(index: 0, type: MTLDataType.float, value: scale),
+                                                                     FunctionConstant<Float>(index: 1, type: MTLDataType.float, value: shift)])
         super.init(id: id)
     }
 
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
         outputSize = getIncoming().first?.outputSize
+        assert(outputSize.f == 3 || outputSize.f == 4, "ImageLinearTransform should only be used if it has 3 or 4 feature channels as input")
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
 
     open override func execute(commandBuffer: MTLCommandBuffer) {
         let encoder = commandBuffer.makeComputeCommandEncoder()
-        encoder.label = "BGRA to RGBA encoder"
-        encoder.setComputePipelineState(pipelineBGRAtoRGBA)
+        encoder.label = "Scale to Image encoder"
+        encoder.setComputePipelineState(pipeline)
         encoder.setTexture(getIncoming()[0].outputImage.texture, at: 0)
         encoder.setTexture(outputImage.texture, at: 1)
         let threadsPerGroups = MTLSizeMake(32, 8, 1)

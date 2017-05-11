@@ -10,7 +10,10 @@ import MetalPerformanceShaders
 
 open class Dummy: NetworkLayer {
 
-    open override func initialize(device: MTLDevice) {
+    // Dummy layers should be removed after initialize
+    // Assign inputs to outputs and vice versa
+    open override func initialize(network: Network, device: MTLDevice) {
+        super.initialize(network: network, device: device)
         let incoming = getIncoming()
         let outgoing = getOutgoing()
         for out in outgoing {

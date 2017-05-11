@@ -9,44 +9,48 @@
 import AVFoundation
 import MetalPerformanceShaders
 
-public protocol NetworkItem {
-
-    var outputSize: LayerSize! { get }
-    var outputImage: MPSImage! { get }
-    func initialize(device: MTLDevice)
-    func execute(commandBuffer: MTLCommandBuffer)
-    func updateCheckpoint(new: String, old: String, device: MTLDevice)
-    
-}
-
+/// A group is a temporary structure that represents every network component
 public protocol Group {
 
+    /// First layer of the group
     var input: NetworkLayer { get }
+
+    /// Last layer of the group
     var output: NetworkLayer { get }
 
 }
 
-typealias CompositeLayer = Group
+/// A layer composed of several sublayers. Used to reuse group of layers.
+public typealias CompositeLayer = Group
 
-open class NetworkLayer: NetworkItem {
+open class NetworkLayer {
 
-    public var id: String?
+    private static var counter = 0
+    public var id: String
     fileprivate var outgoing = [NetworkLayer]()
     fileprivate var incoming = [Weak<NetworkLayer>]()
     public var outputSize: LayerSize!
     public var outputImage: MPSImage!
+    public var network: Network?
 
     public init(id: String? = nil) {
-        self.id = id
+        if let id = id {
+            self.id = id
+        } else {
+            self.id = "Anonymous_\(NetworkLayer.counter)"
+            NetworkLayer.counter += 1
+        }
     }
 
-    open func initialize(device: MTLDevice) {}
+    open func initialize(network: Network, device: MTLDevice) {
+        self.network = network
+    }
 
     open func execute(commandBuffer: MTLCommandBuffer) {
         fatalError("Not implemented")
     }
 
-    open func updateCheckpoint(new: String, old: String, device: MTLDevice) {}
+    open func updatedCheckpoint(device: MTLDevice) {}
 
 }
 
@@ -69,39 +73,7 @@ public struct LayerGroup: Group {
     
 }
 
-//public protocol NetworkLayerUnion {
-//
-//    var outputSize: LayerSize! { get }
-//    func initialize(device: MTLDevice, prevSizes: [LayerSize])
-//    func execute(commandBuffer: MTLCommandBuffer, inputImages: [MPSImage]) -> MPSImage
-//
-//}
-
 public extension NetworkLayer {
-
-    func loadWeights(from file: String, size: Int, useFloat16: Bool = false) -> UnsafePointer<Float> {
-        // Load weights from file(s)
-        let typeSize = useFloat16 ? Constants.HalfSize : Constants.FloatSize
-        let sizeWeights = size * typeSize
-
-        // get the url to this layer's weights
-        let wtPath = Bundle.main.path( forResource: file, ofType: "")
-
-        // open file descriptors in read-only mode to parameter files
-        let fd_w  = open( wtPath!, O_RDONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH)
-
-        assert(fd_w != -1, "Error: failed to open output file at \""+wtPath!+"\"  errno = \(errno)\n")
-
-        // memory map the parameters
-        let hdrW = mmap(nil, Int(sizeWeights), PROT_READ, MAP_FILE | MAP_SHARED, fd_w, 0);
-
-        // cast Void pointers to Float
-        let w = UnsafePointer(hdrW!.bindMemory(to: Float.self, capacity: Int(sizeWeights)))
-
-        close(fd_w)
-        assert(w != UnsafePointer<Float>.init(bitPattern: -1), "mmap failed with errno = \(errno)")
-        return w
-    }
 
     // MARK: manage incoming dependencies
     func addIncoming(layer: NetworkLayer) {

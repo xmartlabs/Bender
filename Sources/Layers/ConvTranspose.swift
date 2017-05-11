@@ -15,6 +15,8 @@ struct WeightData {
 
 open class ConvTranspose: NetworkLayer {
 
+    static var weightModifier: String = ""
+    
     let size: ConvSize
     private var prevSize: LayerSize!
     
@@ -22,36 +24,33 @@ open class ConvTranspose: NetworkLayer {
     let pipelineShifLeft: MTLComputePipelineState
     let pipelineShiftTop: MTLComputePipelineState
 
-    var weightsFile: String
     var weights: MTLBuffer!
 
-    public init(device: MTLDevice, size: ConvSize, neuron: ActivationNeuronType = .relu, weightsFile: String, id: String? = nil) {
+    public init(device: MTLDevice, size: ConvSize, neuron: ActivationNeuronType = .relu, id: String? = nil) {
         self.size = size
-        self.weightsFile = weightsFile
-        
         // Load custom metal kernels
         pipelineCalculate = MetalShaderManager.shared.getFunction(name: "transpose_conv_calculate", in: Bundle(for: ConvTranspose.self))
         pipelineShifLeft = MetalShaderManager.shared.getFunction(name: "transpose_conv_shift_left", in: Bundle(for: ConvTranspose.self))
         pipelineShiftTop = MetalShaderManager.shared.getFunction(name: "transpose_conv_shift_top", in: Bundle(for: ConvTranspose.self))
         super.init(id: id)
-        self.outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
     
-    open override func initialize(device: MTLDevice) {
+    open override func initialize(network: Network, device: MTLDevice) {
+        super.initialize(network: network, device: device)
 
-        self.prevSize = getIncoming().first?.outputSize
+        prevSize = getIncoming().first?.outputSize
+        outputSize = LayerSize(f: size.outputChannels,
+                                    w: prevSize.w * size.stride)
+        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
 
-        updateWeights(device: device)
+        weights = device.makeBuffer(bytes: network.parameterLoader.loadWeights(for: id, modifier: ConvTranspose.weightModifier, size: getWeightsSize()),
+                                    length: getWeightsSize() * Constants.FloatSize,
+                                    options: [])
     }
 
-    open override func updateCheckpoint(new checkpoint: String, old: String, device: MTLDevice) {
-        weightsFile = weightsFile.replacingOccurrences(of: old, with: checkpoint, options: String.CompareOptions.anchored)
-
-        updateWeights(device: device)
-    }
-
-    open func updateWeights(device: MTLDevice) {
-        let vector = loadWeights(from: weightsFile, size: getWeightsSize())
+    open override func updatedCheckpoint(device: MTLDevice) {
+        guard let network = network else { return }
+        let vector = network.parameterLoader.loadWeights(for: id, modifier: ConvTranspose.weightModifier, size: getWeightsSize())
         weights.contents().copyBytes(from: vector, count: getWeightsSize())
     }
 

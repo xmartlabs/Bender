@@ -9,16 +9,11 @@
 #include <metal_stdlib>
 using namespace metal;
 
-
-typedef struct {
-    float4 data[4608]; // 18432 if 32, 4608 if 16
-} WeightData;
-
 kernel void transpose_conv_calculate(
                                      texture2d_array<float, access::read> src [[texture(0)]],
                                      texture2d_array<float, access::write> dest [[texture(1)]],
 
-                                     constant WeightData &weights [[ buffer(0) ]],
+                                     constant float4 *weights [[ buffer(0) ]],
 
                                      ushort3 gid [[thread_position_in_grid]]
                                      ) {
@@ -54,15 +49,11 @@ kernel void transpose_conv_calculate(
                 for (ushort tk=0; tk<4; tk++)
                 {
                     // get weights for position
-//                    half4 pix = half4(weights.data[in_z +                                 // d
-//                                                   (four * gid.z + tk) * in_depth                  // k
-//                                                   + fy * kernel_size * in_depth                // h
-//                                                   + fx * filter_y * kernel_size * in_depth]);  // w
-                    half4 pix = half4(weights.data[ushort(in_z +
-                                                   ((4 * gid.z + tk) +
-                                                    (fy + fx * filter_y) * kernel_size) * in_depth)]) * in_pixel;
+                    half4 pix = half4(weights[ushort(in_z +
+                                                     ((4 * gid.z + tk) +
+                                                      (fy + fx * filter_y) * kernel_size) * in_depth)]) * in_pixel;
 
-                    results[mat_index][tk] += pix.x + pix.y + pix.z + pix.w; // This sum takes all the time 😱
+                    results[mat_index][tk] += pix.x + pix.y + pix.z + pix.w;
                 }
             }
         }
