@@ -31,7 +31,7 @@ open class FullyConnected: NetworkLayer {
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
         let incoming = getIncoming()
-        assert(incoming.count == 1, "Fully Connected must have one input")
+        assert(incoming.count == 1, "Fully Connected must have one input, not \(incoming.count)")
         prevSize = incoming.first?.outputSize
         outputSize = LayerSize(f: neurons,
                                w: 1)

@@ -8,7 +8,7 @@
 
 import MetalPerformanceShaders
 
-open class SpatialNormalization: NetworkLayer {
+open class SpatialNorm: NetworkLayer {
 
     public var kernel: MPSCNNSpatialNormalization!
     var kWidth: Int
@@ -30,7 +30,9 @@ open class SpatialNormalization: NetworkLayer {
 
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
-        outputSize = getIncoming()[0].outputSize
+        let incoming = getIncoming()
+        assert(incoming.count == 1, "SoftMax must have one input, not \(incoming.count)")
+        outputSize = incoming[0].outputSize
 
         kernel = MPSCNNSpatialNormalization(device: device, kernelWidth: kWidth, kernelHeight: kHeight)
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))

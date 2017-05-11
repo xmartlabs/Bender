@@ -43,7 +43,9 @@ open class Pooling: NetworkLayer {
 
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
-        let prevSize = getIncoming()[0].outputSize!
+        let incoming = getIncoming()
+        assert(incoming.count == 1, "Pooling must have one input, not \(incoming.count)")
+        let prevSize = incoming[0].outputSize!
         switch padding {
         case .same:
             self.pooling.offset.x += (((prevSize.w - 1) % pooling.strideInPixelsX) / 2) + (pooling.kernelWidth + 1) % 2

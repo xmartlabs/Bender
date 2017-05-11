@@ -34,7 +34,7 @@ open class Convolution: NetworkLayer {
         super.initialize(network: network, device: device)
         let incoming = getIncoming()
         assert(incoming.count == 1, "Convolution must have one input")
-        prevSize = incoming.first?.outputSize
+        prevSize = incoming[0].outputSize
         outputSize = LayerSize(f: convSize.outputChannels,
                                w: padding == .same ? prevSize.w / convSize.stride : (prevSize.w - convSize.kernelSize) / convSize.stride + 1)
 

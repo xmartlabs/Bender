@@ -37,8 +37,9 @@ open class ConvTranspose: NetworkLayer {
     
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
-
-        prevSize = getIncoming().first?.outputSize
+        let incoming = getIncoming()
+        assert(incoming.count == 1, "ConvTranspose must have one input, not \(incoming.count)")
+        prevSize = incoming[0].outputSize
         outputSize = LayerSize(f: size.outputChannels,
                                     w: prevSize.w * size.stride)
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))

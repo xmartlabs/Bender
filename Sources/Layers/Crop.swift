@@ -15,6 +15,12 @@ open class Crop: NetworkLayer {
         self.outputSize = croppedSize
         self.outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: croppedSize))
     }
+
+    open override func initialize(network: Network, device: MTLDevice) {
+        super.initialize(network: network, device: device)
+        let incoming = getIncoming()
+        assert(incoming.count == 1, "Crop must have one input, not \(incoming.count)")
+    }
     
     open override func execute(commandBuffer: MTLCommandBuffer) {
         let input = getIncoming()
