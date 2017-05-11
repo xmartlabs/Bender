@@ -24,11 +24,10 @@ kernel void bgra_to_rgba(
     outTexture.write(float4(i.z, i.y, i.x, 0.0), gid);
 }
 
-kernel void scale_to_image(
-                           texture2d<float, access::read> inTexture [[texture(0)]],
-                           texture2d<float, access::write> outTexture [[texture(1)]],
-                           ushort2 gid [[thread_position_in_grid]]
-                           ) {
+kernel void image_linear_transform(texture2d<float, access::read> inTexture [[texture(0)]],
+                                   texture2d<float, access::write> outTexture [[texture(1)]],
+                                   ushort2 gid [[thread_position_in_grid]]
+                                   ) {
     half4 i = half4(inTexture.read(gid));
     half4 out = clamp(i*imageScale + imageShift, 0.0h, 1.0h);
     outTexture.write(float4(out.r, out.g, out.b, 1.0), ushort2(gid.x,gid.y));

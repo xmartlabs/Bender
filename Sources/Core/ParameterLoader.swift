@@ -27,7 +27,7 @@ public protocol ParameterLoader {
 
 extension ParameterLoader {
 
-    func loadWeights(from file: String, size: Int, ofType: String = "", useFloat16: Bool = false) -> UnsafePointer<Float> {
+    func load(from file: String, size: Int, ofType: String = "", useFloat16: Bool = false) -> UnsafePointer<Float> {
         // Load weights from file(s)
         let typeSize = useFloat16 ? Constants.HalfSize : Constants.FloatSize
         let sizeWeights = size * typeSize

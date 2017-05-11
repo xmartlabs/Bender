@@ -1,5 +1,5 @@
 //
-//  ScaleToImage.swift
+//  ImageLinearTransform.swift
 //  Palladium
 //
 //  Created by Mathias Claassen on 5/11/17.
@@ -8,15 +8,15 @@
 
 import MetalPerformanceShaders
 
-open class ScaleToImage: NetworkLayer {
+open class ImageLinearTransform: NetworkLayer {
 
     // Custom kernels
     let pipeline: MTLComputePipelineState!
 
     public init(device: MTLDevice, scale: Float = 0.5, shift: Float = 0.5, id: String? = nil) {
         // Load custom metal kernels
-        pipeline = MetalShaderManager.shared.getFunction(name: "scale_to_image",
-                                                         in: Bundle(for: ScaleToImage.self),
+        pipeline = MetalShaderManager.shared.getFunction(name: "image_linear_transform",
+                                                         in: Bundle(for: ImageLinearTransform.self),
                                                          constants: [FunctionConstant<Float>(index: 0, type: MTLDataType.float, value: scale),
                                                                      FunctionConstant<Float>(index: 1, type: MTLDataType.float, value: shift)])
         super.init(id: id)
@@ -25,6 +25,7 @@ open class ScaleToImage: NetworkLayer {
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
         outputSize = getIncoming().first?.outputSize
+        assert(outputSize.f == 3 || outputSize.f == 4, "ImageLinearTransform should only be used if it has 3 or 4 feature channels as input")
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
 

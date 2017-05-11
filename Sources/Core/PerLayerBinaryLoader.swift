@@ -28,7 +28,7 @@ public class PerLayerBinaryLoader: ParameterLoader {
 
     public func loadWeights(for id: String, modifier: String, size: Int) -> UnsafePointer<Float> {
         let filename = checkpoint + filenameForLayer(id, modifier) + suffix
-        return loadWeights(from: filename, size: size)
+        return load(from: filename, size: size)
     }
     
 }
