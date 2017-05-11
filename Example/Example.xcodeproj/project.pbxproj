@@ -13,6 +13,8 @@
 		28F828D51C4B714D00330CF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28F828D31C4B714D00330CF4 /* Main.storyboard */; };
 		28F828D71C4B714D00330CF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28F828D61C4B714D00330CF4 /* Assets.xcassets */; };
 		28F828DA1C4B714D00330CF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28F828D81C4B714D00330CF4 /* LaunchScreen.storyboard */; };
+		8F79B80F1EC25ECA002D02C8 /* Luminance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B80E1EC25ECA002D02C8 /* Luminance.swift */; };
+		8F79B8111EC261D6002D02C8 /* Luminance.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B8101EC261D6002D02C8 /* Luminance.metal */; };
 		8FA8E3251EC0BE7300E8BAD8 /* Palladium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9CAB221D89C756006E1824 /* Palladium.framework */; };
 		8FA8E3261EC0BE7300E8BAD8 /* Palladium.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9CAB221D89C756006E1824 /* Palladium.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -74,6 +76,8 @@
 		28F828DB1C4B714D00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Example/Info.plist; sourceTree = "<group>"; };
 		28F828E01C4B714D00330CF4 /* ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F828E61C4B714D00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8F79B80E1EC25ECA002D02C8 /* Luminance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Luminance.swift; path = Example/Luminance.swift; sourceTree = "<group>"; };
+		8F79B8101EC261D6002D02C8 /* Luminance.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = Luminance.metal; path = Example/Luminance.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +121,7 @@
 		28F828CE1C4B714D00330CF4 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				8F79B80C1EC25EAD002D02C8 /* Custom Layers */,
 				28F828CF1C4B714D00330CF4 /* AppDelegate.swift */,
 				28F828D11C4B714D00330CF4 /* ViewController.swift */,
 				28F828D31C4B714D00330CF4 /* Main.storyboard */,
@@ -134,6 +139,15 @@
 				287D0A711C4B7877004566D6 /* ExampleUITests.swift */,
 			);
 			path = ExampleUITests;
+			sourceTree = "<group>";
+		};
+		8F79B80C1EC25EAD002D02C8 /* Custom Layers */ = {
+			isa = PBXGroup;
+			children = (
+				8F79B8101EC261D6002D02C8 /* Luminance.metal */,
+				8F79B80E1EC25ECA002D02C8 /* Luminance.swift */,
+			);
+			name = "Custom Layers";
 			sourceTree = "<group>";
 		};
 		8F9CAB1D1D89C755006E1824 /* Products */ = {
@@ -274,8 +288,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F79B8111EC261D6002D02C8 /* Luminance.metal in Sources */,
 				28F828D21C4B714D00330CF4 /* ViewController.swift in Sources */,
 				28F828D01C4B714D00330CF4 /* AppDelegate.swift in Sources */,
+				8F79B80F1EC25ECA002D02C8 /* Luminance.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

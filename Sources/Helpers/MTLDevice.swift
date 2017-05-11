@@ -10,8 +10,8 @@ import Metal
 
 extension MTLDevice {
 
-    func makeMyLibrary() -> MTLLibrary {
-        guard let path = Bundle(for: NetworkLayer.self).path(forResource: "default", ofType: "metallib") else {
+    func makeMyLibrary(bundle: Bundle) -> MTLLibrary {
+        guard let path = bundle.path(forResource: "default", ofType: "metallib") else {
             fatalError("Metal library not found")
         }
 

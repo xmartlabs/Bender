@@ -12,16 +12,10 @@ import MetalPerformanceShaders
 open class Add: NetworkLayer {
 
     // Custom kernels
-    let pipelineAdd: MTLComputePipelineState!
+    let pipelineAdd: MTLComputePipelineState
 
     public init(device: MTLDevice, id: String? = nil) {
-        do {
-            let library = device.makeMyLibrary()
-            let kernel = library.makeFunction(name: "sum_matrix")
-            pipelineAdd = try device.makeComputePipelineState(function: kernel!)
-        } catch {
-            fatalError("Error initializing compute pipeline")
-        }
+        pipelineAdd = MetalShaderManager.shared.getFunction(name: "sum_matrix", in: Bundle(for: Add.self))
         super.init(id: id)
     }
 
