@@ -23,11 +23,11 @@ open class Crop: NetworkLayer {
     }
     
     open override func execute(commandBuffer: MTLCommandBuffer) {
-        let input = getIncoming()
+        let input = getIncoming()[0].outputImage!
         let blitEncoder = commandBuffer.makeBlitCommandEncoder()
-        blitEncoder.copy(from: input[0].outputImage.texture, sourceSlice: 0, sourceLevel: 0,
-                         sourceOrigin: MTLOrigin(x: 0,
-                                                 y: (input[0].outputImage.texture.height - outputSize.h) / 2,
+        blitEncoder.copy(from: input.texture, sourceSlice: 0, sourceLevel: 0,
+                         sourceOrigin: MTLOrigin(x: (input.width - outputSize.w) / 2,
+                                                 y: (input.height - outputSize.h) / 2,
                                                  z: 0),
                          sourceSize: MTLSizeMake(outputSize.w, outputSize.h, 1),
                          to: outputImage.texture, destinationSlice: 0, destinationLevel: 0,
