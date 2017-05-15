@@ -25,7 +25,7 @@ open class Add: NetworkLayer {
 
         // Correctness checks
         assert(incoming.count == 2, "Add works for two layers")
-        assert(incoming[0].outputSize == incoming[1].outputSize, "Add works for two layers")
+        assert(incoming[0].outputSize == incoming[1].outputSize, "Add works for two layers of the same size")
 
         outputSize = incoming.first?.outputSize
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))

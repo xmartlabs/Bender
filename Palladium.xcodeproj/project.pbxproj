@@ -22,7 +22,7 @@
 		8F60A31A1EC4DBE800296167 /* Pooling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A3191EC4DBE800296167 /* Pooling.swift */; };
 		8F60A31D1EC4E6E400296167 /* PaddingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A31C1EC4E6E400296167 /* PaddingType.swift */; };
 		8F60A31F1EC4F16200296167 /* FullyConnected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A31E1EC4F16200296167 /* FullyConnected.swift */; };
-		8F60A3211EC4F9CD00296167 /* SoftMax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A3201EC4F9CD00296167 /* SoftMax.swift */; };
+		8F60A3211EC4F9CD00296167 /* Softmax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A3201EC4F9CD00296167 /* Softmax.swift */; };
 		8F60A3231EC4FA7A00296167 /* SpatialNorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A3221EC4FA7A00296167 /* SpatialNorm.swift */; };
 		8F79B7F91EC21AC2002D02C8 /* ConvTranspose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FC1EBA70F900586D1B /* ConvTranspose.swift */; };
 		8F79B7FA1EC21BE8002D02C8 /* Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FD1EBA70F900586D1B /* Crop.swift */; };
@@ -81,7 +81,7 @@
 		8F60A3191EC4DBE800296167 /* Pooling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pooling.swift; sourceTree = "<group>"; };
 		8F60A31C1EC4E6E400296167 /* PaddingType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddingType.swift; sourceTree = "<group>"; };
 		8F60A31E1EC4F16200296167 /* FullyConnected.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullyConnected.swift; sourceTree = "<group>"; };
-		8F60A3201EC4F9CD00296167 /* SoftMax.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoftMax.swift; sourceTree = "<group>"; };
+		8F60A3201EC4F9CD00296167 /* Softmax.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Softmax.swift; sourceTree = "<group>"; };
 		8F60A3221EC4FA7A00296167 /* SpatialNorm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpatialNorm.swift; sourceTree = "<group>"; };
 		8F79B7FF1EC233A8002D02C8 /* ActivationNeuronType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivationNeuronType.swift; sourceTree = "<group>"; };
 		8F79B8071EC248CD002D02C8 /* Dummy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
@@ -223,7 +223,7 @@
 				8FA8E31E1EC0B2B100E8BAD8 /* Neuron.swift */,
 				8FA9841E1EBA74D700586D1B /* ResidualLayer.swift */,
 				8FA983FE1EBA70F900586D1B /* Scale.swift */,
-				8F60A3201EC4F9CD00296167 /* SoftMax.swift */,
+				8F60A3201EC4F9CD00296167 /* Softmax.swift */,
 				8FA8E32D1EC0FD8800E8BAD8 /* Start.swift */,
 				8F60A3221EC4FA7A00296167 /* SpatialNorm.swift */,
 			);
@@ -384,7 +384,7 @@
 				8F60A31A1EC4DBE800296167 /* Pooling.swift in Sources */,
 				8F79B7FB1EC21C1D002D02C8 /* InstanceNorm.swift in Sources */,
 				8F60A31D1EC4E6E400296167 /* PaddingType.swift in Sources */,
-				8F60A3211EC4F9CD00296167 /* SoftMax.swift in Sources */,
+				8F60A3211EC4F9CD00296167 /* Softmax.swift in Sources */,
 				8FA984181EBA710000586D1B /* Shaders.metal in Sources */,
 				8F0669B71EC37424009F5C7C /* ParameterLoader.swift in Sources */,
 				8FA984041EBA70F900586D1B /* Convolution.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  SoftMax.swift
+//  Softmax.swift
 //  Palladium
 //
 //  Created by Mathias Claassen on 5/11/17.
@@ -8,7 +8,7 @@
 
 import MetalPerformanceShaders
 
-open class SoftMax: NetworkLayer {
+open class Softmax: NetworkLayer {
 
     public var kernel: MPSCNNSoftMax!
 

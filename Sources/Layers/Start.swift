@@ -11,7 +11,7 @@ import MetalPerformanceShaders
 /// This layer is used as the starting point for any network. If the inputImage does not have the requested size then it will be resized.
 public class Start: NetworkLayer {
 
-    
+
     public var inputImage: MPSImage!
     var lanczos: MPSImageLanczosScale!
     var croppedImg: MPSImage!
@@ -34,7 +34,7 @@ public class Start: NetworkLayer {
         }
 
         // If the inputImage does not have the requested output size then we have to resize it.
-        
+
         outputImage = croppedImg
         let inputAspect = Double(inputImage.width) / Double(inputImage.height)
         let aspect = inputAspect - (Double(outputSize.w) / Double(outputSize.h))
@@ -69,5 +69,5 @@ public class Start: NetworkLayer {
 
         resizedImg.readCount = 0
     }
-    
+
 }

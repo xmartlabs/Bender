@@ -9,6 +9,7 @@
 import MetalPerformanceShaders
 
 
+/// Represents a neural network
 open class Network {
 
     public var start: Start
@@ -16,6 +17,12 @@ open class Network {
     fileprivate var device: MTLDevice
     public var parameterLoader: ParameterLoader
 
+
+    ///
+    /// - Parameters:
+    ///   - device: the MTLDevice.
+    ///   - inputSize: The image size for the first layer. Input images will be resized if they do not have this size.
+    ///   - parameterLoader: The parameter loader responsible for loading the weights and biases for this network.
     public init(device: MTLDevice, inputSize: LayerSize, parameterLoader: ParameterLoader) {
         start = Start(size: inputSize)
         self.device = device
