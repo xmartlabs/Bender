@@ -8,6 +8,7 @@
 
 import MetalPerformanceShaders
 
+/// This layer crops the input image to tthe desired size. The cropRect is taken from the center of the input image.
 open class Crop: NetworkLayer {
     
     public init(device: MTLDevice, croppedSize: LayerSize, id: String? = nil) {

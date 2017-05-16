@@ -42,7 +42,7 @@ open class Network {
 
     public func run(inputImage: MPSImage, queue: MTLCommandQueue, result: @escaping (MPSImage) -> Void) {
 
-        queue.insertDebugCaptureBoundary()
+        queue.insertDebugCaptureBoundary() // DEBUG
         let commandBuffer = queue.makeCommandBuffer()
         commandBuffer.label = "Network run buffer"
         start.inputImage = inputImage
@@ -51,12 +51,15 @@ open class Network {
                 layer.execute(commandBuffer: commandBuffer)
             }
             commandBuffer.commit()
-            //TODO: We should execute this on another queue
+            //TODO: We should execute this on another dispatch queue
             commandBuffer.waitUntilCompleted()
             result(nodes.last!.outputImage)
         }
     }
 
+
+    /// Update weights of the network.
+    ///
     public func change(to checkpoint: String) {
         if checkpoint == parameterLoader.checkpoint {
             return

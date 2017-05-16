@@ -33,7 +33,7 @@ open class Convolution: NetworkLayer {
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
         let incoming = getIncoming()
-        assert(incoming.count == 1, "Convolution must have one input")
+        assert(incoming.count == 1, "Convolution must have one input, not \(incoming.count)")
         prevSize = incoming[0].outputSize
         outputSize = LayerSize(f: convSize.outputChannels,
                                w: padding == .same ? prevSize.w / convSize.stride : (prevSize.w - convSize.kernelSize) / convSize.stride + 1)
@@ -43,6 +43,7 @@ open class Convolution: NetworkLayer {
     }
 
     open func getWeightsSize() -> Int {
+        //TODO: not square kernels
         return prevSize.f * convSize.kernelSize * convSize.kernelSize * convSize.outputChannels
     }
 
