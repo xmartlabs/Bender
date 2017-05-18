@@ -26,7 +26,10 @@ open class Neuron: NetworkLayer {
 
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
-        outputSize = getIncoming()[0].outputSize
+        let incoming = getIncoming()
+        assert(incoming.count == 1, "Neuron must have one input, not \(incoming.count)")
+
+        outputSize = incoming[0].outputSize
 
         self.neuron = type.createNeuron(device: device)!
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))

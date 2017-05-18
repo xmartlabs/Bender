@@ -21,7 +21,9 @@ open class BGRAtoRGBA: NetworkLayer {
 
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
-        outputSize = getIncoming().first?.outputSize
+        let incoming = getIncoming()
+        assert(incoming.count == 1, "BGRAtoRGBA supports one input, not \(incoming.count)")
+        outputSize = incoming[0].outputSize
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
 

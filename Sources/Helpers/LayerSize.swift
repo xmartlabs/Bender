@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct LayerSize {
+public struct LayerSize: Equatable {
     public let f: Int
     public let w: Int
     public let h: Int
@@ -24,6 +24,10 @@ public struct LayerSize {
         self.w = w
         self.h = h
     }
+}
+
+public func == (left: LayerSize, right: LayerSize) -> Bool {
+    return left.f == right.f && left.w == right.w && left.h == right.h
 }
 
 public struct ConvSize {

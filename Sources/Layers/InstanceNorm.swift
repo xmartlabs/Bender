@@ -25,7 +25,9 @@ open class InstanceNorm: NetworkLayer {
 
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
-        outputSize = getIncoming().first?.outputSize
+        let incoming = getIncoming()
+        assert(incoming.count == 1, "InstanceNorm must have one input, not \(incoming.count)")
+        outputSize = incoming[0].outputSize
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
         scaleWeights = device.makeBuffer(bytes: network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.scaleModifier, size: outputSize.f),
                                          length: max(4, outputSize.f) * Constants.FloatSize,

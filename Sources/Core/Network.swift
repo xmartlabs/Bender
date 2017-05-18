@@ -9,6 +9,7 @@
 import MetalPerformanceShaders
 
 
+/// Represents a neural network
 open class Network {
 
     public var start: Start
@@ -16,6 +17,12 @@ open class Network {
     fileprivate var device: MTLDevice
     public var parameterLoader: ParameterLoader
 
+
+    ///
+    /// - Parameters:
+    ///   - device: the MTLDevice.
+    ///   - inputSize: The image size for the first layer. Input images will be resized if they do not have this size.
+    ///   - parameterLoader: The parameter loader responsible for loading the weights and biases for this network.
     public init(device: MTLDevice, inputSize: LayerSize, parameterLoader: ParameterLoader) {
         start = Start(size: inputSize)
         self.device = device
@@ -35,7 +42,7 @@ open class Network {
 
     public func run(inputImage: MPSImage, queue: MTLCommandQueue, result: @escaping (MPSImage) -> Void) {
 
-        queue.insertDebugCaptureBoundary()
+        queue.insertDebugCaptureBoundary() // DEBUG
         let commandBuffer = queue.makeCommandBuffer()
         commandBuffer.label = "Network run buffer"
         start.inputImage = inputImage
@@ -44,12 +51,15 @@ open class Network {
                 layer.execute(commandBuffer: commandBuffer)
             }
             commandBuffer.commit()
-            //TODO: We should execute this on another queue
+            //TODO: We should execute this on another dispatch queue
             commandBuffer.waitUntilCompleted()
             result(nodes.last!.outputImage)
         }
     }
 
+
+    /// Update weights of the network.
+    ///
     public func change(to checkpoint: String) {
         if checkpoint == parameterLoader.checkpoint {
             return

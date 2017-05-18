@@ -12,7 +12,9 @@ open class Identity: NetworkLayer {
 
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
-        outputSize = getIncoming()[0].outputSize
+        let incoming = getIncoming()
+        assert(incoming.count == 1, "Identity must have one input, not \(incoming.count)")
+        outputSize = incoming[0].outputSize
     }
 
     open override func execute(commandBuffer: MTLCommandBuffer) {

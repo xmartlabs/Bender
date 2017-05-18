@@ -19,6 +19,11 @@
 		8F3DE15D1EBB9ACC00D81949 /* MetalShaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3DE15C1EBB9ACC00D81949 /* MetalShaderManager.swift */; };
 		8F3DE15F1EBBD0C700D81949 /* Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3DE15E1EBBD0C700D81949 /* Add.swift */; };
 		8F60A3141EC4D04E00296167 /* ImageLinearTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A3131EC4D04E00296167 /* ImageLinearTransform.swift */; };
+		8F60A31A1EC4DBE800296167 /* Pooling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A3191EC4DBE800296167 /* Pooling.swift */; };
+		8F60A31D1EC4E6E400296167 /* PaddingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A31C1EC4E6E400296167 /* PaddingType.swift */; };
+		8F60A31F1EC4F16200296167 /* FullyConnected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A31E1EC4F16200296167 /* FullyConnected.swift */; };
+		8F60A3211EC4F9CD00296167 /* Softmax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A3201EC4F9CD00296167 /* Softmax.swift */; };
+		8F60A3231EC4FA7A00296167 /* SpatialNorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A3221EC4FA7A00296167 /* SpatialNorm.swift */; };
 		8F79B7F91EC21AC2002D02C8 /* ConvTranspose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FC1EBA70F900586D1B /* ConvTranspose.swift */; };
 		8F79B7FA1EC21BE8002D02C8 /* Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FD1EBA70F900586D1B /* Crop.swift */; };
 		8F79B7FB1EC21C1D002D02C8 /* InstanceNorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983F51EBA70F200586D1B /* InstanceNorm.swift */; };
@@ -73,6 +78,11 @@
 		8F3DE15C1EBB9ACC00D81949 /* MetalShaderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalShaderManager.swift; sourceTree = "<group>"; };
 		8F3DE15E1EBBD0C700D81949 /* Add.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Add.swift; sourceTree = "<group>"; };
 		8F60A3131EC4D04E00296167 /* ImageLinearTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLinearTransform.swift; sourceTree = "<group>"; };
+		8F60A3191EC4DBE800296167 /* Pooling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pooling.swift; sourceTree = "<group>"; };
+		8F60A31C1EC4E6E400296167 /* PaddingType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddingType.swift; sourceTree = "<group>"; };
+		8F60A31E1EC4F16200296167 /* FullyConnected.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullyConnected.swift; sourceTree = "<group>"; };
+		8F60A3201EC4F9CD00296167 /* Softmax.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Softmax.swift; sourceTree = "<group>"; };
+		8F60A3221EC4FA7A00296167 /* SpatialNorm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpatialNorm.swift; sourceTree = "<group>"; };
 		8F79B7FF1EC233A8002D02C8 /* ActivationNeuronType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivationNeuronType.swift; sourceTree = "<group>"; };
 		8F79B8071EC248CD002D02C8 /* Dummy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
 		8F79B8091EC2514A002D02C8 /* MTLDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MTLDevice.swift; sourceTree = "<group>"; };
@@ -190,6 +200,7 @@
 				8F3DE1591EBB962200D81949 /* Network.swift */,
 				8FA984001EBA70F900586D1B /* NetworkLayer.swift */,
 				8FA8E32F1EC0FE2700E8BAD8 /* Operators.swift */,
+				8F60A31C1EC4E6E400296167 /* PaddingType.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -204,13 +215,17 @@
 				8FA983FC1EBA70F900586D1B /* ConvTranspose.swift */,
 				8FA983FD1EBA70F900586D1B /* Crop.swift */,
 				8F79B8071EC248CD002D02C8 /* Dummy.swift */,
+				8F60A31E1EC4F16200296167 /* FullyConnected.swift */,
 				8FA8E31C1EC0AE5800E8BAD8 /* Identity.swift */,
+				8F60A3131EC4D04E00296167 /* ImageLinearTransform.swift */,
 				8FA983F51EBA70F200586D1B /* InstanceNorm.swift */,
+				8F60A3191EC4DBE800296167 /* Pooling.swift */,
 				8FA8E31E1EC0B2B100E8BAD8 /* Neuron.swift */,
 				8FA9841E1EBA74D700586D1B /* ResidualLayer.swift */,
 				8FA983FE1EBA70F900586D1B /* Scale.swift */,
-				8F60A3131EC4D04E00296167 /* ImageLinearTransform.swift */,
+				8F60A3201EC4F9CD00296167 /* Softmax.swift */,
 				8FA8E32D1EC0FD8800E8BAD8 /* Start.swift */,
+				8F60A3221EC4FA7A00296167 /* SpatialNorm.swift */,
 			);
 			path = Layers;
 			sourceTree = "<group>";
@@ -366,7 +381,10 @@
 				8F60A3141EC4D04E00296167 /* ImageLinearTransform.swift in Sources */,
 				8FA984161EBA710000586D1B /* instanceNorm.metal in Sources */,
 				8F79B7FE1EC2302C002D02C8 /* Scale.swift in Sources */,
+				8F60A31A1EC4DBE800296167 /* Pooling.swift in Sources */,
 				8F79B7FB1EC21C1D002D02C8 /* InstanceNorm.swift in Sources */,
+				8F60A31D1EC4E6E400296167 /* PaddingType.swift in Sources */,
+				8F60A3211EC4F9CD00296167 /* Softmax.swift in Sources */,
 				8FA984181EBA710000586D1B /* Shaders.metal in Sources */,
 				8F0669B71EC37424009F5C7C /* ParameterLoader.swift in Sources */,
 				8FA984041EBA70F900586D1B /* Convolution.swift in Sources */,
@@ -388,6 +406,8 @@
 				8FA8E32C1EC0F05800E8BAD8 /* SlimMPSCNN.swift in Sources */,
 				8F79B80A1EC2514A002D02C8 /* MTLDevice.swift in Sources */,
 				8F0669B11EC364A3009F5C7C /* PALFunctionConstant.swift in Sources */,
+				8F60A31F1EC4F16200296167 /* FullyConnected.swift in Sources */,
+				8F60A3231EC4FA7A00296167 /* SpatialNorm.swift in Sources */,
 				8FA984211EBA778900586D1B /* MTLTexture.swift in Sources */,
 				8F79B8021EC23444002D02C8 /* Neuron.swift in Sources */,
 				8F79B8001EC233A8002D02C8 /* ActivationNeuronType.swift in Sources */,
