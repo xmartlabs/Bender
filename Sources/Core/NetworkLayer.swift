@@ -23,15 +23,17 @@ public protocol Group {
 /// A layer composed of several sublayers. Used to reuse group of layers.
 public typealias CompositeLayer = Group
 
-open class NetworkLayer {
+open class NetworkLayer: Node {
 
     private static var counter = 0
     public var id: String
-    fileprivate var outgoing = [NetworkLayer]()
-    fileprivate var incoming = [Weak<NetworkLayer>]()
     public var outputSize: LayerSize!
     public var outputImage: MPSImage!
     public var network: Network?
+
+    //MARK: Node protocol
+    public var edgeOut = [Node]()
+    public var edgeIn = [() -> Node?]()
 
     public init(id: String? = nil) {
         if let id = id {
@@ -51,6 +53,10 @@ open class NetworkLayer {
     }
 
     open func updatedCheckpoint(device: MTLDevice) {}
+
+    public func isEqual(to other: Node) -> Bool {
+        return self == (other as? NetworkLayer)
+    }
 
 }
 
@@ -74,39 +80,39 @@ public struct LayerGroup: Group {
 }
 
 public extension NetworkLayer {
-
-    // MARK: manage incoming dependencies
-    func addIncoming(layer: NetworkLayer) {
-        let weakLayer = Weak(value: layer)
-        if !incoming.contains(weakLayer) {
-            incoming.append(weakLayer)
-            if !layer.outgoing.contains(self) {
-                layer.outgoing.append(self)
-            }
-        }
-    }
-
+//
+//    // MARK: manage incoming dependencies
+//    func addIncoming(layer: NetworkLayer) {
+//        let weakLayer = Weak(value: layer)
+//        if !incoming.contains(weakLayer) {
+//            incoming.append(weakLayer)
+//            if !layer.outgoing.contains(self) {
+//                layer.outgoing.append(self)
+//            }
+//        }
+//    }
+//
     func getIncoming() -> [NetworkLayer] {
-        return incoming.flatMap { $0.value }
+        return incomingNodes().flatMap { $0 as? NetworkLayer }
     }
-
-    func deleteIncoming(layer: NetworkLayer) {
-        let weakLayer = Weak(value: layer)
-        if let index = incoming.index(of: weakLayer) {
-            incoming.remove(at: index)
-        }
-    }
-
+//
+//    func deleteIncoming(layer: NetworkLayer) {
+//        let weakLayer = Weak(value: layer)
+//        if let index = incoming.index(of: weakLayer) {
+//            incoming.remove(at: index)
+//        }
+//    }
+//
     func getOutgoing() -> [NetworkLayer] {
-        return outgoing
+        return outgoingNodes().flatMap { $0 as? NetworkLayer }
     }
-
-    func deleteOutgoing(layer: NetworkLayer) {
-        if let index = outgoing.index(of: layer) {
-            outgoing.remove(at: index)
-        }
-    }
-
+//
+//    func deleteOutgoing(layer: NetworkLayer) {
+//        if let index = outgoing.index(of: layer) {
+//            outgoing.remove(at: index)
+//        }
+//    }
+//
 }
 
 extension NetworkLayer: Equatable {}

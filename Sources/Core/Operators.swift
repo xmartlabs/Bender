@@ -18,7 +18,7 @@ infix operator ->> : AppendPrecedence
 /// Combines two groups of nodes into one by linking the last node of the left element to the first of the right
 @discardableResult
 public func ->> (left: Group, right: Group) -> Group {
-    right.input.addIncoming(layer: left.output)
+    right.input.addIncomingEdge(from: left.output)
     let group = LayerGroup(input: left.input, output: right.output)
     return group
 }
@@ -27,7 +27,7 @@ public func ->> (left: Group, right: Group) -> Group {
 @discardableResult
 public func ->> (left: [Group], right: Group) -> Group {
     for layer in left {
-        right.input.addIncoming(layer: layer.output)
+        right.input.addIncomingEdge(from: layer.output)
     }
     //TODO: handle different inputs with a Dummy node.
     return LayerGroup(input: left[0].input, output: right.output)
@@ -39,7 +39,7 @@ public func ->> (left: [Group], right: Group) -> Group {
 public func ->> (left: Group, right: [Group]) -> [Group] {
     var output = [Group]()
     for layer in right {
-        layer.input.addIncoming(layer: left.output)
+        layer.input.addIncomingEdge(from: left.output)
         output.append(LayerGroup(input: left.input, output: layer.output))
     }
     return output

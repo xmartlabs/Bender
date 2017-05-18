@@ -14,18 +14,7 @@ open class Dummy: NetworkLayer {
     // Assign inputs to outputs and vice versa
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
-        let incoming = getIncoming()
-        let outgoing = getOutgoing()
-        for out in outgoing {
-            out.deleteIncoming(layer: self)
-        }
-
-        for inc in incoming {
-            inc.deleteOutgoing(layer: self)
-            for out in outgoing {
-                out.addIncoming(layer: inc)
-            }
-        }
+        removeFromGraph()
     }
 
     open override func execute(commandBuffer: MTLCommandBuffer) {

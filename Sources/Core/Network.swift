@@ -10,10 +10,10 @@ import MetalPerformanceShaders
 
 
 /// Represents a neural network
-open class Network {
+public class Network: GraphProtocol {
 
     public var start: Start
-    var nodes = [NetworkLayer]()
+    public var nodes = [NetworkLayer]()
     fileprivate var device: MTLDevice
     public var parameterLoader: ParameterLoader
 
@@ -28,14 +28,14 @@ open class Network {
         self.parameterLoader = parameterLoader
     }
 
-    open func initialize() {
+    public func initialize() {
         buildExecutionList(node: start)
         for layer in nodes {
             layer.initialize(network: self, device: device)
         }
         nodes = nodes.filter { !($0 is Dummy) }
         _ = nodes.map {
-            print($0.id ?? "nil")
+            print($0.id)
         }
     }
 

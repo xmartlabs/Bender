@@ -15,14 +15,3 @@ public func measure(_ label: String = "", _ block: () -> ()) {
     let v = time2.timeIntervalSince(time1)
     print("\(label): \(v) (\(1/v) per second)")
 }
-
-class Weak<T: AnyObject>: Equatable where T: Equatable {
-    weak var value : T?
-    init (value: T) {
-        self.value = value
-    }
-}
-
-func ==<T: Equatable> (left: Weak<T>, right: Weak<T>) -> Bool {
-    return left.value == right.value
-}

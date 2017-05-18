@@ -13,9 +13,12 @@ open class InstanceNorm: NetworkLayer {
     public static var scaleModifier = "scale"
     public static var shiftModifier = "shift"
 
+    var scale: UnsafePointer<Float>?
+    var shift: UnsafePointer<Float>?
+
     // Intermediate images and buffers
-    public var scaleWeights: MTLBuffer!
-    public var shiftWeights: MTLBuffer!
+    public var scaleBuffer: MTLBuffer!
+    public var shiftBuffer: MTLBuffer!
 
     var meanPS: MTLComputePipelineState!
     var avgMeanPS: MTLComputePipelineState!
@@ -29,10 +32,10 @@ open class InstanceNorm: NetworkLayer {
         assert(incoming.count == 1, "InstanceNorm must have one input, not \(incoming.count)")
         outputSize = incoming[0].outputSize
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
-        scaleWeights = device.makeBuffer(bytes: network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.scaleModifier, size: outputSize.f),
+        scaleBuffer = device.makeBuffer(bytes: scale ?? network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.scaleModifier, size: outputSize.f),
                                          length: max(4, outputSize.f) * Constants.FloatSize,
                                          options: [])
-        shiftWeights = device.makeBuffer(bytes: network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.shiftModifier, size: outputSize.f),
+        shiftBuffer = device.makeBuffer(bytes: shift ?? network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.shiftModifier, size: outputSize.f),
                                          length: max(4, outputSize.f) * Constants.FloatSize,
                                          options: [])
         let isArray = outputSize.f > 4
@@ -45,9 +48,9 @@ open class InstanceNorm: NetworkLayer {
 
     open override func updatedCheckpoint(device: MTLDevice) {
         guard let network = network else { return }
-        scaleWeights.contents().copyBytes(from: network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.scaleModifier, size: outputSize.f),
+        scaleBuffer.contents().copyBytes(from: network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.scaleModifier, size: outputSize.f),
                                           count: max(4, outputSize.f) * Constants.FloatSize)
-        shiftWeights.contents().copyBytes(from: network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.shiftModifier, size: outputSize.f),
+        shiftBuffer.contents().copyBytes(from: network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.shiftModifier, size: outputSize.f),
                                           count: max(4, outputSize.f) * Constants.FloatSize)
     }
 
@@ -122,8 +125,8 @@ open class InstanceNorm: NetworkLayer {
         commandEncoder5.setTexture(varianceImg.texture, at: 2)
         commandEncoder5.setTexture(outputImage.texture, at: 3) // out texture
 
-        commandEncoder5.setBuffer(scaleWeights, offset: 0, at: 0)
-        commandEncoder5.setBuffer(shiftWeights, offset: 0, at: 1)
+        commandEncoder5.setBuffer(scaleBuffer, offset: 0, at: 0)
+        commandEncoder5.setBuffer(shiftBuffer, offset: 0, at: 1)
         let threadgroupsPerGrid5 = inputImage.texture.threadGrid(threadGroup: tpTG)
         commandEncoder5.dispatchThreadgroups(threadgroupsPerGrid5, threadsPerThreadgroup: tpTG)
         commandEncoder5.endEncoding()
