@@ -1,16 +1,17 @@
 //
-//  ViewController.swift
+//  UnitTestViewController.swift
 //  Example
 //
-//  Copyright © 2016 Xmartlabs SRL. All rights reserved.
+//  Created by Mathias Claassen on 5/26/17.
+//
 //
 
-import Palladium
+import UIKit
 
 class ViewController: UIViewController {
 
     let testRunner = PalladiumTestRunner()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         testRunner.run()

@@ -63,8 +63,7 @@ open class LocalResponseNorm: NetworkLayer {
         let incoming = getIncoming()
         let commandEncoder = commandBuffer.makeComputeCommandEncoder()
         commandEncoder.label = "Local Response Norm encoder"
-        // mean calculation 1st step
-        let tpTG = MTLSizeMake(8, 8, 1)
+        let tpTG = MTLSizeMake(32, 8, 1)
         commandEncoder.setComputePipelineState(pipelineLocalResponseNorm)
 
         commandEncoder.setTexture(incoming[0].outputImage.texture, at: 0)

@@ -9,6 +9,9 @@
 #include <metal_stdlib>
 using namespace metal;
 
+constant ushort filter_x   [[ function_constant(0) ]];
+constant ushort filter_y   [[ function_constant(1) ]];
+
 kernel void transpose_conv_calculate(
                                      texture2d_array<float, access::read> src [[texture(0)]],
                                      texture2d_array<float, access::write> dest [[texture(1)]],
@@ -18,13 +21,9 @@ kernel void transpose_conv_calculate(
                                      ushort3 gid [[thread_position_in_grid]]
                                      ) {
     // supposes:
-    // - filter is 3x3
     // - weights in HWNC. Should we change this? Tensorflow has HWNC
 
     // All threads in threadgroup will read the same weights
-
-    const ushort filter_x = 3;
-    const ushort filter_y = 3;
 
     ushort in_depth = src.get_array_size();
     ushort output_size = dest.get_array_size() * 4;
@@ -73,11 +72,6 @@ kernel void transpose_conv_shift_left(
 
                                       ushort3 gid [[thread_position_in_grid]]
                                       ) {
-    // supposes:
-    // - filter is 3x3
-    // -
-    const ushort filter_x = 3;
-    const ushort filter_y = 3;
 
     //base positions: Using x and y switched to avoid different paths
     ushort in_x = filter_x * gid.x;
@@ -101,11 +95,6 @@ kernel void transpose_conv_shift_top(
 
                                       ushort3 gid [[thread_position_in_grid]]
                                       ) {
-    // supposes:
-    // - filter is 3x3
-    // -
-    const ushort filter_x = 3;
-    const ushort filter_y = 3;
 
     //base positions
     ushort in_out_x = (filter_x - 1) * gid.x;
@@ -122,4 +111,3 @@ kernel void transpose_conv_shift_top(
         dest.write(float4(pix2), ushort2(in_out_x + fx, out_y + 1), gid.z);
     }
 }
-
