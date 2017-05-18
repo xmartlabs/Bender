@@ -20,21 +20,20 @@ open class Pooling: NetworkLayer {
     public var pooling: MPSCNNPooling
     public var padding: PaddingType
 
-    public init(device: MTLDevice, type: PoolingType, padding: PaddingType = .same, kernelSize: (Int, Int) = (2, 2), stride: (Int, Int) = (2, 2), id: String? = nil) {
-        //TODO: Add padding and offset handler
+    public init(device: MTLDevice, type: PoolingType, padding: PaddingType = .same, kernelSize: (width: Int, height: Int) = (2, 2), stride: (x: Int, y: Int) = (2, 2), id: String? = nil) {
         switch type {
         case .max:
             self.pooling = MPSCNNPoolingMax(device: device,
-                                            kernelWidth: kernelSize.0,
-                                            kernelHeight: kernelSize.1,
-                                            strideInPixelsX: stride.0,
-                                            strideInPixelsY: stride.1)
+                                            kernelWidth: kernelSize.width,
+                                            kernelHeight: kernelSize.height,
+                                            strideInPixelsX: stride.x,
+                                            strideInPixelsY: stride.y)
         case.avg:
             self.pooling = MPSCNNPoolingAverage(device: device,
-                                                kernelWidth: kernelSize.0,
-                                                kernelHeight: kernelSize.1,
-                                                strideInPixelsX: stride.0,
-                                                strideInPixelsY: stride.1)
+                                                kernelWidth: kernelSize.width,
+                                                kernelHeight: kernelSize.height,
+                                                strideInPixelsX: stride.x,
+                                                strideInPixelsY: stride.y)
         }
         self.pooling.edgeMode = .clamp
         self.padding = padding

@@ -14,7 +14,7 @@ open class FullyConnected: NetworkLayer {
     static var biasModifier: String = "bias"
 
     var prevSize: LayerSize!
-    public var neurons: Int
+    var neurons: Int
 
     var kernel: MPSCNNFullyConnected?
     let neuronType: ActivationNeuronType
