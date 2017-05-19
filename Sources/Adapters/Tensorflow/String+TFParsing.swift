@@ -7,3 +7,15 @@
 //
 
 import Foundation
+
+extension String {
+
+    var isTFConstOp: Bool {
+        return self == "Const"
+    }
+
+    var isTFVariableV2Op: Bool {
+        return self == "VariableV2"
+    }
+
+}

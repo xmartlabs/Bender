@@ -16,22 +16,30 @@ struct WeightData {
 open class ConvTranspose: NetworkLayer {
 
     static var weightModifier: String = ""
+    var weightsPointer: UnsafePointer<Float>?
     
     let size: ConvSize
     private var prevSize: LayerSize!
     
-    let pipelineCalculate: MTLComputePipelineState
-    let pipelineShifLeft: MTLComputePipelineState
-    let pipelineShiftTop: MTLComputePipelineState
+    var pipelineCalculate: MTLComputePipelineState!
+    var pipelineShifLeft: MTLComputePipelineState!
+    var pipelineShiftTop: MTLComputePipelineState!
 
-    var weights: MTLBuffer!
+    var weightsBuffer: MTLBuffer!
 
-    public init(device: MTLDevice, size: ConvSize, neuron: ActivationNeuronType = .relu, id: String? = nil) {
+
+    /// ConvTranspoe initializer
+    /// Note: padding is PaddingType.same
+    ///
+    /// - Parameters:
+    ///   - size: Convolution size
+    ///   - weights: Convolution weights
+    ///   - bias: Convolution bias (not yet implemented)
+    ///   - id: Node identification string. Used to load weights if they are not frozen into the graph.
+    public init(size: ConvSize, weights: UnsafePointer<Float>? = nil, bias: UnsafePointer<Float>? = nil,
+                id: String? = nil) {
         self.size = size
-        // Load custom metal kernels
-        pipelineCalculate = MetalShaderManager.shared.getFunction(name: "transpose_conv_calculate", in: Bundle(for: ConvTranspose.self))
-        pipelineShifLeft = MetalShaderManager.shared.getFunction(name: "transpose_conv_shift_left", in: Bundle(for: ConvTranspose.self))
-        pipelineShiftTop = MetalShaderManager.shared.getFunction(name: "transpose_conv_shift_top", in: Bundle(for: ConvTranspose.self))
+        self.weightsPointer = weights
         super.init(id: id)
     }
     
@@ -39,24 +47,34 @@ open class ConvTranspose: NetworkLayer {
         super.initialize(network: network, device: device)
         let incoming = getIncoming()
         assert(incoming.count == 1, "ConvTranspose must have one input, not \(incoming.count)")
+        assert(size.strideX == size.strideY, "ConvTranspose must symmetric strides")
+        assert(size.kernelWidth == size.kernelHeight, "ConvTranspose must symmetric kernel sizes")
+
+        // Load custom metal kernels
+        pipelineCalculate = MetalShaderManager.shared.getFunction(name: "transpose_conv_calculate", in: Bundle(for: ConvTranspose.self))
+        pipelineShifLeft = MetalShaderManager.shared.getFunction(name: "transpose_conv_shift_left", in: Bundle(for: ConvTranspose.self))
+        pipelineShiftTop = MetalShaderManager.shared.getFunction(name: "transpose_conv_shift_top", in: Bundle(for: ConvTranspose.self))
+
         prevSize = incoming[0].outputSize
         outputSize = LayerSize(f: size.outputChannels,
-                                    w: prevSize.w * size.stride)
+                                    w: prevSize.w * size.strideX)
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
 
-        weights = device.makeBuffer(bytes: network.parameterLoader.loadWeights(for: id, modifier: ConvTranspose.weightModifier, size: getWeightsSize()),
-                                    length: getWeightsSize() * Constants.FloatSize,
-                                    options: [])
+        weightsBuffer = device.makeBuffer(bytes: weightsPointer ?? network.parameterLoader.loadWeights(for: id,
+                                                                                                       modifier: ConvTranspose.weightModifier,
+                                                                                                       size: getWeightsSize()),
+                                          length: getWeightsSize() * Constants.FloatSize,
+                                          options: [])
     }
 
     open override func updatedCheckpoint(device: MTLDevice) {
         guard let network = network else { return }
         let vector = network.parameterLoader.loadWeights(for: id, modifier: ConvTranspose.weightModifier, size: getWeightsSize())
-        weights.contents().copyBytes(from: vector, count: getWeightsSize())
+        weightsBuffer.contents().copyBytes(from: vector, count: getWeightsSize())
     }
 
     open func getWeightsSize() -> Int {
-        return prevSize.f * size.kernelSize * size.kernelSize * size.outputChannels
+        return prevSize.f * size.kernelWidth * size.kernelHeight * size.outputChannels
     }
 
     open override func execute(commandBuffer: MTLCommandBuffer) {
@@ -84,7 +102,7 @@ open class ConvTranspose: NetworkLayer {
         encoder.setComputePipelineState(pipelineCalculate)
         encoder.setTexture(incoming[0].outputImage.texture, at: 0)
         encoder.setTexture(step1Img.texture, at: 1)
-        encoder.setBuffer(weights, offset: 0, at: 0)
+        encoder.setBuffer(weightsBuffer, offset: 0, at: 0)
 
         encoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: threadsPerGroups)
         encoder.endEncoding()

@@ -17,3 +17,15 @@ public enum PaddingType {
     case valid // no padding
 
 }
+
+extension PaddingType {
+
+    static func fromTF(_ padding: String) -> PaddingType {
+        if padding == "SAME" {
+            return PaddingType.same
+        } else {
+            return PaddingType.valid
+        }
+    }
+    
+}

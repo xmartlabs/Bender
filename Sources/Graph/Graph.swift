@@ -12,11 +12,6 @@ public protocol GraphProtocol {
 
     associatedtype T: Node
     var nodes: [T] { get set }
-//    var first: Node<T> { get }
-//    var last: Node<T> { get }
-
-//    func remove(node: T)
-//    func sortNodes()
 
 }
 

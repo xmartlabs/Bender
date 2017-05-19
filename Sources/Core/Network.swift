@@ -29,7 +29,15 @@ public class Network: GraphProtocol {
     }
 
     public func initialize() {
-        buildExecutionList(node: start)
+        if nodes.isEmpty {
+            buildExecutionList(node: start)
+        } else {
+            // Add start node
+            if !nodes.contains(start) {
+                nodes.first?.addIncomingEdge(from: start)
+                nodes.insert(start, at: 0)
+            }
+        }
         for layer in nodes {
             layer.initialize(network: self, device: device)
         }

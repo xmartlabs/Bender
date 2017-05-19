@@ -32,12 +32,26 @@ public func == (left: LayerSize, right: LayerSize) -> Bool {
 
 public struct ConvSize {
     public let outputChannels: Int
-    public let kernelSize: Int
-    public let stride: Int
+    public let kernelWidth: Int
+    public let kernelHeight: Int
+    public let strideX: Int
+    public let strideY: Int
+
+    public init(outputChannels: Int, kernelWidth: Int, kernelHeight: Int, strideX: Int, strideY: Int) {
+        self.outputChannels = outputChannels
+        self.kernelWidth = kernelWidth
+        self.kernelHeight = kernelHeight
+        self.strideX = strideX
+        self.strideY = strideY
+    }
 
     public init(outputChannels: Int, kernelSize: Int, stride: Int) {
-        self.outputChannels = outputChannels
-        self.kernelSize = kernelSize
-        self.stride = stride
+        self.init(outputChannels: outputChannels, kernelWidth: kernelSize, kernelHeight: kernelSize, strideX: stride, strideY: stride)
     }
+
+    init(shape: Tensorflow_TensorShapeProto, strideX: Int, strideY: Int) {
+        self.init(outputChannels: shape.outputChannels, kernelWidth: shape.kernelWidth, kernelHeight: shape.kernelHeight,
+                  strideX: strideX, strideY: strideY)
+    }
+
 }

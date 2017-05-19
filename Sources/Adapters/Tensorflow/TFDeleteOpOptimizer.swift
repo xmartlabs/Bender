@@ -10,7 +10,7 @@ import Foundation
 
 class TFDeleteOpOptimizer: TFOptimizer {
 
-    func optimize(graph: TensorflowGraph) -> TensorflowGraph {
+    func optimize(graph: TensorflowGraph) {
         fatalError("Not implemented")
     }
 

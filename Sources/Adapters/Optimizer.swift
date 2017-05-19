@@ -17,6 +17,6 @@ protocol Optimizer {
 
 public protocol TFOptimizer {
 
-    func optimize(graph: TensorflowGraph) -> TensorflowGraph
+    func optimize(graph: TensorflowGraph)
     
 }

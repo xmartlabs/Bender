@@ -10,22 +10,31 @@ import Foundation
 
 class TFVariableProcessor: TFOptimizer {
 
-    func optimize(graph: TensorflowGraph) -> TensorflowGraph {
+    /*  Takes
+        initial_value --> Assign        Output
+                            ^             ^
+                        VariableV2  -->  Read
+
+        Returns
+        initial_value  -->  VariableV2  -->  Output
+     */
+    
+    func optimize(graph: TensorflowGraph) {
         for node in graph.nodes {
-            if node.nodeDef.name.isTFVariableValue {
-                print(node.nodeDef.name + " is a variable init value")
-                if let assign = node.outgoingNodes().first,
-                   let variable = assign.incomingNodes().filter({ ($0 as? TensorflowNode)?.nodeDef.name.isTFVariableV2 ?? false }).first,
-                   let read = variable.outgoingNodes().filter({ ($0 as? TensorflowNode)?.nodeDef.name.isTFVariableRead ?? false }).first,
+            if node.nodeDef.op.isTFVariableV2Op {
+                if let assign = node.outgoingNodes().filter({ ($0 as? TensorflowNode)?.nodeDef.op.isTFVariableAssignOp ?? false }).first,
+                   let constValue = assign.incomingNodes().filter({ ($0 as? TensorflowNode)?.nodeDef.op.isTFConstOp ?? false }).first,
+                   let read = node.outgoingNodes().filter({ ($0 as? TensorflowNode)?.nodeDef.name.isTFVariableReadName ?? false }).first,
                    let outputNode = read.outgoingNodes().first {
                     assign.strip()
-                    variable.strip()
                     read.strip()
                     outputNode.addIncomingEdge(from: node)
+                    node.addIncomingEdge(from: constValue)
                 }
             }
+
+            //TODO: handle variables that are not in the graph
         }
-        return graph
     }
 
 }
@@ -37,14 +46,18 @@ fileprivate extension String {
         return regex.test(self)
     }
 
-    var isTFVariableV2: Bool {
+    var isTFVariableV2Name: Bool {
         let regex = try! Regex("Variable(_\\d+)?")
         return regex.test(self)
     }
 
-    var isTFVariableRead: Bool {
-        let regex = try! Regex("Variable(_\\d+)?/read")
+    var isTFVariableReadName: Bool {
+        let regex = try! Regex(".*/read")
         return regex.test(self)
+    }
+
+    var isTFVariableAssignOp: Bool {
+        return self == "Assign"
     }
     
 }
