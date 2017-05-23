@@ -8,6 +8,7 @@
 
 import MetalPerformanceShaders
 
+// Does not work with embedded weights
 open class FullyConnected: NetworkLayer {
 
     static var weightModifier: String = ""

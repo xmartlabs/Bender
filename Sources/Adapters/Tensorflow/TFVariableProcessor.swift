@@ -11,29 +11,33 @@ import Foundation
 class TFVariableProcessor: TFOptimizer {
 
     /*  Takes
-        initial_value --> Assign        Output
+                Const --> Assign        Output
                             ^             ^
                         VariableV2  -->  Read
 
         Returns
-        initial_value  -->  VariableV2  -->  Output
+                Const  -->  VariableV2  -->  Output
      */
     
     func optimize(graph: TensorflowGraph) {
         for node in graph.nodes {
             if node.nodeDef.op.isTFVariableV2Op {
                 if let assign = node.outgoingNodes().filter({ ($0 as? TensorflowNode)?.nodeDef.op.isTFVariableAssignOp ?? false }).first,
-                   let constValue = assign.incomingNodes().filter({ ($0 as? TensorflowNode)?.nodeDef.op.isTFConstOp ?? false }).first,
                    let read = node.outgoingNodes().filter({ ($0 as? TensorflowNode)?.nodeDef.name.isTFVariableReadName ?? false }).first,
                    let outputNode = read.outgoingNodes().first {
-                    assign.strip()
                     read.strip()
-                    outputNode.addIncomingEdge(from: node)
-                    node.addIncomingEdge(from: constValue)
+                    if let constValue = assign.incomingNodes().filter({ ($0 as? TensorflowNode)?.nodeDef.op.isTFConstOp ?? false }).first {
+                        // Embedded const variables
+                        assign.strip()
+                        outputNode.addIncomingEdge(from: node)
+                        node.addIncomingEdge(from: constValue)
+                    } else {
+                        assign.deleteIncomingEdge(node: node)
+                        assign.strip(recursive: true)
+                        outputNode.addIncomingEdge(from: node)
+                    }
                 }
             }
-
-            //TODO: handle variables that are not in the graph
         }
     }
 

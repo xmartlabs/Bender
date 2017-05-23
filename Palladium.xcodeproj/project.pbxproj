@@ -74,6 +74,10 @@
 		8FAB77391ECC993A0050AB16 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB77381ECC993A0050AB16 /* Graph.swift */; };
 		8FAB773B1ECC9AAD0050AB16 /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB773A1ECC9AAD0050AB16 /* Weak.swift */; };
 		8FAB773D1ECC9B0F0050AB16 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB773C1ECC9B0F0050AB16 /* Node.swift */; };
+		8FAD35031ED47A97004B69DA /* TFDeleteSubgraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAD35021ED47A97004B69DA /* TFDeleteSubgraph.swift */; };
+		8FAD35091ED4C7B3004B69DA /* TFConvOptimizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAD35081ED4C7B3004B69DA /* TFConvOptimizer.swift */; };
+		8FC8F7AF1ED35396004DA113 /* TFDenseSubstitution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC8F7AE1ED35396004DA113 /* TFDenseSubstitution.swift */; };
+		8FC8F7B41ED38164004DA113 /* TFDeleteOptimizers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC8F7B31ED38164004DA113 /* TFDeleteOptimizers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +161,10 @@
 		8FAB77381ECC993A0050AB16 /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
 		8FAB773A1ECC9AAD0050AB16 /* Weak.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weak.swift; sourceTree = "<group>"; };
 		8FAB773C1ECC9B0F0050AB16 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		8FAD35021ED47A97004B69DA /* TFDeleteSubgraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFDeleteSubgraph.swift; sourceTree = "<group>"; };
+		8FAD35081ED4C7B3004B69DA /* TFConvOptimizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFConvOptimizer.swift; sourceTree = "<group>"; };
+		8FC8F7AE1ED35396004DA113 /* TFDenseSubstitution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFDenseSubstitution.swift; sourceTree = "<group>"; };
+		8FC8F7B31ED38164004DA113 /* TFDeleteOptimizers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFDeleteOptimizers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,6 +266,10 @@
 			children = (
 				8F94C5351ECE127B00D5E0E6 /* TFDeleteOpOptimizer.swift */,
 				8F94C53C1ECE1DD000D5E0E6 /* TFVariableProcessor.swift */,
+				8FC8F7AE1ED35396004DA113 /* TFDenseSubstitution.swift */,
+				8FC8F7B31ED38164004DA113 /* TFDeleteOptimizers.swift */,
+				8FAD35021ED47A97004B69DA /* TFDeleteSubgraph.swift */,
+				8FAD35081ED4C7B3004B69DA /* TFConvOptimizer.swift */,
 			);
 			name = Optimizers;
 			sourceTree = "<group>";
@@ -512,12 +524,14 @@
 				8F60A3141EC4D04E00296167 /* ImageLinearTransform.swift in Sources */,
 				8FA984161EBA710000586D1B /* instanceNorm.metal in Sources */,
 				8F94C5361ECE127B00D5E0E6 /* TFDeleteOpOptimizer.swift in Sources */,
+				8FAD35031ED47A97004B69DA /* TFDeleteSubgraph.swift in Sources */,
 				8F79B7FE1EC2302C002D02C8 /* Scale.swift in Sources */,
 				8F60A31A1EC4DBE800296167 /* Pooling.swift in Sources */,
 				8F79B7FB1EC21C1D002D02C8 /* InstanceNorm.swift in Sources */,
 				8F4466CE1ECF5F8E00915819 /* TFWeightData.swift in Sources */,
 				8FAB77231ECC86170050AB16 /* graph.pb.swift in Sources */,
 				8FAB77281ECC86170050AB16 /* types.pb.swift in Sources */,
+				8FC8F7B41ED38164004DA113 /* TFDeleteOptimizers.swift in Sources */,
 				8F60A31D1EC4E6E400296167 /* PaddingType.swift in Sources */,
 				8F60A3211EC4F9CD00296167 /* Softmax.swift in Sources */,
 				8FA984181EBA710000586D1B /* Shaders.metal in Sources */,
@@ -540,6 +554,8 @@
 				8FAB77271ECC86170050AB16 /* tensor.pb.swift in Sources */,
 				8F0669BA1EC3A31B009F5C7C /* PerLayerBinaryLoader.swift in Sources */,
 				8FAB773D1ECC9B0F0050AB16 /* Node.swift in Sources */,
+				8FC8F7AF1ED35396004DA113 /* TFDenseSubstitution.swift in Sources */,
+				8FAD35091ED4C7B3004B69DA /* TFConvOptimizer.swift in Sources */,
 				8FA984151EBA710000586D1B /* convolution.metal in Sources */,
 				8FA984241EBA77AE00586D1B /* MPSImageDescriptor.swift in Sources */,
 				8FA9841D1EBA726B00586D1B /* Constants.swift in Sources */,

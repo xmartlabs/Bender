@@ -14,12 +14,53 @@ extension Tensorflow_NodeDef {
         return attr["shape"]?.shape
     }
 
+    var strides: (x: Int, y: Int)? {
+        guard let strides = attr["strides"]?.list.i,
+            let dataFormat = attr["data_format"]?.s,
+            let formatString = String(data: dataFormat, encoding: .utf8) else {
+                return nil
+        }
+
+        let strideX = formatString == "NHWC" ? strides[2] : strides[3]
+        let strideY = formatString == "NHWC" ? strides[1] : strides[2]
+        return (Int(strideX), Int(strideY))
+    }
+
+    var ksize: (width: Int, height: Int)? {
+        guard let size = attr["ksize"]?.list.i,
+            let dataFormat = attr["data_format"]?.s,
+            let formatString = String(data: dataFormat, encoding: .utf8) else {
+                return nil
+        }
+
+        let width = formatString == "NHWC" ? size[2] : size[3]
+        let height = formatString == "NHWC" ? size[1] : size[2]
+        return (Int(width), Int(height))
+    }
+
+    func activationNeuron() -> ActivationNeuronType {
+        var neuron = ActivationNeuronType.none
+        if let neuronOp = attr[Constants.CustomAttr.neuron]?.s, let opString = String(data: neuronOp, encoding: .utf8) {
+            switch opString {
+            case Constants.Ops.Relu:
+                neuron = .relu
+            case Constants.Ops.Tanh:
+                neuron = .tanh
+            case Constants.Ops.Sigmoid:
+                neuron = .sigmoid
+            default:
+                break
+            }
+        }
+        return neuron
+    }
+
 }
 
 extension Tensorflow_TensorShapeProto {
 
     var isBias: Bool {
-        return dim.filter { $0.size == 1 }.count == 3
+        return dim.count == 1
     }
 
     var kernelHeight: Int {

@@ -17,10 +17,29 @@ public enum PoolingType {
 
 open class Pooling: NetworkLayer {
 
-    public var pooling: MPSCNNPooling
+    public var pooling: MPSCNNPooling!
     public var padding: PaddingType
+    var type: PoolingType
+    var kernelSize: (width: Int, height: Int)
+    var stride: (x: Int, y: Int)
 
-    public init(device: MTLDevice, type: PoolingType, padding: PaddingType = .same, kernelSize: (width: Int, height: Int) = (2, 2), stride: (x: Int, y: Int) = (2, 2), id: String? = nil) {
+    public init(type: PoolingType, padding: PaddingType = .same, kernelSize: (width: Int, height: Int) = (2, 2), stride: (x: Int, y: Int) = (2, 2), id: String? = nil) {
+        self.type = type
+        self.kernelSize = kernelSize
+        self.stride = stride
+        self.padding = padding
+        super.init(id: id)
+    }
+
+    open override func initialize(network: Network, device: MTLDevice) {
+        super.initialize(network: network, device: device)
+
+        // Check correctness
+        let incoming = getIncoming()
+        assert(incoming.count == 1, "Pooling must have one input, not \(incoming.count)")
+        let prevSize = incoming[0].outputSize!
+
+        // Set up pooling
         switch type {
         case .max:
             self.pooling = MPSCNNPoolingMax(device: device,
@@ -36,15 +55,8 @@ open class Pooling: NetworkLayer {
                                                 strideInPixelsY: stride.y)
         }
         self.pooling.edgeMode = .clamp
-        self.padding = padding
-        super.init(id: id)
-    }
 
-    open override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
-        let incoming = getIncoming()
-        assert(incoming.count == 1, "Pooling must have one input, not \(incoming.count)")
-        let prevSize = incoming[0].outputSize!
+        // Set up padding
         switch padding {
         case .same:
             self.pooling.offset.x += (((prevSize.w - 1) % pooling.strideInPixelsX) / 2) + (pooling.kernelWidth + 1) % 2

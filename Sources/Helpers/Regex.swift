@@ -23,4 +23,9 @@ class Regex {
         return matches.count > 0
     }
 
+    func match(_ input: String) -> NSRange {
+        let range = expression.rangeOfFirstMatch(in: input, options: .withoutAnchoringBounds, range: NSRange(location: 0, length: input.characters.count))
+        return range
+    }
+
 }

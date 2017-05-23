@@ -49,7 +49,6 @@ struct TFWeightData {
 
         if let biasNode = biasVar?.incomingNodes().first as? TensorflowNode,
             let data = biasNode.nodeDef.attr["value"]?.tensor.tensorContent, biasNode.nodeDef.op.isTFConstOp {
-            debugPrint("FOUND SOME BIAS: being ignored for now")
             bias = (data as NSData).bytes.assumingMemoryBound(to: Float.self)
         }
 
