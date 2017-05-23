@@ -34,8 +34,8 @@ open class BGRAtoRGBA: NetworkLayer {
         encoder.setTexture(getIncoming()[0].outputImage.texture, at: 0)
         encoder.setTexture(outputImage.texture, at: 1)
         let threadsPerGroups = MTLSizeMake(32, 8, 1)
-        let threadGroups = MTLSizeMake(outputImage.texture.width / threadsPerGroups.width,
-                                       outputImage.texture.height / threadsPerGroups.height, 1)
+        let threadGroups = MTLSizeMake((outputImage.texture.width + threadsPerGroups.width - 1) / threadsPerGroups.width,
+                                       (outputImage.texture.height + threadsPerGroups.height - 1) / threadsPerGroups.height, 1)
         encoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadsPerGroups)
         encoder.endEncoding()
     }

@@ -15,7 +15,7 @@ extension MTLTexture {
     }
 
     var size: LayerSize {
-        return LayerSize(f: depth, w: width, h: height)
+        return LayerSize(f: arrayLength * 4, w: width, h: height)
     }
 
 }

@@ -17,6 +17,12 @@
 		8F79B8111EC261D6002D02C8 /* Luminance.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B8101EC261D6002D02C8 /* Luminance.metal */; };
 		8FA8E3251EC0BE7300E8BAD8 /* Palladium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9CAB221D89C756006E1824 /* Palladium.framework */; };
 		8FA8E3261EC0BE7300E8BAD8 /* Palladium.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9CAB221D89C756006E1824 /* Palladium.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CFAD25371ED7E9F30003C4FA /* Texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD25361ED7E9F30003C4FA /* Texture.swift */; };
+		CFAD253B1ED7EA090003C4FA /* LocalResponseNormTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD25381ED7EA090003C4FA /* LocalResponseNormTest.swift */; };
+		CFAD253C1ED7EA090003C4FA /* PalladiumTestRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD25391ED7EA090003C4FA /* PalladiumTestRunner.swift */; };
+		CFAD253D1ED7EA090003C4FA /* TextureConversionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD253A1ED7EA090003C4FA /* TextureConversionTest.swift */; };
+		CFAD253F1ED7EA930003C4FA /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD253E1ED7EA930003C4FA /* TestData.swift */; };
+		CFAD25411ED7EB5A0003C4FA /* CompletionSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD25401ED7EB5A0003C4FA /* CompletionSerializer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +84,12 @@
 		28F828E61C4B714D00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F79B80E1EC25ECA002D02C8 /* Luminance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Luminance.swift; path = Example/Luminance.swift; sourceTree = "<group>"; };
 		8F79B8101EC261D6002D02C8 /* Luminance.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = Luminance.metal; path = Example/Luminance.metal; sourceTree = "<group>"; };
+		CFAD25361ED7E9F30003C4FA /* Texture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Texture.swift; path = Example/Tests/Helpers/Texture.swift; sourceTree = "<group>"; };
+		CFAD25381ED7EA090003C4FA /* LocalResponseNormTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalResponseNormTest.swift; path = Example/Tests/LocalResponseNormTest.swift; sourceTree = "<group>"; };
+		CFAD25391ED7EA090003C4FA /* PalladiumTestRunner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PalladiumTestRunner.swift; path = Example/Tests/PalladiumTestRunner.swift; sourceTree = "<group>"; };
+		CFAD253A1ED7EA090003C4FA /* TextureConversionTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextureConversionTest.swift; path = Example/Tests/TextureConversionTest.swift; sourceTree = "<group>"; };
+		CFAD253E1ED7EA930003C4FA /* TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestData.swift; path = Example/Tests/Helpers/TestData.swift; sourceTree = "<group>"; };
+		CFAD25401ED7EB5A0003C4FA /* CompletionSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CompletionSerializer.swift; path = Example/Tests/Helpers/CompletionSerializer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +133,7 @@
 		28F828CE1C4B714D00330CF4 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				CFAD25341ED7E9800003C4FA /* Tests */,
 				8F79B80C1EC25EAD002D02C8 /* Custom Layers */,
 				28F828CF1C4B714D00330CF4 /* AppDelegate.swift */,
 				28F828D11C4B714D00330CF4 /* ViewController.swift */,
@@ -157,6 +170,27 @@
 				8F9CAB241D89C756006E1824 /* PalladiumTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CFAD25341ED7E9800003C4FA /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				CFAD25381ED7EA090003C4FA /* LocalResponseNormTest.swift */,
+				CFAD25391ED7EA090003C4FA /* PalladiumTestRunner.swift */,
+				CFAD253A1ED7EA090003C4FA /* TextureConversionTest.swift */,
+				CFAD25351ED7E9E70003C4FA /* Helpers */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+		CFAD25351ED7E9E70003C4FA /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				CFAD25361ED7E9F30003C4FA /* Texture.swift */,
+				CFAD253E1ED7EA930003C4FA /* TestData.swift */,
+				CFAD25401ED7EB5A0003C4FA /* CompletionSerializer.swift */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,8 +322,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFAD253F1ED7EA930003C4FA /* TestData.swift in Sources */,
+				CFAD253B1ED7EA090003C4FA /* LocalResponseNormTest.swift in Sources */,
+				CFAD253C1ED7EA090003C4FA /* PalladiumTestRunner.swift in Sources */,
 				8F79B8111EC261D6002D02C8 /* Luminance.metal in Sources */,
+				CFAD25371ED7E9F30003C4FA /* Texture.swift in Sources */,
 				28F828D21C4B714D00330CF4 /* ViewController.swift in Sources */,
+				CFAD253D1ED7EA090003C4FA /* TextureConversionTest.swift in Sources */,
+				CFAD25411ED7EB5A0003C4FA /* CompletionSerializer.swift in Sources */,
 				28F828D01C4B714D00330CF4 /* AppDelegate.swift in Sources */,
 				8F79B80F1EC25ECA002D02C8 /* Luminance.swift in Sources */,
 			);
@@ -436,7 +476,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "\"-Xfrontend\" \"-warn-long-function-bodies=150\"";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.todoapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
@@ -453,7 +493,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "\"-Xfrontend\" \"-warn-long-function-bodies=150\"";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Example;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.todoapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;

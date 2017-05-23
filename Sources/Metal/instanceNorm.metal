@@ -12,7 +12,6 @@ using namespace metal;
 kernel void meanA(
                   texture2d_array<float, access::read> src [[texture(0)]],
                   texture2d_array<float, access::write> outTexture [[texture(1)]],
-
                   ushort2 gid [[thread_position_in_grid]])
 {
     half4 sum = half4(0.0h);
