@@ -11,7 +11,13 @@ import Foundation
 /// Should be executed after Variable Processor
 class TFDenseSubstitution: TFOptimizer {
 
-    /*  Takes
+    /*  Takes:
+          MatMul --> BiasAdd [--> Neuron]
+            ^           ^
+        Variable    Variable
+     
+     Returns:
+        Variable -> BiasAdd(+add-ons) <- Variable
 
      */
 

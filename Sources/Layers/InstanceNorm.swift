@@ -26,6 +26,12 @@ open class InstanceNorm: NetworkLayer {
     var avgVarPS: MTLComputePipelineState!
     var inormPS: MTLComputePipelineState!
 
+    public init(scale: UnsafePointer<Float>? = nil, shift: UnsafePointer<Float>? = nil, id: String? = nil) {
+        self.scale = scale
+        self.shift = shift
+        super.init(id: id)
+    }
+
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
         let incoming = getIncoming()

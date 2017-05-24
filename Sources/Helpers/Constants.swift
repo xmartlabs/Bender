@@ -20,17 +20,25 @@ extension Constants {
 
     struct Ops {
 
-        static let Conv = "Conv2D"
-        static let Dense = "Dense"
-        static let Const = "Const"
-        static let Variable = "VariableV2"
-        static let MatMul = "MatMul"
-        static let Reshape = "Reshape"
+        static let Add = "Add"
         static let BiasAdd = "BiasAdd"
+        static let Conv = "Conv2D"
+        static let Const = "Const"
+        static let Dense = "Dense"
+        static let InstanceNormAdd = "InstanceNormAdd"
+        static let InstanceNormMul = "InstanceNormMul"
+        static let MatMul = "MatMul"
+        static let Mul = "Mul"
+        static let Mean = "Mean"
+        static let Pow = "Pow"
+        static let RealDiv = "RealDiv"
         static let Relu = "Relu"
-        static let Tanh = "Tanh"
-        static let Sigmoid = "Sigmoid"
+        static let Reshape = "Reshape"
         static let Shape = "Shape"
+        static let Sigmoid = "Sigmoid"
+        static let Sub = "Sub"
+        static let Tanh = "Tanh"
+        static let Variable = "VariableV2"
 
     }
 

@@ -55,6 +55,13 @@ extension Tensorflow_NodeDef {
         return neuron
     }
 
+    func valueData() -> UnsafePointer<Float>? {
+        if let data = attr["value"]?.tensor.tensorContent, op.isTFConstOp {
+            return (data as NSData).bytes.assumingMemoryBound(to: Float.self)
+        }
+        return nil
+    }
+
 }
 
 extension Tensorflow_TensorShapeProto {

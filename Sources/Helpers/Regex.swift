@@ -8,22 +8,22 @@
 
 import Foundation
 
-class Regex {
+public class Regex {
 
     let expression: NSRegularExpression
     let pattern: String
 
-    init(_ pattern: String) throws {
+    public init(_ pattern: String) throws {
         self.pattern = pattern
         self.expression = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
     }
 
-    func test(_ input: String) -> Bool {
+    public func test(_ input: String) -> Bool {
         let matches = expression.matches(in: input, options: .withoutAnchoringBounds, range: NSRange(location: 0, length: input.characters.count))
         return matches.count > 0
     }
 
-    func match(_ input: String) -> NSRange {
+    public func match(_ input: String) -> NSRange {
         let range = expression.rangeOfFirstMatch(in: input, options: .withoutAnchoringBounds, range: NSRange(location: 0, length: input.characters.count))
         return range
     }

@@ -119,7 +119,22 @@ extension TFConverter {
                                   id: node.nodeDef.name)
         }
         mappers[Constants.Ops.Dense] = denseMapper
-        
+
+        //MARK: InstanceNorm
+        let inormMapper = { (node: TFNode) -> NetworkLayer in
+            guard let incoming = node.incomingNodes()  as? [TFNode],
+                let shiftVar = incoming.filter({ $0.nodeDef.op.isTFVariableV2Op }).first,
+                let mul = incoming.filter({ $0.nodeDef.op.isTFInstanceNormMulOp }).first,
+                let scaleVar = mul.incomingNodes().first as? TFNode, scaleVar.nodeDef.op.isTFVariableV2Op else {
+                    fatalError("Could not parse Instance norm node")
+            }
+
+            let scale = (scaleVar.incomingNodes().first as? TFNode)?.nodeDef.valueData()
+            let shift = (shiftVar.incomingNodes().first as? TFNode)?.nodeDef.valueData()
+
+            return InstanceNorm(scale: scale, shift: shift, id: node.nodeDef.name)
+        }
+        mappers[Constants.Ops.InstanceNormAdd] = inormMapper
     }
     
 }

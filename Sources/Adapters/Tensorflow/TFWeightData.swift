@@ -43,14 +43,12 @@ struct TFWeightData {
         var weights: UnsafePointer<Float>?
         var bias: UnsafePointer<Float>?
 
-        if let weightsNode = weightsVar.incomingNodes().first as? TFNode,
-            let data = weightsNode.nodeDef.attr["value"]?.tensor.tensorContent, weightsNode.nodeDef.op.isTFConstOp {
-            weights = (data as NSData).bytes.assumingMemoryBound(to: Float.self)
+        if let weightsNode = weightsVar.incomingNodes().first as? TFNode {
+            weights = weightsNode.nodeDef.valueData()
         }
 
-        if let biasNode = biasVar?.incomingNodes().first as? TFNode,
-            let data = biasNode.nodeDef.attr["value"]?.tensor.tensorContent, biasNode.nodeDef.op.isTFConstOp {
-            bias = (data as NSData).bytes.assumingMemoryBound(to: Float.self)
+        if let biasNode = biasVar?.incomingNodes().first as? TFNode {
+            bias = biasNode.nodeDef.valueData()
         }
 
         return TFWeightData(weights: weights, bias: bias, weightShape: shape, useBias: biasVar != nil)

@@ -74,8 +74,8 @@ public class TFConverter: Converter {
                     }
                 }
             } else {
-                // We found an unsupported layer. We ignore it but warn and add a dummy to maintain the indexes of the nodes
                 debugPrint("Palladium:: Unsupported layer found: \(node.nodeDef.op)")
+                // We found an unsupported layer. We ignore it but warn.
             }
         }
 
