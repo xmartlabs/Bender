@@ -19,14 +19,14 @@ class TFVariableProcessor: TFOptimizer {
                 Const  -->  VariableV2  -->  Output
      */
     
-    func optimize(graph: TensorflowGraph) {
+    func optimize(graph: TFGraph) {
         for node in graph.nodes {
             if node.nodeDef.op.isTFVariableV2Op {
-                if let assign = node.outgoingNodes().filter({ ($0 as? TensorflowNode)?.nodeDef.op.isTFVariableAssignOp ?? false }).first,
-                   let read = node.outgoingNodes().filter({ ($0 as? TensorflowNode)?.nodeDef.name.isTFVariableReadName ?? false }).first,
+                if let assign = node.outgoingNodes().filter({ ($0 as? TFNode)?.nodeDef.op.isTFVariableAssignOp ?? false }).first,
+                   let read = node.outgoingNodes().filter({ ($0 as? TFNode)?.nodeDef.name.isTFVariableReadName ?? false }).first,
                    let outputNode = read.outgoingNodes().first {
                     read.strip()
-                    if let constValue = assign.incomingNodes().filter({ ($0 as? TensorflowNode)?.nodeDef.op.isTFConstOp ?? false }).first {
+                    if let constValue = assign.incomingNodes().filter({ ($0 as? TFNode)?.nodeDef.op.isTFConstOp ?? false }).first {
                         // Embedded const variables
                         assign.strip()
                         outputNode.addIncomingEdge(from: node)

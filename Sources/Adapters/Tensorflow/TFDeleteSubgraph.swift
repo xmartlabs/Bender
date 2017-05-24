@@ -16,41 +16,41 @@ protocol TFDeleteSubgraphOptimizer: TFOptimizer {
 
     /// Called for all nodes in the subgraph to be deleted
     /// - Returns: If the node is connected to an input that should be rewired
-    func isInputNode(_ node: TensorflowNode) -> Bool
+    func isInputNode(_ node: TFNode) -> Bool
 
     /// Called for all nodes in the subgraph to be deleted
     /// - Returns: If the node is connected to an output that should be rewired
-    func isOutputNode(_ node: TensorflowNode) -> Bool
+    func isOutputNode(_ node: TFNode) -> Bool
 
 }
 
 extension TFDeleteSubgraphOptimizer {
 
-    func isInSubgraph(_ node: TensorflowNode) -> Bool {
+    func isInSubgraph(_ node: TFNode) -> Bool {
         return regex.test(node.nodeDef.name)
     }
 
-    func id(for node: TensorflowNode) -> String {
+    func id(for node: TFNode) -> String {
         let match = regex.match(node.nodeDef.name)
         return (node.nodeDef.name as NSString).substring(to: match.location + match.length)
     }
 
-    func isInputNode(_ node: TensorflowNode) -> Bool {
+    func isInputNode(_ node: TFNode) -> Bool {
         // If the subgraph should be discarded without rewiring
         return false
     }
 
-    func isOutputNode(_ node: TensorflowNode) -> Bool {
+    func isOutputNode(_ node: TFNode) -> Bool {
         // If the subgraph should be discarded without rewiring
         return false
     }
 
-    func optimize(graph: TensorflowGraph) {
-        var mappings = [String: (inputs: [TensorflowNode]?, outputs: [TensorflowNode]?)]()
+    func optimize(graph: TFGraph) {
+        var mappings = [String: (inputs: [TFNode]?, outputs: [TFNode]?)]()
         for node in graph.nodes {
             if isInSubgraph(node) {
                 if isInputNode(node) {
-                    if let inputs = (node.incomingNodes() as? [TensorflowNode])?.filter({ !isInSubgraph($0) }) {
+                    if let inputs = (node.incomingNodes() as? [TFNode])?.filter({ !isInSubgraph($0) }) {
                         var currentValue = mappings[id(for: node)] ?? (nil, nil)
                         if currentValue.inputs == nil {
                             currentValue.inputs = inputs
@@ -60,7 +60,7 @@ extension TFDeleteSubgraphOptimizer {
                         mappings[id(for: node)] = currentValue
                     }
                 } else if isOutputNode(node) {
-                    if let outputs = (node.outgoingNodes() as? [TensorflowNode])?.filter({ !isInSubgraph($0) }) {
+                    if let outputs = (node.outgoingNodes() as? [TFNode])?.filter({ !isInSubgraph($0) }) {
                         var currentValue = mappings[id(for: node)] ?? (nil, nil)
                         if currentValue.outputs == nil {
                             currentValue.outputs = outputs

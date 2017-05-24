@@ -17,7 +17,6 @@ public enum ProtoFileType {
 
 public protocol Converter {
     
-//    var optimizers: [T] { get set }
     func convertGraph(file: URL, type: ProtoFileType) -> [NetworkLayer]
 
 }

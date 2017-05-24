@@ -45,6 +45,9 @@
 		8F94C53D1ECE1DD000D5E0E6 /* TFVariableProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94C53C1ECE1DD000D5E0E6 /* TFVariableProcessor.swift */; };
 		8F94C53F1ECE256100D5E0E6 /* String+TFParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94C53E1ECE256100D5E0E6 /* String+TFParsing.swift */; };
 		8F94C5411ECE262800D5E0E6 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94C5401ECE262800D5E0E6 /* Regex.swift */; };
+		8FA6BABC1ED5BD48004450C0 /* TFConverter+Mappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA6BABB1ED5BD48004450C0 /* TFConverter+Mappers.swift */; };
+		8FA6BABE1ED5BE95004450C0 /* TFGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA6BABD1ED5BE94004450C0 /* TFGraph.swift */; };
+		8FA6BAC01ED5BE9E004450C0 /* TFNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA6BABF1ED5BE9E004450C0 /* TFNode.swift */; };
 		8FA8E3211EC0B8B500E8BAD8 /* BGRAtoRGBA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8E3201EC0B8B500E8BAD8 /* BGRAtoRGBA.swift */; };
 		8FA8E32C1EC0F05800E8BAD8 /* SlimMPSCNN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA984021EBA70F900586D1B /* SlimMPSCNN.swift */; };
 		8FA8E32E1EC0FD8800E8BAD8 /* Start.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA8E32D1EC0FD8800E8BAD8 /* Start.swift */; };
@@ -70,7 +73,7 @@
 		8FAB77281ECC86170050AB16 /* types.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB77201ECC86170050AB16 /* types.pb.swift */; };
 		8FAB77291ECC86170050AB16 /* versions.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB77211ECC86170050AB16 /* versions.pb.swift */; };
 		8FAB772C1ECC87E20050AB16 /* SwiftProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAB772B1ECC87E20050AB16 /* SwiftProtobuf.framework */; };
-		8FAB772E1ECC8D6E0050AB16 /* GraphLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB772D1ECC8D6E0050AB16 /* GraphLoader.swift */; };
+		8FAB772E1ECC8D6E0050AB16 /* TFGraphLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB772D1ECC8D6E0050AB16 /* TFGraphLoader.swift */; };
 		8FAB77391ECC993A0050AB16 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB77381ECC993A0050AB16 /* Graph.swift */; };
 		8FAB773B1ECC9AAD0050AB16 /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB773A1ECC9AAD0050AB16 /* Weak.swift */; };
 		8FAB773D1ECC9B0F0050AB16 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB773C1ECC9B0F0050AB16 /* Node.swift */; };
@@ -125,6 +128,9 @@
 		8F94C53C1ECE1DD000D5E0E6 /* TFVariableProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFVariableProcessor.swift; sourceTree = "<group>"; };
 		8F94C53E1ECE256100D5E0E6 /* String+TFParsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+TFParsing.swift"; sourceTree = "<group>"; };
 		8F94C5401ECE262800D5E0E6 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		8FA6BABB1ED5BD48004450C0 /* TFConverter+Mappers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TFConverter+Mappers.swift"; sourceTree = "<group>"; };
+		8FA6BABD1ED5BE94004450C0 /* TFGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFGraph.swift; sourceTree = "<group>"; };
+		8FA6BABF1ED5BE9E004450C0 /* TFNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFNode.swift; sourceTree = "<group>"; };
 		8FA8E31C1EC0AE5800E8BAD8 /* Identity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identity.swift; sourceTree = "<group>"; };
 		8FA8E31E1EC0B2B100E8BAD8 /* Neuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Neuron.swift; sourceTree = "<group>"; };
 		8FA8E3201EC0B8B500E8BAD8 /* BGRAtoRGBA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BGRAtoRGBA.swift; sourceTree = "<group>"; };
@@ -157,7 +163,7 @@
 		8FAB77201ECC86170050AB16 /* types.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = types.pb.swift; sourceTree = "<group>"; };
 		8FAB77211ECC86170050AB16 /* versions.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = versions.pb.swift; sourceTree = "<group>"; };
 		8FAB772B1ECC87E20050AB16 /* SwiftProtobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftProtobuf.framework; path = Carthage/Build/iOS/SwiftProtobuf.framework; sourceTree = "<group>"; };
-		8FAB772D1ECC8D6E0050AB16 /* GraphLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphLoader.swift; sourceTree = "<group>"; };
+		8FAB772D1ECC8D6E0050AB16 /* TFGraphLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFGraphLoader.swift; sourceTree = "<group>"; };
 		8FAB77381ECC993A0050AB16 /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
 		8FAB773A1ECC9AAD0050AB16 /* Weak.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weak.swift; sourceTree = "<group>"; };
 		8FAB773C1ECC9B0F0050AB16 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
@@ -366,8 +372,11 @@
 				8F4466D71ECF82EC00915819 /* Helpers */,
 				8F94C53B1ECE1DAA00D5E0E6 /* Optimizers */,
 				8FAB77191ECC85FC0050AB16 /* protos */,
-				8FAB772D1ECC8D6E0050AB16 /* GraphLoader.swift */,
 				8F94C5311ECE0B8400D5E0E6 /* TFConverter.swift */,
+				8FA6BABB1ED5BD48004450C0 /* TFConverter+Mappers.swift */,
+				8FA6BABD1ED5BE94004450C0 /* TFGraph.swift */,
+				8FAB772D1ECC8D6E0050AB16 /* TFGraphLoader.swift */,
+				8FA6BABF1ED5BE9E004450C0 /* TFNode.swift */,
 			);
 			path = Tensorflow;
 			sourceTree = "<group>";
@@ -516,6 +525,7 @@
 			files = (
 				8FA984091EBA70F900586D1B /* NetworkLayer.swift in Sources */,
 				8F0669BC1EC3A4C1009F5C7C /* SingleBinaryLoader.swift in Sources */,
+				8FA6BABE1ED5BE95004450C0 /* TFGraph.swift in Sources */,
 				8FAB77221ECC86170050AB16 /* attr_value.pb.swift in Sources */,
 				8FA8E3301EC0FE2700E8BAD8 /* Operators.swift in Sources */,
 				8F79B8031EC23563002D02C8 /* ResidualLayer.swift in Sources */,
@@ -548,6 +558,7 @@
 				8F0669B31EC36672009F5C7C /* ComputePipelineDef.swift in Sources */,
 				8F3DE15D1EBB9ACC00D81949 /* MetalShaderManager.swift in Sources */,
 				8F79B8081EC248CD002D02C8 /* Dummy.swift in Sources */,
+				8FA6BAC01ED5BE9E004450C0 /* TFNode.swift in Sources */,
 				8FA8E32E1EC0FD8800E8BAD8 /* Start.swift in Sources */,
 				8F94C5411ECE262800D5E0E6 /* Regex.swift in Sources */,
 				8FAB77251ECC86170050AB16 /* resource_handle.pb.swift in Sources */,
@@ -562,9 +573,10 @@
 				4697C2191ED31F8D003ED2E9 /* local_response_norm.metal in Sources */,
 				8FAB77391ECC993A0050AB16 /* Graph.swift in Sources */,
 				8F94C53D1ECE1DD000D5E0E6 /* TFVariableProcessor.swift in Sources */,
-				8FAB772E1ECC8D6E0050AB16 /* GraphLoader.swift in Sources */,
+				8FAB772E1ECC8D6E0050AB16 /* TFGraphLoader.swift in Sources */,
 				8FAB77241ECC86170050AB16 /* node_def.pb.swift in Sources */,
 				8FA984261EBA77E400586D1B /* LayerSize.swift in Sources */,
+				8FA6BABC1ED5BD48004450C0 /* TFConverter+Mappers.swift in Sources */,
 				8FAB77261ECC86170050AB16 /* tensor_shape.pb.swift in Sources */,
 				8F79B7FA1EC21BE8002D02C8 /* Crop.swift in Sources */,
 				8FA8E32C1EC0F05800E8BAD8 /* SlimMPSCNN.swift in Sources */,

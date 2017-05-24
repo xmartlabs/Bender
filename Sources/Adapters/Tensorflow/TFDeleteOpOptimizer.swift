@@ -12,11 +12,11 @@ class TFDeleteOpOptimizer: TFOptimizer {
 
     var prefixes = ["Dropout", "Regularizer", "random_uniform", "truncated_normal", "Save", "Restore"]
 
-    func optimize(graph: TensorflowGraph) {
+    func optimize(graph: TFGraph) {
 
     }
 
-    private func runLoop(graph: TensorflowGraph, from: Int) {
+    private func runLoop(graph: TFGraph, from: Int) {
         for index in from..<graph.nodes.count {
             let node = graph.nodes[index]
             if node.nodeDef.name.components(separatedBy: "/").contains(where: { prefixes.contains($0) }) {

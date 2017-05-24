@@ -13,7 +13,7 @@ public func measure(_ label: String = "", _ block: () -> ()) {
     block()
     let time2 = Date()
     let v = time2.timeIntervalSince(time1)
-    print("\(label): \(v) (\(1/v) per second)")
+    debugPrint("\(label): \(v) (\(1/v) per second)")
 }
 
 func HWIOtoOHWI(weights: UnsafePointer<Float>, shape: Tensorflow_TensorShapeProto) -> UnsafePointer<Float> {

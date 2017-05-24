@@ -43,7 +43,7 @@ public class Network: GraphProtocol {
         }
         nodes = nodes.filter { !($0 is Dummy) }
         _ = nodes.map {
-            print($0.id)
+            debugPrint($0.id)
         }
     }
 
