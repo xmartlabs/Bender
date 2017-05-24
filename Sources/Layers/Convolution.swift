@@ -25,7 +25,7 @@ open class Convolution: NetworkLayer {
 
     var useBias: Bool
 
-    public init(convSize: ConvSize, neuronType: ActivationNeuronType = .relu, useBias: Bool = false, padding: PaddingType = .same, weights: UnsafePointer<Float>? = nil, bias: UnsafePointer<Float>? = nil, id: String? = nil) {
+    public init(convSize: ConvSize, neuronType: ActivationNeuronType = .none, useBias: Bool = false, padding: PaddingType = .same, weights: UnsafePointer<Float>? = nil, bias: UnsafePointer<Float>? = nil, id: String? = nil) {
         self.convSize = convSize
         self.neuronType = neuronType
         self.useBias = useBias

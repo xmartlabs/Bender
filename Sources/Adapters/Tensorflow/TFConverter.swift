@@ -148,7 +148,7 @@ extension TFConverter {
                                     strideY: Int(strides.y))
             return Convolution(convSize: convSize,
                                neuronType: node.nodeDef.activationNeuron(),
-                               useBias: weightData.bias != nil,
+                               useBias: weightData.useBias,
                                padding: PaddingType.fromTF(padString),
                                weights: weights,
                                bias: weightData.bias,
@@ -187,7 +187,9 @@ extension TFConverter {
             //transpose weights does not work as we do not know the desired shape dimensions
 //            let weights = weightData.weights != nil ? HWIOtoOHWI(weights: weightData.weights!, shape: weightData.weightShape) : nil
 
-            return FullyConnected(neurons: Int(weightData.weightShape.dim[1].size), neuronType: node.nodeDef.activationNeuron(), useBias: weightData.bias != nil,
+            return FullyConnected(neurons: Int(weightData.weightShape.dim[1].size),
+                                  neuronType: node.nodeDef.activationNeuron(),
+                                  useBias: weightData.useBias,
                                   id: node.nodeDef.name)
         }
         mappers[Constants.Ops.Dense] = denseMapper

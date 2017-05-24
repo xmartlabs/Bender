@@ -13,6 +13,7 @@ struct TFWeightData {
     let weights: UnsafePointer<Float>?
     let bias: UnsafePointer<Float>?
     let weightShape: Tensorflow_TensorShapeProto
+    let useBias: Bool
     
     static func getWeightData(node: TensorflowNode) -> TFWeightData? {
         let varInputs = node.incomingNodes().filter { ($0 as! TensorflowNode).nodeDef.op.isTFVariableV2Op } as! [TensorflowNode]
@@ -52,7 +53,7 @@ struct TFWeightData {
             bias = (data as NSData).bytes.assumingMemoryBound(to: Float.self)
         }
 
-        return TFWeightData(weights: weights, bias: bias, weightShape: shape)
+        return TFWeightData(weights: weights, bias: bias, weightShape: shape, useBias: biasVar != nil)
     }
 
 }
