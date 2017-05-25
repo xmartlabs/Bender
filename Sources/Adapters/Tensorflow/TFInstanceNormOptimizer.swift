@@ -46,19 +46,16 @@ public class TFInstanceNormOptimizer: TFDeleteSubgraphOptimizer {
                     }
                 } else if let outputs = (node.outgoingNodes() as? [TFNode])?.filter({ !isInSubgraph($0) }), outputs.count == 1 {
                     // check if output nodes form instance norm
-                    if let add = outputs.first, add.nodeDef.op.isTFAddOp,
+                    if let add = outputs.first, add.nodeDef.isTFAddOp,
                         let addOut = (add.outgoingNodes() as? [TFNode]), addOut.count == 1,
-                        let pow = addOut.first, pow.nodeDef.op.isTFPowOp,
+                        let pow = addOut.first, pow.nodeDef.isTFPowOp,
                         let powOut = (pow.outgoingNodes() as? [TFNode]), powOut.count == 1,
-                        let trueDiv = powOut.first, trueDiv.nodeDef.op.isTFRealDivOp,
+                        let trueDiv = powOut.first, trueDiv.nodeDef.isTFRealDivOp,
                         let trueDivOut = (trueDiv.outgoingNodes() as? [TFNode]), trueDivOut.count == 1,
-                        let sub = trueDiv.incomingNodes().filter({ ($0 as? TFNode)?.nodeDef.op.isTFSubOp ?? false }).first,
-                        let mul = trueDivOut.first, mul.nodeDef.op.isTFMulOp,
+                        let sub = trueDiv.incomingNodes().filter({ ($0 as? TFNode)?.nodeDef.isTFSubOp ?? false }).first,
+                        let mul = trueDivOut.first, mul.nodeDef.isTFMulOp,
                         let mulOut = (mul.outgoingNodes() as? [TFNode]), mulOut.count == 1,
-                        let addFinal = mulOut.first, addFinal.nodeDef.op.isTFAddOp,
-                        // check for incoming variables
-                        let _ = mul.incomingNodes().filter({ ($0 as? TFNode)?.nodeDef.op.isTFVariableV2Op ?? false }).first,
-                        let _ = addFinal.incomingNodes().filter({ ($0 as? TFNode)?.nodeDef.op.isTFVariableV2Op ?? false }).first
+                        let addFinal = mulOut.first, addFinal.nodeDef.isTFAddOp
                     {
                         currentValue.toStrip.append(contentsOf: [sub, add, pow, trueDiv] as! [TFNode])
                         // change final add to Instancenorm node

@@ -13,8 +13,8 @@ open class Convolution: NetworkLayer {
     static var weightModifier: String = ""
     static var biasModifier: String = "bias"
 
-    var weightsPointer: UnsafePointer<Float>?
-    var biasPointer: UnsafePointer<Float>?
+    var weightsPointer: Data?
+    var biasPointer: Data?
 
     private var prevSize: LayerSize!
     public var convSize: ConvSize
@@ -25,7 +25,7 @@ open class Convolution: NetworkLayer {
 
     var useBias: Bool
 
-    public init(convSize: ConvSize, neuronType: ActivationNeuronType = .none, useBias: Bool = false, padding: PaddingType = .same, weights: UnsafePointer<Float>? = nil, bias: UnsafePointer<Float>? = nil, id: String? = nil) {
+    public init(convSize: ConvSize, neuronType: ActivationNeuronType = .none, useBias: Bool = false, padding: PaddingType = .same, weights: Data? = nil, bias: Data? = nil, id: String? = nil) {
         self.convSize = convSize
         self.neuronType = neuronType
         self.useBias = useBias
@@ -61,10 +61,10 @@ open class Convolution: NetworkLayer {
             return
         }
 
-        let weights = weightsPointer ?? network.parameterLoader.loadWeights(for: id, modifier: Convolution.weightModifier, size: getWeightsSize())
+        let weights = weightsPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id, modifier: Convolution.weightModifier, size: getWeightsSize())
         var bias: UnsafePointer<Float>? = nil
         if useBias {
-            bias = biasPointer ?? network.parameterLoader.loadWeights(for: id, modifier: Convolution.biasModifier, size: convSize.outputChannels)
+            bias = biasPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id, modifier: Convolution.biasModifier, size: convSize.outputChannels)
         }
 
         makeConv(device: device, weights: weights, bias: bias)

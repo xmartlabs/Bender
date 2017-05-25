@@ -13,8 +13,8 @@ open class InstanceNorm: NetworkLayer {
     public static var scaleModifier = "scale"
     public static var shiftModifier = "shift"
 
-    var scale: UnsafePointer<Float>?
-    var shift: UnsafePointer<Float>?
+    var scale: Data?
+    var shift: Data?
 
     // Intermediate images and buffers
     public var scaleBuffer: MTLBuffer!
@@ -26,7 +26,7 @@ open class InstanceNorm: NetworkLayer {
     var avgVarPS: MTLComputePipelineState!
     var inormPS: MTLComputePipelineState!
 
-    public init(scale: UnsafePointer<Float>? = nil, shift: UnsafePointer<Float>? = nil, id: String? = nil) {
+    public init(scale: Data? = nil, shift: Data? = nil, id: String? = nil) {
         self.scale = scale
         self.shift = shift
         super.init(id: id)
@@ -38,10 +38,10 @@ open class InstanceNorm: NetworkLayer {
         assert(incoming.count == 1, "InstanceNorm must have one input, not \(incoming.count)")
         outputSize = incoming[0].outputSize
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
-        scaleBuffer = device.makeBuffer(bytes: scale ?? network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.scaleModifier, size: outputSize.f),
+        scaleBuffer = device.makeBuffer(bytes: scale?.pointer() ?? network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.scaleModifier, size: outputSize.f),
                                          length: max(4, outputSize.f) * Constants.FloatSize,
                                          options: [])
-        shiftBuffer = device.makeBuffer(bytes: shift ?? network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.shiftModifier, size: outputSize.f),
+        shiftBuffer = device.makeBuffer(bytes: shift?.pointer() ?? network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.shiftModifier, size: outputSize.f),
                                          length: max(4, outputSize.f) * Constants.FloatSize,
                                          options: [])
         let isArray = outputSize.f > 4

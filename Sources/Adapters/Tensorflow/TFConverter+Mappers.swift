@@ -92,7 +92,9 @@ extension TFConverter {
                 fatalError("Could not get weight information for this Conv2DTranspose")
             }
 
-            let convSize = ConvSize(shape: weightData.weightShape,
+            let convSize = ConvSize(outputChannels: Int(weightData.weightShape.dim[2].size), // outputChannels for ConvTranspose are at 3rd dim
+                                    kernelWidth: weightData.weightShape.kernelWidth,
+                                    kernelHeight: weightData.weightShape.kernelHeight,
                                     strideX: Int(strides.x),
                                     strideY: Int(strides.y))
             return ConvTranspose(size: convSize,
@@ -123,14 +125,26 @@ extension TFConverter {
         //MARK: InstanceNorm
         let inormMapper = { (node: TFNode) -> NetworkLayer in
             guard let incoming = node.incomingNodes()  as? [TFNode],
-                let shiftVar = incoming.filter({ $0.nodeDef.op.isTFVariableV2Op }).first,
-                let mul = incoming.filter({ $0.nodeDef.op.isTFInstanceNormMulOp }).first,
-                let scaleVar = mul.incomingNodes().first as? TFNode, scaleVar.nodeDef.op.isTFVariableV2Op else {
+                let shiftVar = incoming.first(where: { $0.nodeDef.isTFVariableOrConstOp }),
+                let mul = incoming.first(where: { $0.nodeDef.isTFInstanceNormMulOp }),
+                let scaleVar = mul.incomingNodes().first as? TFNode, scaleVar.nodeDef.isTFVariableOrConstOp else {
                     fatalError("Could not parse Instance norm node")
             }
 
-            let scale = (scaleVar.incomingNodes().first as? TFNode)?.nodeDef.valueData()
-            let shift = (shiftVar.incomingNodes().first as? TFNode)?.nodeDef.valueData()
+            var scale: Data?
+            var shift: Data?
+
+            if shiftVar.nodeDef.isTFConstOp {
+                shift = shiftVar.nodeDef.valueData()
+            } else {
+                shift = (shiftVar.incomingNodes().first as? TFNode)?.nodeDef.valueData()
+            }
+
+            if scaleVar.nodeDef.isTFConstOp {
+                scale = scaleVar.nodeDef.valueData()
+            } else {
+                scale = (scaleVar.incomingNodes().first as? TFNode)?.nodeDef.valueData()
+            }
 
             return InstanceNorm(scale: scale, shift: shift, id: node.nodeDef.name)
         }

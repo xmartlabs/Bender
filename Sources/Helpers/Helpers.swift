@@ -16,7 +16,7 @@ public func measure(_ label: String = "", _ block: () -> ()) {
     debugPrint("\(label): \(v) (\(1/v) per second)")
 }
 
-func HWIOtoOHWI(weights: UnsafePointer<Float>, shape: Tensorflow_TensorShapeProto) -> UnsafePointer<Float> {
+func HWIOtoOHWI(weights: Data, shape: Tensorflow_TensorShapeProto) -> Data {
     var transposed = [Float](repeating: 0.0, count: shape.totalCount)
 
     for o in 0..<shape.outputChannels {
@@ -25,11 +25,19 @@ func HWIOtoOHWI(weights: UnsafePointer<Float>, shape: Tensorflow_TensorShapeProt
                 for i in 0..<shape.inputChannels {
                     let tIndex = i + shape.inputChannels * (w + shape.kernelWidth * (h + shape.kernelHeight * (o)))
                     let wIndex = o + shape.outputChannels * (i + shape.inputChannels * (w + shape.kernelWidth * (h)))
-                    transposed[tIndex] = weights[wIndex]
+                    transposed[tIndex] = weights.pointer()![wIndex]
                 }
             }
         }
     }
 
-    return UnsafePointer(transposed)
+    return Data.init(bytes: transposed, count: shape.totalCount * MemoryLayout<Float>.stride)
+}
+
+extension Data {
+
+    func pointer<T>() -> UnsafePointer<T>? {
+        return (self as NSData).bytes.assumingMemoryBound(to: T.self)
+    }
+
 }

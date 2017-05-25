@@ -23,16 +23,16 @@ class TFDenseSubstitution: TFOptimizer {
 
     func optimize(graph: TFGraph) {
         for node in graph.nodes {
-            if node.nodeDef.op.isTFBiasAddOp,
-                let matmul = node.incomingNodes().filter({ ($0 as? TFNode)?.nodeDef.op.isTFMatMulOp ?? false }).first,
+            if node.nodeDef.isTFBiasAddOp,
+                let matmul = node.incomingNodes().first(where: { ($0 as? TFNode)?.nodeDef.isTFMatMulOp ?? false }),
                 let matmulInputs = matmul.incomingNodes() as? [TFNode],
-                let weightVar = matmulInputs.filter({ $0.nodeDef.op.isTFVariableV2Op }).first,
-                let input = matmulInputs.filter({ !$0.nodeDef.op.isTFVariableV2Op }).first {
+                let weightVar = matmulInputs.first(where: { $0.nodeDef.isTFVariableOrConstOp }),
+                let input = matmulInputs.first(where: { !$0.nodeDef.isTFVariableOrConstOp }) {
 
                 node.nodeDef.op = Constants.Ops.Dense
                 node.addIncomingEdge(from: weightVar)
-                if input.nodeDef.op.isTFReshapeOp,
-                    let preReshape = (input.incomingNodes() as? [TFNode])?.filter({ !$0.nodeDef.op.isTFConstOp }).first {
+                if input.nodeDef.isTFReshapeOp,
+                    let preReshape = (input.incomingNodes() as? [TFNode])?.first(where: { !$0.nodeDef.isTFConstOp }) {
                     node.addIncomingEdge(from: preReshape)
                     input.strip()
                 } else {

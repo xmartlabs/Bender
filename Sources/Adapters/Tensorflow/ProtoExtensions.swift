@@ -11,7 +11,7 @@ import Foundation
 extension Tensorflow_NodeDef {
 
     var shape: Tensorflow_TensorShapeProto? {
-        return attr["shape"]?.shape
+        return attr["shape"]?.shape ?? attr["value"]?.tensor.tensorShape
     }
 
     var strides: (x: Int, y: Int)? {
@@ -55,9 +55,9 @@ extension Tensorflow_NodeDef {
         return neuron
     }
 
-    func valueData() -> UnsafePointer<Float>? {
-        if let data = attr["value"]?.tensor.tensorContent, op.isTFConstOp {
-            return (data as NSData).bytes.assumingMemoryBound(to: Float.self)
+    func valueData() -> Data? {
+        if isTFConstOp, let data = attr["value"]?.tensor.tensorContent {
+            return data
         }
         return nil
     }

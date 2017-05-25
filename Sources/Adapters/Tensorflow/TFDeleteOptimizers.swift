@@ -45,7 +45,7 @@ class TFDeleteDropout: TFDeleteSubgraphOptimizer {
     var regex: Regex = try! Regex("dropout(_\\d+)?/")
 
     func isInputNode(_ node: TFNode) -> Bool {
-        return node.nodeDef.op.isTFShapeOp
+        return node.nodeDef.isTFShapeOp
     }
 
     func isOutputNode(_ node: TFNode) -> Bool {

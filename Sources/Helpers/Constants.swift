@@ -21,6 +21,7 @@ extension Constants {
     struct Ops {
 
         static let Add = "Add"
+        static let Assign = "Assign"
         static let BiasAdd = "BiasAdd"
         static let Conv = "Conv2D"
         static let Const = "Const"

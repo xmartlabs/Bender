@@ -16,7 +16,7 @@ struct WeightData {
 open class ConvTranspose: NetworkLayer {
 
     static var weightModifier: String = ""
-    var weightsPointer: UnsafePointer<Float>?
+    var weightsPointer: Data?
     
     let size: ConvSize
     private var prevSize: LayerSize!
@@ -36,7 +36,7 @@ open class ConvTranspose: NetworkLayer {
     ///   - weights: Convolution weights
     ///   - bias: Convolution bias (not yet implemented)
     ///   - id: Node identification string. Used to load weights if they are not frozen into the graph.
-    public init(size: ConvSize, weights: UnsafePointer<Float>? = nil, bias: UnsafePointer<Float>? = nil,
+    public init(size: ConvSize, weights: Data? = nil, bias: Data? = nil,
                 id: String? = nil) {
         self.size = size
         self.weightsPointer = weights
@@ -60,7 +60,7 @@ open class ConvTranspose: NetworkLayer {
                                     w: prevSize.w * size.strideX)
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
 
-        weightsBuffer = device.makeBuffer(bytes: weightsPointer ?? network.parameterLoader.loadWeights(for: id,
+        weightsBuffer = device.makeBuffer(bytes: weightsPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id,
                                                                                                        modifier: ConvTranspose.weightModifier,
                                                                                                        size: getWeightsSize()),
                                           length: getWeightsSize() * Constants.FloatSize,

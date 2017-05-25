@@ -22,11 +22,11 @@ class TFConvOptimizer: TFOptimizer {
      */
     func optimize(graph: TFGraph) {
         for node in graph.nodes {
-            if node.nodeDef.op.isTFConvOp,
+            if node.nodeDef.isTFConvOp,
                 let out = node.outgoingNodes() as? [TFNode], out.count == 1,
                 let biasAdd = out.first {
-                if biasAdd.nodeDef.op.isTFBiasAddOp,
-                    let biasVar = (biasAdd.incomingNodes() as? [TFNode])?.filter({ $0.nodeDef.op.isTFVariableV2Op }).first {
+                if biasAdd.nodeDef.isTFBiasAddOp,
+                    let biasVar = (biasAdd.incomingNodes() as? [TFNode])?.first(where: { $0.nodeDef.isTFVariableOrConstOp }) {
                     node.addIncomingEdge(from: biasVar)
                     for output in biasAdd.outgoingNodes() {
                         output.addIncomingEdge(from: node)
