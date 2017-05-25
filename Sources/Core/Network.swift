@@ -22,10 +22,10 @@ public class Network: GraphProtocol {
     ///   - device: the MTLDevice.
     ///   - inputSize: The image size for the first layer. Input images will be resized if they do not have this size.
     ///   - parameterLoader: The parameter loader responsible for loading the weights and biases for this network.
-    public init(device: MTLDevice, inputSize: LayerSize, parameterLoader: ParameterLoader) {
+    public init(device: MTLDevice, inputSize: LayerSize, parameterLoader: ParameterLoader?) {
         start = Start(size: inputSize)
         self.device = device
-        self.parameterLoader = parameterLoader
+        self.parameterLoader = parameterLoader ?? NoParameterLoader()
     }
 
     public func initialize() {
