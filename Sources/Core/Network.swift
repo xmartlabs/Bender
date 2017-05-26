@@ -17,7 +17,6 @@ open class Network {
     fileprivate var device: MTLDevice
     public var parameterLoader: ParameterLoader
 
-
     ///
     /// - Parameters:
     ///   - device: the MTLDevice.

@@ -28,7 +28,7 @@ public class Start: NetworkLayer {
     }
 
     public override func execute(commandBuffer: MTLCommandBuffer) {
-        if inputImage.texture.size == outputSize {
+        if inputImage.size == outputSize {
             outputImage = inputImage
             return
         }

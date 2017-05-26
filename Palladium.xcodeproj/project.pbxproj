@@ -10,6 +10,8 @@
 		287D0A6E1C4B73BD004566D6 /* PalladiumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287D0A6D1C4B73BD004566D6 /* PalladiumTests.swift */; };
 		28F828811C494B2C00330CF4 /* Palladium.h in Headers */ = {isa = PBXBuildFile; fileRef = 28F828801C494B2C00330CF4 /* Palladium.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28F828881C494B2C00330CF4 /* Palladium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F8287D1C494B2C00330CF4 /* Palladium.framework */; };
+		4697C2191ED31F8D003ED2E9 /* local_response_norm.metal in Sources */ = {isa = PBXBuildFile; fileRef = 4697C2181ED31F8D003ED2E9 /* local_response_norm.metal */; };
+		4697C21B1ED35E50003ED2E9 /* LocalResponseNorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4697C21A1ED35E50003ED2E9 /* LocalResponseNorm.swift */; };
 		8F0669B11EC364A3009F5C7C /* PALFunctionConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0669B01EC364A3009F5C7C /* PALFunctionConstant.swift */; };
 		8F0669B31EC36672009F5C7C /* ComputePipelineDef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0669B21EC36672009F5C7C /* ComputePipelineDef.swift */; };
 		8F0669B71EC37424009F5C7C /* ParameterLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0669B61EC37424009F5C7C /* ParameterLoader.swift */; };
@@ -69,6 +71,8 @@
 		28F828821C494B2C00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28F828871C494B2C00330CF4 /* PalladiumTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PalladiumTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F8288E1C494B2C00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Tests/Info.plist; sourceTree = "<group>"; };
+		4697C2181ED31F8D003ED2E9 /* local_response_norm.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = local_response_norm.metal; sourceTree = "<group>"; };
+		4697C21A1ED35E50003ED2E9 /* LocalResponseNorm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalResponseNorm.swift; sourceTree = "<group>"; };
 		8F0669B01EC364A3009F5C7C /* PALFunctionConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PALFunctionConstant.swift; sourceTree = "<group>"; };
 		8F0669B21EC36672009F5C7C /* ComputePipelineDef.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComputePipelineDef.swift; sourceTree = "<group>"; };
 		8F0669B61EC37424009F5C7C /* ParameterLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterLoader.swift; sourceTree = "<group>"; };
@@ -226,6 +230,7 @@
 				8F60A3201EC4F9CD00296167 /* Softmax.swift */,
 				8FA8E32D1EC0FD8800E8BAD8 /* Start.swift */,
 				8F60A3221EC4FA7A00296167 /* SpatialNorm.swift */,
+				4697C21A1ED35E50003ED2E9 /* LocalResponseNorm.swift */,
 			);
 			path = Layers;
 			sourceTree = "<group>";
@@ -238,6 +243,7 @@
 				8FA984101EBA710000586D1B /* instanceNorm.metal */,
 				8FA984111EBA710000586D1B /* instanceNorm3.metal */,
 				8FA984121EBA710000586D1B /* Shaders.metal */,
+				4697C2181ED31F8D003ED2E9 /* local_response_norm.metal */,
 			);
 			name = "Metal Shaders";
 			path = Metal;
@@ -401,6 +407,7 @@
 				8FA984151EBA710000586D1B /* convolution.metal in Sources */,
 				8FA984241EBA77AE00586D1B /* MPSImageDescriptor.swift in Sources */,
 				8FA9841D1EBA726B00586D1B /* Constants.swift in Sources */,
+				4697C2191ED31F8D003ED2E9 /* local_response_norm.metal in Sources */,
 				8FA984261EBA77E400586D1B /* LayerSize.swift in Sources */,
 				8F79B7FA1EC21BE8002D02C8 /* Crop.swift in Sources */,
 				8FA8E32C1EC0F05800E8BAD8 /* SlimMPSCNN.swift in Sources */,
@@ -410,6 +417,7 @@
 				8F60A3231EC4FA7A00296167 /* SpatialNorm.swift in Sources */,
 				8FA984211EBA778900586D1B /* MTLTexture.swift in Sources */,
 				8F79B8021EC23444002D02C8 /* Neuron.swift in Sources */,
+				4697C21B1ED35E50003ED2E9 /* LocalResponseNorm.swift in Sources */,
 				8F79B8001EC233A8002D02C8 /* ActivationNeuronType.swift in Sources */,
 				8FA9841B1EBA723500586D1B /* Helpers.swift in Sources */,
 				8F79B8011EC233F3002D02C8 /* Identity.swift in Sources */,

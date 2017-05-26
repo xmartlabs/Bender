@@ -26,14 +26,7 @@ kernel void transpose_conv_calculate(
 
     ushort in_depth = src.get_array_size();
     ushort kernel_size = dest.get_array_size() * 4;
-    thread half4 results[9];
-
-    // initialize array of results (might be unnecessary)
-    for (ushort i=0; i<9; i++)
-    {
-        results[i] = half4(0.0h);
-    }
-
+    thread half4 results[9] = {0};
 
     for (ushort in_z=0; in_z<in_depth; in_z++){
         half4 in_pixel = half4(src.read(ushort2(gid.x, gid.y), in_z));
