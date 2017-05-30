@@ -10,10 +10,10 @@ import MetalPerformanceShaders
 
 
 /// Represents a neural network
-open class Network {
+public class Network: GraphProtocol {
 
     public var start: Start
-    var nodes = [NetworkLayer]()
+    public var nodes = [NetworkLayer]()
     fileprivate var device: MTLDevice
     public var parameterLoader: ParameterLoader
 
@@ -22,20 +22,28 @@ open class Network {
     ///   - device: the MTLDevice.
     ///   - inputSize: The image size for the first layer. Input images will be resized if they do not have this size.
     ///   - parameterLoader: The parameter loader responsible for loading the weights and biases for this network.
-    public init(device: MTLDevice, inputSize: LayerSize, parameterLoader: ParameterLoader) {
+    public init(device: MTLDevice, inputSize: LayerSize, parameterLoader: ParameterLoader?) {
         start = Start(size: inputSize)
         self.device = device
-        self.parameterLoader = parameterLoader
+        self.parameterLoader = parameterLoader ?? NoParameterLoader()
     }
 
-    open func initialize() {
-        buildExecutionList(node: start)
+    public func initialize() {
+        if nodes.isEmpty {
+            buildExecutionList(node: start)
+        } else {
+            // Add start node
+            if !nodes.contains(start) {
+                nodes.first?.addIncomingEdge(from: start)
+                nodes.insert(start, at: 0)
+            }
+        }
         for layer in nodes {
             layer.initialize(network: self, device: device)
         }
         nodes = nodes.filter { !($0 is Dummy) }
         _ = nodes.map {
-            print($0.id ?? "nil")
+            debugPrint($0.id)
         }
     }
 

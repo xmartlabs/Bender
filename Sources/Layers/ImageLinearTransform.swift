@@ -11,14 +11,13 @@ import MetalPerformanceShaders
 open class ImageLinearTransform: NetworkLayer {
 
     // Custom kernels
-    let pipeline: MTLComputePipelineState!
+    var pipeline: MTLComputePipelineState!
+    var shift: Float
+    var scale: Float
 
-    public init(device: MTLDevice, scale: Float = 0.5, shift: Float = 0.5, id: String? = nil) {
-        // Load custom metal kernels
-        pipeline = MetalShaderManager.shared.getFunction(name: "image_linear_transform",
-                                                         in: Bundle(for: ImageLinearTransform.self),
-                                                         constants: [FunctionConstant<Float>(index: 0, type: MTLDataType.float, value: scale),
-                                                                     FunctionConstant<Float>(index: 1, type: MTLDataType.float, value: shift)])
+    public init(scale: Float = 0.5, shift: Float = 0.5, id: String? = nil) {
+        self.scale = scale
+        self.shift = shift
         super.init(id: id)
     }
 
@@ -28,6 +27,13 @@ open class ImageLinearTransform: NetworkLayer {
         assert(incoming.count == 1, "ImageLinearTransform must have one input, not \(incoming.count)")
         outputSize = incoming[0].outputSize
         assert(outputSize.f == 3 || outputSize.f == 4, "ImageLinearTransform should only be used if it has 3 or 4 feature channels as input")
+
+        // Load custom metal kernels
+        pipeline = MetalShaderManager.shared.getFunction(name: "image_linear_transform",
+                                                         in: Bundle(for: ImageLinearTransform.self),
+                                                         constants: [FunctionConstant<Float>(index: 0, type: MTLDataType.float, value: scale),
+                                                                     FunctionConstant<Float>(index: 1, type: MTLDataType.float, value: shift)])
+
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
 

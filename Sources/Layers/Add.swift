@@ -12,12 +12,7 @@ import MetalPerformanceShaders
 open class Add: NetworkLayer {
 
     // Custom kernels
-    let pipelineAdd: MTLComputePipelineState
-
-    public init(device: MTLDevice, id: String? = nil) {
-        pipelineAdd = MetalShaderManager.shared.getFunction(name: "sum_matrix", in: Bundle(for: Add.self))
-        super.init(id: id)
-    }
+    var pipelineAdd: MTLComputePipelineState!
 
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
@@ -26,6 +21,8 @@ open class Add: NetworkLayer {
         // Correctness checks
         assert(incoming.count == 2, "Add works for two layers")
         assert(incoming[0].outputSize == incoming[1].outputSize, "Add works for two layers of the same size")
+
+        pipelineAdd = MetalShaderManager.shared.getFunction(name: "sum_matrix", in: Bundle(for: Add.self))
 
         outputSize = incoming.first?.outputSize
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
@@ -46,4 +43,5 @@ open class Add: NetworkLayer {
         commandEncoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: tpTG)
         commandEncoder.endEncoding()
     }
+    
 }

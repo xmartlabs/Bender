@@ -13,16 +13,31 @@ public func measure(_ label: String = "", _ block: () -> ()) {
     block()
     let time2 = Date()
     let v = time2.timeIntervalSince(time1)
-    print("\(label): \(v) (\(1/v) per second)")
+    debugPrint("\(label): \(v) (\(1/v) per second)")
 }
 
-class Weak<T: AnyObject>: Equatable where T: Equatable {
-    weak var value : T?
-    init (value: T) {
-        self.value = value
+func HWIOtoOHWI(weights: Data, shape: Tensorflow_TensorShapeProto) -> Data {
+    var transposed = [Float](repeating: 0.0, count: shape.totalCount)
+
+    for o in 0..<shape.outputChannels {
+        for h in 0..<shape.kernelHeight {
+            for w in 0..<shape.kernelWidth {
+                for i in 0..<shape.inputChannels {
+                    let tIndex = i + shape.inputChannels * (w + shape.kernelWidth * (h + shape.kernelHeight * (o)))
+                    let wIndex = o + shape.outputChannels * (i + shape.inputChannels * (w + shape.kernelWidth * (h)))
+                    transposed[tIndex] = weights.pointer()![wIndex]
+                }
+            }
+        }
     }
+
+    return Data.init(bytes: transposed, count: shape.totalCount * MemoryLayout<Float>.stride)
 }
 
-func ==<T: Equatable> (left: Weak<T>, right: Weak<T>) -> Bool {
-    return left.value == right.value
+extension Data {
+
+    func pointer<T>() -> UnsafePointer<T>? {
+        return (self as NSData).bytes.assumingMemoryBound(to: T.self)
+    }
+
 }

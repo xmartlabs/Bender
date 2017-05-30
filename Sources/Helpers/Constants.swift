@@ -15,3 +15,38 @@ struct Constants {
     static let HalfSize = MemoryLayout<Float>.size / 2
 
 }
+
+extension Constants {
+
+    struct Ops {
+
+        static let Add = "Add"
+        static let Assign = "Assign"
+        static let BiasAdd = "BiasAdd"
+        static let Conv = "Conv2D"
+        static let Const = "Const"
+        static let Dense = "Dense"
+        static let InstanceNormAdd = "InstanceNormAdd"
+        static let InstanceNormMul = "InstanceNormMul"
+        static let MatMul = "MatMul"
+        static let Mul = "Mul"
+        static let Mean = "Mean"
+        static let Pow = "Pow"
+        static let RealDiv = "RealDiv"
+        static let Relu = "Relu"
+        static let Reshape = "Reshape"
+        static let Shape = "Shape"
+        static let Sigmoid = "Sigmoid"
+        static let Sub = "Sub"
+        static let Tanh = "Tanh"
+        static let Variable = "VariableV2"
+
+    }
+
+    struct CustomAttr {
+
+        static let neuron = "neuron"
+        
+    }
+
+}

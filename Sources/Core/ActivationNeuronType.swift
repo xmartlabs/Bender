@@ -9,9 +9,11 @@
 import MetalPerformanceShaders
 
 public enum ActivationNeuronType {
+
     case relu
     case tanh
     case scaleFloat
+    case sigmoid
     case custom(neuron: MPSCNNNeuron)
     case none
 
@@ -19,10 +21,12 @@ public enum ActivationNeuronType {
         switch self {
         case .relu:
             return MPSCNNNeuronReLU(device: device, a: 0)
-        case .tanh:
-            return MPSCNNNeuronTanH(device: device, a: 1, b: 1)
         case .scaleFloat:
             return MPSCNNNeuronLinear(device: device, a: 0.5, b: 0.5)
+        case .sigmoid:
+            return MPSCNNNeuronSigmoid(device: device)
+        case .tanh:
+            return MPSCNNNeuronTanH(device: device, a: 1, b: 1)
         case let .custom(neuron):
             return neuron
         case .none:

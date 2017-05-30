@@ -8,6 +8,7 @@
 
 import MetalPerformanceShaders
 
+// Does not work with embedded weights
 open class FullyConnected: NetworkLayer {
 
     static var weightModifier: String = ""
@@ -21,7 +22,7 @@ open class FullyConnected: NetworkLayer {
 
     var useBias: Bool
 
-    public init(neurons: Int, neuronType: ActivationNeuronType = .relu, useBias: Bool = false, id: String? = nil) {
+    public init(neurons: Int, neuronType: ActivationNeuronType = .none, useBias: Bool = false, id: String? = nil) {
         self.neurons = neurons
         self.neuronType = neuronType
         self.useBias = useBias
