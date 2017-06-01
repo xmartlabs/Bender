@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Palladium"
-  s.version          = "1.0.0"
+  s.version          = "0.1.0"
   s.summary          = "Palladium is an abstraction layer over MetalPerformanceShaders which is used to work with neural networks."
   s.homepage         = "https://github.com/xmartlabs/Palladium"
   s.license          = { type: 'MIT', file: 'LICENSE' }

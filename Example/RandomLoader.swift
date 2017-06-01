@@ -24,7 +24,7 @@ class RandomParameterLoader: ParameterLoader {
     }
 
     func random() -> Float {
-        return Float(arc4random()) / 0xFFFFFFFF
+        return Float(Double(arc4random()) / Double(UINT32_MAX))
     }
 
     func uniformRandom(_ x: UnsafeMutablePointer<Float>, count: Int, scale: Float) {

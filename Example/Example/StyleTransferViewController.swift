@@ -48,15 +48,17 @@ class StyleTransferViewController: UIViewController {
     func getPixelBuffer(from texture: MTLTexture, bufferPool: CVPixelBufferPool) -> CVPixelBuffer? {
         let channels = texture.arrayLength * 4
 
-        var buffer: CVPixelBuffer?
-        CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, bufferPool, &buffer)
+        var pixelBuffer: CVPixelBuffer?
+        CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, bufferPool, &pixelBuffer)
 
-        CVPixelBufferLockBaseAddress(buffer!, CVPixelBufferLockFlags(rawValue: 0))
-        if let pointer = CVPixelBufferGetBaseAddress(buffer!) {
+        guard let buffer = pixelBuffer else { return nil }
+
+        CVPixelBufferLockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
+        if let pointer = CVPixelBufferGetBaseAddress(buffer) {
             let region = MTLRegionMake2D(0, 0, inputSize.w, inputSize.h)
             texture.getBytes(pointer, bytesPerRow: 2 * channels * inputSize.w, from: region, mipmapLevel: 0)
         }
-        CVPixelBufferUnlockBaseAddress(buffer!, CVPixelBufferLockFlags(rawValue: 0))
+        CVPixelBufferUnlockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
 
         return buffer
     }
