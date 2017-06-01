@@ -1,6 +1,6 @@
 //
 //  con_transpose.metal
-//  VideoStylizer
+//  Palladium
 //
 //  Created by Mathias Claassen on 3/10/17.
 //  Copyright © 2017 Xmartlabs. All rights reserved.

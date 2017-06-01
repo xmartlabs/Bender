@@ -1,6 +1,6 @@
 //
 //  CropAndFormatLayer.swift
-//  VideoStylizer
+//  Palladium
 //
 //  Created by Joaquin Rocco on 12/16/16.
 //  Copyright © 2017 Xmartlabs. All rights reserved.

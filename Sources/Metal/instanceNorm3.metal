@@ -1,6 +1,6 @@
 //
 //  instanceNorm3.metal
-//  VideoStylizer
+//  Palladium
 //
 //  Created by Mathias Claassen on 11/30/16.
 //  Copyright © 2016 Xmartlabs. All rights reserved.
