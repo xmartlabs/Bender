@@ -7,13 +7,14 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Test View Controller-->
         <scene sceneID="rQG-V5-nsj">
             <objects>
-                <viewController id="8xb-Eu-nCx" customClass="ViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="8xb-Eu-nCx" customClass="TestViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dGR-yh-70j"/>
                         <viewControllerLayoutGuide type="bottom" id="q4W-wL-JcA"/>
@@ -33,13 +34,22 @@
                                     <segue destination="BYZ-38-t0r" kind="show" id="Fs5-sV-V1t"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rEp-ew-Oxm">
+                                <rect key="frame" x="148" y="414" width="80" height="30"/>
+                                <state key="normal" title="MNIST Test"/>
+                                <connections>
+                                    <segue destination="7AX-su-gHl" kind="show" id="oIA-mO-AXX"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Qi6-Nh-obp" firstAttribute="top" secondItem="IeA-rn-Hac" secondAttribute="bottom" constant="18" id="4Wt-I8-n1O"/>
                             <constraint firstItem="IeA-rn-Hac" firstAttribute="centerY" secondItem="FS5-xP-ku1" secondAttribute="centerY" id="O8o-e9-0xZ"/>
+                            <constraint firstItem="rEp-ew-Oxm" firstAttribute="centerX" secondItem="FS5-xP-ku1" secondAttribute="centerX" id="OZS-9r-4hU"/>
                             <constraint firstItem="IeA-rn-Hac" firstAttribute="centerX" secondItem="FS5-xP-ku1" secondAttribute="centerX" id="Yal-sy-SXC"/>
                             <constraint firstItem="Qi6-Nh-obp" firstAttribute="centerX" secondItem="FS5-xP-ku1" secondAttribute="centerX" id="iyc-gP-XIc"/>
+                            <constraint firstItem="rEp-ew-Oxm" firstAttribute="top" secondItem="Qi6-Nh-obp" secondAttribute="bottom" constant="18" id="nX5-NZ-94L"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bra-Rv-ZvL"/>
@@ -98,7 +108,77 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1346" y="-31"/>
+            <point key="canvasLocation" x="1407" y="-271"/>
+        </scene>
+        <!--Test Controller-->
+        <scene sceneID="Gx5-QK-k3d">
+            <objects>
+                <viewController id="7AX-su-gHl" customClass="MNISTTestController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ppr-CX-Qaq"/>
+                        <viewControllerLayoutGuide type="bottom" id="q96-8c-2qZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="s5d-8O-a7V">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfa-B1-Z86">
+                                <rect key="frame" x="0.0" y="64" width="375" height="453"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aB3-zr-mK6">
+                                <rect key="frame" x="130" y="577" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <mtkView contentMode="scaleToFill" colorPixelFormat="BGRA8Unorm" depthStencilPixelFormat="Depth32Float" translatesAutoresizingMaskIntoConstraints="NO" id="cst-f6-Q7p">
+                                <rect key="frame" x="0.0" y="517" width="120" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="CY7-Pb-rBR"/>
+                                    <constraint firstAttribute="width" secondItem="cst-f6-Q7p" secondAttribute="height" multiplier="1:1" id="fLB-oO-nwQ"/>
+                                </constraints>
+                            </mtkView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5g2-HZ-WQe">
+                                <rect key="frame" x="321" y="547" width="30" height="30"/>
+                                <state key="normal" title="Run"/>
+                                <connections>
+                                    <action selector="runDebug:" destination="7AX-su-gHl" eventType="touchUpInside" id="zsI-d4-5Cw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hWt-NA-9lw">
+                                <rect key="frame" x="320" y="585" width="32" height="30"/>
+                                <state key="normal" title="Stop"/>
+                                <connections>
+                                    <action selector="stopDebug:" destination="7AX-su-gHl" eventType="touchUpInside" id="Woc-i8-3cI"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="5g2-HZ-WQe" secondAttribute="trailing" constant="8" id="0on-fa-hZl"/>
+                            <constraint firstItem="hWt-NA-9lw" firstAttribute="top" secondItem="5g2-HZ-WQe" secondAttribute="bottom" constant="8" id="HFx-00-5gB"/>
+                            <constraint firstItem="yfa-B1-Z86" firstAttribute="leading" secondItem="s5d-8O-a7V" secondAttribute="leading" id="VHB-4y-U85"/>
+                            <constraint firstItem="cst-f6-Q7p" firstAttribute="top" secondItem="yfa-B1-Z86" secondAttribute="bottom" id="b4e-aN-YWh"/>
+                            <constraint firstItem="aB3-zr-mK6" firstAttribute="leading" secondItem="cst-f6-Q7p" secondAttribute="trailing" constant="10" id="dB4-um-QXs"/>
+                            <constraint firstItem="yfa-B1-Z86" firstAttribute="top" secondItem="Ppr-CX-Qaq" secondAttribute="bottom" id="gUG-6r-geD"/>
+                            <constraint firstAttribute="trailing" secondItem="yfa-B1-Z86" secondAttribute="trailing" id="mrK-lX-2DJ"/>
+                            <constraint firstItem="5g2-HZ-WQe" firstAttribute="top" secondItem="yfa-B1-Z86" secondAttribute="bottom" constant="30" id="n1r-sF-fnO"/>
+                            <constraint firstItem="cst-f6-Q7p" firstAttribute="leading" secondItem="s5d-8O-a7V" secondAttribute="leading" id="sF8-KI-GpK"/>
+                            <constraint firstItem="aB3-zr-mK6" firstAttribute="top" secondItem="yfa-B1-Z86" secondAttribute="bottom" constant="60" id="srM-ma-2ix"/>
+                            <constraint firstItem="hWt-NA-9lw" firstAttribute="centerX" secondItem="5g2-HZ-WQe" secondAttribute="centerX" id="uu9-lu-z7z"/>
+                            <constraint firstItem="q96-8c-2qZ" firstAttribute="top" secondItem="yfa-B1-Z86" secondAttribute="bottom" constant="150" id="zbU-z5-ALt"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="cameraView" destination="yfa-B1-Z86" id="vTi-X2-hR6"/>
+                        <outlet property="mtkView" destination="cst-f6-Q7p" id="PnA-MW-Ofx"/>
+                        <outlet property="resultLabel" destination="aB3-zr-mK6" id="3K7-25-0J2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1Xs-hJ-C8q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1405.5999999999999" y="443.92803598200902"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="eNA-yD-q8U">

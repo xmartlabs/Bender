@@ -11,7 +11,7 @@ import MetalKit
 import Palladium
 import UIKit
 
-class StyleTransferViewController: UIViewController {
+class StyleTransferViewController: UIViewController, ExampleViewController {
 
     var styleNet: Network!
     var styleNet2: Network!
@@ -19,7 +19,7 @@ class StyleTransferViewController: UIViewController {
     var commandQueue: MTLCommandQueue!
     let inputSize = LayerSize(f: 3, w: 256)
 
-    private var pixelBufferPool: CVPixelBufferPool?
+    var pixelBufferPool: CVPixelBufferPool?
     @IBOutlet weak var imageView: UIImageView!
 
     override func viewDidLoad() {
@@ -27,40 +27,13 @@ class StyleTransferViewController: UIViewController {
         self.device = MTLCreateSystemDefaultDevice()!
         self.commandQueue = device.makeCommandQueue()
         setupStyleNet()
-        setPixelBufferPool()
+        var me = self
+        me.setPixelBufferPool()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         runNetwork(self)
-    }
-
-    private func setPixelBufferPool() {
-        let bufferAttributes = [kCVPixelBufferPixelFormatTypeKey as String: NSNumber(value: Int32(kCVPixelFormatType_64RGBAHalf)),
-                                kCVPixelBufferWidthKey as String: inputSize.w,
-                                kCVPixelBufferHeightKey as String: inputSize.w] as [String: Any]
-        CVPixelBufferPoolCreate(kCFAllocatorDefault,
-                                [kCVPixelBufferPoolMinimumBufferCountKey as String: 1] as CFDictionary,
-                                bufferAttributes as CFDictionary,
-                                &pixelBufferPool)
-    }
-
-    func getPixelBuffer(from texture: MTLTexture, bufferPool: CVPixelBufferPool) -> CVPixelBuffer? {
-        let channels = texture.arrayLength * 4
-
-        var pixelBuffer: CVPixelBuffer?
-        CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, bufferPool, &pixelBuffer)
-
-        guard let buffer = pixelBuffer else { return nil }
-
-        CVPixelBufferLockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
-        if let pointer = CVPixelBufferGetBaseAddress(buffer) {
-            let region = MTLRegionMake2D(0, 0, inputSize.w, inputSize.h)
-            texture.getBytes(pointer, bytesPerRow: 2 * channels * inputSize.w, from: region, mipmapLevel: 0)
-        }
-        CVPixelBufferUnlockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
-
-        return buffer
     }
 
     func setupStyleNet() {
@@ -72,16 +45,8 @@ class StyleTransferViewController: UIViewController {
             let converter = TFConverter.default()
             converter.optimizers.append(TFInstanceNormOptimizer())
 
-            styleNet.nodes = converter.convertGraph(file: url, type: .binary)
-
-            let imageTransform = ImageLinearTransform()
-            styleNet.nodes.last! ->> imageTransform
-            styleNet.nodes.append(imageTransform)
-
-            print("\n\n\nNodes in final layer graph:")
-            for node in styleNet.nodes {
-                print("\(node.id)")
-            }
+            styleNet.convert(converter: converter, url: url, type: .binary)
+            styleNet.addPostProcessing(layers: [ImageLinearTransform()])
 
             styleNet.initialize()
         }
