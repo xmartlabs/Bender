@@ -8,13 +8,16 @@
 
 import Foundation
 
+/// A node of a graph imported from TensorFlow
 public class TFNode: Node {
 
     public var edgeIn: [WeakNodeClosure] = []
     public var edgeOut: [Node] = []
-    var nodeDef: Tensorflow_NodeDef
 
-    init(def: Tensorflow_NodeDef) {
+    /// TensorFlow node definition
+    public var nodeDef: Tensorflow_NodeDef
+
+    public init(def: Tensorflow_NodeDef) {
         self.nodeDef = def
     }
 
@@ -24,6 +27,6 @@ public class TFNode: Node {
 
 }
 
-func ==(lhs: Tensorflow_NodeDef, rhs: Tensorflow_NodeDef) -> Bool {
+public func ==(lhs: Tensorflow_NodeDef, rhs: Tensorflow_NodeDef) -> Bool {
     return lhs.name == rhs.name
 }

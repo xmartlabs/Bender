@@ -10,10 +10,12 @@ import Foundation
 
 extension Tensorflow_NodeDef {
 
+    /// Gets the shape of the node. Works on Const and VariableV2 nodes
     var shape: Tensorflow_TensorShapeProto? {
         return attr["shape"]?.shape ?? attr["value"]?.tensor.tensorShape
     }
 
+    /// Parse strides from a node
     var strides: (x: Int, y: Int)? {
         guard let strides = attr["strides"]?.list.i,
             let dataFormat = attr["data_format"]?.s,
@@ -26,6 +28,7 @@ extension Tensorflow_NodeDef {
         return (Int(strideX), Int(strideY))
     }
 
+    /// Parses a size from a node like in Max and AvgPooling
     var ksize: (width: Int, height: Int)? {
         guard let size = attr["ksize"]?.list.i,
             let dataFormat = attr["data_format"]?.s,
@@ -38,6 +41,7 @@ extension Tensorflow_NodeDef {
         return (Int(width), Int(height))
     }
 
+    /// This helper searches for a "Neuron" attribute in the node and if it is present it creates an ActivationNeuronType from its information
     func activationNeuron() -> ActivationNeuronType {
         var neuron = ActivationNeuronType.none
         if let neuronOp = attr[Constants.CustomAttr.neuron]?.s, let opString = String(data: neuronOp, encoding: .utf8) {
@@ -70,6 +74,7 @@ extension Tensorflow_TensorShapeProto {
         return dim.count == 1
     }
 
+    //MARK: Named dimensions (these apply to Conv2D order)
     var kernelHeight: Int {
         return Int(dim[0].size)
     }
@@ -86,34 +91,9 @@ extension Tensorflow_TensorShapeProto {
         return Int(dim[3].size)
     }
 
+    //MARK: Other helpers
     var totalCount: Int {
         return outputChannels * inputChannels * kernelWidth * kernelHeight
     }
 
-    // returns the dimensions in WHNC format (unused)
-    func orderedValues(format: String) -> [Int] {
-        guard format.characters.count == 4 else {
-            fatalError("Invalid Format")
-        }
-        var values = [1, 1, 1, 1]
-
-        for (index, chr) in format.characters.enumerated() {
-            let size = Int(self.dim[index].size)
-            switch chr {
-            case "W":
-                values[0] = size
-            case "H":
-                values[1] = size
-            case "N":
-                values[2] = size
-            case "C":
-                values[3] = size
-            default:
-                break
-            }
-        }
-        
-        return values
-    }
-    
 }

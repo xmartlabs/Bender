@@ -22,31 +22,31 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
 /// Protocol buffer representing a handle to a tensorflow resource. Handles are
 /// not valid across executions, but can be serialized back and forth from within
 /// a single run.
-struct Tensorflow_ResourceHandle: SwiftProtobuf.Message {
-  static let protoMessageName: String = _protobuf_package + ".ResourceHandle"
+public struct Tensorflow_ResourceHandle: SwiftProtobuf.Message {
+  public static let protoMessageName: String = _protobuf_package + ".ResourceHandle"
 
   /// Unique name for the device containing the resource.
-  var device: String = String()
+  public var device: String = String()
 
   /// Container in which this resource is placed.
-  var container: String = String()
+  public var container: String = String()
 
   /// Unique name of this resource.
-  var name: String = String()
+  public var name: String = String()
 
   /// Hash code for the type of the resource. Is only valid in the same device
   /// and in the same execution.
-  var hashCode: UInt64 = 0
+  public var hashCode: UInt64 = 0
 
   /// For debug-only, the name of the type pointed to by this handle, if
   /// available.
-  var maybeTypeName: String = String()
+  public var maybeTypeName: String = String()
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       switch fieldNumber {
       case 1: try decoder.decodeSingularStringField(value: &self.device)
@@ -59,7 +59,7 @@ struct Tensorflow_ResourceHandle: SwiftProtobuf.Message {
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.device.isEmpty {
       try visitor.visitSingularStringField(value: self.device, fieldNumber: 1)
     }
@@ -84,7 +84,7 @@ struct Tensorflow_ResourceHandle: SwiftProtobuf.Message {
 fileprivate let _protobuf_package = "tensorflow"
 
 extension Tensorflow_ResourceHandle: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "device"),
     2: .same(proto: "container"),
     3: .same(proto: "name"),
@@ -92,7 +92,7 @@ extension Tensorflow_ResourceHandle: SwiftProtobuf._MessageImplementationBase, S
     5: .standard(proto: "maybe_type_name"),
   ]
 
-  func _protobuf_generated_isEqualTo(other: Tensorflow_ResourceHandle) -> Bool {
+  public func _protobuf_generated_isEqualTo(other: Tensorflow_ResourceHandle) -> Bool {
     if self.device != other.device {return false}
     if self.container != other.container {return false}
     if self.name != other.name {return false}

@@ -2,7 +2,7 @@
 //  ExampleUITests.swift
 //  ExampleUITests
 //
-//  Copyright © 2016 Xmartlabs SRL. All rights reserved.
+//  Copyright © 2017 Xmartlabs SRL. All rights reserved.
 //
 
 import XCTest

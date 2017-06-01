@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Deletes a specific subgraph from a TFGraph
 public protocol TFDeleteSubgraphOptimizer: TFOptimizer {
 
     /// This Regex tells if a node is in a subgraph to be deleted or not. 
@@ -26,20 +27,24 @@ public protocol TFDeleteSubgraphOptimizer: TFOptimizer {
 
 public extension TFDeleteSubgraphOptimizer {
 
+    /// Tells if a node is in the subgraph or not
     func isInSubgraph(_ node: TFNode) -> Bool {
         return regex.test(node.nodeDef.name)
     }
 
+    /// Returns an identifier for a node in this graph
     func id(for node: TFNode) -> String {
         let match = regex.match(node.nodeDef.name)
         return (node.nodeDef.name as NSString).substring(to: match.location + match.length)
     }
 
+    /// Returns if the node has incoming connections to nodes outside of the subgraph
     func isInputNode(_ node: TFNode) -> Bool {
         // If the subgraph should be discarded without rewiring
         return false
     }
 
+    /// Returns if the node has outgoing connections to nodes outside of the subgraph
     func isOutputNode(_ node: TFNode) -> Bool {
         // If the subgraph should be discarded without rewiring
         return false

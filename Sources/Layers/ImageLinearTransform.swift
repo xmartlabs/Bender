@@ -8,6 +8,7 @@
 
 import MetalPerformanceShaders
 
+/// Performs a scaling and clamps the output values to between 0 and 1
 open class ImageLinearTransform: NetworkLayer {
 
     // Custom kernels

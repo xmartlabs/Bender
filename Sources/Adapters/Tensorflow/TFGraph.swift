@@ -8,19 +8,22 @@
 
 import Foundation
 
-
+/// Represents a graph that is imported from a TensorFlow model
 public class TFGraph: GraphProtocol {
 
+    /// Nodes in this graph
     public var nodes: [TFNode]
-    var graphDef: Tensorflow_GraphDef
 
-    init(graphDef: Tensorflow_GraphDef) {
+    /// TensorFlow graph definition
+    public var graphDef: Tensorflow_GraphDef
+
+    public init(graphDef: Tensorflow_GraphDef) {
         self.graphDef = graphDef
         self.nodes = []
         self.initNodes()
     }
 
-    func initNodes() {
+    public func initNodes() {
         var nodesByName = [String: TFNode]()
         self.nodes = graphDef.node.map {
             let node = TFNode(def: $0)

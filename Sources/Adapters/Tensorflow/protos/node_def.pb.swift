@@ -19,24 +19,24 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
   typealias Version = _1
 }
 
-struct Tensorflow_NodeDef: SwiftProtobuf.Message {
-  static let protoMessageName: String = _protobuf_package + ".NodeDef"
+public struct Tensorflow_NodeDef: SwiftProtobuf.Message {
+  public static let protoMessageName: String = _protobuf_package + ".NodeDef"
 
   /// The name given to this operator. Used for naming inputs,
   /// logging, visualization, etc.  Unique within a single GraphDef.
   /// Must match the regexp "[A-Za-z0-9.][A-Za-z0-9_./]*".
-  var name: String = String()
+  public var name: String = String()
 
   /// The operation name.  There may be custom parameters in attrs.
   /// Op names starting with an underscore are reserved for internal use.
-  var op: String = String()
+  public var op: String = String()
 
   /// Each input is "node:src_output" with "node" being a string name and
   /// "src_output" indicating which output tensor to use from "node". If
   /// "src_output" is 0 the ":0" suffix can be omitted.  Regular inputs
   /// may optionally be followed by control inputs that have the format
   /// "^node".
-  var input: [String] = []
+  public var input: [String] = []
 
   /// A (possibly partial) specification for the device on which this
   /// node should be placed.
@@ -58,7 +58,7 @@ struct Tensorflow_NodeDef: SwiftProtobuf.Message {
   /// If the constraints do not resolve to a single device (or if this
   /// field is empty or not present), the runtime will attempt to
   /// choose a device automatically.
-  var device: String = String()
+  public var device: String = String()
 
   /// Operation-specific graph-construction-time configuration.
   /// Note that this should include all attrs defined in the
@@ -72,13 +72,13 @@ struct Tensorflow_NodeDef: SwiftProtobuf.Message {
   /// The values must have a type matching the corresponding OpDef
   /// attr's type field.
   /// TODO(josh11b): Add some examples here showing best practices.
-  var attr: Dictionary<String,Tensorflow_AttrValue> = [:]
+  public var attr: Dictionary<String,Tensorflow_AttrValue> = [:]
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       switch fieldNumber {
       case 1: try decoder.decodeSingularStringField(value: &self.name)
@@ -91,7 +91,7 @@ struct Tensorflow_NodeDef: SwiftProtobuf.Message {
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.name.isEmpty {
       try visitor.visitSingularStringField(value: self.name, fieldNumber: 1)
     }
@@ -116,7 +116,7 @@ struct Tensorflow_NodeDef: SwiftProtobuf.Message {
 fileprivate let _protobuf_package = "tensorflow"
 
 extension Tensorflow_NodeDef: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "name"),
     2: .same(proto: "op"),
     3: .same(proto: "input"),
@@ -124,7 +124,7 @@ extension Tensorflow_NodeDef: SwiftProtobuf._MessageImplementationBase, SwiftPro
     5: .same(proto: "attr"),
   ]
 
-  func _protobuf_generated_isEqualTo(other: Tensorflow_NodeDef) -> Bool {
+  public func _protobuf_generated_isEqualTo(other: Tensorflow_NodeDef) -> Bool {
     if self.name != other.name {return false}
     if self.op != other.op {return false}
     if self.input != other.input {return false}

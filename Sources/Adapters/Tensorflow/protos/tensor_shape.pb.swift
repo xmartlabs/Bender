@@ -22,8 +22,8 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
 }
 
 /// Dimensions of a tensor.
-struct Tensorflow_TensorShapeProto: SwiftProtobuf.Message {
-  static let protoMessageName: String = _protobuf_package + ".TensorShapeProto"
+public struct Tensorflow_TensorShapeProto: SwiftProtobuf.Message {
+  public static let protoMessageName: String = _protobuf_package + ".TensorShapeProto"
 
   /// Dimensions of the tensor, such as {"input", 30}, {"output", 40}
   /// for a 30 x 40 2D tensor.  If an entry has size -1, this
@@ -38,34 +38,34 @@ struct Tensorflow_TensorShapeProto: SwiftProtobuf.Message {
   /// in-memory layout of RowMajor Eigen tensors.
   ///
   /// If "dim.size()" > 0, "unknown_rank" must be false.
-  var dim: [Tensorflow_TensorShapeProto.Dim] = []
+  public var dim: [Tensorflow_TensorShapeProto.Dim] = []
 
   /// If true, the number of dimensions in the shape is unknown.
   ///
   /// If true, "dim.size()" must be 0.
-  var unknownRank: Bool = false
+  public var unknownRank: Bool = false
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
   /// One dimension of the tensor.
-  struct Dim: SwiftProtobuf.Message {
-    static let protoMessageName: String = Tensorflow_TensorShapeProto.protoMessageName + ".Dim"
+  public struct Dim: SwiftProtobuf.Message {
+    public static let protoMessageName: String = Tensorflow_TensorShapeProto.protoMessageName + ".Dim"
 
     /// Size of the tensor in that dimension.
     /// This value must be >= -1, but values of -1 are reserved for "unknown"
     /// shapes (values of -1 mean "unknown" dimension).  Certain wrappers
     /// that work with TensorShapeProto may fail at runtime when deserializing
     /// a TensorShapeProto containing a dim value of -1.
-    var size: Int64 = 0
+    public var size: Int64 = 0
 
     /// Optional name of the tensor dimension.
-    var name: String = String()
+    public var name: String = String()
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
 
-    mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
       while let fieldNumber = try decoder.nextFieldNumber() {
         switch fieldNumber {
         case 1: try decoder.decodeSingularInt64Field(value: &self.size)
@@ -75,7 +75,7 @@ struct Tensorflow_TensorShapeProto: SwiftProtobuf.Message {
       }
     }
 
-    func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
       if self.size != 0 {
         try visitor.visitSingularInt64Field(value: self.size, fieldNumber: 1)
       }
@@ -86,9 +86,9 @@ struct Tensorflow_TensorShapeProto: SwiftProtobuf.Message {
     }
   }
 
-  init() {}
+  public init() {}
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       switch fieldNumber {
       case 2: try decoder.decodeRepeatedMessageField(value: &self.dim)
@@ -98,7 +98,7 @@ struct Tensorflow_TensorShapeProto: SwiftProtobuf.Message {
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.dim.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.dim, fieldNumber: 2)
     }
@@ -114,12 +114,12 @@ struct Tensorflow_TensorShapeProto: SwiftProtobuf.Message {
 fileprivate let _protobuf_package = "tensorflow"
 
 extension Tensorflow_TensorShapeProto: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     2: .same(proto: "dim"),
     3: .standard(proto: "unknown_rank"),
   ]
 
-  func _protobuf_generated_isEqualTo(other: Tensorflow_TensorShapeProto) -> Bool {
+  public func _protobuf_generated_isEqualTo(other: Tensorflow_TensorShapeProto) -> Bool {
     if self.dim != other.dim {return false}
     if self.unknownRank != other.unknownRank {return false}
     if unknownFields != other.unknownFields {return false}
@@ -128,12 +128,12 @@ extension Tensorflow_TensorShapeProto: SwiftProtobuf._MessageImplementationBase,
 }
 
 extension Tensorflow_TensorShapeProto.Dim: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "size"),
     2: .same(proto: "name"),
   ]
 
-  func _protobuf_generated_isEqualTo(other: Tensorflow_TensorShapeProto.Dim) -> Bool {
+  public func _protobuf_generated_isEqualTo(other: Tensorflow_TensorShapeProto.Dim) -> Bool {
     if self.size != other.size {return false}
     if self.name != other.name {return false}
     if unknownFields != other.unknownFields {return false}

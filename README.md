@@ -11,6 +11,21 @@
 
 By [Xmartlabs SRL](http://xmartlabs.com).
 
+## Contents
+* [Introduction]
+* [Why did we need Palladium]
+* [Basic usage]
+    - [Composing layers]
+* [Requirements]
+* [Getting involved]
+* [Examples]
+* [Installation]
+* [Changelog]
+
+The documentation can be found under the `Documentation` folder:
+* [Supported Layers]() explains which layers are supported and how they map to TensorFlow ops.
+* [Importing]() explains how to import models from other frameworks such as TensorFlow. You can also find information on how to enhance this functionality for custom implementations.
+
 ## Introduction
 
 Palladium is an abstraction layer over MetalPerformanceShaders which is used to work with neural networks. It is of growing interest in the AI environment to execute neural networks on mobile devices even if the training process has been done previously. We want to make it easier for everyone to execute pretrained networks on iOS.
@@ -26,6 +41,7 @@ Palladium is functional but still under active development and we also want to s
 At Xmartlabs we were about to start a Machine Learning project and investigated frameworks to use in iOS. We found MetalPerformanceShaders useful but not very user friendly and we saw ourselves repeating a lot of code and information. That is why we starting building a framework to handle that kind of stuff.
 
 We also found ourselves creating scripts to translate the models we had from training with TensorFlow to iOS. This means transposing the weights to the MPSCNN format and also mapping the parameters of the different kinds of layers in TensorFlow to the parameters used by the MPSCNN kernels. TensorFlow can be compiled for iOS but currently it does not support running on GPU which we wanted to do. We also did not want to include TensorFlow's static library into our project. This is why we also started to work on an adapter that would parse a TF graph and translate it to our Palladium layers. 
+
 ## Usage
 
 You can define your own network in Palladium using our custom operator or you can load a model exported from TensorFlow. Defining a network and loading a model can be done like this:
@@ -70,13 +86,13 @@ network.start
 ...
 ```
 
-## Composing layers
+### Composing layers
 
 One thing we realized is that itis useful to have single nodes that perform only a convolution or only a normalization but, on the other hand, in a single network we might want to run the same normalization after each convolution and possibly add an activation neuron behind. We also want to easily support residual layers.
 
 Therefore, we support composite layers which basically are just a set of layers which we want to reuse in a network.
 
-For example if we want to create a residual network like the one defined in [Style Transfer] we could define it like 
+For example if we want to create a residual network like the one defined in [Style Transfer] we could define it like...
 
 ## Requirements
 

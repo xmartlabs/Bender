@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Signals if a file is in binary or text format
 public enum ProtoFileType {
 
     case binary
@@ -15,8 +16,10 @@ public enum ProtoFileType {
 
 }
 
+/// Responsible for converting a model from another framework to Palladium
 public protocol Converter {
-    
+
+    /// Converts a model from another framework to Palladium
     func convertGraph(file: URL, type: ProtoFileType) -> [NetworkLayer]
 
 }

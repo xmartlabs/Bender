@@ -12,13 +12,20 @@ import MetalPerformanceShaders
 /// Represents a neural network
 public class Network: GraphProtocol {
 
+    /// Input node of the neural network.
     public var start: Start
+
+    /// All the layers of the network
     public var nodes = [NetworkLayer]()
-    fileprivate var device: MTLDevice
+
+    /// Responsible for loading the parameters
     public var parameterLoader: ParameterLoader
+
+    /// If set to true will print information about the graph and generated dependency list
     public var verbose = false
 
-    ///
+    fileprivate var device: MTLDevice
+
     /// - Parameters:
     ///   - device: the MTLDevice.
     ///   - inputSize: The image size for the first layer. Input images will be resized if they do not have this size.
@@ -29,6 +36,7 @@ public class Network: GraphProtocol {
         self.parameterLoader = parameterLoader ?? NoParameterLoader()
     }
 
+    /// Initializes the layers of the network
     public func initialize() {
         if nodes.isEmpty {
             buildExecutionList(node: start)
@@ -51,7 +59,14 @@ public class Network: GraphProtocol {
         }
     }
 
-    public func run(inputImage: MPSImage, queue: MTLCommandQueue, result: @escaping (MPSImage) -> Void) {
+
+    /// Executes the neural network
+    ///
+    /// - Parameters:
+    ///   - inputImage: the input data
+    ///   - queue: the command queue on which to run the kernels
+    ///   - callback: will be called with the output image
+    public func run(inputImage: MPSImage, queue: MTLCommandQueue, callback: @escaping (MPSImage) -> Void) {
 
         queue.insertDebugCaptureBoundary() // DEBUG
         let commandBuffer = queue.makeCommandBuffer()
@@ -64,13 +79,12 @@ public class Network: GraphProtocol {
             commandBuffer.commit()
             //TODO: We should execute this on another dispatch queue
             commandBuffer.waitUntilCompleted()
-            result(nodes.last!.outputImage)
+            callback(nodes.last!.outputImage)
         }
     }
 
 
     /// Update weights of the network.
-    ///
     public func change(to checkpoint: String) {
         if checkpoint == parameterLoader.checkpoint {
             return
@@ -82,6 +96,7 @@ public class Network: GraphProtocol {
         }
     }
 
+    /// Takes the graph and builds a dependency list (list of nodes in the order in which they will be executed)
     func buildExecutionList(node: NetworkLayer) {
         guard !node.getIncoming().contains (where: { incoming in
             return !nodes.contains(incoming)

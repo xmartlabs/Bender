@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Represents the size of a NetworkLayer
 public struct LayerSize: Equatable {
     public let f: Int
     public let w: Int
@@ -30,6 +31,7 @@ public func == (left: LayerSize, right: LayerSize) -> Bool {
     return left.f == right.f && left.w == right.w && left.h == right.h
 }
 
+/// Holds variables that determine the size of a Convolution layer
 public struct ConvSize {
     public let outputChannels: Int
     public let kernelWidth: Int

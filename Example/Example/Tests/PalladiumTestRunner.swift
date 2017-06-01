@@ -26,7 +26,8 @@ public class PalladiumTestRunner {
 
     let tests: [PalladiumTest] = [
         TextureConversionTest(),
-        LocalResponseNormTest()
+        LocalResponseNormTest(),
+        InstanceNormTest()
     ]
 
     public init() {}

@@ -8,6 +8,7 @@
 
 import MetalPerformanceShaders
 
+/// Applies Softmax
 open class Softmax: NetworkLayer {
 
     public var kernel: MPSCNNSoftMax!

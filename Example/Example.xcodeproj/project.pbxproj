@@ -17,6 +17,7 @@
 		8F4466D01ECF756B00915819 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4466CF1ECF756B00915819 /* UIImage.swift */; };
 		8F79B80F1EC25ECA002D02C8 /* Luminance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B80E1EC25ECA002D02C8 /* Luminance.swift */; };
 		8F79B8111EC261D6002D02C8 /* Luminance.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B8101EC261D6002D02C8 /* Luminance.metal */; };
+		8F9F358E1EDCC5FE005F4DAE /* InstanceNormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9F358D1EDCC5FE005F4DAE /* InstanceNormTests.swift */; };
 		8FA6BAB91ED5AB2D004450C0 /* RandomLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA6BAB81ED5AB2D004450C0 /* RandomLoader.swift */; };
 		8FA8E3251EC0BE7300E8BAD8 /* Palladium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9CAB221D89C756006E1824 /* Palladium.framework */; };
 		8FA8E3261EC0BE7300E8BAD8 /* Palladium.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9CAB221D89C756006E1824 /* Palladium.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -50,13 +51,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 28F8287D1C494B2C00330CF4;
 			remoteInfo = Palladium;
-		};
-		8F9CAB231D89C756006E1824 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 287D0A741C4B7B26004566D6 /* Palladium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 28F828871C494B2C00330CF4;
-			remoteInfo = PalladiumTests;
 		};
 		8FA8E3271EC0BE7300E8BAD8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -98,6 +92,7 @@
 		8F4466CF1ECF756B00915819 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		8F79B80E1EC25ECA002D02C8 /* Luminance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Luminance.swift; path = Example/Luminance.swift; sourceTree = "<group>"; };
 		8F79B8101EC261D6002D02C8 /* Luminance.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = Luminance.metal; path = Example/Luminance.metal; sourceTree = "<group>"; };
+		8F9F358D1EDCC5FE005F4DAE /* InstanceNormTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstanceNormTests.swift; path = Example/Tests/InstanceNormTests.swift; sourceTree = "<group>"; };
 		8FA6BAB81ED5AB2D004450C0 /* RandomLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomLoader.swift; sourceTree = "<group>"; };
 		8FAD35051ED48825004B69DA /* tftest.pbtxt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tftest.pbtxt; sourceTree = "<group>"; };
 		8FCD3E981ED8A88200B1AAE6 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Example/ViewController.swift; sourceTree = "<group>"; };
@@ -203,7 +198,6 @@
 			isa = PBXGroup;
 			children = (
 				8F9CAB221D89C756006E1824 /* Palladium.framework */,
-				8F9CAB241D89C756006E1824 /* PalladiumTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -243,6 +237,7 @@
 				CFAD25381ED7EA090003C4FA /* LocalResponseNormTest.swift */,
 				CFAD25391ED7EA090003C4FA /* PalladiumTestRunner.swift */,
 				CFAD253A1ED7EA090003C4FA /* TextureConversionTest.swift */,
+				8F9F358D1EDCC5FE005F4DAE /* InstanceNormTests.swift */,
 				CFAD25351ED7E9E70003C4FA /* Helpers */,
 			);
 			name = Tests;
@@ -354,13 +349,6 @@
 			remoteRef = 8F9CAB211D89C756006E1824 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		8F9CAB241D89C756006E1824 /* PalladiumTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = PalladiumTests.xctest;
-			remoteRef = 8F9CAB231D89C756006E1824 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -394,6 +382,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F9F358E1EDCC5FE005F4DAE /* InstanceNormTests.swift in Sources */,
 				CFAD253F1ED7EA930003C4FA /* TestData.swift in Sources */,
 				CFAD253B1ED7EA090003C4FA /* LocalResponseNormTest.swift in Sources */,
 				CFAD253C1ED7EA090003C4FA /* PalladiumTestRunner.swift in Sources */,

@@ -8,6 +8,7 @@
 
 import MetalPerformanceShaders
 
+/// Type for Pooling layer
 public enum PoolingType {
 
     case max
@@ -15,6 +16,7 @@ public enum PoolingType {
 
 }
 
+/// Implements MaxPooling and AvgPooling.
 open class Pooling: NetworkLayer {
 
     public var pooling: MPSCNNPooling!

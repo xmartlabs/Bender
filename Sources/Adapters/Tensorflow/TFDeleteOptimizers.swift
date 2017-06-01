@@ -8,11 +8,12 @@
 
 import Foundation
 
-class TFStripTrainingOps: TFOptimizer {
+/// Strips common nodes tht are used in training but not in evaluating/testing
+public class TFStripTrainingOps: TFOptimizer {
 
-    var regexes: [Regex] = [TFDeleteSave().regex, TFDeleteRegularizer().regex, TFDeleteInitializer().regex]
+    public var regexes: [Regex] = [TFDeleteSave().regex, TFDeleteRegularizer().regex, TFDeleteInitializer().regex]
 
-    func optimize(graph: TFGraph) {
+    public func optimize(graph: TFGraph) {
         for node in graph.nodes {
             if let _ = regexes.first(where: { $0.test(node.nodeDef.name) }) {
                 node.strip()
@@ -22,33 +23,37 @@ class TFStripTrainingOps: TFOptimizer {
 
 }
 
-class TFDeleteSave: TFDeleteSubgraphOptimizer {
+/// Deletes 'Save' subgraphs
+public class TFDeleteSave: TFDeleteSubgraphOptimizer {
 
-    var regex: Regex = try! Regex("save(_\\d+)?/")
+    public var regex: Regex = try! Regex("save(_\\d+)?/")
     
 }
 
-class TFDeleteInitializer: TFDeleteSubgraphOptimizer {
+/// Deletes 'Initializer' subgraphs
+public class TFDeleteInitializer: TFDeleteSubgraphOptimizer {
 
-    var regex: Regex = try! Regex("Initializer(_\\d+)?/")
-
-}
-
-class TFDeleteRegularizer: TFDeleteSubgraphOptimizer {
-
-    var regex: Regex = try! Regex("Regularizer(_\\d+)?/")
+    public var regex: Regex = try! Regex("Initializer(_\\d+)?/")
 
 }
 
-class TFDeleteDropout: TFDeleteSubgraphOptimizer {
+/// Deletes 'Regularizer' subgraphs
+public class TFDeleteRegularizer: TFDeleteSubgraphOptimizer {
 
-    var regex: Regex = try! Regex("dropout(_\\d+)?/")
+    public var regex: Regex = try! Regex("Regularizer(_\\d+)?/")
 
-    func isInputNode(_ node: TFNode) -> Bool {
+}
+
+/// Deletes 'Dropout' subgraphs
+public class TFDeleteDropout: TFDeleteSubgraphOptimizer {
+
+    public var regex: Regex = try! Regex("dropout(_\\d+)?/")
+
+    public func isInputNode(_ node: TFNode) -> Bool {
         return node.nodeDef.isTFShapeOp
     }
 
-    func isOutputNode(_ node: TFNode) -> Bool {
+    public func isOutputNode(_ node: TFNode) -> Bool {
         return node.nodeDef.name.isTFDropoutMulName
     }
 

@@ -8,6 +8,7 @@
 
 import MetalPerformanceShaders
 
+/// Scales the input image to a given size
 open class Scale: NetworkLayer {
 
     public var lanczos: MPSImageLanczosScale!

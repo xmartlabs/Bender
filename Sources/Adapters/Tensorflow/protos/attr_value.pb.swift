@@ -22,16 +22,16 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
 /// Protocol buffer representing the value for an attr used to configure an Op.
 /// Comment indicates the corresponding attr type.  Only the field matching the
 /// attr type may be filled.
-struct Tensorflow_AttrValue: SwiftProtobuf.Message {
-  static let protoMessageName: String = _protobuf_package + ".AttrValue"
+public struct Tensorflow_AttrValue: SwiftProtobuf.Message {
+  public static let protoMessageName: String = _protobuf_package + ".AttrValue"
 
-  var value: OneOf_Value? {
+  public var value: OneOf_Value? {
     get {return _storage._value}
     set {_uniqueStorage()._value = newValue}
   }
 
   /// "string"
-  var s: Data {
+  public var s: Data {
     get {
       if case .s(let v)? = _storage._value {return v}
       return SwiftProtobuf.Internal.emptyData
@@ -40,7 +40,7 @@ struct Tensorflow_AttrValue: SwiftProtobuf.Message {
   }
 
   /// "int"
-  var i: Int64 {
+  public var i: Int64 {
     get {
       if case .i(let v)? = _storage._value {return v}
       return 0
@@ -49,7 +49,7 @@ struct Tensorflow_AttrValue: SwiftProtobuf.Message {
   }
 
   /// "float"
-  var f: Float {
+  public var f: Float {
     get {
       if case .f(let v)? = _storage._value {return v}
       return 0
@@ -58,7 +58,7 @@ struct Tensorflow_AttrValue: SwiftProtobuf.Message {
   }
 
   /// "bool"
-  var b: Bool {
+  public var b: Bool {
     get {
       if case .b(let v)? = _storage._value {return v}
       return false
@@ -67,7 +67,7 @@ struct Tensorflow_AttrValue: SwiftProtobuf.Message {
   }
 
   /// "type"
-  var type: Tensorflow_DataType {
+  public var type: Tensorflow_DataType {
     get {
       if case .type(let v)? = _storage._value {return v}
       return Tensorflow_DataType.dtInvalid
@@ -76,7 +76,7 @@ struct Tensorflow_AttrValue: SwiftProtobuf.Message {
   }
 
   /// "shape"
-  var shape: Tensorflow_TensorShapeProto {
+  public var shape: Tensorflow_TensorShapeProto {
     get {
       if case .shape(let v)? = _storage._value {return v}
       return Tensorflow_TensorShapeProto()
@@ -85,7 +85,7 @@ struct Tensorflow_AttrValue: SwiftProtobuf.Message {
   }
 
   /// "tensor"
-  var tensor: Tensorflow_TensorProto {
+  public var tensor: Tensorflow_TensorProto {
     get {
       if case .tensor(let v)? = _storage._value {return v}
       return Tensorflow_TensorProto()
@@ -94,7 +94,7 @@ struct Tensorflow_AttrValue: SwiftProtobuf.Message {
   }
 
   /// any "list(...)"
-  var list: Tensorflow_AttrValue.ListValue {
+  public var list: Tensorflow_AttrValue.ListValue {
     get {
       if case .list(let v)? = _storage._value {return v}
       return Tensorflow_AttrValue.ListValue()
@@ -106,7 +106,7 @@ struct Tensorflow_AttrValue: SwiftProtobuf.Message {
   /// a primitive op's name. func.attr.first is the name of an attr
   /// defined for that function. func.attr.second is the value for
   /// that attr in the instantiation.
-  var func_p: Tensorflow_NameAttrList {
+  public var func_p: Tensorflow_NameAttrList {
     get {
       if case .func_p(let v)? = _storage._value {return v}
       return Tensorflow_NameAttrList()
@@ -121,7 +121,7 @@ struct Tensorflow_AttrValue: SwiftProtobuf.Message {
   /// placeholder = "foo". When FN is instantiated with attr "foo"
   /// set to "bar", the instantiated node N's attr A will have been
   /// given the value "bar".
-  var placeholder: String {
+  public var placeholder: String {
     get {
       if case .placeholder(let v)? = _storage._value {return v}
       return String()
@@ -129,9 +129,9 @@ struct Tensorflow_AttrValue: SwiftProtobuf.Message {
     set {_uniqueStorage()._value = .placeholder(newValue)}
   }
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  enum OneOf_Value: Equatable {
+  public enum OneOf_Value: Equatable {
     /// "string"
     case s(Data)
     /// "int"
@@ -162,7 +162,7 @@ struct Tensorflow_AttrValue: SwiftProtobuf.Message {
     /// given the value "bar".
     case placeholder(String)
 
-    static func ==(lhs: Tensorflow_AttrValue.OneOf_Value, rhs: Tensorflow_AttrValue.OneOf_Value) -> Bool {
+    public static func ==(lhs: Tensorflow_AttrValue.OneOf_Value, rhs: Tensorflow_AttrValue.OneOf_Value) -> Bool {
       switch (lhs, rhs) {
       case (.s(let l), .s(let r)): return l == r
       case (.i(let l), .i(let r)): return l == r
@@ -180,38 +180,38 @@ struct Tensorflow_AttrValue: SwiftProtobuf.Message {
   }
 
   /// LINT.IfChange
-  struct ListValue: SwiftProtobuf.Message {
-    static let protoMessageName: String = Tensorflow_AttrValue.protoMessageName + ".ListValue"
+  public struct ListValue: SwiftProtobuf.Message {
+    public static let protoMessageName: String = Tensorflow_AttrValue.protoMessageName + ".ListValue"
 
     /// "list(string)"
-    var s: [Data] = []
+    public var s: [Data] = []
 
     /// "list(int)"
-    var i: [Int64] = []
+    public var i: [Int64] = []
 
     /// "list(float)"
-    var f: [Float] = []
+    public var f: [Float] = []
 
     /// "list(bool)"
-    var b: [Bool] = []
+    public var b: [Bool] = []
 
     /// "list(type)"
-    var type: [Tensorflow_DataType] = []
+    public var type: [Tensorflow_DataType] = []
 
     /// "list(shape)"
-    var shape: [Tensorflow_TensorShapeProto] = []
+    public var shape: [Tensorflow_TensorShapeProto] = []
 
     /// "list(tensor)"
-    var tensor: [Tensorflow_TensorProto] = []
+    public var tensor: [Tensorflow_TensorProto] = []
 
     /// "list(attr)"
-    var func_p: [Tensorflow_NameAttrList] = []
+    public var func_p: [Tensorflow_NameAttrList] = []
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
 
-    mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
       while let fieldNumber = try decoder.nextFieldNumber() {
         switch fieldNumber {
         case 2: try decoder.decodeRepeatedBytesField(value: &self.s)
@@ -227,7 +227,7 @@ struct Tensorflow_AttrValue: SwiftProtobuf.Message {
       }
     }
 
-    func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
       if !self.s.isEmpty {
         try visitor.visitRepeatedBytesField(value: self.s, fieldNumber: 2)
       }
@@ -256,9 +256,9 @@ struct Tensorflow_AttrValue: SwiftProtobuf.Message {
     }
   }
 
-  init() {}
+  public init() {}
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     _ = _uniqueStorage()
     try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
       while let fieldNumber = try decoder.nextFieldNumber() {
@@ -274,7 +274,7 @@ struct Tensorflow_AttrValue: SwiftProtobuf.Message {
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
       try _storage._value?.traverse(visitor: &visitor)
     }
@@ -286,18 +286,18 @@ struct Tensorflow_AttrValue: SwiftProtobuf.Message {
 
 /// A list of attr names and their values. The whole list is attached
 /// with a string name.  E.g., MatMul[T=float].
-struct Tensorflow_NameAttrList: SwiftProtobuf.Message {
-  static let protoMessageName: String = _protobuf_package + ".NameAttrList"
+public struct Tensorflow_NameAttrList: SwiftProtobuf.Message {
+  public static let protoMessageName: String = _protobuf_package + ".NameAttrList"
 
-  var name: String = String()
+  public var name: String = String()
 
-  var attr: Dictionary<String,Tensorflow_AttrValue> = [:]
+  public var attr: Dictionary<String,Tensorflow_AttrValue> = [:]
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       switch fieldNumber {
       case 1: try decoder.decodeSingularStringField(value: &self.name)
@@ -307,7 +307,7 @@ struct Tensorflow_NameAttrList: SwiftProtobuf.Message {
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.name.isEmpty {
       try visitor.visitSingularStringField(value: self.name, fieldNumber: 1)
     }
@@ -323,7 +323,7 @@ struct Tensorflow_NameAttrList: SwiftProtobuf.Message {
 fileprivate let _protobuf_package = "tensorflow"
 
 extension Tensorflow_AttrValue: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     2: .same(proto: "s"),
     3: .same(proto: "i"),
     4: .same(proto: "f"),
@@ -353,7 +353,7 @@ extension Tensorflow_AttrValue: SwiftProtobuf._MessageImplementationBase, SwiftP
     return _storage
   }
 
-  func _protobuf_generated_isEqualTo(other: Tensorflow_AttrValue) -> Bool {
+  public func _protobuf_generated_isEqualTo(other: Tensorflow_AttrValue) -> Bool {
     if _storage !== other._storage {
       let storagesAreEqual: Bool = withExtendedLifetime((_storage, other._storage)) { (_storage, other_storage) in
         if _storage._value != other_storage._value {return false}
@@ -460,7 +460,7 @@ extension Tensorflow_AttrValue.OneOf_Value {
 }
 
 extension Tensorflow_AttrValue.ListValue: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     2: .same(proto: "s"),
     3: .same(proto: "i"),
     4: .same(proto: "f"),
@@ -471,7 +471,7 @@ extension Tensorflow_AttrValue.ListValue: SwiftProtobuf._MessageImplementationBa
     9: .same(proto: "func"),
   ]
 
-  func _protobuf_generated_isEqualTo(other: Tensorflow_AttrValue.ListValue) -> Bool {
+  public func _protobuf_generated_isEqualTo(other: Tensorflow_AttrValue.ListValue) -> Bool {
     if self.s != other.s {return false}
     if self.i != other.i {return false}
     if self.f != other.f {return false}
@@ -486,12 +486,12 @@ extension Tensorflow_AttrValue.ListValue: SwiftProtobuf._MessageImplementationBa
 }
 
 extension Tensorflow_NameAttrList: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "name"),
     2: .same(proto: "attr"),
   ]
 
-  func _protobuf_generated_isEqualTo(other: Tensorflow_NameAttrList) -> Bool {
+  public func _protobuf_generated_isEqualTo(other: Tensorflow_NameAttrList) -> Bool {
     if self.name != other.name {return false}
     if self.attr != other.attr {return false}
     if unknownFields != other.unknownFields {return false}
