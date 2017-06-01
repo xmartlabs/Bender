@@ -47,13 +47,22 @@ open class ConvTranspose: NetworkLayer {
         super.initialize(network: network, device: device)
         let incoming = getIncoming()
         assert(incoming.count == 1, "ConvTranspose must have one input, not \(incoming.count)")
-        assert(size.strideX == size.strideY, "ConvTranspose must symmetric strides")
-        assert(size.kernelWidth == size.kernelHeight, "ConvTranspose must symmetric kernel sizes")
+        assert(size.strideX == size.strideY, "ConvTranspose must have symmetric strides") // restriction might be taken away
+        assert(size.kernelWidth == size.kernelHeight, "ConvTranspose must have symmetric kernel sizes") // restriction might be taken away
+        assert(size.strideX == size.kernelWidth - 1, "ConvTranspose: stride must be kernelSize - 1")
 
         // Load custom metal kernels
-        pipelineCalculate = MetalShaderManager.shared.getFunction(name: "transpose_conv_calculate", in: Bundle(for: ConvTranspose.self))
-        pipelineShifLeft = MetalShaderManager.shared.getFunction(name: "transpose_conv_shift_left", in: Bundle(for: ConvTranspose.self))
-        pipelineShiftTop = MetalShaderManager.shared.getFunction(name: "transpose_conv_shift_top", in: Bundle(for: ConvTranspose.self))
+        let constants = [FunctionConstant<ushort>(index: 0, type: MTLDataType.ushort, value: ushort(size.kernelWidth)),
+                         FunctionConstant<ushort>(index: 1, type: MTLDataType.ushort, value: ushort(size.kernelHeight))]
+        pipelineCalculate = MetalShaderManager.shared.getFunction(name: "transpose_conv_calculate",
+                                                                  in: Bundle(for: ConvTranspose.self),
+                                                                  constants: constants)
+        pipelineShifLeft = MetalShaderManager.shared.getFunction(name: "transpose_conv_shift_left",
+                                                                 in: Bundle(for: ConvTranspose.self),
+                                                                 constants: constants)
+        pipelineShiftTop = MetalShaderManager.shared.getFunction(name: "transpose_conv_shift_top",
+                                                                 in: Bundle(for: ConvTranspose.self),
+                                                                 constants: constants)
 
         prevSize = incoming[0].outputSize
         outputSize = LayerSize(f: size.outputChannels,

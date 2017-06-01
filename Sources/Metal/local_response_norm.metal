@@ -70,19 +70,19 @@ kernel void local_response_norm(
 
         COMPUTE_LOCAL_RESPONSE_NORM(1, src.get_array_size());
 
-    } else if (offsetChunks <= 2) {
+    } else if (offsetChunks == 2) {
 
         COMPUTE_LOCAL_RESPONSE_NORM(2, src.get_array_size());
 
-    } else if (offsetChunks <= 3) {
+    } else if (offsetChunks == 3) {
 
         COMPUTE_LOCAL_RESPONSE_NORM(3, src.get_array_size());
         
-    } else if (offsetChunks <= 4) {
+    } else if (offsetChunks == 4) {
 
         COMPUTE_LOCAL_RESPONSE_NORM(4, src.get_array_size());
 
-    } else if (offsetChunks <= 5) {
+    } else if (offsetChunks == 5) {
 
         COMPUTE_LOCAL_RESPONSE_NORM(5, src.get_array_size());
         

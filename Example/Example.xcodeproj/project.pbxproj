@@ -9,14 +9,25 @@
 /* Begin PBXBuildFile section */
 		287D0A721C4B7877004566D6 /* ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287D0A711C4B7877004566D6 /* ExampleUITests.swift */; };
 		28F828D01C4B714D00330CF4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F828CF1C4B714D00330CF4 /* AppDelegate.swift */; };
-		28F828D21C4B714D00330CF4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F828D11C4B714D00330CF4 /* ViewController.swift */; };
+		28F828D21C4B714D00330CF4 /* StyleTransferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F828D11C4B714D00330CF4 /* StyleTransferViewController.swift */; };
 		28F828D51C4B714D00330CF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28F828D31C4B714D00330CF4 /* Main.storyboard */; };
 		28F828D71C4B714D00330CF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28F828D61C4B714D00330CF4 /* Assets.xcassets */; };
 		28F828DA1C4B714D00330CF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28F828D81C4B714D00330CF4 /* LaunchScreen.storyboard */; };
+		8F28C68D1ED724BE0062039F /* g_and_w.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8F28C68C1ED724BE0062039F /* g_and_w.pb */; };
+		8F4466D01ECF756B00915819 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4466CF1ECF756B00915819 /* UIImage.swift */; };
 		8F79B80F1EC25ECA002D02C8 /* Luminance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B80E1EC25ECA002D02C8 /* Luminance.swift */; };
 		8F79B8111EC261D6002D02C8 /* Luminance.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B8101EC261D6002D02C8 /* Luminance.metal */; };
+		8FA6BAB91ED5AB2D004450C0 /* RandomLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA6BAB81ED5AB2D004450C0 /* RandomLoader.swift */; };
 		8FA8E3251EC0BE7300E8BAD8 /* Palladium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9CAB221D89C756006E1824 /* Palladium.framework */; };
 		8FA8E3261EC0BE7300E8BAD8 /* Palladium.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9CAB221D89C756006E1824 /* Palladium.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8FAD35061ED48825004B69DA /* tftest.pbtxt in Resources */ = {isa = PBXBuildFile; fileRef = 8FAD35051ED48825004B69DA /* tftest.pbtxt */; };
+		8FCD3E991ED8A88200B1AAE6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCD3E981ED8A88200B1AAE6 /* ViewController.swift */; };
+		8FCD3E9F1ED8B5DF00B1AAE6 /* g_and_w2.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8FCD3E9E1ED8B5DF00B1AAE6 /* g_and_w2.pb */; };
+		8FCD3EA31ED8B67E00B1AAE6 /* rainSquare.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FCD3EA01ED8B67E00B1AAE6 /* rainSquare.png */; };
+		8FCD3EA41ED8B67E00B1AAE6 /* wall-e-384.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FCD3EA11ED8B67E00B1AAE6 /* wall-e-384.png */; };
+		8FCD3EA51ED8B67E00B1AAE6 /* wall-e.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FCD3EA21ED8B67E00B1AAE6 /* wall-e.png */; };
+		8FCD3EA71ED8BE1F00B1AAE6 /* SwiftProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCD3EA61ED8BE1F00B1AAE6 /* SwiftProtobuf.framework */; };
+		8FCD3EA81ED8BE1F00B1AAE6 /* SwiftProtobuf.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCD3EA61ED8BE1F00B1AAE6 /* SwiftProtobuf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CFAD25371ED7E9F30003C4FA /* Texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD25361ED7E9F30003C4FA /* Texture.swift */; };
 		CFAD253B1ED7EA090003C4FA /* LocalResponseNormTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD25381ED7EA090003C4FA /* LocalResponseNormTest.swift */; };
 		CFAD253C1ED7EA090003C4FA /* PalladiumTestRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD25391ED7EA090003C4FA /* PalladiumTestRunner.swift */; };
@@ -64,6 +75,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				8FA8E3261EC0BE7300E8BAD8 /* Palladium.framework in Embed Frameworks */,
+				8FCD3EA81ED8BE1F00B1AAE6 /* SwiftProtobuf.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,15 +87,25 @@
 		287D0A741C4B7B26004566D6 /* Palladium.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Palladium.xcodeproj; path = ../Palladium.xcodeproj; sourceTree = "<group>"; };
 		28F828CC1C4B714D00330CF4 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F828CF1C4B714D00330CF4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Example/AppDelegate.swift; sourceTree = "<group>"; };
-		28F828D11C4B714D00330CF4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Example/ViewController.swift; sourceTree = "<group>"; };
+		28F828D11C4B714D00330CF4 /* StyleTransferViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StyleTransferViewController.swift; path = Example/StyleTransferViewController.swift; sourceTree = "<group>"; };
 		28F828D41C4B714D00330CF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		28F828D61C4B714D00330CF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Example/Assets.xcassets; sourceTree = "<group>"; };
 		28F828D91C4B714D00330CF4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		28F828DB1C4B714D00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Example/Info.plist; sourceTree = "<group>"; };
 		28F828E01C4B714D00330CF4 /* ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F828E61C4B714D00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8F28C68C1ED724BE0062039F /* g_and_w.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = g_and_w.pb; sourceTree = "<group>"; };
+		8F4466CF1ECF756B00915819 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		8F79B80E1EC25ECA002D02C8 /* Luminance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Luminance.swift; path = Example/Luminance.swift; sourceTree = "<group>"; };
 		8F79B8101EC261D6002D02C8 /* Luminance.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = Luminance.metal; path = Example/Luminance.metal; sourceTree = "<group>"; };
+		8FA6BAB81ED5AB2D004450C0 /* RandomLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomLoader.swift; sourceTree = "<group>"; };
+		8FAD35051ED48825004B69DA /* tftest.pbtxt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tftest.pbtxt; sourceTree = "<group>"; };
+		8FCD3E981ED8A88200B1AAE6 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Example/ViewController.swift; sourceTree = "<group>"; };
+		8FCD3E9E1ED8B5DF00B1AAE6 /* g_and_w2.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = g_and_w2.pb; sourceTree = "<group>"; };
+		8FCD3EA01ED8B67E00B1AAE6 /* rainSquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rainSquare.png; sourceTree = "<group>"; };
+		8FCD3EA11ED8B67E00B1AAE6 /* wall-e-384.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-e-384.png"; sourceTree = "<group>"; };
+		8FCD3EA21ED8B67E00B1AAE6 /* wall-e.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-e.png"; sourceTree = "<group>"; };
+		8FCD3EA61ED8BE1F00B1AAE6 /* SwiftProtobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftProtobuf.framework; path = ../Carthage/Build/iOS/SwiftProtobuf.framework; sourceTree = "<group>"; };
 		CFAD25361ED7E9F30003C4FA /* Texture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Texture.swift; path = Example/Tests/Helpers/Texture.swift; sourceTree = "<group>"; };
 		CFAD25381ED7EA090003C4FA /* LocalResponseNormTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalResponseNormTest.swift; path = Example/Tests/LocalResponseNormTest.swift; sourceTree = "<group>"; };
 		CFAD25391ED7EA090003C4FA /* PalladiumTestRunner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PalladiumTestRunner.swift; path = Example/Tests/PalladiumTestRunner.swift; sourceTree = "<group>"; };
@@ -98,6 +120,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8FA8E3251EC0BE7300E8BAD8 /* Palladium.framework in Frameworks */,
+				8FCD3EA71ED8BE1F00B1AAE6 /* SwiftProtobuf.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +140,7 @@
 				28F828CE1C4B714D00330CF4 /* Example */,
 				28F828E31C4B714D00330CF4 /* ExampleUITests */,
 				28F828CD1C4B714D00330CF4 /* Products */,
+				8FCD3E9D1ED8AC8200B1AAE6 /* Frameworks */,
 				287D0A741C4B7B26004566D6 /* Palladium.xcodeproj */,
 			);
 			sourceTree = "<group>";
@@ -133,14 +157,11 @@
 		28F828CE1C4B714D00330CF4 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				8FCD3E9C1ED8AC3D00B1AAE6 /* Supporting Files */,
+				8FCD3E971ED8A58D00B1AAE6 /* Controllers */,
 				CFAD25341ED7E9800003C4FA /* Tests */,
+				8F0669C01EC3AFAB009F5C7C /* data */,
 				8F79B80C1EC25EAD002D02C8 /* Custom Layers */,
-				28F828CF1C4B714D00330CF4 /* AppDelegate.swift */,
-				28F828D11C4B714D00330CF4 /* ViewController.swift */,
-				28F828D31C4B714D00330CF4 /* Main.storyboard */,
-				28F828D61C4B714D00330CF4 /* Assets.xcassets */,
-				28F828D81C4B714D00330CF4 /* LaunchScreen.storyboard */,
-				28F828DB1C4B714D00330CF4 /* Info.plist */,
 			);
 			name = Example;
 			sourceTree = "<group>";
@@ -154,11 +175,26 @@
 			path = ExampleUITests;
 			sourceTree = "<group>";
 		};
+		8F0669C01EC3AFAB009F5C7C /* data */ = {
+			isa = PBXGroup;
+			children = (
+				8FCD3EA01ED8B67E00B1AAE6 /* rainSquare.png */,
+				8FCD3EA11ED8B67E00B1AAE6 /* wall-e-384.png */,
+				8FCD3EA21ED8B67E00B1AAE6 /* wall-e.png */,
+				8FCD3E9E1ED8B5DF00B1AAE6 /* g_and_w2.pb */,
+				8F28C68C1ED724BE0062039F /* g_and_w.pb */,
+				8FAD35051ED48825004B69DA /* tftest.pbtxt */,
+			);
+			name = data;
+			path = Example/data;
+			sourceTree = "<group>";
+		};
 		8F79B80C1EC25EAD002D02C8 /* Custom Layers */ = {
 			isa = PBXGroup;
 			children = (
 				8F79B8101EC261D6002D02C8 /* Luminance.metal */,
 				8F79B80E1EC25ECA002D02C8 /* Luminance.swift */,
+				8FA6BAB81ED5AB2D004450C0 /* RandomLoader.swift */,
 			);
 			name = "Custom Layers";
 			sourceTree = "<group>";
@@ -170,6 +206,35 @@
 				8F9CAB241D89C756006E1824 /* PalladiumTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8FCD3E971ED8A58D00B1AAE6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8FCD3E981ED8A88200B1AAE6 /* ViewController.swift */,
+				28F828D11C4B714D00330CF4 /* StyleTransferViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		8FCD3E9C1ED8AC3D00B1AAE6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				28F828CF1C4B714D00330CF4 /* AppDelegate.swift */,
+				28F828D31C4B714D00330CF4 /* Main.storyboard */,
+				28F828D61C4B714D00330CF4 /* Assets.xcassets */,
+				28F828D81C4B714D00330CF4 /* LaunchScreen.storyboard */,
+				28F828DB1C4B714D00330CF4 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8FCD3E9D1ED8AC8200B1AAE6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8FCD3EA61ED8BE1F00B1AAE6 /* SwiftProtobuf.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		CFAD25341ED7E9800003C4FA /* Tests */ = {
@@ -186,6 +251,7 @@
 		CFAD25351ED7E9E70003C4FA /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				8F4466CF1ECF756B00915819 /* UIImage.swift */,
 				CFAD25361ED7E9F30003C4FA /* Texture.swift */,
 				CFAD253E1ED7EA930003C4FA /* TestData.swift */,
 				CFAD25401ED7EB5A0003C4FA /* CompletionSerializer.swift */,
@@ -303,8 +369,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				28F828DA1C4B714D00330CF4 /* LaunchScreen.storyboard in Resources */,
+				8FCD3EA41ED8B67E00B1AAE6 /* wall-e-384.png in Resources */,
+				8FCD3EA51ED8B67E00B1AAE6 /* wall-e.png in Resources */,
+				8FAD35061ED48825004B69DA /* tftest.pbtxt in Resources */,
 				28F828D71C4B714D00330CF4 /* Assets.xcassets in Resources */,
+				8FCD3EA31ED8B67E00B1AAE6 /* rainSquare.png in Resources */,
+				8F28C68D1ED724BE0062039F /* g_and_w.pb in Resources */,
 				28F828D51C4B714D00330CF4 /* Main.storyboard in Resources */,
+				8FCD3E9F1ED8B5DF00B1AAE6 /* g_and_w2.pb in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,11 +399,14 @@
 				CFAD253C1ED7EA090003C4FA /* PalladiumTestRunner.swift in Sources */,
 				8F79B8111EC261D6002D02C8 /* Luminance.metal in Sources */,
 				CFAD25371ED7E9F30003C4FA /* Texture.swift in Sources */,
-				28F828D21C4B714D00330CF4 /* ViewController.swift in Sources */,
+				8FCD3E991ED8A88200B1AAE6 /* ViewController.swift in Sources */,
+				28F828D21C4B714D00330CF4 /* StyleTransferViewController.swift in Sources */,
 				CFAD253D1ED7EA090003C4FA /* TextureConversionTest.swift in Sources */,
 				CFAD25411ED7EB5A0003C4FA /* CompletionSerializer.swift in Sources */,
 				28F828D01C4B714D00330CF4 /* AppDelegate.swift in Sources */,
+				8F4466D01ECF756B00915819 /* UIImage.swift in Sources */,
 				8F79B80F1EC25ECA002D02C8 /* Luminance.swift in Sources */,
+				8FA6BAB91ED5AB2D004450C0 /* RandomLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,10 +548,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 6F2G55XL63;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/../Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "\"-Xfrontend\" \"-warn-long-function-bodies=150\"";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.todoapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
@@ -490,10 +570,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 6F2G55XL63;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/../Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "\"-Xfrontend\" \"-warn-long-function-bodies=150\"";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.todoapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;

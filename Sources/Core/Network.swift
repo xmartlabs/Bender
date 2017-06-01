@@ -16,6 +16,7 @@ public class Network: GraphProtocol {
     public var nodes = [NetworkLayer]()
     fileprivate var device: MTLDevice
     public var parameterLoader: ParameterLoader
+    public var verbose = false
 
     ///
     /// - Parameters:
@@ -42,8 +43,11 @@ public class Network: GraphProtocol {
             layer.initialize(network: self, device: device)
         }
         nodes = nodes.filter { !($0 is Dummy) }
-        _ = nodes.map {
-            debugPrint($0.id)
+
+        if verbose {
+            _ = nodes.map {
+                debugPrint($0.id)
+            }
         }
     }
 

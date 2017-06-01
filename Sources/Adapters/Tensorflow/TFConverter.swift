@@ -14,6 +14,7 @@ public class TFConverter: Converter {
 
     public var optimizers: [TFOptimizer]
     public var mappers = [String: TFMapper]()
+    public var verbose = false
 
     public init(optimizers: [TFOptimizer]) {
         self.optimizers = optimizers
@@ -33,9 +34,11 @@ public class TFConverter: Converter {
         let loader = TFGraphLoader()
         var graph = loader.load(file: file, type: type)
 
-        debugPrint("\n\n\nNodes in my graph (pre optimization):")
-        for node in graph.nodes {
-            debugPrint("\(node.nodeDef.name)")
+        if verbose {
+            debugPrint("\n\n\nNodes in my graph (pre optimization):")
+            for node in graph.nodes {
+                debugPrint("\(node.nodeDef.name)")
+            }
         }
 
         runOptimizers(graph: &graph)
@@ -48,9 +51,11 @@ public class TFConverter: Converter {
             graph.removeLonely()
         }
 
-        debugPrint("\n\n\nNodes in my graph (after optimization):")
-        for node in graph.nodes {
-            debugPrint("\(node.nodeDef.name)")
+        if verbose {
+            debugPrint("\n\n\nNodes in my graph (after optimization):")
+            for node in graph.nodes {
+                debugPrint("\(node.nodeDef.name)")
+            }
         }
     }
 
@@ -74,8 +79,10 @@ public class TFConverter: Converter {
                     }
                 }
             } else {
-                debugPrint("Palladium:: Unsupported layer found: \(node.nodeDef.op)")
                 // We found an unsupported layer. We ignore it but warn.
+                if verbose {
+                    debugPrint("Palladium:: Unsupported layer found: \(node.nodeDef.op)")
+                }
             }
         }
 

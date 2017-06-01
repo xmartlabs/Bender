@@ -49,9 +49,9 @@ kernel void apply_watermark(
     if (gid.x > xOffset && gid.x < xOffset + wWidth && gid.y > yOffset && gid.y < yOffset + wHeight) {
         half4 w = half4(watermark.read(ushort2(gid.x - xOffset, gid.y - yOffset)));
 
-        half r = clamp((i.x+1.0h)*0.5h * (1.0h-w.a) + w.a*w.x, 0.0h, 1.0h); //
-        half g = clamp((i.y+1.0h)*0.5h * (1.0h-w.a) + w.a*w.y, 0.0h, 1.0h); //
-        half b = clamp((i.z+1.0h)*0.5h * (1.0h-w.a) + w.a*w.z, 0.0h, 1.0h); //
+        half r = clamp((i.x+1.0h)*0.5h * (1.0h-w.a) + w.a*w.x, 0.0h, 1.0h);
+        half g = clamp((i.y+1.0h)*0.5h * (1.0h-w.a) + w.a*w.y, 0.0h, 1.0h);
+        half b = clamp((i.z+1.0h)*0.5h * (1.0h-w.a) + w.a*w.z, 0.0h, 1.0h);
         outTexture.write(float4(r, g, b, 1.0), ushort2(gid.x,gid.y));
     } else {
         outTexture.write(float4(i.r, i.g, i.b, 1.0), ushort2(gid.x,gid.y));

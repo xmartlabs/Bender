@@ -13,22 +13,75 @@ By [Xmartlabs SRL](http://xmartlabs.com).
 
 ## Introduction
 
-Palladium is a library to .......
+Palladium is an abstraction layer over MetalPerformanceShaders which is used to work with neural networks. It is of growing interest in the AI environment to execute neural networks on mobile devices even if the training process has been done previously. We want to make it easier for everyone to execute pretrained networks on iOS.
 
-<!-- <img src="Example/Palladium.gif" width="300"/> -->
+Palladium allows you to easily define and run neural networks using the most common layers like Convolution, Pooling, FullyConnected and some normalizations among others. It is also flexible in the way it receives the parameters for these layers.
 
+We also want to support loading models trained on other frameworks such as TensorFlow or Caffe2. Currently Palladium includes an adapter for TensorFlow that loads a graph with variables and "translates" it to Palladium layers. This feature supports a subset of TensorFlow's operations but we plan to enhance it to cover more cases.
+
+Palladium is functional but still under active development and we also want to see where the needs of the community drives it.
+
+## Why did we need Palladium?
+
+At Xmartlabs we were about to start a Machine Learning project and investigated frameworks to use in iOS. We found MetalPerformanceShaders useful but not very user friendly and we saw ourselves repeating a lot of code and information. That is why we starting building a framework to handle that kind of stuff.
+
+We also found ourselves creating scripts to translate the models we had from training with TensorFlow to iOS. This means transposing the weights to the MPSCNN format and also mapping the parameters of the different kinds of layers in TensorFlow to the parameters used by the MPSCNN kernels. TensorFlow can be compiled for iOS but currently it does not support running on GPU which we wanted to do. We also did not want to include TensorFlow's static library into our project. This is why we also started to work on an adapter that would parse a TF graph and translate it to our Palladium layers. 
 ## Usage
+
+You can define your own network in Palladium using our custom operator or you can load a model exported from TensorFlow. Defining a network and loading a model can be done like this:
 
 ```swift
 import Palladium
-..
-.
+
+// Define a network and how it will load its weights / parameters
+let randomLoader = RandomParameterLoader(maxSize: 7*7*64*1024)
+network = Network(device: device, inputSize: LayerSize(f: 3, w: 256), parameterLoader: randomLoader)
+
+// Convert a graph from TensorFlow
+let url = Bundle.main.url(forResource: "myGraph", withExtension: "pb")!
+let converter = TFConverter.default()
+network.nodes = converter.convertGraph(file: url, type: .binary)
+
+// Initialize the network
+network.initialize()
+
+// Run the network
+let inputImage = ...
+network.run(inputImage: image, queue: commandQueue) { output in
+    ...
+}
 ```
+
+If you want to define your network yourself you can do it like this:
+
+```swift
+
+let network = ...
+
+network.start
+    ->> Convolution(convSize: ConvSize(outputChannels: 16, kernelSize: 3, stride: 2))
+    ->> InstanceNorm()
+    ->> Convolution(convSize: ConvSize(outputChannels: 32, kernelSize: 3, stride: 2), neuronType: .relu)
+    ->> InstanceNorm()
+    ->> FullyConnected(neurons: 128)
+    ->> Neuron(type: .tanh)
+    ->> FullyConnected(neurons: 10)
+    ->> Softmax()
+...
+```
+
+## Composing layers
+
+One thing we realized is that itis useful to have single nodes that perform only a convolution or only a normalization but, on the other hand, in a single network we might want to run the same normalization after each convolution and possibly add an activation neuron behind. We also want to easily support residual layers.
+
+Therefore, we support composite layers which basically are just a set of layers which we want to reuse in a network.
+
+For example if we want to create a residual network like the one defined in [Style Transfer] we could define it like 
 
 ## Requirements
 
-* iOS 9.0+
-* Xcode 8.0+
+* iOS 10.0+
+* Xcode 8.3+
 
 ## Getting involved
 
@@ -43,8 +96,6 @@ If you use **Palladium** in your app We would love to hear about it! Drop us a l
 ## Examples
 
 Follow these 3 steps to run Example project: Clone Palladium repository, open Palladium workspace and run the *Example* project.
-
-You can also experiment and learn with the *Palladium Playground* which is contained in *Palladium.workspace*.
 
 ## Installation
 
@@ -72,11 +123,6 @@ github "xmartlabs/Palladium" ~> 1.0
 
 * [Xmartlabs SRL](https://github.com/xmartlabs) ([@xmartlabs](https://twitter.com/xmartlabs))
 
-## FAQ
-
-#### How to .....
-
-You can do it by conforming to .....
 
 # Change Log
 
