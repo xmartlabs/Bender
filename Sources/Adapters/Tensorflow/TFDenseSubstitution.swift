@@ -23,26 +23,26 @@ public class TFDenseSubstitution: TFOptimizer {
      */
 
     public func optimize(graph: TFGraph) {
-        for node in graph.nodes {
-            if node.nodeDef.isTFBiasAddOp,
-                let matmul = node.incomingNodes().first(where: { ($0 as? TFNode)?.nodeDef.isTFMatMulOp ?? false }),
-                let matmulInputs = matmul.incomingNodes() as? [TFNode],
+        for node in graph.nodes where node.nodeDef.isTFMatMulOp {
+            if let add = node.outgoingNodes().flatMap({ $0 as? TFNode }).first(where: { $0.nodeDef.isTFBiasAddOp ||
+                                                                                        $0.nodeDef.isTFAddOp }),
+                let matmulInputs = node.incomingNodes() as? [TFNode],
                 let weightVar = matmulInputs.first(where: { $0.nodeDef.isTFVariableOrConstOp }),
                 let input = matmulInputs.first(where: { !$0.nodeDef.isTFVariableOrConstOp }) {
 
-                node.nodeDef.op = Constants.Ops.Dense
-                node.addIncomingEdge(from: weightVar)
+                add.nodeDef.op = Constants.Ops.Dense
+                add.addIncomingEdge(from: weightVar)
                 if input.nodeDef.isTFReshapeOp,
                     let preReshape = (input.incomingNodes() as? [TFNode])?.first(where: { !$0.nodeDef.isTFConstOp }) {
-                    node.addIncomingEdge(from: preReshape)
+                    add.addIncomingEdge(from: preReshape)
                     input.strip()
                 } else {
-                    node.addIncomingEdge(from: input)
+                    add.addIncomingEdge(from: input)
                 }
-                matmul.strip()
+                node.strip()
 
                 // add neuron data
-                addNeuronIfThere(node: node)
+                addNeuronIfThere(node: add)
             }
         }
     }

@@ -12,7 +12,7 @@ import Foundation
 class TFConvOptimizer: TFOptimizer {
 
     /*  Takes:
-        Conv2D --> BiasAdd [--> Neuron]
+        Conv2D --> BiasAdd (or Add) [--> Neuron]
           ^           ^
         Variable    Variable
 
@@ -25,7 +25,7 @@ class TFConvOptimizer: TFOptimizer {
             if node.nodeDef.isTFConvOp,
                 let out = node.outgoingNodes() as? [TFNode], out.count == 1,
                 let biasAdd = out.first {
-                if biasAdd.nodeDef.isTFBiasAddOp,
+                if biasAdd.nodeDef.isTFBiasAddOp || biasAdd.nodeDef.isTFAddOp,
                     let biasVar = (biasAdd.incomingNodes() as? [TFNode])?.first(where: { $0.nodeDef.isTFVariableOrConstOp }) {
                     node.addIncomingEdge(from: biasVar)
                     for output in biasAdd.outgoingNodes() {

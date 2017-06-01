@@ -14,7 +14,7 @@ open class BGRAtoRGBA: NetworkLayer {
     // Custom kernels
     let pipelineBGRAtoRGBA: MTLComputePipelineState!
 
-    public init(device: MTLDevice, id: String? = nil) {
+    public override init(id: String? = nil) {
         // Load custom metal kernels
         pipelineBGRAtoRGBA = MetalShaderManager.shared.getFunction(name: "bgra_to_rgba", in: Bundle(for: BGRAtoRGBA.self))
         super.init(id: id)

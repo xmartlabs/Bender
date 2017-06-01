@@ -52,31 +52,29 @@ public extension TFDeleteSubgraphOptimizer {
 
     func optimize(graph: TFGraph) {
         var mappings = [String: (inputs: [TFNode]?, outputs: [TFNode]?)]()
-        for node in graph.nodes {
-            if isInSubgraph(node) {
-                if isInputNode(node) {
-                    if let inputs = (node.incomingNodes() as? [TFNode])?.filter({ !isInSubgraph($0) }) {
-                        var currentValue = mappings[id(for: node)] ?? (nil, nil)
-                        if currentValue.inputs == nil {
-                            currentValue.inputs = inputs
-                        } else {
-                            currentValue.inputs?.append(contentsOf: inputs)
-                        }
-                        mappings[id(for: node)] = currentValue
+        for node in graph.nodes where isInSubgraph(node) {
+            if isInputNode(node) {
+                if let inputs = (node.incomingNodes() as? [TFNode])?.filter({ !isInSubgraph($0) }) {
+                    var currentValue = mappings[id(for: node)] ?? (nil, nil)
+                    if currentValue.inputs == nil {
+                        currentValue.inputs = inputs
+                    } else {
+                        currentValue.inputs?.append(contentsOf: inputs)
                     }
-                } else if isOutputNode(node) {
-                    if let outputs = (node.outgoingNodes() as? [TFNode])?.filter({ !isInSubgraph($0) }) {
-                        var currentValue = mappings[id(for: node)] ?? (nil, nil)
-                        if currentValue.outputs == nil {
-                            currentValue.outputs = outputs
-                        } else {
-                            currentValue.outputs?.append(contentsOf: outputs)
-                        }
-                        mappings[id(for: node)] = currentValue
-                    }
+                    mappings[id(for: node)] = currentValue
                 }
-                node.strip()
+            } else if isOutputNode(node) {
+                if let outputs = (node.outgoingNodes() as? [TFNode])?.filter({ !isInSubgraph($0) }) {
+                    var currentValue = mappings[id(for: node)] ?? (nil, nil)
+                    if currentValue.outputs == nil {
+                        currentValue.outputs = outputs
+                    } else {
+                        currentValue.outputs?.append(contentsOf: outputs)
+                    }
+                    mappings[id(for: node)] = currentValue
+                }
             }
+            node.strip()
         }
 
         // wire together

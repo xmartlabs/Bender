@@ -8,15 +8,14 @@
 
 import MetalPerformanceShaders
 
-
 /// Represents a neural network
-public class Network: GraphProtocol {
+public class Network {
 
     /// Input node of the neural network.
     public var start: Start
 
     /// All the layers of the network
-    public var nodes = [NetworkLayer]()
+    var nodes = [NetworkLayer]()
 
     /// Responsible for loading the parameters
     public var parameterLoader: ParameterLoader
@@ -34,6 +33,11 @@ public class Network: GraphProtocol {
         start = Start(size: inputSize)
         self.device = device
         self.parameterLoader = parameterLoader ?? NoParameterLoader()
+    }
+
+    /// Converts the graph found at `url` to its nodes
+    public func convert(converter: Converter, url: URL, type: ProtoFileType) {
+        nodes = converter.convertGraph(file: url, type: type)
     }
 
     /// Initializes the layers of the network
@@ -107,4 +111,40 @@ public class Network: GraphProtocol {
         }
     }
 
+    /// Adds layers executed at the beginning of the execution list (after the Start node).
+    /// Should only be used when converting graphs from other models. Is not needed if defining the network yourself.
+    public func addPreProcessing(layers: [NetworkLayer]) {
+        guard layers.count > 0 else { return }
+        guard nodes.index(of: start) == nil else {
+            fatalError("Must not call this function after initializing. Also only call after converting from a different model")
+        }
+
+        for i in 0..<layers.count-1 {
+            layers[i+1].addIncomingEdge(from: layers[i])
+        }
+
+        nodes.first?.addIncomingEdge(from: layers.last!)
+        nodes.insert(contentsOf: layers, at: 0)
+    }
+
+    /// Adds layers executed at the end of the execution list.
+    /// Should only be used when converting graphs from other models. Is not needed if defining the network yourself.
+    public func addPostProcessing(layers: [NetworkLayer]) {
+        guard layers.count > 0 else { return }
+        guard nodes.index(of: start) == nil else {
+            fatalError("Must not call this function after initializing. Also only call after converting from a different model")
+        }
+
+        for i in 0..<layers.count-1 {
+            layers[i+1].addIncomingEdge(from: layers[i])
+        }
+
+        if let output = nodes.last {
+            layers.first?.addIncomingEdge(from: output)
+        }
+        nodes.append(contentsOf: layers)
+    }
+
 }
+
+//extension Network: GraphProtocol {}

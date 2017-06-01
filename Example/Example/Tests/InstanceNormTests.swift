@@ -35,9 +35,7 @@ class InstanceNormTest: PalladiumTest {
         let cpuComputed = cpuInstanceNorm(input: texture, weights: weights, bias: bias)
         styleNet.run(inputImage: MPSImage(texture: metalTexture, featureChannels: texture.depth), queue: device.makeCommandQueue()) { image in
             let textureFromGpu = Texture(metalTexture: image.texture, size: texture.size)
-            print(textureFromGpu)
-            print(cpuComputed)
-            assert(textureFromGpu.isEqual(to: cpuComputed, threshold: 0.0015))
+            assert(textureFromGpu.isEqual(to: cpuComputed, threshold: 0.002))
             completion()
         }
     }
