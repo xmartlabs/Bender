@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension TFConverter {
+public extension TFConverter {
 
     func setupMappers() {
         //MARK: Add

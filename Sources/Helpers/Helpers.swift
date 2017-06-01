@@ -1,13 +1,14 @@
 //
 //  HelperExtensions.swift
-//  VideoStylizer
+//  Palladium
 //
 //  Created by Joaquin Rocco on 11/30/16.
-//  Copyright © 2016 Xmartlabs. All rights reserved.
+//  Copyright © 2017 Xmartlabs. All rights reserved.
 //
 
 import Foundation
 
+/// Helper function to measure the time elapsed during the execution of a block of code
 public func measure(_ label: String = "", _ block: () -> ()) {
     let time1 = Date()
     block()
@@ -16,6 +17,7 @@ public func measure(_ label: String = "", _ block: () -> ()) {
     debugPrint("\(label): \(v) (\(1/v) per second)")
 }
 
+/// Transposes weights from HWIO to OHWI order. Used to pass TensorFlow's weights for Convolution layers
 func HWIOtoOHWI(weights: Data, shape: Tensorflow_TensorShapeProto) -> Data {
     var transposed = [Float](repeating: 0.0, count: shape.totalCount)
 
@@ -32,12 +34,4 @@ func HWIOtoOHWI(weights: Data, shape: Tensorflow_TensorShapeProto) -> Data {
     }
 
     return Data.init(bytes: transposed, count: shape.totalCount * MemoryLayout<Float>.stride)
-}
-
-extension Data {
-
-    func pointer<T>() -> UnsafePointer<T>? {
-        return (self as NSData).bytes.assumingMemoryBound(to: T.self)
-    }
-
 }

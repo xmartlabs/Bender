@@ -8,14 +8,18 @@
 
 import Foundation
 
+/// Processes a grpah imported from TensorFlow applying some optimizations/simplifications
 public protocol TFOptimizer {
 
+    /// Optimize a grsph imported from TensorFlow. Nodes that are to be removed should be left without adjacencies
     func optimize(graph: TFGraph)
     
 }
 
-extension TFOptimizer {
+public extension TFOptimizer {
 
+    /// Adds "Neuron" information to a node if the outgoing edge node is of a known neuron type.
+    /// This information can later be used by the 'activationNeuron' function
     func addNeuronIfThere(node: TFNode) {
         let outgoing = node.outgoingNodes()
         if outgoing.count == 1, let next = (outgoing.first as? TFNode),

@@ -8,6 +8,7 @@
 
 import MetalPerformanceShaders
 
+/// Activation neuron type
 public enum ActivationNeuronType {
 
     case relu

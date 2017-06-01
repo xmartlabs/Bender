@@ -8,10 +8,12 @@
 
 import MetalPerformanceShaders
 
-// Does not work with embedded weights
+/// FullyConnected or Dense layer.
 open class FullyConnected: NetworkLayer {
 
+    /// Used to determine the filename for this layers weights. (Ignored if there is no ParameterLoader)
     static var weightModifier: String = ""
+    /// Used to determine the filename for this layers bias. (Ignored if there is no ParameterLoader)
     static var biasModifier: String = "bias"
 
     var prevSize: LayerSize!

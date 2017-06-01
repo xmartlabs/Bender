@@ -18,8 +18,9 @@ public enum PaddingType {
 
 }
 
-extension PaddingType {
+public extension PaddingType {
 
+    /// Parses a padding from TensorFlow to PaddingType
     static func fromTF(_ padding: String) -> PaddingType {
         if padding == "SAME" {
             return PaddingType.same

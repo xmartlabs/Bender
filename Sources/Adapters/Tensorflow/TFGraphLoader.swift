@@ -8,6 +8,7 @@
 
 import SwiftProtobuf
 
+/// Imports a graph from TensorFlow
 class TFGraphLoader {
 
     func load(file: URL, type: ProtoFileType) -> TFGraph {

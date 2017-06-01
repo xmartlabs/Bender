@@ -8,6 +8,7 @@
 
 import MetalPerformanceShaders
 
+/// Implements the different activation neurons like ReLu, Tanh, Sigmoid, Linear
 open class Neuron: NetworkLayer {
 
     public var type: ActivationNeuronType

@@ -1,16 +1,14 @@
 //
 //  ResidualBlockLayer.swift
-//  VideoStylizer
+//  Palladium
 //
 //  Created by Joaquin Rocco on 12/16/16.
-//  Copyright © 2016 Xmartlabs. All rights reserved.
+//  Copyright © 2017 Xmartlabs. All rights reserved.
 //
 
 import MetalPerformanceShaders
 
-/** Residual layer. Receives 6 or 8 weight files:
-    [convA_weights, instance_norm_A_scale, instance_norm_A_shift, convB_weights, instance_norm_B_scale, instance_norm_B_shift, 
-     convA_bias (optional), convB_bias (optional)]
+/** Generic Residual layer. This is a composite layer.
  */
 open class ResidualLayer: CompositeLayer {
 

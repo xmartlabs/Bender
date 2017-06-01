@@ -8,7 +8,8 @@
 
 import Foundation
 
-class TFVariableProcessor: TFOptimizer {
+/// Processes `Variable` nodes / groups from TensorFlow.
+public class TFVariableProcessor: TFOptimizer {
 
     /*  Takes
                 Const --> Assign        Output
@@ -19,7 +20,7 @@ class TFVariableProcessor: TFOptimizer {
                 Const  -->  VariableV2  -->  Output
      */
     
-    func optimize(graph: TFGraph) {
+    public func optimize(graph: TFGraph) {
         for node in graph.nodes {
             if node.nodeDef.isTFVariableV2Op {
                 if let assign = node.outgoingNodes().filter({ ($0 as? TFNode)?.nodeDef.isTFVariableAssignOp ?? false }).first,
@@ -32,6 +33,7 @@ class TFVariableProcessor: TFOptimizer {
                         outputNode.addIncomingEdge(from: node)
                         node.addIncomingEdge(from: constValue)
                     } else {
+                        // No variables or randomly initialized. You must pass a parameter loader in this case
                         assign.deleteIncomingEdge(node: node)
                         assign.strip(recursive: true)
                         outputNode.addIncomingEdge(from: node)

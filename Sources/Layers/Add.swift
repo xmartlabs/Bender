@@ -8,7 +8,7 @@
 
 import MetalPerformanceShaders
 
-/// Receives two input images. The first is used to take the color and the second is used to take the luminance for the output image.
+/// Receives two input images and sums them element-wise.
 open class Add: NetworkLayer {
 
     // Custom kernels
@@ -22,9 +22,9 @@ open class Add: NetworkLayer {
         assert(incoming.count == 2, "Add works for two layers")
         assert(incoming[0].outputSize == incoming[1].outputSize, "Add works for two layers of the same size")
 
-        pipelineAdd = MetalShaderManager.shared.getFunction(name: "sum_matrix", in: Bundle(for: Add.self))
+        outputSize = incoming[0].outputSize
+        pipelineAdd = MetalShaderManager.shared.getFunction(name: "sum_matrix" + (outputSize.f > 4 ? "" : "_3"), in: Bundle(for: Add.self))
 
-        outputSize = incoming.first?.outputSize
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
 

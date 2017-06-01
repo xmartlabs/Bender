@@ -13,9 +13,13 @@ import Foundation
 /// Closures that must return weak references to Node
 public typealias WeakNodeClosure = () -> (Node?)
 
+/// Element of a Graph
 public protocol Node: class {
 
+    /// Incoming connections / adjacencies
     var edgeIn: [WeakNodeClosure] { get set }
+
+    /// Outgoing connections / adjacencies
     var edgeOut: [Node] { get set }
 
     /// We cannot add Equatable to Node but we can add this. Must return if both objects are equal
@@ -23,12 +27,14 @@ public protocol Node: class {
 
 }
 
-extension Node {
+public extension Node {
 
+    /// returns if the node has no connections
     var isLonely: Bool {
         return edgeIn.count == 0 && edgeOut.count == 0
     }
 
+    /// Creates a closure that returns a weak reference to an object
     func captureWeakly(object: Node) -> (WeakNodeClosure) {
         return { [weak object] in
             return object
@@ -45,20 +51,24 @@ extension Node {
         }
     }
 
+    /// All incoming connections
     func incomingNodes() -> [Node] {
         return edgeIn.flatMap { $0() }
     }
 
+    /// Delete an incoming connection
     func deleteIncomingEdge(node: Node) {
         if let index = edgeIn.index(where: { $0()?.isEqual(to: node) ?? false } ) {
             _ = edgeIn.remove(at: index)
         }
     }
 
+    /// All outgoing connections
     func outgoingNodes() -> [Node] {
         return edgeOut
     }
 
+    /// Delete an outgoing connection
     func deleteOutgoingEdge(node: Node) {
         if let index = edgeOut.index(where: { $0.isEqual(to: node) } ) {
             edgeOut.remove(at: index)
@@ -112,7 +122,3 @@ extension Node {
     }
 
 }
-
-//func ==<T: Equatable> (left: Node<T>, right: Node<T>) -> Bool {
-//    return left.value == right.value
-//}

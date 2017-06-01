@@ -57,6 +57,7 @@ DECLARE_UNION(buffer, (offsetChunks) * 2 + 1)\
 FILL_BLOCKS(buffer.block, (offsetChunks) * 2 + 1, maxBlocks)\
 COMPUTE(buffer.array, ((offsetChunks) * 2 + 1) * 4, (offsetChunks) * 4)
 
+/// Implements Local Response Noramlization for texture arrays
 kernel void local_response_norm(
                             texture2d_array<float, access::read> src [[texture(0)]],
                             texture2d_array<float, access::write> dest [[texture(1)]],
@@ -90,6 +91,7 @@ kernel void local_response_norm(
 
 }
 
+/// Implements Local Response Noramlization for simple textures
 kernel void local_response_norm_3(
                               texture2d<float, access::read> src [[texture(0)]],
                               texture2d<float, access::write> dest [[texture(1)]],

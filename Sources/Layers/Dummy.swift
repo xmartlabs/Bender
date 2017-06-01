@@ -8,6 +8,7 @@
 
 import MetalPerformanceShaders
 
+/// Dummy layers are helpers for certain situations and are removed before execution starts.
 open class Dummy: NetworkLayer {
 
     // Dummy layers should be removed after initialize

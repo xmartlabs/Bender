@@ -57,6 +57,10 @@ public class Texture {
         return true
     }
 
+    var totalCount: Int {
+        return size.f * size.w * size.h
+    }
+
 }
 
 // MARK: - CustomStringConvertible

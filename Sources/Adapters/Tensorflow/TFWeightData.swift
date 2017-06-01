@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Internal struct used to pass weights and bias data around
 struct TFWeightData {
 
     let weights: Data?

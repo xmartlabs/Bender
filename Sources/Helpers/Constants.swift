@@ -1,6 +1,6 @@
 //
 //  Constants.swift
-//  VideoStylizer
+//  Palladium
 //
 //  Created by Mathias Claassen on 3/14/17.
 //  Copyright © 2017 Xmartlabs. All rights reserved.
@@ -18,6 +18,7 @@ struct Constants {
 
 extension Constants {
 
+    /// TensorFlow ops
     struct Ops {
 
         static let Add = "Add"
@@ -43,6 +44,7 @@ extension Constants {
 
     }
 
+    /// Custom attributes added to TensorFlow nodes during graph conversion
     struct CustomAttr {
 
         static let neuron = "neuron"

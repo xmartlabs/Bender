@@ -1,14 +1,14 @@
 //
 //  CropAndFormatLayer.swift
-//  VideoStylizer
+//  Palladium
 //
 //  Created by Joaquin Rocco on 12/16/16.
-//  Copyright © 2016 Xmartlabs. All rights reserved.
+//  Copyright © 2017 Xmartlabs. All rights reserved.
 //
 
 import MetalPerformanceShaders
 
-/// This layer crops the input image to tthe desired size. The cropRect is taken from the center of the input image.
+/// This layer crops the input image to the desired size. The cropRect is taken from the center of the input image.
 open class Crop: NetworkLayer {
     
     public init(device: MTLDevice, croppedSize: LayerSize, id: String? = nil) {

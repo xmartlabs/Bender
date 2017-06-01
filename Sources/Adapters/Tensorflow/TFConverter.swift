@@ -8,19 +8,27 @@
 
 import Foundation
 
+/// Converts a TFNode to a NetworkLayer of Palladium
 public typealias TFMapper = (TFNode) -> NetworkLayer
 
-public class TFConverter: Converter {
+/// Converts a TFGraph to a Palladium neural network graph.
+open class TFConverter: Converter {
 
+    /// Optimizers are the funtions that preprocess and simplify a TFGraph
     public var optimizers: [TFOptimizer]
+
+    /// Dictionary of TFMappers. Keys are the ops used in the nodes of a TensorFlow model
     public var mappers = [String: TFMapper]()
+
+    /// If the framework should print information while converting a graph set this to true.
     public var verbose = false
 
     public init(optimizers: [TFOptimizer]) {
         self.optimizers = optimizers
     }
 
-    public static func `default`() -> TFConverter {
+    /// Creates a TFConverter with the default optimizers.
+    open static func `default`() -> TFConverter {
         let instance = TFConverter(optimizers: [TFStripTrainingOps(),
                                                 TFDeleteDropout(),
                                                 TFVariableProcessor(),
@@ -30,7 +38,12 @@ public class TFConverter: Converter {
         return instance
     }
 
-    public func convertGraph(file: URL, type: ProtoFileType) -> [NetworkLayer] {
+    /// Converts a graph from an URL.
+    /// - Parameters:
+    ///   - file: The file where the TensorFlow graph is stored
+    ///   - type: If the file is in text or binary format
+    /// - Returns: The converted network layers
+    open func convertGraph(file: URL, type: ProtoFileType) -> [NetworkLayer] {
         let loader = TFGraphLoader()
         var graph = loader.load(file: file, type: type)
 
@@ -45,9 +58,14 @@ public class TFConverter: Converter {
         return translateOperators(graph: graph)
     }
 
-    func runOptimizers(graph: inout TFGraph) {
+    /// Runs all the optimizers on the graph passed as argument.
+    /// All nodes that have neither incoming nor outgoing edges are removed.
+    public func runOptimizers(graph: inout TFGraph) {
         for optimizer in optimizers {
+            // Run optimization
             optimizer.optimize(graph: graph)
+
+            // Remove nodes that are not connected to any other
             graph.removeLonely()
         }
 
@@ -59,7 +77,12 @@ public class TFConverter: Converter {
         }
     }
 
-    func translateOperators(graph: TFGraph) -> [NetworkLayer] {
+    /// Runs the mappers through all the nodes in the `graph`.
+    /// Ops that cannot be mapped are discarded. If these ops are in the main path of the graph then the resulting graph will be disconnected. 
+    ///
+    /// - Parameter graph: The TFGraph to be mapped
+    /// - Returns: An array of mapped oprations as NetworkLayer's
+    public func translateOperators(graph: TFGraph) -> [NetworkLayer] {
         var layers = [NetworkLayer]()
         var processed = [String: NetworkLayer]() // maps TF node names to layers (to link nodes)
 

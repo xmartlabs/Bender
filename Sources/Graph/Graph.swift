@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Protocol implemented by any Graph
 public protocol GraphProtocol {
 
     associatedtype T: Node
@@ -17,28 +18,31 @@ public protocol GraphProtocol {
 
 public extension GraphProtocol {
 
+    /// Removes nodes that have no adjacencies
     mutating func removeLonely() {
         nodes = nodes.filter { !$0.isLonely }
     }
 
+    /// Sort nodes by dependencies
     mutating func sortNodes() {
         var sorted = [T]()
         let inputs: [T] = nodes.filter { $0.incomingNodes().count == 0 }
         for input in inputs {
-            buildGraph(node: input, sorted: &sorted)
+            buildList(node: input, sorted: &sorted)
         }
         assert(nodes.count == sorted.count, "Seems you might have a cyclic dependency in your graph. That is not supported!")
         nodes = sorted
     }
 
-    private func buildGraph(node: T, sorted: inout [T]) {
+    /// Builds the dependency list for this graph
+    private func buildList(node: T, sorted: inout [T]) {
         // check that all the dependencies have been added
         guard !node.incomingNodes().contains (where: { incoming in
             return !sorted.contains(where: { $0.isEqual(to: incoming) } )
         }) else { return }
         sorted.append(node)
         for node in node.outgoingNodes() {
-            buildGraph(node: node as! T, sorted: &sorted)
+            buildList(node: node as! T, sorted: &sorted)
         }
     }
 

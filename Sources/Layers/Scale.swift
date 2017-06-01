@@ -1,6 +1,6 @@
 //
 //  LanczosLayer.swift
-//  VideoStylizer
+//  Palladium
 //
 //  Created by Mathias Claassen on 4/24/17.
 //  Copyright © 2017 Xmartlabs. All rights reserved.
@@ -8,6 +8,7 @@
 
 import MetalPerformanceShaders
 
+/// Scales the input image to a given size
 open class Scale: NetworkLayer {
 
     public var lanczos: MPSImageLanczosScale!

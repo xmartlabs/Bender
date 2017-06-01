@@ -1,20 +1,22 @@
 //
 //  ConvTransposeZerosLayer.swift
-//  VideoStylizer
+//  Palladium
 //
 //  Created by Joaquin Rocco on 12/16/16.
-//  Copyright © 2016 Xmartlabs. All rights reserved.
+//  Copyright © 2017 Xmartlabs. All rights reserved.
 //
 
 import MetalPerformanceShaders
 
-struct WeightData {
-    var count: UInt32
-    var data: UnsafePointer<Float>
-}
-
+/// Transpose 2D Convolution (conv2d_transpose in TF). Not Deconvolution.
+/// Three-step implementation: See more info about this in conv_transpose.metal
+/// Current Limitations:
+/// * Symmetric strides and kernel sizes.
+/// * Stride must be: stride == kernelSize - 1.
+/// * More than 4 feature channels for input and output. (This ought to be the easiest to support)
 open class ConvTranspose: NetworkLayer {
 
+    /// Used to determine the filename for this layers weights. (Ignored if there is no ParameterLoader)
     static var weightModifier: String = ""
     var weightsPointer: Data?
     
@@ -142,18 +144,5 @@ open class ConvTranspose: NetworkLayer {
 
         step2Img.readCount = 0
     }
-
-//    func loadWeightsForFixedSize(file: String) -> UnsafeMutableRawPointer {
-//        let count = outputLayerSize.f * size.kernelSize * size.kernelSize * prevSize.f
-//        let bytes = loadConvWeights(fromFilePath: file, prevSize: prevSize, size: size)
-//        if count == ConvTransposeLayer.fixedBufferSize {
-//            return UnsafeMutableRawPointer(mutating: bytes)
-//        } else {
-//            let vector = UnsafeMutableRawPointer.allocate(bytes: ConvTransposeLayer.fixedBufferSize * Constants.FloatSize,
-//                                                          alignedTo: MemoryLayout<Float>.alignment)
-//            vector.copyBytes(from: bytes, count: count * Constants.FloatSize)
-//            return vector
-//        }
-//    }
 
 }

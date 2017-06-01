@@ -8,6 +8,7 @@
 
 import MetalPerformanceShaders
 
+/// Transforms an image from RGBA to BGRA. (You can use it the other way around too)
 open class BGRAtoRGBA: NetworkLayer {
 
     // Custom kernels

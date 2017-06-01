@@ -8,6 +8,7 @@
 
 import MetalPerformanceShaders
 
+/// Identity layer. Returns the input image
 open class Identity: NetworkLayer {
 
     open override func initialize(network: Network, device: MTLDevice) {

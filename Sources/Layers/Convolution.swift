@@ -1,16 +1,20 @@
 //
 //  ConvolutionLayer.swift
-//  VideoStylizer
+//  Palladium
 //
 //  Created by Joaquin Rocco on 12/16/16.
-//  Copyright © 2016 Xmartlabs. All rights reserved.
+//  Copyright © 2017 Xmartlabs. All rights reserved.
 //
 
 import MetalPerformanceShaders
 
+/// 2D Convolution layer
 open class Convolution: NetworkLayer {
 
+    /// Used to determine the filename for this layers weights. (Ignored if there is no ParameterLoader)
     static var weightModifier: String = ""
+
+    /// Used to determine the filename for this layers bias. (Ignored if there is no ParameterLoader)
     static var biasModifier: String = "bias"
 
     var weightsPointer: Data?
@@ -19,7 +23,7 @@ open class Convolution: NetworkLayer {
     private var prevSize: LayerSize!
     public var convSize: ConvSize
 
-    var conv: SlimMPSCNNConvolution?
+    var conv: MPSCNNConvolution?
     let neuronType: ActivationNeuronType
     public var padding: PaddingType
 
@@ -45,6 +49,18 @@ open class Convolution: NetworkLayer {
                                h: padding == .same ? prevSize.h / convSize.strideY : (prevSize.h - convSize.kernelHeight) / convSize.strideY + 1)
 
         updateWeights(device: device)
+        if(padding == .same){
+            let padHeight = ((outputSize.h - 1) * convSize.strideY + convSize.kernelHeight - prevSize.h)
+            let padWidth  = ((outputSize.w - 1) * convSize.strideX + convSize.kernelWidth - prevSize.w)
+            let padTop = Int(padHeight / 2)
+            let padLeft = Int(padWidth / 2)
+
+            conv?.offset = MPSOffset(x: ((Int(convSize.kernelWidth)/2) - padLeft), y: (Int(convSize.kernelHeight/2) - padTop), z: 0)
+        }
+        else{
+            conv?.offset = MPSOffset(x: Int(convSize.kernelWidth)/2, y: Int(convSize.kernelHeight)/2, z: 0)
+        }
+
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
 
@@ -81,18 +97,17 @@ open class Convolution: NetworkLayer {
         desc.strideInPixelsX = convSize.strideX
         desc.strideInPixelsY = convSize.strideY
 
-        conv = SlimMPSCNNConvolution(device: device,
-                                     convolutionDescriptor: desc,
-                                     kernelWeights: weights,
-                                     biasTerms: bias,
-                                     flags: .none)
+        conv = MPSCNNConvolution(device: device,
+                                 convolutionDescriptor: desc,
+                                 kernelWeights: weights,
+                                 biasTerms: bias,
+                                 flags: .none)
     }
     
     open override func execute(commandBuffer: MTLCommandBuffer) {
         conv?.encode(commandBuffer: commandBuffer,
                      sourceImage: getIncoming()[0].outputImage,
-                     destinationImage: outputImage,
-                     padding: padding == .same)
+                     destinationImage: outputImage)
     }
 
 }

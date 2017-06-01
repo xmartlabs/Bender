@@ -8,8 +8,9 @@
 
 import Foundation
 
-/// Should be executed after Variable Processor
-class TFDenseSubstitution: TFOptimizer {
+/// Transforms a MatMul and a BiasAdd into a FullyConnected. Should be executed after Variable Processor
+/// Does not work with embedded weights. Transposing of weights must be done previously on Python side.
+public class TFDenseSubstitution: TFOptimizer {
 
     /*  Takes:
           MatMul --> BiasAdd [--> Neuron]
@@ -21,7 +22,7 @@ class TFDenseSubstitution: TFOptimizer {
 
      */
 
-    func optimize(graph: TFGraph) {
+    public func optimize(graph: TFGraph) {
         for node in graph.nodes {
             if node.nodeDef.isTFBiasAddOp,
                 let matmul = node.incomingNodes().first(where: { ($0 as? TFNode)?.nodeDef.isTFMatMulOp ?? false }),
