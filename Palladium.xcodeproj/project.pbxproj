@@ -36,6 +36,7 @@
 		8F79B8031EC23563002D02C8 /* ResidualLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA9841E1EBA74D700586D1B /* ResidualLayer.swift */; };
 		8F79B8081EC248CD002D02C8 /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B8071EC248CD002D02C8 /* Dummy.swift */; };
 		8F79B80A1EC2514A002D02C8 /* MTLDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B8091EC2514A002D02C8 /* MTLDevice.swift */; };
+		8F8856591EE05C9E006140B3 /* TFReshapeOptimizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8856581EE05C9E006140B3 /* TFReshapeOptimizer.swift */; };
 		8F94C5301ECE042400D5E0E6 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94C52F1ECE042400D5E0E6 /* Converter.swift */; };
 		8F94C5321ECE0B8400D5E0E6 /* TFConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94C5311ECE0B8400D5E0E6 /* TFConverter.swift */; };
 		8F94C5341ECE0DC600D5E0E6 /* TFOptimizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94C5331ECE0DC600D5E0E6 /* TFOptimizer.swift */; };
@@ -104,6 +105,7 @@
 		8F79B7FF1EC233A8002D02C8 /* ActivationNeuronType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivationNeuronType.swift; sourceTree = "<group>"; };
 		8F79B8071EC248CD002D02C8 /* Dummy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
 		8F79B8091EC2514A002D02C8 /* MTLDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MTLDevice.swift; sourceTree = "<group>"; };
+		8F8856581EE05C9E006140B3 /* TFReshapeOptimizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFReshapeOptimizer.swift; sourceTree = "<group>"; };
 		8F94C52F1ECE042400D5E0E6 /* Converter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
 		8F94C5311ECE0B8400D5E0E6 /* TFConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFConverter.swift; sourceTree = "<group>"; };
 		8F94C5331ECE0DC600D5E0E6 /* TFOptimizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TFOptimizer.swift; path = ../TFOptimizer.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				8FC8F7AE1ED35396004DA113 /* TFDenseSubstitution.swift */,
 				8FA6BAC11ED5CFCE004450C0 /* TFInstanceNormOptimizer.swift */,
 				8F94C53C1ECE1DD000D5E0E6 /* TFVariableProcessor.swift */,
+				8F8856581EE05C9E006140B3 /* TFReshapeOptimizer.swift */,
 			);
 			name = Optimizers;
 			sourceTree = "<group>";
@@ -473,6 +476,7 @@
 				8F60A31D1EC4E6E400296167 /* PaddingType.swift in Sources */,
 				8F60A3211EC4F9CD00296167 /* Softmax.swift in Sources */,
 				8FA984181EBA710000586D1B /* Shaders.metal in Sources */,
+				8F8856591EE05C9E006140B3 /* TFReshapeOptimizer.swift in Sources */,
 				8F9F35851EDC83CE005F4DAE /* Data.swift in Sources */,
 				8F0669B71EC37424009F5C7C /* ParameterLoader.swift in Sources */,
 				8FA984041EBA70F900586D1B /* Convolution.swift in Sources */,

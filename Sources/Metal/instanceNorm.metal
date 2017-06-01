@@ -9,121 +9,92 @@
 #include <metal_stdlib>
 using namespace metal;
 
-kernel void meanA(
-                  texture2d_array<float, access::read> src [[texture(0)]],
-                  texture2d_array<float, access::write> outTexture [[texture(1)]],
-                  ushort2 gid [[thread_position_in_grid]])
-{
-    half4 sum = half4(0.0h);
-    half4 blockSum = half4(0.0h);
-    const ushort blockSize = 16;
-    const ushort size = src.get_width();
-    const ushort blocks = size/blockSize;
-    
-    for (ushort b=0; b<blocks; b++){
-        for (ushort i=0; i<blockSize; i++)
-        {
-            const half4 color = half4(src.read(ushort2(gid.x, i+b*blockSize), gid.y));
-            blockSum += color;
-        }
-        sum += blockSum / half(blockSize);
-        blockSum = half4(0.0h);
+kernel void instance_norm(constant float4* weights[[buffer(0)]],
+                          constant float4* bias[[buffer(1)]],
+                          texture2d_array<float, access::read> in[[texture(0)]],
+                          texture2d_array<float, access::write> out[[texture(1)]],
+                          ushort3 gid[[thread_position_in_grid]],
+                          ushort tid[[thread_index_in_threadgroup]],
+                          ushort3 tg_size[[threads_per_threadgroup]]) {
+    if (gid.z >= out.get_array_size()) {
+        return;
     }
 
-    outTexture.write(float4(sum / half(blocks)), ushort2(gid.x, 0), gid.y);
-}
+    constexpr ushort THREADGROUP_SIZE = 256;
 
-kernel void avgMean(
-                    texture2d_array<float, access::read> src [[texture(0)]],
-                    texture2d_array<float, access::write> outTexture [[texture(1)]],
-
-                    ushort2 gid [[thread_position_in_grid]])
-{
-    half4 sum = half4(0.0h);
-    half4 blockSum = half4(0.0h);
-    const ushort blockSize = 16;
-    const ushort size = src.get_width();
-    const ushort blocks = size/blockSize;
-    
-    for (ushort b=0; b<blocks; b++){
-        for (ushort i=0; i<blockSize; i++)
-        {
-            const half4 color = half4(src.read(ushort2(i+b*blockSize, 0), gid.x));
-            blockSum += color;
+    threadgroup float4 per_thread_state[THREADGROUP_SIZE];
+    // Each block handles a single texture.
+    per_thread_state[tid] = 0;
+    for (ushort y = gid.y; y < in.get_height(); y += tg_size.y) {
+        for (ushort x = gid.x; x < in.get_width(); x += tg_size.x) {
+            per_thread_state[tid] += in.read(ushort2(x, y), gid.z);
         }
-        sum += blockSum / half(blockSize);
-        blockSum = half4(0.0h);
     }
-    outTexture.write(float4(sum / half(blocks)), ushort2(0,0), gid.x);
-}
 
-kernel void varianceA(
-                      texture2d_array<float, access::read> src [[texture(0)]],
-                      texture2d_array<float, access::read> meanTexture [[texture(1)]],
-                      texture2d_array<float, access::write> outTexture [[texture(2)]],
+    threadgroup_barrier(mem_flags::mem_threadgroup);
 
-                      ushort2 gid [[thread_position_in_grid]])
-{
-    const half4 mu = half4(meanTexture.read(ushort2(0, 0), gid.y));
-    
-    half4 sum = half4(0.0h);
-    half4 blockSum = half4(0.0h);
-    const ushort blockSize = 16;
-    const ushort size = src.get_width();
-    const ushort blocks = size/blockSize;
-    
-    for (ushort b=0; b<blocks; b++){
-        for (ushort i=0; i<blockSize; i++)
-        {
-            const half4 val = half4(src.read(ushort2(gid.x, i+b*blockSize), gid.y));
-            blockSum += (val - mu) * (val - mu);
+    // 256 -> 32 reduction
+    if (tid < 32) {
+        for (ushort i = tid + 32; i < THREADGROUP_SIZE; i += 32) {
+            per_thread_state[tid] += per_thread_state[i];
         }
-        sum += blockSum / half(blockSize);
-        blockSum = half4(0.0h);
     }
-    outTexture.write(float4(sum / half(blocks)), ushort2(gid.x, 0), gid.y);
-}
 
-kernel void avgVar(
-                   texture2d_array<float, access::read> src [[texture(0)]],
-                   texture2d_array<float, access::write> outTexture [[texture(1)]],
+    threadgroup_barrier(mem_flags::mem_threadgroup);
 
-                   ushort2 gid [[thread_position_in_grid]])
-{
-    half4 sum = half4(0.0h);
-    half4 blockSum = half4(0.0h);
-    const ushort blockSize = 16;
-    const ushort size = src.get_width();
-    const ushort blocks = size/blockSize;
-    
-    for (ushort b=0; b<blocks; b++){
-        for (ushort i=0; i<blockSize; i++)
-        {
-            const half4 color = half4(src.read(ushort2(i+b*blockSize, 0), gid.x));
-            blockSum += color;
+    if (tid == 0) {
+        float4 sum = 0.0;
+        for (ushort i = 0; i < 32; ++i) {
+            sum += per_thread_state[i];
         }
-        sum += blockSum / half(blockSize);
-        blockSum = half4(0.0h);
+        sum /= (in.get_width() * in.get_height());
+        per_thread_state[0] = sum;
     }
-    const half4 sigma = sum / half(blocks);
+    threadgroup_barrier(mem_flags::mem_threadgroup);
+    // Save mean and broadcast to all threads.
+    const float4 mean = per_thread_state[0];
 
-    outTexture.write(float4(sqrt(sigma + 0.001h)), ushort2(0, 0), gid.x);
-}
+    threadgroup_barrier(mem_flags::mem_threadgroup);
 
-kernel void instanceNorm(
-                         texture2d_array<float, access::read> src [[texture(0)]],
-                         texture2d_array<float, access::read> meanTexture [[texture(1)]],
-                         texture2d_array<float, access::read> varianceTexture [[texture(2)]],
-                         texture2d_array<float, access::write> outTexture [[texture(3)]],
-                         
-                         constant float4 *scale [[ buffer(0) ]],
-                         constant float4 *shift [[ buffer(1) ]],
+    per_thread_state[tid] = 0;
+    for (ushort y = gid.y; y < in.get_height(); y += tg_size.y) {
+        for (ushort x = gid.x; x < in.get_width(); x += tg_size.x) {
+            float4 delta = in.read(ushort2(x, y), gid.z) - mean;
+            per_thread_state[tid] += delta * delta;
+        }
+    }
 
-                         ushort3 gid [[thread_position_in_grid]])
-{
-    const half4 val = half4(src.read(ushort2(gid.x, gid.y), gid.z));
-    const half4 mu = half4(meanTexture.read(ushort2(0, 0), gid.z));
-    const half4 sigma = half4(varianceTexture.read(ushort2(0, 0), gid.z));
-    
-    outTexture.write(clamp(float4((val - mu) / sigma) * scale[gid.z] + shift[gid.z], -10.0, 10.0), ushort2(gid.x, gid.y), gid.z);
+    threadgroup_barrier(mem_flags::mem_threadgroup);
+
+    // 256 -> 32 reduction
+    if (tid < 32) {
+        for (ushort i = tid + 32; i < THREADGROUP_SIZE; i += 32) {
+            per_thread_state[tid] += per_thread_state[i];
+        }
+    }
+
+    threadgroup_barrier(mem_flags::mem_threadgroup);
+
+    if (tid == 0) {
+        float4 sum = 0.0;
+        for (ushort i = 0; i < 32; ++i) {
+            sum += per_thread_state[i];
+        }
+        sum /= (in.get_width() * in.get_height());
+        per_thread_state[0] = 1.0 / sqrt(max(sum, float4(1e-4)) + 1.0e-4);
+    }
+
+    threadgroup_barrier(mem_flags::mem_threadgroup);
+    // Broadcast to all threads.
+    const float4 inv_var = per_thread_state[0];
+
+    const float4 scale = inv_var * weights[gid.z];
+    const float4 shift = bias[gid.z] - mean * scale;
+
+    for (ushort y = gid.y; y < in.get_height(); y += tg_size.y) {
+        for (ushort x = gid.x; x < in.get_width(); x += tg_size.x) {
+            float4 scaled = in.read(ushort2(x, y), gid.z) * scale + shift;
+            out.write(clamp(scaled, -10.0, 10.0), ushort2(x, y), gid.z);
+        }
+    }
 }

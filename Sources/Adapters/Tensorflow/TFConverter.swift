@@ -33,6 +33,7 @@ open class TFConverter: Converter {
                                                 TFDeleteDropout(),
                                                 TFVariableProcessor(),
                                                 TFDenseSubstitution(),
+                                                TFReshapeOptimizer(),
                                                 TFConvOptimizer()])
         instance.setupMappers()
         return instance
