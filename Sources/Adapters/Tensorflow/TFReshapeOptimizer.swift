@@ -12,12 +12,10 @@ import Foundation
 public class TFReshapeOptimizer: TFOptimizer {
 
     public func optimize(graph: TFGraph) {
-        for node in graph.nodes {
-            if node.nodeDef.isTFReshapeOp {
-                if let shape = node.incomingNodes().filter({ ($0 as? TFNode)?.nodeDef.isTFConstOp ?? false }).first {
-                    shape.strip()
-                    node.removeFromGraph()
-                }
+        for node in graph.nodes where node.nodeDef.isTFReshapeOp {
+            if let shape = node.incomingNodes().filter({ ($0 as? TFNode)?.nodeDef.isTFConstOp ?? false }).first {
+                shape.strip()
+                node.removeFromGraph()
             }
         }
     }

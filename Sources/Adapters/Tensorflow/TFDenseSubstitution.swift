@@ -23,10 +23,9 @@ public class TFDenseSubstitution: TFOptimizer {
      */
 
     public func optimize(graph: TFGraph) {
-        for node in graph.nodes {
-            if node.nodeDef.isTFMatMulOp,
-                let add = node.outgoingNodes().first(where: { ($0 as! TFNode).nodeDef.isTFBiasAddOp ||
-                                                              ($0 as! TFNode).nodeDef.isTFAddOp }) as? TFNode,
+        for node in graph.nodes where node.nodeDef.isTFMatMulOp {
+            if let add = node.outgoingNodes().flatMap({ $0 as? TFNode }).first(where: { $0.nodeDef.isTFBiasAddOp ||
+                                                                                        $0.nodeDef.isTFAddOp }),
                 let matmulInputs = node.incomingNodes() as? [TFNode],
                 let weightVar = matmulInputs.first(where: { $0.nodeDef.isTFVariableOrConstOp }),
                 let input = matmulInputs.first(where: { !$0.nodeDef.isTFVariableOrConstOp }) {
