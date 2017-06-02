@@ -162,11 +162,34 @@ One thing we realized is that it is useful to have single nodes that perform onl
 
 Therefore, we support composite layers which basically are just a set of layers which we want to reuse in a network.
 
-For example if we want to create a residual network like the one used for [style transfer](http://cs.stanford.edu/people/jcjohns/eccv16/) we could define it like:
+For example if we want to use most of our Convolution layers followed by an Instance Normalization and an activation neuron we could define this:
 
 ```swift
+class ConvolutionBlock: CompositeLayer {
 
+    public var input: NetworkLayer
+    public var output: NetworkLayer
+
+    public init(convSize: ConvSize, neuron: ActivationNeuronType = .relu, id: String? = nil) {
+        let convId = id ?? ""
+        let group = Convolution(convSize: convSize, neuronType: .none, id: convId)
+                    ->> InstanceNorm(id: convId + "-instanceNorm")
+                    ->> Neuron(type: neuron, id: convId + "NEURON")
+
+        self.input = group.input
+        self.output = group.output
+    }
+
+}
 ```
+
+A CompositeLayer is a temporary structure that will be removed as soon as its sublayers are added to the netwrok graph. It has an input and an output which must be set to the first and last sublayers, as can be seen in the Example.
+
+#### But how does this work?
+
+A `CompositeLayer` is a `Group`. Group's are temporal structures used during the generation of the execution graph. A Group consists of an `input` and an `output` which are the first and last nodes of a group of nodes. Bender's operator `->>` works on Groups. It takes two groups and returns one by joining the `output` from the first to the `input` of the second. The first two Groups can now be destroyed.
+
+A `CompositeLayer` is the same. It will be destroyed as soon as it is applied in an operator. But its sublayers survive...
 
 [Creating a network]: #creating-a-network
 [Running a network]: #running-a-network
