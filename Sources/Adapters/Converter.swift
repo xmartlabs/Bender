@@ -1,6 +1,6 @@
 //
 //  Converter.swift
-//  Palladium
+//  Bender
 //
 //  Created by Mathias Claassen on 5/18/17.
 //
@@ -16,10 +16,10 @@ public enum ProtoFileType {
 
 }
 
-/// Responsible for converting a model from another framework to Palladium
+/// Responsible for converting a model from another framework to Bender
 public protocol Converter {
 
-    /// Converts a model from another framework to Palladium
+    /// Converts a model from another framework to Bender
     func convertGraph(file: URL, type: ProtoFileType) -> [NetworkLayer]
 
 }

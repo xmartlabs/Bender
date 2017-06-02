@@ -1,6 +1,6 @@
 //
-//  PalladiumTest.swift
-//  Palladium
+//  BenderTest.swift
+//  Bender
 //
 //  Created by Diego Ernst on 5/25/17.
 //
@@ -8,7 +8,7 @@
 
 import MetalKit
 
-public class PalladiumTest {
+public class BenderTest {
 
     var device: MTLDevice!
 
@@ -22,9 +22,9 @@ public class PalladiumTest {
 
 }
 
-public class PalladiumTestRunner {
+public class BenderTestRunner {
 
-    let tests: [PalladiumTest] = [
+    let tests: [BenderTest] = [
         TextureConversionTest(),
         LocalResponseNormTest(),
         InstanceNormTest()

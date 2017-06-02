@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "28F8287C1C494B2C00330CF4"
-               BuildableName = "Palladium.framework"
-               BlueprintName = "Palladium"
-               ReferencedContainer = "container:Palladium.xcodeproj">
+               BuildableName = "Bender.framework"
+               BlueprintName = "Bender"
+               ReferencedContainer = "container:Bender.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "28F828861C494B2C00330CF4"
-               BuildableName = "PalladiumTests.xctest"
-               BlueprintName = "PalladiumTests"
-               ReferencedContainer = "container:Palladium.xcodeproj">
+               BuildableName = "BenderTests.xctest"
+               BlueprintName = "BenderTests"
+               ReferencedContainer = "container:Bender.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "28F8287C1C494B2C00330CF4"
-            BuildableName = "Palladium.framework"
-            BlueprintName = "Palladium"
-            ReferencedContainer = "container:Palladium.xcodeproj">
+            BuildableName = "Bender.framework"
+            BlueprintName = "Bender"
+            ReferencedContainer = "container:Bender.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -65,9 +65,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "28F8287C1C494B2C00330CF4"
-            BuildableName = "Palladium.framework"
-            BlueprintName = "Palladium"
-            ReferencedContainer = "container:Palladium.xcodeproj">
+            BuildableName = "Bender.framework"
+            BlueprintName = "Bender"
+            ReferencedContainer = "container:Bender.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -83,9 +83,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "28F8287C1C494B2C00330CF4"
-            BuildableName = "Palladium.framework"
-            BlueprintName = "Palladium"
-            ReferencedContainer = "container:Palladium.xcodeproj">
+            BuildableName = "Bender.framework"
+            BlueprintName = "Bender"
+            ReferencedContainer = "container:Bender.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

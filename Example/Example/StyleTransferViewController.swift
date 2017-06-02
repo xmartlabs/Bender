@@ -8,7 +8,7 @@
 import Accelerate
 import MetalPerformanceShaders
 import MetalKit
-import Palladium
+import Bender
 import UIKit
 
 class StyleTransferViewController: UIViewController, ExampleViewController {

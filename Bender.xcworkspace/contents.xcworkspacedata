@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Palladium.xcodeproj">
+      location = "group:Bender.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Example/Example.xcodeproj">

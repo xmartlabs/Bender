@@ -1,13 +1,13 @@
 //
 //  LuminanceLayer.swift
-//  Palladium
+//  Bender
 //
 //  Created by Mathias Claassen on 4/25/17.
 //  Copyright © 2017 Xmartlabs. All rights reserved.
 //
 
 import MetalPerformanceShaders
-import Palladium
+import Bender
 
 /// Receives two input images. The first is used to take the color and the second is used to take the luminance for the output image.
 class Luminance: NetworkLayer {

@@ -1,6 +1,6 @@
 //
 //  TFInstanceNormOptimizer.swift
-//  Palladium
+//  Bender
 //
 //  Created by Mathias Claassen on 5/24/17.
 //

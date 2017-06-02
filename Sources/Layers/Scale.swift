@@ -1,6 +1,6 @@
 //
 //  LanczosLayer.swift
-//  Palladium
+//  Bender
 //
 //  Created by Mathias Claassen on 4/24/17.
 //  Copyright © 2017 Xmartlabs. All rights reserved.

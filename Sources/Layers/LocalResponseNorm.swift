@@ -1,6 +1,6 @@
 //
 //  LocalResponseNorm.swift
-//  Palladium
+//  Bender
 //
 //  Created by Diego Ernst on 5/22/17.
 //

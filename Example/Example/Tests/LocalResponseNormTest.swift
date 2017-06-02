@@ -1,6 +1,6 @@
 //
 //  LocalResponseNormTest.swift
-//  Palladium
+//  Bender
 //
 //  Created by Diego Ernst on 5/25/17.
 //
@@ -10,9 +10,9 @@ import Accelerate
 import AVFoundation
 import MetalKit
 import MetalPerformanceShaders
-import Palladium
+import Bender
 
-class LocalResponseNormTest: PalladiumTest {
+class LocalResponseNormTest: BenderTest {
 
     let testParameters: [LocalResponseNorm.Parameters] = [
         LocalResponseNorm.Parameters(),

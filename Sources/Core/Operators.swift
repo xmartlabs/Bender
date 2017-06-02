@@ -1,6 +1,6 @@
 //
 //  Operators.swift
-//  Palladium
+//  Bender
 //
 //  Created by Mathias Claassen on 5/8/17.
 //

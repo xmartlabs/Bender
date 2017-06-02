@@ -1,6 +1,6 @@
 //
 //  HelperExtensions.swift
-//  Palladium
+//  Bender
 //
 //  Created by Joaquin Rocco on 11/30/16.
 //  Copyright © 2017 Xmartlabs. All rights reserved.
