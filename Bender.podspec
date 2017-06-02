@@ -7,12 +7,8 @@ Pod::Spec.new do |s|
   s.author           = { "Xmartlabs SRL" => "swift@xmartlabs.com" }
   s.source           = { git: "https://github.com/xmartlabs/Bender.git", tag: s.version.to_s }
   s.social_media_url = 'https://twitter.com/xmartlabs'
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '10.0'
   s.requires_arc = true
-  s.ios.source_files = 'Bender/Sources/**/*.{swift, metal}'
-  # s.resource_bundles = {
-  #   'Bender' => ['Bender/Sources/**/*.xib']
-  # }
-  # s.ios.frameworks = 'UIKit', 'Foundation'
-  # s.dependency 'Eureka', '~> 1.0'
+  s.ios.source_files = 'Sources/**/*.{swift,metal}'
+  s.dependency 'SwiftProtobuf', '~> 0.9.903'
 end

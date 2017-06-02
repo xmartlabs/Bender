@@ -4,7 +4,7 @@
 <a href="https://travis-ci.org/xmartlabs/Bender"><img src="https://travis-ci.org/xmartlabs/Bender.svg?branch=master" alt="Build status" /></a>
 <img src="https://img.shields.io/badge/platform-iOS-blue.svg?style=flat" alt="Platform iOS" />
 <a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift3-compatible-4BC51D.svg?style=flat" alt="Swift 3 compatible" /></a>
-<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a>
+<!-- <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a> -->
 <a href="https://cocoapods.org/pods/Bender"><img src="https://img.shields.io/cocoapods/v/Bender.svg" alt="CocoaPods compatible" /></a>
 <a href="https://raw.githubusercontent.com/xmartlabs/Bender/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
 </p>
@@ -121,10 +121,10 @@ Follow these 3 steps to run Example project: Clone Bender repository, open Bende
 To install Bender, simply add the following line to your Podfile:
 
 ```ruby
-pod 'Bender', '~> 1.0'
+pod 'Bender', :git => 'https://github.com/xmartlabs/Bender.git'
 ```
 
-#### Carthage
+<!-- #### Carthage
 
 [Carthage](https://github.com/Carthage/Carthage) is a simple, decentralized dependency manager for Cocoa.
 
@@ -132,7 +132,7 @@ To install Bender, simply add the following line to your Cartfile:
 
 ```ogdl
 github "xmartlabs/Bender" ~> 1.0
-```
+``` -->
 
 ## Author
 
