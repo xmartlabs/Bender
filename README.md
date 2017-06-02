@@ -121,7 +121,7 @@ Follow these 3 steps to run Example project: Clone Bender repository, open Bende
 To install Bender, simply add the following line to your Podfile:
 
 ```ruby
-pod 'Bender', '~> 1.0'
+pod 'Bender', '~> 0.1'
 ```
 
 <!-- #### Carthage
