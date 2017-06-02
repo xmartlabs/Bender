@@ -9,6 +9,10 @@
 <a href="https://raw.githubusercontent.com/xmartlabs/Palladium/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
 </p>
 
+![Palladium](Documentation/Media/Artboard.jpg)
+
+Palladium is an abstraction layer over MetalPerformanceShaders which is used to work with neural networks. It is in an experimental phase but working.
+
 ## Contents
 * [Introduction]
 * [Why did we need Palladium]
@@ -21,7 +25,7 @@
 * [Changelog]
 
 The documentation can be found under the `Documentation` folder:
-* [API.md] contains the most important information to get started.
+* [API](Documentation/API.md) contains the most important information to get started.
 * [Supported Layers] explains which layers are supported and how they map to TensorFlow ops.
 * [Importing] explains how to import models from other frameworks such as TensorFlow. You can also find information on how to enhance this functionality for custom implementations.
 
@@ -37,7 +41,7 @@ Palladium is functional but still under active development and we also want to s
 
 ## Why did we need Palladium?
 
-At [XmartLabs] we were about to start a Machine Learning project and investigated frameworks to use in iOS. We found MetalPerformanceShaders useful but not very user friendly and we saw ourselves repeating a lot of code and information. That is why we starting building a framework to handle that kind of stuff.
+At [Xmartlabs] we were about to start a Machine Learning project and investigated frameworks to use in iOS. We found MetalPerformanceShaders useful but not very user friendly and we saw ourselves repeating a lot of code and information. That is why we starting building a framework to handle that kind of stuff.
 
 We also found ourselves creating scripts to translate the models we had from training with TensorFlow to iOS. This means transposing the weights to the MPSCNN format and also mapping the parameters of the different kinds of layers in TensorFlow to the parameters used by the MPSCNN kernels. TensorFlow can be compiled for iOS but currently it does not support running on GPU which we wanted to do. We also did not want to include TensorFlow's static library into our project. This is why we also started to work on an adapter that would parse a TF graph and translate it to our Palladium layers. 
 
@@ -141,8 +145,8 @@ github "xmartlabs/Palladium" ~> 1.0
 This can be found in the [CHANGELOG.md](CHANGELOG.md) file.
 
 <!-- Links -->
-[XmartLabs]: http://xmartlabs.com
-[Importing]: ...
-[CONTRIBUTING](https://github.com/xmartlabs/Palladium/blob/master/CONTRIBUTING.md)
-[API.md]: ...
-[Supported Layers]: ...
+[Xmartlabs]: http://xmartlabs.com
+[Importing]: Documentation/Importing.md
+[CONTRIBUTING]: https://github.com/xmartlabs/Palladium/blob/master/CONTRIBUTING.md
+[API]: ...
+[Supported Layers]: Documentation/Supported_Layers.md
