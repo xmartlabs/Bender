@@ -31,10 +31,7 @@ open class LocalResponseNorm: NetworkLayer {
 
     let parameters: Parameters
 
-    public init(
-        device: MTLDevice,
-        id: String? = nil,
-        parameters: Parameters = Parameters()) {
+    public init(parameters: Parameters = Parameters(), id: String? = nil) {
         self.parameters = parameters
         super.init(id: id)
     }

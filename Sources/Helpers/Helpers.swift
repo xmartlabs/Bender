@@ -17,16 +17,19 @@ public func measure(_ label: String = "", _ block: () -> ()) {
     debugPrint("\(label): \(v) (\(1/v) per second)")
 }
 
+/// Function that transposes weights in a certain order
+public typealias TransposeFunction = (Data, Shape) -> (Data)
+
 /// Transposes weights from HWIO to OHWI order. Used to pass TensorFlow's weights for Convolution layers
-func HWIOtoOHWI(weights: Data, shape: Tensorflow_TensorShapeProto) -> Data {
+func HWIOtoOHWI(weights: Data, shape: Shape) -> Data {
     var transposed = [Float](repeating: 0.0, count: shape.totalCount)
 
     for o in 0..<shape.outputChannels {
-        for h in 0..<shape.kernelHeight {
-            for w in 0..<shape.kernelWidth {
+        for h in 0..<shape.height {
+            for w in 0..<shape.width {
                 for i in 0..<shape.inputChannels {
-                    let tIndex = i + shape.inputChannels * (w + shape.kernelWidth * (h + shape.kernelHeight * (o)))
-                    let wIndex = o + shape.outputChannels * (i + shape.inputChannels * (w + shape.kernelWidth * (h)))
+                    let tIndex = i + shape.inputChannels * (w + shape.width * (h + shape.height * (o)))
+                    let wIndex = o + shape.outputChannels * (i + shape.inputChannels * (w + shape.width * (h)))
                     transposed[tIndex] = weights.pointer()![wIndex]
                 }
             }

@@ -15,18 +15,18 @@ public extension TFConverter {
         let addMapper = { (node: TFNode) in
             return Add(id: node.nodeDef.name)
         }
-        mappers["Add"] = addMapper
+        mappers[Constants.Ops.Add] = addMapper
 
         //MARK: Activation neurons
         let neuronMapper = { (type: ActivationNeuronType) -> (TFNode) -> NetworkLayer in
-        { node in
-            return Neuron(type: type, id: node.nodeDef.name)
+            { node in
+                return Neuron(type: type, id: node.nodeDef.name)
             }
         }
 
-        mappers["Relu"] = neuronMapper(.relu)
-        mappers["Tanh"] = neuronMapper(.tanh)
-        mappers["Sigmoid"] = neuronMapper(.sigmoid)
+        mappers[Constants.Ops.Relu] = neuronMapper(.relu)
+        mappers[Constants.Ops.Tanh] = neuronMapper(.tanh)
+        mappers[Constants.Ops.Sigmoid] = neuronMapper(.sigmoid)
 
         //MARK: Pooling
         let poolingMapper = { (type: PoolingType) -> (TFNode) -> NetworkLayer in { node in
@@ -67,7 +67,7 @@ public extension TFConverter {
             }
 
             //transpose weights
-            let weights = weightData.weights != nil ? HWIOtoOHWI(weights: weightData.weights!, shape: weightData.weightShape) : nil
+            let weights = weightData.weights != nil ? HWIOtoOHWI(weights: weightData.weights!, shape: weightData.weightShape.toShape) : nil
 
             let convSize = ConvSize(shape: weightData.weightShape,
                                     strideX: Int(strides.x),
@@ -112,12 +112,14 @@ public extension TFConverter {
 
 
 
-            //transpose weights does not work as we do not know the desired shape dimensions
-            //            let weights = weightData.weights != nil ? HWIOtoOHWI(weights: weightData.weights!, shape: weightData.weightShape) : nil
+            // transpose weights is done in the layer itself
 
             return FullyConnected(neurons: Int(weightData.weightShape.dim[1].size),
                                   neuronType: node.nodeDef.activationNeuron(),
                                   useBias: weightData.useBias,
+                                  weights: weightData.weights,
+                                  bias: weightData.bias,
+                                  transpose: HWIOtoOHWI,
                                   id: node.nodeDef.name)
         }
         mappers[Constants.Ops.Dense] = denseMapper

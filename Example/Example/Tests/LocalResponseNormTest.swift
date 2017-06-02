@@ -33,7 +33,7 @@ class LocalResponseNormTest: PalladiumTest {
 
     func test(texture: Texture, parameters: LocalResponseNorm.Parameters, completion: @escaping (Void) -> ()) {
         let styleNet = Network(device: device, inputSize: texture.size, parameterLoader: SingleBinaryLoader(checkpoint: "lala"))
-        styleNet.start ->> LocalResponseNorm(device: device, id: nil, parameters: parameters)
+        styleNet.start ->> LocalResponseNorm(parameters: parameters, id: nil)
         styleNet.initialize()
         let metalTexture = texture.metalTexture(with: device)
         let cpuComputed = cpuLocalResponseNorm(input: texture, parameters: parameters)

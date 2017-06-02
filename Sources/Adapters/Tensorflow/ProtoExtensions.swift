@@ -74,6 +74,10 @@ extension Tensorflow_TensorShapeProto {
         return dim.count == 1
     }
 
+    var toShape: Shape {
+        return Shape(width: kernelWidth, height: kernelHeight, inputChannels: inputChannels, outputChannels: outputChannels)
+    }
+
     //MARK: Named dimensions (these apply to Conv2D order)
     var kernelHeight: Int {
         return Int(dim[0].size)

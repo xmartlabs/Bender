@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class TestViewController: UIViewController {
 
     let testRunner = PalladiumTestRunner()
     

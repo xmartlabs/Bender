@@ -78,6 +78,7 @@
 		8FAD35091ED4C7B3004B69DA /* TFConvOptimizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAD35081ED4C7B3004B69DA /* TFConvOptimizer.swift */; };
 		8FC8F7AF1ED35396004DA113 /* TFDenseSubstitution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC8F7AE1ED35396004DA113 /* TFDenseSubstitution.swift */; };
 		8FC8F7B41ED38164004DA113 /* TFDeleteOptimizers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC8F7B31ED38164004DA113 /* TFDeleteOptimizers.swift */; };
+		8FFF4AD71EDEFDB600141E9D /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF4AD61EDEFDB600141E9D /* Shape.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -154,6 +155,7 @@
 		8FAD35081ED4C7B3004B69DA /* TFConvOptimizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFConvOptimizer.swift; sourceTree = "<group>"; };
 		8FC8F7AE1ED35396004DA113 /* TFDenseSubstitution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFDenseSubstitution.swift; sourceTree = "<group>"; };
 		8FC8F7B31ED38164004DA113 /* TFDeleteOptimizers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFDeleteOptimizers.swift; sourceTree = "<group>"; };
+		8FFF4AD61EDEFDB600141E9D /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -304,6 +306,7 @@
 				8FA9841A1EBA723500586D1B /* Helpers.swift */,
 				8FA984251EBA77E400586D1B /* LayerSize.swift */,
 				8F94C5401ECE262800D5E0E6 /* Regex.swift */,
+				8FFF4AD61EDEFDB600141E9D /* Shape.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -459,6 +462,7 @@
 				8F0669BC1EC3A4C1009F5C7C /* SingleBinaryLoader.swift in Sources */,
 				8FA6BABE1ED5BE95004450C0 /* TFGraph.swift in Sources */,
 				8FAB77221ECC86170050AB16 /* attr_value.pb.swift in Sources */,
+				8FFF4AD71EDEFDB600141E9D /* Shape.swift in Sources */,
 				8FA8E3301EC0FE2700E8BAD8 /* Operators.swift in Sources */,
 				8F79B8031EC23563002D02C8 /* ResidualLayer.swift in Sources */,
 				8FAB77291ECC86170050AB16 /* versions.pb.swift in Sources */,

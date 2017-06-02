@@ -12,9 +12,12 @@ import MetalPerformanceShaders
 open class FullyConnected: NetworkLayer {
 
     /// Used to determine the filename for this layers weights. (Ignored if there is no ParameterLoader)
-    static var weightModifier: String = ""
+    public static var weightModifier: String = ""
     /// Used to determine the filename for this layers bias. (Ignored if there is no ParameterLoader)
-    static var biasModifier: String = "bias"
+    public static var biasModifier: String = "bias"
+
+    var weightsPointer: Data?
+    var biasPointer: Data?
 
     var prevSize: LayerSize!
     var neurons: Int
@@ -23,11 +26,16 @@ open class FullyConnected: NetworkLayer {
     let neuronType: ActivationNeuronType
 
     var useBias: Bool
+    var transpose: TransposeFunction?
 
-    public init(neurons: Int, neuronType: ActivationNeuronType = .none, useBias: Bool = false, id: String? = nil) {
+    public init(neurons: Int, neuronType: ActivationNeuronType = .none, useBias: Bool = false, weights: Data? = nil, bias: Data? = nil,
+                transpose: TransposeFunction? = nil, id: String? = nil) {
         self.neurons = neurons
         self.neuronType = neuronType
         self.useBias = useBias
+        self.weightsPointer = weights
+        self.biasPointer = bias
+        self.transpose = transpose
         super.init(id: id)
     }
 
@@ -38,6 +46,10 @@ open class FullyConnected: NetworkLayer {
         prevSize = incoming.first?.outputSize
         outputSize = LayerSize(f: neurons,
                                w: 1)
+
+        if let transpose = transpose, let weights = weightsPointer {
+            weightsPointer = transpose(weights, Shape(width: prevSize.w, height: prevSize.h, inputChannels: prevSize.f, outputChannels: neurons))
+        }
 
         updateWeights(device: device)
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
@@ -56,10 +68,10 @@ open class FullyConnected: NetworkLayer {
             return
         }
 
-        let weights = network.parameterLoader.loadWeights(for: id, modifier: Convolution.weightModifier, size: getWeightsSize())
+        let weights = weightsPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id, modifier: Convolution.weightModifier, size: getWeightsSize())
         var bias: UnsafePointer<Float>? = nil
         if useBias {
-            bias = network.parameterLoader.loadWeights(for: id, modifier: Convolution.biasModifier, size: neurons)
+            bias = biasPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id, modifier: Convolution.biasModifier, size: neurons)
         }
 
         makeConv(device: device, weights: weights, bias: bias)
