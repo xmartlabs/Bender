@@ -15,18 +15,18 @@ public extension TFConverter {
         let addMapper = { (node: TFNode) in
             return Add(id: node.nodeDef.name)
         }
-        mappers["Add"] = addMapper
+        mappers[Constants.Ops.Add] = addMapper
 
         //MARK: Activation neurons
         let neuronMapper = { (type: ActivationNeuronType) -> (TFNode) -> NetworkLayer in
-        { node in
-            return Neuron(type: type, id: node.nodeDef.name)
+            { node in
+                return Neuron(type: type, id: node.nodeDef.name)
             }
         }
 
-        mappers["Relu"] = neuronMapper(.relu)
-        mappers["Tanh"] = neuronMapper(.tanh)
-        mappers["Sigmoid"] = neuronMapper(.sigmoid)
+        mappers[Constants.Ops.Relu] = neuronMapper(.relu)
+        mappers[Constants.Ops.Tanh] = neuronMapper(.tanh)
+        mappers[Constants.Ops.Sigmoid] = neuronMapper(.sigmoid)
 
         //MARK: Pooling
         let poolingMapper = { (type: PoolingType) -> (TFNode) -> NetworkLayer in { node in

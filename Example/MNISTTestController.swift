@@ -50,7 +50,12 @@ class MNISTTestController: UIViewController, ExampleViewController {
         setupTextureCache()
         setupCaptureSession()
         setupScaledNetwork()
+
+        // Import network
         importMNISTNetwork()
+
+        // If you want to create it from scratch comment the line above and uncomment:
+        // createMNISTNetwork()
         
         var me = self
         me.setPixelBufferPool()

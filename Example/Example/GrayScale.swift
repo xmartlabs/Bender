@@ -24,8 +24,8 @@ class GrayScale: NetworkLayer {
 
     override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
-        let incoming = getIncoming()[0]
         assert(getIncoming().count == 1, "GrayScale must have one input")
+        let incoming = getIncoming()[0]
         assert(incoming.outputSize.f <= 4, "GrayScale input must have at most 4 feature channels")
         outputSize = LayerSize(f: outputChannels, w: incoming.outputSize.w, h: incoming.outputSize.h)
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
