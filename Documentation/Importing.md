@@ -58,12 +58,12 @@ The default converter will make the following simplifications / optimizations:
 
 #### What happens with unsupported Layers?
 
-Unsupported layers are ignored and their connections are not rewired. This means that if you have a layer that is not supported in your main execution graph then the graph will be separated in different parts and the conversion will fail. If you have unsupported layers in your graph which you want to ignore then you should [add an optimizer](#custom-optimizer) similar to `TFDeleteDropout` to your converter. If you have a layer in your graph that is not supported but you need to execute it in Palladium then you should [add a custom layer](Documentation/API.md#adding-new-layers) implementing it and create a mapper that maps that operation to the layer you created.
+Unsupported layers are ignored and their connections are not rewired. This means that if you have a layer that is not supported in your main execution graph then the graph will be separated in different parts and the conversion will fail. If you have unsupported layers in your graph which you want to ignore then you should [add an optimizer](#custom-optimizer) similar to `TFDeleteDropout` to your converter. If you have a layer in your graph that is not supported but you need to execute it in Palladium then you should [add a custom layer](API.md#adding-new-layers) implementing it and create a mapper that maps that operation to the layer you created.
 
 #### A note on weight order
 In TensorFlow, the weights for [Conv2D](https://www.tensorflow.org/api_docs/python/tf/nn/conv2d) and most other layers are stored in [kernelHeight, kernelWidth, inputChannels, outputChannels] order but Metal requires a different order. This means that the weights need to be transposed. This can be done on the Python or on the Swift side.
 
-For __MPSCNNConvolution__ you need to pass [outputChannels, kernelHeight, kernelWidth, inputChannels] ordered weights, while the __MPSCNNFullyConnected__ class takes weights in the order [outputChannels, sourceWidth, sourceHeight, inputChannels]. Palladium includes helper functions to make this transpositions which are used when converting these layers. Have a look at [HWIOtoOHWI](Sources/Helpers/Helpers.swift) for an example. If you want to create another layer which needs transposition of weights then you can implement your own in a similar way.
+For __MPSCNNConvolution__ you need to pass [outputChannels, kernelHeight, kernelWidth, inputChannels] ordered weights, while the __MPSCNNFullyConnected__ class takes weights in the order [outputChannels, sourceWidth, sourceHeight, inputChannels]. Palladium includes helper functions to make this transpositions which are used when converting these layers. Have a look at [HWIOtoOHWI](../Sources/Helpers/Helpers.swift) for an example. If you want to create another layer which needs transposition of weights then you can implement your own in a similar way.
 
 ### Adding custom Optimizers <a name="custom-optimizer"></a>
 
@@ -88,7 +88,7 @@ converter.optimizers.append(MyTFOptimizer())
 It is common that there are nodes in a graph that are only important in training and we do not want them in the final execution graph. Sometimes we have to remove these nodes with an optimizer.
 
 Sometimes TensorFlow creates subgraphs which are named like 'subgraph_name/.../...'. For example a dropout consists of a lot of nodes called like 'dropout/...'. These subgraphs can be easily removed by subclassing `TFDeleteSubgraphOptimizer` and setting its `regex` variable with a regular expression that matches you subgraph.
-Have a look at [TFDeleteOptimizers.swift](Sources/Adapters/Tensorflow/TFDeleteOptimizers.swift) for examples.
+Have a look at [TFDeleteOptimizers.swift](../Sources/Adapters/Tensorflow/TFDeleteOptimizers.swift) for examples.
 
 Other times, if you want to remove a single node then you can also create an optimizer that traverses the graph and calls either `strip` (which removes all the connections of the node without rewiring them) or `removeFromGraph` (which does the same but also rewires the incoming connections to the outgoing connections) on each node that you want to remove. After each optimization the nodes that have no connections will be removed from the graph.
 
@@ -103,7 +103,7 @@ The idea of combining nodes is to create something a __mapper__ can convert into
 
 A mapper is function that converts one node from a TensorFlow graph to one layer in Palladium.
 
-In [API.md](Documentation/API.md) you can find how to create custom layers. Therefore we will concentrate in creating mappers that convert a node as it comes from a TF graph into a Palladium NetworkLayer.
+In [API](API.md) you can find how to create custom layers. Therefore we will concentrate in creating mappers that convert a node as it comes from a TF graph into a Palladium NetworkLayer.
 
 A `TFConverter` has a dictionary that maps TF ops to TFMappers:
 
@@ -117,11 +117,11 @@ A `TFMapper` is just a function that creates a `NetworkLayer` given a `TFNode`:
 
 So, if you want to add a mapper, then you have to add it to the converter's `mappers` variable.
 
-Have a look at [TFConverter+Mappers.swift](Sources/Adapters/Tensorflow/TFConverter+Mappers.swift) to see examples of mappers.
+Have a look at [TFConverter+Mappers.swift](../Sources/Adapters/Tensorflow/TFConverter+Mappers.swift) to see examples of mappers.
 
 
 [Exporting a model]: #exporting-a-model
 [Importing a model in Palladium]: #importing-a-model-in-bender
 [Default `TFConverter` and limitations]: #default-tfconverter-and-limitations
-[Adding custom Optimizers]: #adding-custom-optimizers
+[Adding custom Optimizers]: #custom-optimizer
 [Adding custom mappers (and layers)]: #custom-mappers

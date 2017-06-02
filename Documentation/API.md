@@ -13,7 +13,7 @@ This document explains the basic API in __Bender__.
 
 ## Creating a network
 
-To create a network model you can create it from scratch or [import](Documentation/Importing.md) it from a TensorFlow graph. We will explain how to create a network from scratch:
+To create a network model you can create it from scratch or [import](Importing.md) it from a TensorFlow graph. We will explain how to create a network from scratch:
 
 ```swift
 let network = Network(device: device, 
