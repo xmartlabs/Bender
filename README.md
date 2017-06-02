@@ -11,7 +11,7 @@
 
 ![Palladium](Documentation/Media/Artboard.jpg)
 
-Palladium is an abstraction layer over MetalPerformanceShaders which is used to work with neural networks. It is in an experimental phase but working.
+Palladium is an abstraction layer over MetalPerformanceShaders which is used to work with neural networks.
 
 ## Contents
 * [Introduction](#introduction)
@@ -36,7 +36,7 @@ Palladium allows you to easily define and run neural networks using the most com
 
 We also want to support loading models trained on other frameworks such as TensorFlow or Caffe2. Currently Palladium includes an adapter for TensorFlow that loads a graph with variables and "translates" it to Palladium layers. This feature supports a subset of TensorFlow's operations but we plan to enhance it to cover more cases.
 
-Palladium is functional but still under active development and we also want to see where the needs of the community drive it.
+Palladium is functional but still under active development and we also want to see where the needs of the community drive it. Please, note that the API is not stable yet.
 
 ## Why did we need Palladium? <a name="why"></a>
 
