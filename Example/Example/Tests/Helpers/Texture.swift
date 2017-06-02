@@ -1,6 +1,6 @@
 //
 //  Texture.swift
-//  Palladium
+//  Bender
 //
 //  Created by Diego Ernst on 5/25/17.
 //
@@ -10,7 +10,7 @@ import Accelerate
 import AVFoundation
 import MetalKit
 import MetalPerformanceShaders
-import Palladium
+import Bender
 
 public class Texture {
 

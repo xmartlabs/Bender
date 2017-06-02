@@ -10,7 +10,7 @@ import AVFoundation
 import CoreGraphics
 import MetalPerformanceShaders
 import MetalKit
-import Palladium
+import Bender
 import UIKit
 
 class MNISTTestController: UIViewController, ExampleViewController {

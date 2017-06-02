@@ -10,7 +10,7 @@ import UIKit
 
 class TestViewController: UIViewController {
 
-    let testRunner = PalladiumTestRunner()
+    let testRunner = BenderTestRunner()
     
     override func viewDidLoad() {
         super.viewDidLoad()

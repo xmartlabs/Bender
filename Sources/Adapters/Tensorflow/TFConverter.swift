@@ -1,6 +1,6 @@
 //
 //  TFConverter.swift
-//  Palladium
+//  Bender
 //
 //  Created by Mathias Claassen on 5/18/17.
 //
@@ -8,10 +8,10 @@
 
 import Foundation
 
-/// Converts a TFNode to a NetworkLayer of Palladium
+/// Converts a TFNode to a NetworkLayer of Bender
 public typealias TFMapper = (TFNode) -> NetworkLayer
 
-/// Converts a TFGraph to a Palladium neural network graph.
+/// Converts a TFGraph to a Bender neural network graph.
 open class TFConverter: Converter {
 
     /// Optimizers are the funtions that preprocess and simplify a TFGraph
@@ -105,7 +105,7 @@ open class TFConverter: Converter {
             } else {
                 // We found an unsupported layer. We ignore it but warn.
                 if verbose {
-                    debugPrint("Palladium:: Unsupported layer found: \(node.nodeDef.op)")
+                    debugPrint("Bender:: Unsupported layer found: \(node.nodeDef.op)")
                 }
             }
         }

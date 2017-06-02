@@ -10,9 +10,9 @@ import Accelerate
 import AVFoundation
 import MetalKit
 import MetalPerformanceShaders
-import Palladium
+import Bender
 
-class InstanceNormTest: PalladiumTest {
+class InstanceNormTest: BenderTest {
 
     override func run(completion: @escaping (Void) -> ()) {
         var tests: [CompletionSerializer.CompletableFunction] = []

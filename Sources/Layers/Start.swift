@@ -1,6 +1,6 @@
 //
 //  Start.swift
-//  Palladium
+//  Bender
 //
 //  Created by Mathias Claassen on 5/8/17.
 //
@@ -17,7 +17,7 @@ public class Start: NetworkLayer {
     var croppedImg: MPSImage!
 
     init(size: LayerSize) {
-        super.init(id: "Palladium_Start")
+        super.init(id: "Bender_Start")
         outputSize = size
     }
 

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		28F828811C494B2C00330CF4 /* Palladium.h in Headers */ = {isa = PBXBuildFile; fileRef = 28F828801C494B2C00330CF4 /* Palladium.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		28F828811C494B2C00330CF4 /* Bender.h in Headers */ = {isa = PBXBuildFile; fileRef = 28F828801C494B2C00330CF4 /* Bender.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4697C2191ED31F8D003ED2E9 /* local_response_norm.metal in Sources */ = {isa = PBXBuildFile; fileRef = 4697C2181ED31F8D003ED2E9 /* local_response_norm.metal */; };
 		4697C21B1ED35E50003ED2E9 /* LocalResponseNorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4697C21A1ED35E50003ED2E9 /* LocalResponseNorm.swift */; };
 		8F0669B11EC364A3009F5C7C /* PALFunctionConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0669B01EC364A3009F5C7C /* PALFunctionConstant.swift */; };
@@ -82,8 +82,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		28F8287D1C494B2C00330CF4 /* Palladium.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Palladium.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		28F828801C494B2C00330CF4 /* Palladium.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Palladium.h; sourceTree = "<group>"; };
+		28F8287D1C494B2C00330CF4 /* Bender.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Bender.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		28F828801C494B2C00330CF4 /* Bender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bender.h; sourceTree = "<group>"; };
 		28F828821C494B2C00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4697C2181ED31F8D003ED2E9 /* local_response_norm.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = local_response_norm.metal; sourceTree = "<group>"; };
 		4697C21A1ED35E50003ED2E9 /* LocalResponseNorm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalResponseNorm.swift; sourceTree = "<group>"; };
@@ -182,7 +182,7 @@
 		28F8287E1C494B2C00330CF4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				28F8287D1C494B2C00330CF4 /* Palladium.framework */,
+				28F8287D1C494B2C00330CF4 /* Bender.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -196,7 +196,7 @@
 				8FA983F41EBA70BF00586D1B /* Metal Shaders */,
 				8FA983F31EBA70B800586D1B /* Layers */,
 				8FA983F21EBA70A400586D1B /* Core */,
-				28F828801C494B2C00330CF4 /* Palladium.h */,
+				28F828801C494B2C00330CF4 /* Bender.h */,
 				28F828821C494B2C00330CF4 /* Info.plist */,
 			);
 			path = Sources;
@@ -386,16 +386,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28F828811C494B2C00330CF4 /* Palladium.h in Headers */,
+				28F828811C494B2C00330CF4 /* Bender.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		28F8287C1C494B2C00330CF4 /* Palladium */ = {
+		28F8287C1C494B2C00330CF4 /* Bender */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 28F828911C494B2C00330CF4 /* Build configuration list for PBXNativeTarget "Palladium" */;
+			buildConfigurationList = 28F828911C494B2C00330CF4 /* Build configuration list for PBXNativeTarget "Bender" */;
 			buildPhases = (
 				28F828781C494B2C00330CF4 /* Sources */,
 				28F828791C494B2C00330CF4 /* Frameworks */,
@@ -406,9 +406,9 @@
 			);
 			dependencies = (
 			);
-			name = Palladium;
-			productName = Palladium;
-			productReference = 28F8287D1C494B2C00330CF4 /* Palladium.framework */;
+			name = Bender;
+			productName = Bender;
+			productReference = 28F8287D1C494B2C00330CF4 /* Bender.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -426,7 +426,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 28F828771C494B2C00330CF4 /* Build configuration list for PBXProject "Palladium" */;
+			buildConfigurationList = 28F828771C494B2C00330CF4 /* Build configuration list for PBXProject "Bender" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -438,7 +438,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				28F8287C1C494B2C00330CF4 /* Palladium */,
+				28F8287C1C494B2C00330CF4 /* Bender */,
 			);
 		};
 /* End PBXProject section */
@@ -644,7 +644,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Palladium;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Bender;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -668,7 +668,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Palladium;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Bender;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -678,7 +678,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		28F828771C494B2C00330CF4 /* Build configuration list for PBXProject "Palladium" */ = {
+		28F828771C494B2C00330CF4 /* Build configuration list for PBXProject "Bender" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				28F8288F1C494B2C00330CF4 /* Debug */,
@@ -687,7 +687,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		28F828911C494B2C00330CF4 /* Build configuration list for PBXNativeTarget "Palladium" */ = {
+		28F828911C494B2C00330CF4 /* Build configuration list for PBXNativeTarget "Bender" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				28F828921C494B2C00330CF4 /* Debug */,

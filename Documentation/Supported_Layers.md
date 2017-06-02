@@ -34,7 +34,7 @@ Last but not least, there is a _CompositeLayer_ included:
 
 
 
-The following are the TensorFlow ops that are mapped to Palladium layers:
+The following are the TensorFlow ops that are mapped to Bender layers:
 * __Add__ -> Add (works for two textures/tensors of the same size)
 * __Conv2D__ -> Convolution
 * __Conv2Dtranspose__ -> ConvTranspose

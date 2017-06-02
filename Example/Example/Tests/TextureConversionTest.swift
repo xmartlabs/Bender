@@ -1,14 +1,14 @@
 //
 //  TextureConversionTest.swift
-//  Palladium
+//  Bender
 //
 //  Created by Diego Ernst on 5/25/17.
 //
 //
 
-import Palladium
+import Bender
 
-class TextureConversionTest: PalladiumTest {
+class TextureConversionTest: BenderTest {
 
     override func run(completion: @escaping (Void) -> ()) {
         TestData.textures.forEach { test(texture: $0) }

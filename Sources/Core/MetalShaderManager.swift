@@ -1,6 +1,6 @@
 //
 //  ComputeFunctions.swift
-//  Palladium
+//  Bender
 //
 //  Created by Mathias Claassen on 5/4/17.
 //
@@ -14,13 +14,13 @@ public class MetalShaderManager {
     /// MetalShaderManager singleton instance
     public static var shared = MetalShaderManager()
     var device: MTLDevice
-    var palladiumLibrary: MTLLibrary
+    var benderLibrary: MTLLibrary
     var mainLibrary: MTLLibrary
     var pipelines = [ComputePipelineDef: MTLComputePipelineState]()
 
     private init() {
         self.device = MTLCreateSystemDefaultDevice()!
-        self.palladiumLibrary = device.makeMyLibrary(bundle: Bundle(for: MetalShaderManager.self))
+        self.benderLibrary = device.makeMyLibrary(bundle: Bundle(for: MetalShaderManager.self))
         self.mainLibrary = device.makeMyLibrary(bundle: Bundle.main)
     }
 
@@ -32,7 +32,7 @@ public class MetalShaderManager {
     ///   - constants: functions constants passed to this function
     /// - Returns: a MTLComputePipelineState for the requested function
     public func getFunction(name: String, in bundle: Bundle = Bundle.main, constants: [FunctionConstantBase]? = nil) -> MTLComputePipelineState {
-        let library = bundle == Bundle.main ? mainLibrary : palladiumLibrary
+        let library = bundle == Bundle.main ? mainLibrary : benderLibrary
         let pipelineDef = ComputePipelineDef(function: name, constants: constants ?? [])
 
         if let pipelineState = pipelines[pipelineDef] {

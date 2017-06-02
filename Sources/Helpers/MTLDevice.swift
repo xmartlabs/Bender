@@ -1,6 +1,6 @@
 //
 //  MTLDevice.swift
-//  Palladium
+//  Bender
 //
 //  Created by Mathias Claassen on 5/9/17.
 //
