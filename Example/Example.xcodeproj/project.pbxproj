@@ -15,6 +15,14 @@
 		28F828DA1C4B714D00330CF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28F828D81C4B714D00330CF4 /* LaunchScreen.storyboard */; };
 		8F28C68D1ED724BE0062039F /* g_and_w.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8F28C68C1ED724BE0062039F /* g_and_w.pb */; };
 		8F4466D01ECF756B00915819 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4466CF1ECF756B00915819 /* UIImage.swift */; };
+		8F46BCAD1EE0B52D00DF275A /* mnist-conv1_b in Resources */ = {isa = PBXBuildFile; fileRef = 8F46BCA51EE0B52D00DF275A /* mnist-conv1_b */; };
+		8F46BCAE1EE0B52D00DF275A /* mnist-conv1_w in Resources */ = {isa = PBXBuildFile; fileRef = 8F46BCA61EE0B52D00DF275A /* mnist-conv1_w */; };
+		8F46BCAF1EE0B52D00DF275A /* mnist-conv2_b in Resources */ = {isa = PBXBuildFile; fileRef = 8F46BCA71EE0B52D00DF275A /* mnist-conv2_b */; };
+		8F46BCB01EE0B52D00DF275A /* mnist-conv2_w in Resources */ = {isa = PBXBuildFile; fileRef = 8F46BCA81EE0B52D00DF275A /* mnist-conv2_w */; };
+		8F46BCB11EE0B52D00DF275A /* mnist-fc1_b in Resources */ = {isa = PBXBuildFile; fileRef = 8F46BCA91EE0B52D00DF275A /* mnist-fc1_b */; };
+		8F46BCB21EE0B52D00DF275A /* mnist-fc1_w in Resources */ = {isa = PBXBuildFile; fileRef = 8F46BCAA1EE0B52D00DF275A /* mnist-fc1_w */; };
+		8F46BCB31EE0B52D00DF275A /* mnist-fc2_b in Resources */ = {isa = PBXBuildFile; fileRef = 8F46BCAB1EE0B52D00DF275A /* mnist-fc2_b */; };
+		8F46BCB41EE0B52D00DF275A /* mnist-fc2_w in Resources */ = {isa = PBXBuildFile; fileRef = 8F46BCAC1EE0B52D00DF275A /* mnist-fc2_w */; };
 		8F79B80F1EC25ECA002D02C8 /* Luminance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B80E1EC25ECA002D02C8 /* Luminance.swift */; };
 		8F79B8111EC261D6002D02C8 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B8101EC261D6002D02C8 /* Shaders.metal */; };
 		8F9F358E1EDCC5FE005F4DAE /* InstanceNormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9F358D1EDCC5FE005F4DAE /* InstanceNormTests.swift */; };
@@ -95,6 +103,14 @@
 		28F828E61C4B714D00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F28C68C1ED724BE0062039F /* g_and_w.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = g_and_w.pb; sourceTree = "<group>"; };
 		8F4466CF1ECF756B00915819 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		8F46BCA51EE0B52D00DF275A /* mnist-conv1_b */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "mnist-conv1_b"; path = "mnist/mnist-conv1_b"; sourceTree = "<group>"; };
+		8F46BCA61EE0B52D00DF275A /* mnist-conv1_w */ = {isa = PBXFileReference; lastKnownFileType = file; name = "mnist-conv1_w"; path = "mnist/mnist-conv1_w"; sourceTree = "<group>"; };
+		8F46BCA71EE0B52D00DF275A /* mnist-conv2_b */ = {isa = PBXFileReference; lastKnownFileType = file; name = "mnist-conv2_b"; path = "mnist/mnist-conv2_b"; sourceTree = "<group>"; };
+		8F46BCA81EE0B52D00DF275A /* mnist-conv2_w */ = {isa = PBXFileReference; lastKnownFileType = file; name = "mnist-conv2_w"; path = "mnist/mnist-conv2_w"; sourceTree = "<group>"; };
+		8F46BCA91EE0B52D00DF275A /* mnist-fc1_b */ = {isa = PBXFileReference; lastKnownFileType = file; name = "mnist-fc1_b"; path = "mnist/mnist-fc1_b"; sourceTree = "<group>"; };
+		8F46BCAA1EE0B52D00DF275A /* mnist-fc1_w */ = {isa = PBXFileReference; lastKnownFileType = file; name = "mnist-fc1_w"; path = "mnist/mnist-fc1_w"; sourceTree = "<group>"; };
+		8F46BCAB1EE0B52D00DF275A /* mnist-fc2_b */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "mnist-fc2_b"; path = "mnist/mnist-fc2_b"; sourceTree = "<group>"; };
+		8F46BCAC1EE0B52D00DF275A /* mnist-fc2_w */ = {isa = PBXFileReference; lastKnownFileType = file; name = "mnist-fc2_w"; path = "mnist/mnist-fc2_w"; sourceTree = "<group>"; };
 		8F79B80E1EC25ECA002D02C8 /* Luminance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Luminance.swift; path = Example/Luminance.swift; sourceTree = "<group>"; };
 		8F79B8101EC261D6002D02C8 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = Shaders.metal; path = Example/Shaders.metal; sourceTree = "<group>"; };
 		8F9F358D1EDCC5FE005F4DAE /* InstanceNormTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstanceNormTests.swift; path = Example/Tests/InstanceNormTests.swift; sourceTree = "<group>"; };
@@ -183,6 +199,7 @@
 		8F0669C01EC3AFAB009F5C7C /* data */ = {
 			isa = PBXGroup;
 			children = (
+				8F46BCA41EE0B52000DF275A /* mnist */,
 				8FFF4ADA1EDF3B9100141E9D /* mnist_full.pb */,
 				8FE2D0861EDDD5D30080125D /* mnist.pb */,
 				8FCD3EA01ED8B67E00B1AAE6 /* rainSquare.png */,
@@ -194,6 +211,21 @@
 			);
 			name = data;
 			path = Example/data;
+			sourceTree = "<group>";
+		};
+		8F46BCA41EE0B52000DF275A /* mnist */ = {
+			isa = PBXGroup;
+			children = (
+				8F46BCA51EE0B52D00DF275A /* mnist-conv1_b */,
+				8F46BCA61EE0B52D00DF275A /* mnist-conv1_w */,
+				8F46BCA71EE0B52D00DF275A /* mnist-conv2_b */,
+				8F46BCA81EE0B52D00DF275A /* mnist-conv2_w */,
+				8F46BCA91EE0B52D00DF275A /* mnist-fc1_b */,
+				8F46BCAA1EE0B52D00DF275A /* mnist-fc1_w */,
+				8F46BCAB1EE0B52D00DF275A /* mnist-fc2_b */,
+				8F46BCAC1EE0B52D00DF275A /* mnist-fc2_w */,
+			);
+			name = mnist;
 			sourceTree = "<group>";
 		};
 		8F79B80C1EC25EAD002D02C8 /* Custom Layers */ = {
@@ -372,15 +404,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				28F828DA1C4B714D00330CF4 /* LaunchScreen.storyboard in Resources */,
+				8F46BCB31EE0B52D00DF275A /* mnist-fc2_b in Resources */,
+				8F46BCAE1EE0B52D00DF275A /* mnist-conv1_w in Resources */,
 				8FE2D0871EDDD5D30080125D /* mnist.pb in Resources */,
 				8FCD3EA41ED8B67E00B1AAE6 /* wall-e-384.png in Resources */,
+				8F46BCB21EE0B52D00DF275A /* mnist-fc1_w in Resources */,
 				8FCD3EA51ED8B67E00B1AAE6 /* wall-e.png in Resources */,
 				8FAD35061ED48825004B69DA /* tftest.pbtxt in Resources */,
+				8F46BCAD1EE0B52D00DF275A /* mnist-conv1_b in Resources */,
 				8FFF4ADB1EDF3B9100141E9D /* mnist_full.pb in Resources */,
+				8F46BCB01EE0B52D00DF275A /* mnist-conv2_w in Resources */,
 				28F828D71C4B714D00330CF4 /* Assets.xcassets in Resources */,
 				8FCD3EA31ED8B67E00B1AAE6 /* rainSquare.png in Resources */,
 				8F28C68D1ED724BE0062039F /* g_and_w.pb in Resources */,
 				28F828D51C4B714D00330CF4 /* Main.storyboard in Resources */,
+				8F46BCAF1EE0B52D00DF275A /* mnist-conv2_b in Resources */,
+				8F46BCB41EE0B52D00DF275A /* mnist-fc2_w in Resources */,
+				8F46BCB11EE0B52D00DF275A /* mnist-fc1_b in Resources */,
 				8FCD3E9F1ED8B5DF00B1AAE6 /* g_and_w2.pb in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

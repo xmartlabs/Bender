@@ -42,7 +42,6 @@ class MNISTTestController: UIViewController, ExampleViewController {
     }()
 
     fileprivate var textureCache: CVMetalTextureCache?
-    var run = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +49,9 @@ class MNISTTestController: UIViewController, ExampleViewController {
         self.commandQueue = device.makeCommandQueue()
         setupTextureCache()
         setupCaptureSession()
-        setupNetwork()
+        setupScaledNetwork()
+        importMNISTNetwork()
+        
         var me = self
         me.setPixelBufferPool()
         setupMetalView()
@@ -125,32 +126,55 @@ class MNISTTestController: UIViewController, ExampleViewController {
         }
     }
 
-    func setupNetwork() {
-        measure("Set up takes:") {
+    //MARK: Set up network
+    func importMNISTNetwork() {
+        // Import the MNIST network from a TF exported graph
+        network = Network(device: device, inputSize: inputSize, parameterLoader: nil)
+        network.verbose = true
+        let url = Bundle.main.url(forResource: "mnist_full", withExtension: "pb")!
+        let converter = TFConverter.default()
+        converter.verbose = true
 
-            network = Network(device: device, inputSize: inputSize, parameterLoader: nil)
-            network.verbose = true
-            let url = Bundle.main.url(forResource: "mnist", withExtension: "pb")!
-            let converter = TFConverter.default()
-            converter.verbose = true
+        network.convert(converter: converter, url: url, type: .binary)
+        network.addPreProcessing(layers: [GrayScale(), Neuron(type: .custom(neuron: MPSCNNNeuronLinear(device: device, a: 255, b: 0)))])
+        network.addPostProcessing(layers: [Softmax()])
 
-            network.convert(converter: converter, url: url, type: .binary)
-            network.addPreProcessing(layers: [GrayScale()])
-            network.addPostProcessing(layers: [Softmax()])
+        network.initialize()
 
-            network.initialize()
+    }
 
-            scaledNetwork = Network(device: device, inputSize: inputSize, parameterLoader: nil)
-            scaledNetwork.initialize()
-        }
+    func createMNISTNetwork() {
+        // Create the MNISRT network with a weight file
+        Convolution.weightModifier = "_w"
+        Convolution.biasModifier = "_b"
+        FullyConnected.weightModifier = "_w"
+        FullyConnected.biasModifier = "_b"
+
+        let parameterLoader = PerLayerBinaryLoader(checkpoint: "mnist-")
+        network = Network(device: device, inputSize: inputSize, parameterLoader: parameterLoader)
+
+        network.start ->> GrayScale()
+            ->> Neuron(type: .custom(neuron: MPSCNNNeuronLinear(device: device, a: 255, b: 0)))
+            ->> Convolution(convSize: ConvSize(outputChannels: 32, kernelSize: 5, stride: 1), neuronType: .relu, useBias: true, id: "conv1")
+            ->> Pooling(type: .max)
+            ->> Convolution(convSize: ConvSize(outputChannels: 64, kernelSize: 5, stride: 1), neuronType: .relu, useBias: true, id: "conv2")
+            ->> Pooling(type: .max)
+            ->> FullyConnected(neurons: 1024, neuronType: .relu, useBias: true, id: "fc1")
+            ->> FullyConnected(neurons: 10, neuronType: .relu, useBias: true, id: "fc2")
+            ->> Softmax()
+
+        network.initialize()
+    }
+
+    func setupScaledNetwork() {
+        // This network is used to display the textre as it is passed to the main MNIST network
+        scaledNetwork = Network(device: device, inputSize: inputSize, parameterLoader: nil)
+        scaledNetwork.initialize()
     }
 
     func runNetwork(_ image: MPSImage) {
-//        let time = Date()
         networkRunQueue.async { [weak self] in
             self?.network.run(inputImage: image, queue: self!.commandQueue) { [weak self] results in
-//                let v = Date().timeIntervalSince(time)
-    //            debugPrint("Run: \(v) (\(1/v) per second)")
                 let numbers = Texture(metalTexture: results.texture, size: LayerSize(f: 10, w: 1, h: 1))
                 self?.didScan(numbers: numbers.data.flatMap { $0 })
             }
@@ -163,7 +187,6 @@ class MNISTTestController: UIViewController, ExampleViewController {
 
     func didScan(numbers: [Float]) {
         guard numbers.count == 10 else { return }
-//        print("Scanned \(numbers)")
         DispatchQueue.main.async { [weak self] in
             if let max = numbers.max(), let index = numbers.index(of: max) {
                 self?.resultLabel.text = "Found \(index)"
@@ -172,14 +195,6 @@ class MNISTTestController: UIViewController, ExampleViewController {
             }
         }
 
-    }
-
-    @IBAction func stopDebug(_ sender: Any) {
-        commandQueue.insertDebugCaptureBoundary()
-    }
-
-    @IBAction func runDebug(_ sender: Any) {
-        run = true
     }
     
 }
@@ -192,8 +207,6 @@ extension MNISTTestController: AVCaptureVideoDataOutputSampleBufferDelegate {
         guard 1 == CMSampleBufferGetNumSamples(sampleBuffer) else {
             return
         }
-
-        run = false
 
         guard connection.videoOrientation == .portrait else {
             connection.videoOrientation = .portrait

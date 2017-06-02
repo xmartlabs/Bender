@@ -75,8 +75,7 @@ kernel void to_grayscale(texture2d<float, access::read> inTexture [[texture(0)]]
     }
 
     half4 input = half4(inTexture.read(gid));
-    float gray = float(grayScale(input.rgb).r);
+    half gray = 1 - half(grayScale(input.rgb).r);
     outTexture.write(float4(gray, gray, gray, 1.0), gid);
-//    outTexture.write(inTexture.read(gid), gid);
 
 }

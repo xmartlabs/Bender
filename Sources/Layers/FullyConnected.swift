@@ -12,9 +12,9 @@ import MetalPerformanceShaders
 open class FullyConnected: NetworkLayer {
 
     /// Used to determine the filename for this layers weights. (Ignored if there is no ParameterLoader)
-    static var weightModifier: String = ""
+    public static var weightModifier: String = ""
     /// Used to determine the filename for this layers bias. (Ignored if there is no ParameterLoader)
-    static var biasModifier: String = "bias"
+    public static var biasModifier: String = "bias"
 
     var weightsPointer: Data?
     var biasPointer: Data?

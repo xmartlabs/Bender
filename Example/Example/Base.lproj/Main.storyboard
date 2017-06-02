@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -139,34 +138,16 @@
                                     <constraint firstAttribute="width" secondItem="cst-f6-Q7p" secondAttribute="height" multiplier="1:1" id="fLB-oO-nwQ"/>
                                 </constraints>
                             </mtkView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5g2-HZ-WQe">
-                                <rect key="frame" x="321" y="547" width="30" height="30"/>
-                                <state key="normal" title="Run"/>
-                                <connections>
-                                    <action selector="runDebug:" destination="7AX-su-gHl" eventType="touchUpInside" id="zsI-d4-5Cw"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hWt-NA-9lw">
-                                <rect key="frame" x="320" y="585" width="32" height="30"/>
-                                <state key="normal" title="Stop"/>
-                                <connections>
-                                    <action selector="stopDebug:" destination="7AX-su-gHl" eventType="touchUpInside" id="Woc-i8-3cI"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="5g2-HZ-WQe" secondAttribute="trailing" constant="8" id="0on-fa-hZl"/>
-                            <constraint firstItem="hWt-NA-9lw" firstAttribute="top" secondItem="5g2-HZ-WQe" secondAttribute="bottom" constant="8" id="HFx-00-5gB"/>
                             <constraint firstItem="yfa-B1-Z86" firstAttribute="leading" secondItem="s5d-8O-a7V" secondAttribute="leading" id="VHB-4y-U85"/>
                             <constraint firstItem="cst-f6-Q7p" firstAttribute="top" secondItem="yfa-B1-Z86" secondAttribute="bottom" id="b4e-aN-YWh"/>
                             <constraint firstItem="aB3-zr-mK6" firstAttribute="leading" secondItem="cst-f6-Q7p" secondAttribute="trailing" constant="10" id="dB4-um-QXs"/>
                             <constraint firstItem="yfa-B1-Z86" firstAttribute="top" secondItem="Ppr-CX-Qaq" secondAttribute="bottom" id="gUG-6r-geD"/>
                             <constraint firstAttribute="trailing" secondItem="yfa-B1-Z86" secondAttribute="trailing" id="mrK-lX-2DJ"/>
-                            <constraint firstItem="5g2-HZ-WQe" firstAttribute="top" secondItem="yfa-B1-Z86" secondAttribute="bottom" constant="30" id="n1r-sF-fnO"/>
                             <constraint firstItem="cst-f6-Q7p" firstAttribute="leading" secondItem="s5d-8O-a7V" secondAttribute="leading" id="sF8-KI-GpK"/>
                             <constraint firstItem="aB3-zr-mK6" firstAttribute="top" secondItem="yfa-B1-Z86" secondAttribute="bottom" constant="60" id="srM-ma-2ix"/>
-                            <constraint firstItem="hWt-NA-9lw" firstAttribute="centerX" secondItem="5g2-HZ-WQe" secondAttribute="centerX" id="uu9-lu-z7z"/>
                             <constraint firstItem="q96-8c-2qZ" firstAttribute="top" secondItem="yfa-B1-Z86" secondAttribute="bottom" constant="150" id="zbU-z5-ALt"/>
                         </constraints>
                     </view>
