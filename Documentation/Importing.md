@@ -18,7 +18,9 @@ This guide includes the following points:
 
 You could use TensorFlow's `freeze_graph` function to have a ready-to-use version for Bender. However, we recommend using the `tf-freeze` utility from [benderthon](https://github.com/xmartlabs/benderthon), which is generally easier to use. First you need to install it (pip install benderthon) and then you can freeze an existing checkpoint:
 
-    benderthon tf-freeze checkpoint_path.ckpt graph_with_weights.pb Output_Node_Name
+```shell
+benderthon tf-freeze checkpoint_path.ckpt graph_with_weights.pb Output_Node_Name
+```
 
 
 ## Importing a model in Palladium
@@ -56,7 +58,7 @@ The default converter will make the following simplifications / optimizations:
 
 #### What happens with unsupported Layers?
 
-Unsupported layers are ignored and their connections are not rewired. This means that if you have a layer that is not supported in your main execution graph then the graph will be separated in different parts and the conversion willl fail. If you have unsupported layers in your graph which you want to ignore then you should [add an optimizer](#custom-optimizer) similar to `TFDeleteDropout` to your converter. If you have a layer in your graph that is not supported but you need to execute it in Palladium then you should [add a custom layer](Documentation/API.md#adding-new-layers) implementing it and create a mapper that maps that operation to the layer you created.
+Unsupported layers are ignored and their connections are not rewired. This means that if you have a layer that is not supported in your main execution graph then the graph will be separated in different parts and the conversion will fail. If you have unsupported layers in your graph which you want to ignore then you should [add an optimizer](#custom-optimizer) similar to `TFDeleteDropout` to your converter. If you have a layer in your graph that is not supported but you need to execute it in Palladium then you should [add a custom layer](Documentation/API.md#adding-new-layers) implementing it and create a mapper that maps that operation to the layer you created.
 
 #### A note on weight order
 In TensorFlow, the weights for [Conv2D](https://www.tensorflow.org/api_docs/python/tf/nn/conv2d) and most other layers are stored in [kernelHeight, kernelWidth, inputChannels, outputChannels] order but Metal requires a different order. This means that the weights need to be transposed. This can be done on the Python or on the Swift side.

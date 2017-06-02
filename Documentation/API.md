@@ -6,7 +6,7 @@ This document explains the basic API in __Bender__.
  * [Creating a network]
  * [Running a network]
  * [ParameterLoader]
- * [Adding new layers]
+ * [Creating custom layers]
  * [MetalShaderManager]
  * [Composing Layers]
 
@@ -95,7 +95,7 @@ public protocol ParameterLoader {
 > Note: the `modifier` argument of `loadWeights` is passed when a layer requests more than one parameter (i.e. weights and bias). It is used to differentiate between these.
 
 
-## Adding new layers
+## Creating custom layers <a name="custom-layers"></a>
 
 To add a new layer you must create a subclas of `NetworkLayer` and override some of the following functions:
 
@@ -107,7 +107,7 @@ func updatedCheckpoint(device: MTLDevice) // optional
 
 #### Initializing the layer
 
-`initialize` is called when the network is initialized and it should set up everything for later execution. It should load the weights (as we do not want to do this in every execution loop) and also create the `outputImage` and `outputSize`. Bender uses `MPSTemporaryImage` for images used internally in a layer and `MPSImage` for inter-layer communication. Apple suggest using only MPSTemporaryImage's for images used and consumed in one MTLCommandBuffer but we experienced some problems with them and creating the MPSImage's at initialization time should not have performance hits at execution time.
+`initialize` is called when the network is initialized and it should set up everything for later execution. It should load the weights (as we do not want to do this in every execution loop) and also create the `outputImage` and `outputSize`. Bender uses `MPSTemporaryImage` for images used internally in a layer and `MPSImage` for inter-layer communication. Apple suggests using only MPSTemporaryImage's for images used and consumed in one MTLCommandBuffer but we experienced some problems with them and creating the MPSImage's at initialization time should not have performance hits at execution time.
 
 `outputImage` and `outputSize` are two variables defined in `NetworkLayer` which must be instantiated at initialization time or before. `outputImage` is the image passed to the next nodes and `outputSize` is the size of this image.
 
@@ -134,9 +134,9 @@ There is a lot to learn about Metal and its special considerations and differenc
 
 ## MetalShaderManager
 
-The MetalShaderManager keeps all the custom kernel functions that a app has loaded so that different layers that use the same Metal function will effectively use the same `MTLComputePipelineState`.
+The MetalShaderManager keeps all the custom kernel functions that an app has loaded so that different layers that use the same Metal function will effectively use the same `MTLComputePipelineState`.
 
-It also manages the function constants passed to these Metal functions. If you have a function that relies on funciton constants then you can pass them to the MetalShaderManager when you get your function. The function to get a kernel function is this:
+It also manages the function constants passed to these Metal functions. If you have a function that relies on function constants then you can pass them to the MetalShaderManager when you get your function. The function to get a kernel function is this:
 
 ```swift 
 /// Get a MTLComputePipelineState with a Metal function of the given name
@@ -162,7 +162,7 @@ One thing we realized is that it is useful to have single nodes that perform onl
 
 Therefore, we support composite layers which basically are just a set of layers which we want to reuse in a network.
 
-For example if we want to use most of our Convolution layers followed by an Instance Normalization and an activation neuron we could define this:
+For example if you want to use most of the Convolution layers followed by an Instance Normalization and an activation neuron you could define this:
 
 ```swift
 class ConvolutionBlock: CompositeLayer {
@@ -183,17 +183,17 @@ class ConvolutionBlock: CompositeLayer {
 }
 ```
 
-A CompositeLayer is a temporary structure that will be removed as soon as its sublayers are added to the netwrok graph. It has an input and an output which must be set to the first and last sublayers, as can be seen in the Example.
+A CompositeLayer is a temporary structure that will be removed as soon as its sublayers are added to the network graph. It has an input and an output which must be set to the first and last sublayers, as can be seen in the Example.
 
 #### But how does this work?
 
 A `CompositeLayer` is a `Group`. Group's are temporal structures used during the generation of the execution graph. A Group consists of an `input` and an `output` which are the first and last nodes of a group of nodes. Bender's operator `->>` works on Groups. It takes two groups and returns one by joining the `output` from the first to the `input` of the second. The first two Groups can now be destroyed.
 
-A `CompositeLayer` is the same. It will be destroyed as soon as it is applied in an operator. But its sublayers survive...
+A `CompositeLayer` is the same. It will be destroyed as soon as it is applied in an operator. But its sublayers survive... 😀
 
 [Creating a network]: #creating-a-network
 [Running a network]: #running-a-network
 [ParameterLoader]: #parameterloader
-[Adding new layers]: #adding-new-layers
+[Creating custom layers]: #custom-layers
 [MetalShaderManager]: #metalshadermanager
 [Composing Layers]: #composing-layers

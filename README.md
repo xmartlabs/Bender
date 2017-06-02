@@ -14,15 +14,14 @@
 Palladium is an abstraction layer over MetalPerformanceShaders which is used to work with neural networks. It is in an experimental phase but working.
 
 ## Contents
-* [Introduction]
-* [Why did we need Palladium]
-* [Basic usage]
-    - [Composing layers]
-* [Requirements]
-* [Getting involved]
-* [Examples]
-* [Installation]
-* [Changelog]
+* [Introduction](#introduction)
+* [Why did we need Palladium](#why)
+* [Basic usage](#basic-usage)
+* [Requirements](#requirements)
+* [Getting involved](#getting-involved)
+* [Examples](#examples)
+* [Installation](#installation)
+* [Changelog](#changelog)
 
 The documentation can be found under the `Documentation` folder:
 * [API](Documentation/API.md) contains the most important information to get started.
@@ -39,7 +38,7 @@ We also want to support loading models trained on other frameworks such as Tenso
 
 Palladium is functional but still under active development and we also want to see where the needs of the community drive it.
 
-## Why did we need Palladium?
+## Why did we need Palladium? <a name="why"></a>
 
 At [Xmartlabs] we were about to start a Machine Learning project and investigated frameworks to use in iOS. We found MetalPerformanceShaders useful but not very user friendly and we saw ourselves repeating a lot of code and information. That is why we starting building a framework to handle that kind of stuff.
 
@@ -91,7 +90,7 @@ network.start
 ...
 ```
 
-To know more about this have a look at [API.md](Documentation/API.md).
+To know more about this have a look at [API](Documentation/API.md).
 
 
 ## Requirements
@@ -148,5 +147,5 @@ This can be found in the [CHANGELOG.md](CHANGELOG.md) file.
 [Xmartlabs]: http://xmartlabs.com
 [Importing]: Documentation/Importing.md
 [CONTRIBUTING]: https://github.com/xmartlabs/Palladium/blob/master/CONTRIBUTING.md
-[API]: ...
+[API]: Documentation/API.md
 [Supported Layers]: Documentation/Supported_Layers.md
