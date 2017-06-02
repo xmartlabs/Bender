@@ -9,22 +9,24 @@
 <a href="https://raw.githubusercontent.com/xmartlabs/Palladium/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
 </p>
 
-By [Xmartlabs SRL](http://xmartlabs.com).
+![Palladium](Documentation/Media/Artboard.png)
+
+Palladium is an abstraction layer over MetalPerformanceShaders which is used to work with neural networks.
 
 ## Contents
-* [Introduction]
-* [Why did we need Palladium]
-* [Basic usage]
-    - [Composing layers]
-* [Requirements]
-* [Getting involved]
-* [Examples]
-* [Installation]
-* [Changelog]
+* [Introduction](#introduction)
+* [Why did we need Palladium](#why)
+* [Basic usage](#basic-usage)
+* [Requirements](#requirements)
+* [Getting involved](#getting-involved)
+* [Examples](#examples)
+* [Installation](#installation)
+* [Changelog](#changelog)
 
 The documentation can be found under the `Documentation` folder:
-* [Supported Layers]() explains which layers are supported and how they map to TensorFlow ops.
-* [Importing]() explains how to import models from other frameworks such as TensorFlow. You can also find information on how to enhance this functionality for custom implementations.
+* [API](Documentation/API.md) contains the most important information to get started.
+* [Supported Layers] explains which layers are supported and how they map to TensorFlow ops.
+* [Importing] explains how to import models from other frameworks such as TensorFlow. You can also find information on how to enhance this functionality for custom implementations.
 
 ## Introduction
 
@@ -34,11 +36,11 @@ Palladium allows you to easily define and run neural networks using the most com
 
 We also want to support loading models trained on other frameworks such as TensorFlow or Caffe2. Currently Palladium includes an adapter for TensorFlow that loads a graph with variables and "translates" it to Palladium layers. This feature supports a subset of TensorFlow's operations but we plan to enhance it to cover more cases.
 
-Palladium is functional but still under active development and we also want to see where the needs of the community drives it.
+Palladium is functional but still under active development and we also want to see where the needs of the community drive it. Please, note that the API is not stable yet.
 
-## Why did we need Palladium?
+## Why did we need Palladium? <a name="why"></a>
 
-At Xmartlabs we were about to start a Machine Learning project and investigated frameworks to use in iOS. We found MetalPerformanceShaders useful but not very user friendly and we saw ourselves repeating a lot of code and information. That is why we starting building a framework to handle that kind of stuff.
+At [Xmartlabs] we were about to start a Machine Learning project and investigated frameworks to use in iOS. We found MetalPerformanceShaders useful but not very user friendly and we saw ourselves repeating a lot of code and information. That is why we starting building a framework to handle that kind of stuff.
 
 We also found ourselves creating scripts to translate the models we had from training with TensorFlow to iOS. This means transposing the weights to the MPSCNN format and also mapping the parameters of the different kinds of layers in TensorFlow to the parameters used by the MPSCNN kernels. TensorFlow can be compiled for iOS but currently it does not support running on GPU which we wanted to do. We also did not want to include TensorFlow's static library into our project. This is why we also started to work on an adapter that would parse a TF graph and translate it to our Palladium layers. 
 
@@ -68,6 +70,8 @@ network.run(inputImage: image, queue: commandQueue) { output in
 }
 ```
 
+You can read more information about this in [Importing](Documentation/Importing.md).
+
 If you want to define your network yourself you can do it like this:
 
 ```swift
@@ -86,13 +90,8 @@ network.start
 ...
 ```
 
-### Composing layers
+To know more about this have a look at [API](Documentation/API.md).
 
-One thing we realized is that itis useful to have single nodes that perform only a convolution or only a normalization but, on the other hand, in a single network we might want to run the same normalization after each convolution and possibly add an activation neuron behind. We also want to easily support residual layers.
-
-Therefore, we support composite layers which basically are just a set of layers which we want to reuse in a network.
-
-For example if we want to create a residual network like the one defined in [Style Transfer] we could define it like...
 
 ## Requirements
 
@@ -105,7 +104,7 @@ For example if we want to create a residual network like the one defined in [Sty
 * If you **have a feature request** please **open an issue**.
 * If you **found a bug** or **need help** please **check older issues, [FAQ](#faq) and threads on [StackOverflow](http://stackoverflow.com/questions/tagged/Palladium) (Tag 'Palladium') before submitting an issue.**.
 
-Before contribute check the [CONTRIBUTING](https://github.com/xmartlabs/Palladium/blob/master/CONTRIBUTING.md) file for more info.
+Before contribute check the [CONTRIBUTING] file for more info.
 
 If you use **Palladium** in your app We would love to hear about it! Drop us a line on [twitter](https://twitter.com/xmartlabs).
 
@@ -143,3 +142,10 @@ github "xmartlabs/Palladium" ~> 1.0
 # Change Log
 
 This can be found in the [CHANGELOG.md](CHANGELOG.md) file.
+
+<!-- Links -->
+[Xmartlabs]: http://xmartlabs.com
+[Importing]: Documentation/Importing.md
+[CONTRIBUTING]: https://github.com/xmartlabs/Palladium/blob/master/CONTRIBUTING.md
+[API]: Documentation/API.md
+[Supported Layers]: Documentation/Supported_Layers.md
