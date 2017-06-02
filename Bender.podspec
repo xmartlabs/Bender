@@ -9,6 +9,6 @@ Pod::Spec.new do |s|
   s.social_media_url = 'https://twitter.com/xmartlabs'
   s.ios.deployment_target = '8.0'
   s.requires_arc = true
-  s.ios.source_files = 'Sources/**/*.{swift, metal}'
+  s.ios.source_files = 'Sources/**/*.{swift,metal}'
   s.dependency 'SwiftProtobuf', '~> 0.9.903'
 end
