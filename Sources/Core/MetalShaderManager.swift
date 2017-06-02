@@ -24,7 +24,13 @@ public class MetalShaderManager {
         self.mainLibrary = device.makeMyLibrary(bundle: Bundle.main)
     }
 
-    /// Returns a MTLComputePipelineState for the requested function
+    /// Get a MTLComputePipelineState with a Metal function of the given name
+    ///
+    /// - Parameters:
+    ///   - name: name of the function
+    ///   - bundle: Bundle where the shader function was compiled. Used to get the correct library
+    ///   - constants: functions constants passed to this function
+    /// - Returns: a MTLComputePipelineState for the requested function
     public func getFunction(name: String, in bundle: Bundle = Bundle.main, constants: [FunctionConstantBase]? = nil) -> MTLComputePipelineState {
         let library = bundle == Bundle.main ? mainLibrary : palladiumLibrary
         let pipelineDef = ComputePipelineDef(function: name, constants: constants ?? [])

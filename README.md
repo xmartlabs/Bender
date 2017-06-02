@@ -67,7 +67,7 @@ network.run(inputImage: image, queue: commandQueue) { output in
 }
 ```
 
-You can read more information about this in [Importing].
+You can read more information about this in [Importing](Documentation/Importing.md).
 
 If you want to define your network yourself you can do it like this:
 
@@ -87,15 +87,8 @@ network.start
 ...
 ```
 
-To know more about this have a look at [API.md].
+To know more about this have a look at [API.md](Documentation/API.md).
 
-### Composing layers
-
-One thing we realized is that itis useful to have single nodes that perform only a convolution or only a normalization but, on the other hand, in a single network we might want to run the same normalization after each convolution and possibly add an activation neuron behind. We also want to easily support residual layers.
-
-Therefore, we support composite layers which basically are just a set of layers which we want to reuse in a network.
-
-For example if we want to create a residual network like the one defined in [Style Transfer] we could define it like...
 
 ## Requirements
 
