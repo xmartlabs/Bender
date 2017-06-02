@@ -9,7 +9,7 @@
 <a href="https://raw.githubusercontent.com/xmartlabs/Palladium/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
 </p>
 
-![Palladium](Documentation/Media/Artboard.jpg)
+![Palladium](Documentation/Media/Artboard.png)
 
 Palladium is an abstraction layer over MetalPerformanceShaders which is used to work with neural networks.
 
