@@ -35,7 +35,7 @@ public class SingleBinaryLoader: ParameterLoader {
     /// - Parameters:
     ///   - count: count of floats in file
     public func loadFile(count: Int) {
-        file = load(from: checkpoint, size: count * MemoryLayout<Float>.stride, ofType: "")
+        file = load(from: checkpoint, size: count, ofType: "")
     }
 
     public func loadWeights(for id: String, modifier: String, size: Int) -> UnsafePointer<Float> {
@@ -43,7 +43,7 @@ public class SingleBinaryLoader: ParameterLoader {
             return file! + offset
         } else {
             let ret = file! + currentOffset
-            currentOffset += size * MemoryLayout<Float>.stride
+            currentOffset += size
             return ret
         }
     }
