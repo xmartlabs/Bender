@@ -11,7 +11,7 @@
 
 ![Bender](Documentation/Media/Artboard.png)
 
-Bender is an abstraction layer over MetalPerformanceShaders which is used to work with neural networks.
+Bender is an abstraction layer over MetalPerformanceShaders useful for working with neural networks.
 
 ## Contents
 * [Introduction](#introduction)
