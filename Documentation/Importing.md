@@ -1,13 +1,13 @@
 
 # Importing
 
-Palladium aims to be a lightweight framework that executes its neural networks on the GPU and also allows to import models from other frameworks without adding big binaries. 
+Bender aims to be a lightweight framework that executes its neural networks on the GPU and also allows to import models from other frameworks without adding big binaries. 
 In the case of TensorFlow, you could use it to run code using Accelerate framework (CPU) but to include TensorFlow in your app you have to compile it as a static binary and it will add around 23 MB to your app (June 2017).
-Palladium offers a lightweight solution which also uses the GPU for performance gain.
+Bender offers a lightweight solution which also uses the GPU for performance gain.
 
 This guide includes the following points:
 * [Exporting a model]
-* [Importing a model in Palladium]
+* [Importing a model in Bender]
     - [Default `TFConverter` and limitations]
     - [Adding custom Optimizers]
     - [Adding custom mappers (and layers)]
@@ -23,7 +23,7 @@ benderthon tf-freeze checkpoint_path.ckpt graph_with_weights.pb Output_Node_Name
 ```
 
 
-## Importing a model in Palladium
+## Importing a model in Bender
 
 To import a model saved in a [Protobuf](https://developers.google.com/protocol-buffers/) file you must add it to your Xcode project and load it like this:
 
@@ -44,7 +44,7 @@ network.nodes = converter.convertGraph(file: url, type: .binary)
 network.initialize()
 ```
 
-`TFConverter` is the class responsible for converting a TF model to Palladium. It will try to map nodes or groups of nodes in the TF graph to Palladium layers. If it encounters unknown nodes then it will ignore them. This means that a graph might be disconnected if your TF model uses functions that are not implemented in Palladium.
+`TFConverter` is the class responsible for converting a TF model to Bender. It will try to map nodes or groups of nodes in the TF graph to Bender layers. If it encounters unknown nodes then it will ignore them. This means that a graph might be disconnected if your TF model uses functions that are not implemented in Bender.
 
 
 ### Default `TFConverter` and limitations
@@ -58,16 +58,16 @@ The default converter will make the following simplifications / optimizations:
 
 #### What happens with unsupported Layers?
 
-Unsupported layers are ignored and their connections are not rewired. This means that if you have a layer that is not supported in your main execution graph then the graph will be separated in different parts and the conversion will fail. If you have unsupported layers in your graph which you want to ignore then you should [add an optimizer](#custom-optimizer) similar to `TFDeleteDropout` to your converter. If you have a layer in your graph that is not supported but you need to execute it in Palladium then you should [add a custom layer](API.md#adding-new-layers) implementing it and create a mapper that maps that operation to the layer you created.
+Unsupported layers are ignored and their connections are not rewired. This means that if you have a layer that is not supported in your main execution graph then the graph will be separated in different parts and the conversion will fail. If you have unsupported layers in your graph which you want to ignore then you should [add an optimizer](#custom-optimizer) similar to `TFDeleteDropout` to your converter. If you have a layer in your graph that is not supported but you need to execute it in Bender then you should [add a custom layer](API.md#adding-new-layers) implementing it and create a mapper that maps that operation to the layer you created.
 
 #### A note on weight order
 In TensorFlow, the weights for [Conv2D](https://www.tensorflow.org/api_docs/python/tf/nn/conv2d) and most other layers are stored in [kernelHeight, kernelWidth, inputChannels, outputChannels] order but Metal requires a different order. This means that the weights need to be transposed. This can be done on the Python or on the Swift side.
 
-For __MPSCNNConvolution__ you need to pass [outputChannels, kernelHeight, kernelWidth, inputChannels] ordered weights, while the __MPSCNNFullyConnected__ class takes weights in the order [outputChannels, sourceWidth, sourceHeight, inputChannels]. Palladium includes helper functions to make this transpositions which are used when converting these layers. Have a look at [HWIOtoOHWI](../Sources/Helpers/Helpers.swift) for an example. If you want to create another layer which needs transposition of weights then you can implement your own in a similar way.
+For __MPSCNNConvolution__ you need to pass [outputChannels, kernelHeight, kernelWidth, inputChannels] ordered weights, while the __MPSCNNFullyConnected__ class takes weights in the order [outputChannels, sourceWidth, sourceHeight, inputChannels]. Bender includes helper functions to make this transpositions which are used when converting these layers. Have a look at [HWIOtoOHWI](../Sources/Helpers/Helpers.swift) for an example. If you want to create another layer which needs transposition of weights then you can implement your own in a similar way.
 
 ### Adding custom Optimizers <a name="custom-optimizer"></a>
 
-If the default optimizers do not fill your needs you might want to add custom optimizers. Also keep in mind that Palladium does not support every function implemented in TensorFlow so it might be that you use not supported ops. In this case you can create a custom layer as explained below. We are open to receive Pull Requests implementing more layers.
+If the default optimizers do not fill your needs you might want to add custom optimizers. Also keep in mind that Bender does not support every function implemented in TensorFlow so it might be that you use not supported ops. In this case you can create a custom layer as explained below. We are open to receive Pull Requests implementing more layers.
 
 To create an optimizer, create a class that conforms to `TFOptimizer`.
 A TFOptimizer does just have one simple function: 
@@ -94,16 +94,16 @@ Other times, if you want to remove a single node then you can also create an opt
 
 #### Combining nodes
 
-Sometimes TensorFlow creates several nodes which we want to map to a single layer in Palladium. An example of this is `TFInstanceNormOptimizer` which converts several nodes to an `InstanceNorm`. As there is no Instance Normalization operation in TensorFlow, each model might have a custom implementation. Palladium includes an optimizer that converts the implementation as you can find it in the [Fast Style transfer](https://github.com/lengstrom/fast-style-transfer/blob/master/src/transform.py) repository.
+Sometimes TensorFlow creates several nodes which we want to map to a single layer in Bender. An example of this is `TFInstanceNormOptimizer` which converts several nodes to an `InstanceNorm`. As there is no Instance Normalization operation in TensorFlow, each model might have a custom implementation. Bender includes an optimizer that converts the implementation as you can find it in the [Fast Style transfer](https://github.com/lengstrom/fast-style-transfer/blob/master/src/transform.py) repository.
 
-The idea of combining nodes is to create something a __mapper__ can convert into a Palladium layer. For that it can be helpful to add attributes to one of the nodes that you want to combine and remove the other nodes from the graph.
+The idea of combining nodes is to create something a __mapper__ can convert into a Bender layer. For that it can be helpful to add attributes to one of the nodes that you want to combine and remove the other nodes from the graph.
 
 
 ### Adding custom mappers (and layers) <a name="custom-mappers"></a>
 
-A mapper is function that converts one node from a TensorFlow graph to one layer in Palladium.
+A mapper is function that converts one node from a TensorFlow graph to one layer in Bender.
 
-In [API](API.md) you can find how to create custom layers. Therefore we will concentrate in creating mappers that convert a node as it comes from a TF graph into a Palladium NetworkLayer.
+In [API](API.md) you can find how to create custom layers. Therefore we will concentrate in creating mappers that convert a node as it comes from a TF graph into a Bender NetworkLayer.
 
 A `TFConverter` has a dictionary that maps TF ops to TFMappers:
 
@@ -121,7 +121,7 @@ Have a look at [TFConverter+Mappers.swift](../Sources/Adapters/Tensorflow/TFConv
 
 
 [Exporting a model]: #exporting-a-model
-[Importing a model in Palladium]: #importing-a-model-in-bender
+[Importing a model in Bender]: #importing-a-model-in-bender
 [Default `TFConverter` and limitations]: #default-tfconverter-and-limitations
 [Adding custom Optimizers]: #custom-optimizer
 [Adding custom mappers (and layers)]: #custom-mappers
