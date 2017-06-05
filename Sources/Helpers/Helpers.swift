@@ -38,3 +38,21 @@ func HWIOtoOHWI(weights: Data, shape: Shape) -> Data {
 
     return Data.init(bytes: transposed, count: shape.totalCount * MemoryLayout<Float>.stride)
 }
+
+func HWIOtoOWHI(weights: Data, shape: Shape) -> Data {
+    var transposed = [Float](repeating: 0.0, count: shape.totalCount)
+
+    for o in 0..<shape.outputChannels {
+        for h in 0..<shape.height {
+            for w in 0..<shape.width {
+                for i in 0..<shape.inputChannels {
+                    let tIndex = i + shape.inputChannels * (h + shape.height * (w + shape.width * (o)))
+                    let wIndex = o + shape.outputChannels * (i + shape.inputChannels * (w + shape.width * (h)))
+                    transposed[tIndex] = weights.pointer()![wIndex]
+                }
+            }
+        }
+    }
+
+    return Data.init(bytes: transposed, count: shape.totalCount * MemoryLayout<Float>.stride)
+}

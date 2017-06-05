@@ -119,7 +119,7 @@ public extension TFConverter {
                                   useBias: weightData.useBias,
                                   weights: weightData.weights,
                                   bias: weightData.bias,
-                                  transpose: HWIOtoOHWI,
+                                  transpose: HWIOtoOWHI,
                                   id: node.nodeDef.name)
         }
         mappers[Constants.Ops.Dense] = denseMapper
