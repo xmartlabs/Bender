@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name             = "Metal-Bender"
+  s.name             = "MetalBender"
   s.version          = "0.1.0"
   s.summary          = "Bender is an abstraction layer over MetalPerformanceShaders useful for working with neural networks."
   s.homepage         = "https://github.com/xmartlabs/Bender"
@@ -10,5 +10,5 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '10.0'
   s.requires_arc = true
   s.ios.source_files = 'Sources/**/*.{swift,metal}'
-  s.dependency 'SwiftProtobuf', '0.9.902'
+  s.dependency 'SwiftProtobuf', '0.9.903'
 end

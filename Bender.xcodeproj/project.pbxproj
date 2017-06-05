@@ -70,12 +70,12 @@
 		8FAB77271ECC86170050AB16 /* tensor.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB771F1ECC86170050AB16 /* tensor.pb.swift */; };
 		8FAB77281ECC86170050AB16 /* types.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB77201ECC86170050AB16 /* types.pb.swift */; };
 		8FAB77291ECC86170050AB16 /* versions.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB77211ECC86170050AB16 /* versions.pb.swift */; };
-		8FAB772C1ECC87E20050AB16 /* SwiftProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAB772B1ECC87E20050AB16 /* SwiftProtobuf.framework */; };
 		8FAB772E1ECC8D6E0050AB16 /* TFGraphLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB772D1ECC8D6E0050AB16 /* TFGraphLoader.swift */; };
 		8FAB77391ECC993A0050AB16 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB77381ECC993A0050AB16 /* Graph.swift */; };
 		8FAB773D1ECC9B0F0050AB16 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAB773C1ECC9B0F0050AB16 /* Node.swift */; };
 		8FAD35031ED47A97004B69DA /* TFDeleteSubgraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAD35021ED47A97004B69DA /* TFDeleteSubgraph.swift */; };
 		8FAD35091ED4C7B3004B69DA /* TFConvOptimizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAD35081ED4C7B3004B69DA /* TFConvOptimizer.swift */; };
+		8FC2B3A51EE5D9B80038E582 /* SwiftProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAB772B1ECC87E20050AB16 /* SwiftProtobuf.framework */; };
 		8FC8F7AF1ED35396004DA113 /* TFDenseSubstitution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC8F7AE1ED35396004DA113 /* TFDenseSubstitution.swift */; };
 		8FC8F7B41ED38164004DA113 /* TFDeleteOptimizers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC8F7B31ED38164004DA113 /* TFDeleteOptimizers.swift */; };
 		8FFF4AD71EDEFDB600141E9D /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF4AD61EDEFDB600141E9D /* Shape.swift */; };
@@ -163,7 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FAB772C1ECC87E20050AB16 /* SwiftProtobuf.framework in Frameworks */,
+				8FC2B3A51EE5D9B80038E582 /* SwiftProtobuf.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
