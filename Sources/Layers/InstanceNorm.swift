@@ -56,7 +56,10 @@ open class InstanceNorm: NetworkLayer {
     open override func execute(commandBuffer: MTLCommandBuffer) {
 
         let inputImage: MPSImage = getIncoming()[0].outputImage
-        let tpTG = MTLSizeMake(64, 4, 1)
+        let maxThreads = 256
+        let threadWidth = min(maxThreads, outputSize.w)
+        let threadHeight = min(maxThreads / threadWidth, outputSize.h)
+        let tpTG = MTLSizeMake(threadWidth, threadHeight, 1)
 
         // apply instance normalization
         let commandEncoder5 = commandBuffer.makeComputeCommandEncoder()

@@ -9,92 +9,96 @@
 #include <metal_stdlib>
 using namespace metal;
 
-kernel void instance_norm(constant float4* weights[[buffer(0)]],
-                          constant float4* bias[[buffer(1)]],
+kernel void instance_norm(constant float4* scale[[buffer(0)]],
+                          constant float4* shift[[buffer(1)]],
                           texture2d_array<float, access::read> in[[texture(0)]],
                           texture2d_array<float, access::write> out[[texture(1)]],
+
                           ushort3 gid[[thread_position_in_grid]],
                           ushort tid[[thread_index_in_threadgroup]],
                           ushort3 tg_size[[threads_per_threadgroup]]) {
-    if (gid.z >= out.get_array_size()) {
-        return;
-    }
 
-    constexpr ushort THREADGROUP_SIZE = 256;
+    ushort width = in.get_width();
+    ushort height = in.get_height();
+    const ushort thread_count = tg_size.x * tg_size.y;
 
-    threadgroup float4 per_thread_state[THREADGROUP_SIZE];
-    // Each block handles a single texture.
-    per_thread_state[tid] = 0;
-    for (ushort y = gid.y; y < in.get_height(); y += tg_size.y) {
-        for (ushort x = gid.x; x < in.get_width(); x += tg_size.x) {
-            per_thread_state[tid] += in.read(ushort2(x, y), gid.z);
+    threadgroup float4 shared_mem [256];
+
+    float4 sum = 0;
+    for(ushort xIndex = gid.x; xIndex < width; xIndex += tg_size.x) {
+        for(ushort yIndex = gid.y; yIndex < height; yIndex += tg_size.y) {
+            sum += in.read(ushort2(xIndex, yIndex), gid.z);
         }
     }
+    shared_mem[tid] = sum;
 
     threadgroup_barrier(mem_flags::mem_threadgroup);
 
-    // 256 -> 32 reduction
+    // Reduce to 32 values
+    sum = 0;
     if (tid < 32) {
-        for (ushort i = tid + 32; i < THREADGROUP_SIZE; i += 32) {
-            per_thread_state[tid] += per_thread_state[i];
+        for (ushort i = tid + 32; i < thread_count; i += 32) {
+            sum += shared_mem[i];
         }
     }
+    shared_mem[tid] += sum;
 
     threadgroup_barrier(mem_flags::mem_threadgroup);
 
+    // Calculate mean
+    sum = 0;
     if (tid == 0) {
-        float4 sum = 0.0;
-        for (ushort i = 0; i < 32; ++i) {
-            sum += per_thread_state[i];
+        ushort top = min(ushort(32), thread_count);
+        for (ushort i = 0; i < top; i += 1) {
+            sum += shared_mem[i];
         }
-        sum /= (in.get_width() * in.get_height());
-        per_thread_state[0] = sum;
+        shared_mem[0] = sum / (width * height);
     }
     threadgroup_barrier(mem_flags::mem_threadgroup);
-    // Save mean and broadcast to all threads.
-    const float4 mean = per_thread_state[0];
 
-    threadgroup_barrier(mem_flags::mem_threadgroup);
+    const float4 mean = shared_mem[0];
 
-    per_thread_state[tid] = 0;
-    for (ushort y = gid.y; y < in.get_height(); y += tg_size.y) {
-        for (ushort x = gid.x; x < in.get_width(); x += tg_size.x) {
-            float4 delta = in.read(ushort2(x, y), gid.z) - mean;
-            per_thread_state[tid] += delta * delta;
+    // Variance
+    sum = 0;
+    for(ushort xIndex = gid.x; xIndex < width; xIndex += tg_size.x) {
+        for(ushort yIndex = gid.y; yIndex < height; yIndex += tg_size.y) {
+            sum += pow(in.read(ushort2(xIndex, yIndex), gid.z) - mean, 2);
         }
     }
 
+    shared_mem[tid] = sum;
     threadgroup_barrier(mem_flags::mem_threadgroup);
 
-    // 256 -> 32 reduction
+    // Reduce to 32 values
+    sum = 0;
     if (tid < 32) {
-        for (ushort i = tid + 32; i < THREADGROUP_SIZE; i += 32) {
-            per_thread_state[tid] += per_thread_state[i];
+        for (ushort i = tid + 32; i < thread_count; i += 32) {
+            sum += shared_mem[i];
         }
     }
+    shared_mem[tid] += sum;
 
     threadgroup_barrier(mem_flags::mem_threadgroup);
 
+    // Calculate variance
+    sum = 0;
     if (tid == 0) {
-        float4 sum = 0.0;
-        for (ushort i = 0; i < 32; ++i) {
-            sum += per_thread_state[i];
+        ushort top = min(ushort(32), thread_count);
+        for (ushort i = 0; i < top; i += 1) {
+            sum += shared_mem[i];
         }
-        sum /= (in.get_width() * in.get_height());
-        per_thread_state[0] = 1.0 / sqrt(max(sum, float4(1e-4)) + 1.0e-4);
+        shared_mem[0] = sum / (width * height);
     }
-
     threadgroup_barrier(mem_flags::mem_threadgroup);
-    // Broadcast to all threads.
-    const float4 inv_var = per_thread_state[0];
 
-    const float4 scale = inv_var * weights[gid.z];
-    const float4 shift = bias[gid.z] - mean * scale;
+    const float4 sigma = sqrt(shared_mem[0] + float4(1e-4));
 
-    for (ushort y = gid.y; y < in.get_height(); y += tg_size.y) {
-        for (ushort x = gid.x; x < in.get_width(); x += tg_size.x) {
-            float4 scaled = in.read(ushort2(x, y), gid.z) * scale + shift;
-            out.write(clamp(scaled, -10.0, 10.0), ushort2(x, y), gid.z);
+    float4 multiplier = scale[gid.z] / sigma;
+    for(ushort xIndex = gid.x; xIndex < width; xIndex += tg_size.x) {
+        for(ushort yIndex = gid.y; yIndex < height; yIndex += tg_size.y) {
+            float4 val = in.read(ushort2(xIndex, yIndex), gid.z);
+            out.write(clamp((val - mean) * multiplier + shift[gid.z], -10.0, 10.0), ushort2(xIndex, yIndex), gid.z);
         }
     }
+
 }
