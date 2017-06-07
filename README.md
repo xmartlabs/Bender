@@ -110,7 +110,10 @@ If you use **Bender** in your app We would love to hear about it! Drop us a line
 
 ## Examples
 
-Follow these 3 steps to run Example project: Clone Bender repository, open Bender workspace and run the *Example* project.
+Follow these steps to run the examples: 
+* Clone Bender repository (or download it).
+* Run `carthage update --platform iOS` in the downloaded folder.
+* Open Bender workspace and run the *Example* project.
 
 ## Installation
 
