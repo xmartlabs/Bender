@@ -2,7 +2,7 @@
 //  instanceNorm3.metal
 //  Bender
 //
-//  Adapted from Caffe2 at https://github.com/caffe2/caffe2/blob/d0ce496d2fdf9c0d0ded73f8552e18a82a85e1ba/caffe2/contrib/mpscnn-fb/MPSCNN.metal#L185-L275 with license found at LICENSE-CAFFE2
+//  Adapted from Caffe2 at https://github.com/caffe2/caffe2/blob/d0ce496d2fdf9c0d0ded73f8552e18a82a85e1ba/caffe2/contrib/mpscnn-fb/MPSCNN.metal#L185-L275 with license found at LICENSE_CAFFE2
 //  Adapted by Mathias Claassen.
 //  Copyright © 2017 Xmartlabs. All rights reserved.
 

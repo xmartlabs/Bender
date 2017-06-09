@@ -2,7 +2,7 @@
 //  instanceNorm.metal
 //  Bender
 //
-//  Adapted from Caffe2 at https://github.com/caffe2/caffe2/blob/d0ce496d2fdf9c0d0ded73f8552e18a82a85e1ba/caffe2/contrib/mpscnn-fb/MPSCNN.metal#L87-L181 with license found at LICENSE-CAFFE2
+//  Adapted from Caffe2 at https://github.com/caffe2/caffe2/blob/d0ce496d2fdf9c0d0ded73f8552e18a82a85e1ba/caffe2/contrib/mpscnn-fb/MPSCNN.metal#L87-L181 with license found at LICENSE_CAFFE2
 //  Adapted by Mathias Claassen.
 //  Copyright © 2017 Xmartlabs. All rights reserved.
 
@@ -59,7 +59,7 @@ kernel void instance_norm(constant float4* scale[[buffer(0)]],
     const float4 mean = shared_mem[0];
 
     threadgroup_barrier(mem_flags::mem_threadgroup);
-    
+
     // Variance
     sum = 0;
     for(ushort xIndex = gid.x; xIndex < width; xIndex += tg_size.x) {
