@@ -17,12 +17,15 @@ extension Tensorflow_NodeDef {
 
     /// Parse strides from a node
     var strides: (x: Int, y: Int)? {
-        guard let strides = attr["strides"]?.list.i,
-            let dataFormat = attr["data_format"]?.s,
-            let formatString = String(data: dataFormat, encoding: .utf8) else {
+        guard let strides = attr["strides"]?.list.i else {
                 return nil
         }
 
+        guard let dataFormat = attr["data_format"]?.s,
+            let formatString = String(data: dataFormat, encoding: .utf8) else {
+            return (Int(strides[1]), Int(strides[2]))
+        }
+        
         let strideX = formatString == "NHWC" ? strides[2] : strides[3]
         let strideY = formatString == "NHWC" ? strides[1] : strides[2]
         return (Int(strideX), Int(strideY))
@@ -30,10 +33,13 @@ extension Tensorflow_NodeDef {
 
     /// Parses a size from a node like in Max and AvgPooling
     var ksize: (width: Int, height: Int)? {
-        guard let size = attr["ksize"]?.list.i,
-            let dataFormat = attr["data_format"]?.s,
-            let formatString = String(data: dataFormat, encoding: .utf8) else {
+        guard let size = attr["ksize"]?.list.i else {
                 return nil
+        }
+
+        guard let dataFormat = attr["data_format"]?.s,
+            let formatString = String(data: dataFormat, encoding: .utf8) else {
+            return (Int(size[1]), Int(size[2]))
         }
 
         let width = formatString == "NHWC" ? size[2] : size[3]
