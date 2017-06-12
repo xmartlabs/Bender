@@ -77,7 +77,7 @@ public extension Node {
 
     /// Removes all edges from this node and rewires the inputs to the outputs
     func removeFromGraph() {
-        //TODO: could we combine this funtion with `strip`
+        //TODO: could we combine this function with `strip`
         let outgoing = outgoingNodes()
         let incoming = incomingNodes()
         for out in outgoing {
@@ -95,7 +95,7 @@ public extension Node {
         edgeIn = []
     }
 
-    /// Removes all edges of this node. If recursive then it will call strip recursively on all of its neightbors 
+    /// Removes all edges of this node. If recursive then it will call strip recursively on all of its neighbors 
     /// (so the calling node should remove himself before calling this recursively)
     func strip(recursive: Bool = false) {
         let outgoing = outgoingNodes()
