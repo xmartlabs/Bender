@@ -172,7 +172,7 @@ class MNISTTestController: UIViewController, ExampleViewController {
     }
 
     func setupScaledNetwork() {
-        // This network is used to display the text as it is passed to the main MNIST network
+        // This network is used to display the texture as it is passed to the main MNIST network
         scaledNetwork = Network(device: device, inputSize: inputSize, parameterLoader: nil)
         scaledNetwork.initialize()
     }
