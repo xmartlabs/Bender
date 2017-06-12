@@ -149,7 +149,7 @@ class MNISTTestController: UIViewController, ExampleViewController {
     }
 
     func createMNISTNetwork() {
-        // Create the MNISRT network with a weight file
+        // Create the MNIST network with a weight file
         Convolution.weightModifier = "_w"
         Convolution.biasModifier = "_b"
         FullyConnected.weightModifier = "_w"
@@ -172,7 +172,7 @@ class MNISTTestController: UIViewController, ExampleViewController {
     }
 
     func setupScaledNetwork() {
-        // This network is used to display the textre as it is passed to the main MNIST network
+        // This network is used to display the texture as it is passed to the main MNIST network
         scaledNetwork = Network(device: device, inputSize: inputSize, parameterLoader: nil)
         scaledNetwork.initialize()
     }
