@@ -42,7 +42,7 @@ open class NetworkLayer: Node {
 
     //MARK: Node protocol
     public var edgeOut = [Node]()
-    public var edgeIn = [() -> Node?]()
+    public var edgeIn = [WeakNodeClosure]()
 
     public init(id: String? = nil) {
         if let id = id {

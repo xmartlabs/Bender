@@ -45,7 +45,7 @@ public extension Node {
         let incoming = incomingNodes()
         if !incoming.contains(where: { $0.isEqual(to: node) } ) {
             edgeIn.append(captureWeakly(object: node))
-            if !node.edgeOut.contains(where: { $0 === self } ) {
+            if !node.edgeOut.contains(where: { $0.isEqual(to: self) } ) {
                 node.edgeOut.append(self)
             }
         }

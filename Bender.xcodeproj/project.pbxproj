@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		28F828811C494B2C00330CF4 /* Bender.h in Headers */ = {isa = PBXBuildFile; fileRef = 28F828801C494B2C00330CF4 /* Bender.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		46354BC41EEF320700B083EF /* DependencyListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46354BC31EEF320700B083EF /* DependencyListBuilder.swift */; };
 		4697C2191ED31F8D003ED2E9 /* local_response_norm.metal in Sources */ = {isa = PBXBuildFile; fileRef = 4697C2181ED31F8D003ED2E9 /* local_response_norm.metal */; };
 		4697C21B1ED35E50003ED2E9 /* LocalResponseNorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4697C21A1ED35E50003ED2E9 /* LocalResponseNorm.swift */; };
 		8F0669B11EC364A3009F5C7C /* PALFunctionConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0669B01EC364A3009F5C7C /* PALFunctionConstant.swift */; };
@@ -85,6 +86,7 @@
 		28F8287D1C494B2C00330CF4 /* Bender.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Bender.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F828801C494B2C00330CF4 /* Bender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bender.h; sourceTree = "<group>"; };
 		28F828821C494B2C00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		46354BC31EEF320700B083EF /* DependencyListBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyListBuilder.swift; sourceTree = "<group>"; };
 		4697C2181ED31F8D003ED2E9 /* local_response_norm.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = local_response_norm.metal; sourceTree = "<group>"; };
 		4697C21A1ED35E50003ED2E9 /* LocalResponseNorm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalResponseNorm.swift; sourceTree = "<group>"; };
 		8F0669B01EC364A3009F5C7C /* PALFunctionConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PALFunctionConstant.swift; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 			children = (
 				8FAB77381ECC993A0050AB16 /* Graph.swift */,
 				8FAB773C1ECC9B0F0050AB16 /* Node.swift */,
+				46354BC31EEF320700B083EF /* DependencyListBuilder.swift */,
 			);
 			path = Graph;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46354BC41EEF320700B083EF /* DependencyListBuilder.swift in Sources */,
 				8FA984091EBA70F900586D1B /* NetworkLayer.swift in Sources */,
 				8F0669BC1EC3A4C1009F5C7C /* SingleBinaryLoader.swift in Sources */,
 				8FA6BABE1ED5BE95004450C0 /* TFGraph.swift in Sources */,
