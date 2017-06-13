@@ -43,7 +43,7 @@ public class Network {
     /// Initializes the layers of the network
     public func initialize() {
         if nodes.isEmpty {
-            buildExecutionList(node: start)
+            nodes = DependencyListBuilder().list(from: start)
         } else {
             // Add start node
             if !nodes.contains(start) {
@@ -87,7 +87,6 @@ public class Network {
         }
     }
 
-
     /// Update weights of the network.
     public func change(to checkpoint: String) {
         if checkpoint == parameterLoader.checkpoint {
@@ -97,17 +96,6 @@ public class Network {
         parameterLoader.checkpoint = checkpoint
         for layer in nodes {
             layer.updatedCheckpoint(device: device)
-        }
-    }
-
-    /// Takes the graph and builds a dependency list (list of nodes in the order in which they will be executed)
-    func buildExecutionList(node: NetworkLayer) {
-        guard !node.getIncoming().contains (where: { incoming in
-            return !nodes.contains(incoming)
-        }) else { return }
-        nodes.append(node)
-        for node in node.getOutgoing() {
-            buildExecutionList(node: node)
         }
     }
 

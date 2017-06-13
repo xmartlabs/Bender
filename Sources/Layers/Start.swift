@@ -11,7 +11,6 @@ import MetalPerformanceShaders
 /// This layer is used as the starting point for any network. If the inputImage does not have the requested size then it will be resized.
 public class Start: NetworkLayer {
 
-
     public var inputImage: MPSImage!
     var lanczos: MPSImageLanczosScale!
     var croppedImg: MPSImage!
