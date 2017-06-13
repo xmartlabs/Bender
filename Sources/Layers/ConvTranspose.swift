@@ -68,7 +68,8 @@ open class ConvTranspose: NetworkLayer {
 
         prevSize = incoming[0].outputSize
         outputSize = LayerSize(f: size.outputChannels,
-                                    w: prevSize.w * size.strideX)
+                               w: prevSize.w * size.strideX,
+                               h: prevSize.h * size.strideY)
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
 
         weightsBuffer = device.makeBuffer(bytes: weightsPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id,
@@ -97,7 +98,7 @@ open class ConvTranspose: NetworkLayer {
         assert(pipelineCalculate.maxTotalThreadsPerThreadgroup / w / d >= 1, "ERROR: wrong thread group size")
         let h = pipelineCalculate.maxTotalThreadsPerThreadgroup / w / d
 
-        let step1ImageSize = LayerSize(f: outputSize.f, w: outputSize.w + prevSize.w)
+        let step1ImageSize = LayerSize(f: outputSize.f, w: outputSize.w + prevSize.w, h: outputSize.h + prevSize.h)
         let step2ImageSize = LayerSize(f: outputSize.f, w: outputSize.w, h: outputSize.h + prevSize.h)
 
         let threadsPerGroups = MTLSizeMake(w, h, d)
