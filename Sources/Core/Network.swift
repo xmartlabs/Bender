@@ -69,8 +69,9 @@ public class Network {
     /// - Parameters:
     ///   - inputImage: the input data
     ///   - queue: the command queue on which to run the kernels
+    ///   - dispatchQueue: the dispatch queue where to run
     ///   - callback: will be called with the output image
-    public func run(inputImage: MPSImage, queue: MTLCommandQueue, callback: @escaping (MPSImage) -> Void) {
+    public func run(inputImage: MPSImage, queue: MTLCommandQueue, dispatchQueue: DispatchQueue? = nil, callback: @escaping (MPSImage) -> Void) {
 
         queue.insertDebugCaptureBoundary() // DEBUG
         let commandBuffer = queue.makeCommandBuffer()
@@ -81,9 +82,18 @@ public class Network {
                 layer.execute(commandBuffer: commandBuffer)
             }
             commandBuffer.commit()
-            //TODO: We should execute this on another dispatch queue
-            commandBuffer.waitUntilCompleted()
-            callback(nodes.last!.outputImage)
+            
+            if let dispatchQueue = dispatchQueue {
+                dispatchQueue.async { [weak self] in
+                    guard let me = self else { return }
+                    
+                    commandBuffer.waitUntilCompleted()
+                    callback(me.nodes.last!.outputImage)
+                }
+            } else {
+                commandBuffer.waitUntilCompleted()
+                callback(nodes.last!.outputImage)
+            }
         }
     }
 
