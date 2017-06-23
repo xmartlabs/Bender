@@ -53,9 +53,9 @@ kernel void transpose_conv_calculate(
                 for (ushort tk=0; tk<4; tk++)
                 {
                     // get weights for position
-                    half4 pix = half4(weights[ushort(in_z + in_depth *
-                                                     ((4 * gid.z + tk) + output_size *
-                                                      (fx + filter_x * (fy))))]) * in_pixel;
+                    half4 pix = half4(weights[ushort(in_z +
+                                                     ((4 * gid.z + tk) +
+                                                      (fy + fx * filter_y) * output_size) * in_depth)]) * in_pixel;
 
                     results[mat_index][tk] += pix.x + pix.y + pix.z + pix.w;
                 }
@@ -70,7 +70,7 @@ kernel void transpose_conv_calculate(
         // loop through filter_y
         for (ushort fy=0; fy<filter_y; fy++)
         {
-            dest.write(float4(results[fx + filter_x * fy]), ushort2(gid.x * filter_x + fx,
+            dest.write(float4(results[fx + filter_y * fy]), ushort2(gid.x * filter_x + fx,
                                                                     gid.y * filter_y + fy), gid.z);
         }
     }

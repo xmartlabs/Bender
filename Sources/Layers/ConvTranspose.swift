@@ -81,8 +81,8 @@ open class ConvTranspose: NetworkLayer {
 
     open override func updatedCheckpoint(device: MTLDevice) {
         guard let network = network else { return }
-        let vector = network.parameterLoader.loadWeights(for: id, modifier: ConvTranspose.weightModifier, size: getWeightsSize())
-        weightsBuffer.contents().copyBytes(from: vector, count: getWeightsSize())
+        let vector = weightsPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id, modifier: ConvTranspose.weightModifier, size: getWeightsSize())
+        weightsBuffer.contents().copyBytes(from: vector, count: getWeightsSize() * Constants.FloatSize)
     }
 
     open func getWeightsSize() -> Int {
