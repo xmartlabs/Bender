@@ -24,6 +24,7 @@ extension Constants {
         static let Add = "Add"
         static let Assign = "Assign"
         static let BiasAdd = "BiasAdd"
+        static let Concat = "ConcatV2"
         static let Conv = "Conv2D"
         static let Const = "Const"
         static let Dense = "Dense"

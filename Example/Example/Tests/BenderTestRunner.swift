@@ -27,7 +27,8 @@ public class BenderTestRunner {
     let tests: [BenderTest] = [
         TextureConversionTest(),
         LocalResponseNormTest(),
-        InstanceNormTest()
+        InstanceNormTest(),
+        ConcatTest()
     ]
 
     public init() {}

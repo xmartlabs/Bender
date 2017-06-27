@@ -8,6 +8,29 @@
 
 import Foundation
 
+/// Represents an axis within a LayerSize
+public enum LayerSizeAxis {
+    case f
+    case w
+    case h
+
+    static var all: [LayerSizeAxis] { return [.f, .w, .h] }
+
+    static func fromTF(index: Int) -> LayerSizeAxis? {
+        switch index {
+        case 0:
+            return .w
+        case 1:
+            return .h
+        case 2:
+            return .f
+        default:
+            return nil
+        }
+    }
+
+}
+
 /// Represents the size of a NetworkLayer
 public struct LayerSize: Equatable {
     public let f: Int
@@ -25,6 +48,15 @@ public struct LayerSize: Equatable {
         self.w = w
         self.h = h
     }
+
+    subscript(axis: LayerSizeAxis) -> Int {
+        switch axis {
+        case .f: return f
+        case .w: return w
+        case .h: return h
+        }
+    }
+
 }
 
 public func == (left: LayerSize, right: LayerSize) -> Bool {

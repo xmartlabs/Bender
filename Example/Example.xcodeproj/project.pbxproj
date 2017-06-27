@@ -13,6 +13,8 @@
 		28F828D51C4B714D00330CF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28F828D31C4B714D00330CF4 /* Main.storyboard */; };
 		28F828D71C4B714D00330CF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28F828D61C4B714D00330CF4 /* Assets.xcassets */; };
 		28F828DA1C4B714D00330CF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28F828D81C4B714D00330CF4 /* LaunchScreen.storyboard */; };
+		46FAFCBD1F02CB89008754E1 /* ConcatTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FAFCBC1F02CB89008754E1 /* ConcatTest.swift */; };
+		46FAFCC11F04142C008754E1 /* ConstantLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FAFCC01F04142C008754E1 /* ConstantLayer.swift */; };
 		8F28C68D1ED724BE0062039F /* g_and_w.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8F28C68C1ED724BE0062039F /* g_and_w.pb */; };
 		8F4466D01ECF756B00915819 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4466CF1ECF756B00915819 /* UIImage.swift */; };
 		8F46BCAD1EE0B52D00DF275A /* mnist-conv1_b in Resources */ = {isa = PBXBuildFile; fileRef = 8F46BCA51EE0B52D00DF275A /* mnist-conv1_b */; };
@@ -101,6 +103,8 @@
 		28F828DB1C4B714D00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Example/Info.plist; sourceTree = "<group>"; };
 		28F828E01C4B714D00330CF4 /* ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F828E61C4B714D00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		46FAFCBC1F02CB89008754E1 /* ConcatTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConcatTest.swift; path = Example/Tests/ConcatTest.swift; sourceTree = "<group>"; };
+		46FAFCC01F04142C008754E1 /* ConstantLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConstantLayer.swift; path = Example/Tests/Helpers/ConstantLayer.swift; sourceTree = "<group>"; };
 		8F28C68C1ED724BE0062039F /* g_and_w.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = g_and_w.pb; sourceTree = "<group>"; };
 		8F4466CF1ECF756B00915819 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		8F46BCA51EE0B52D00DF275A /* mnist-conv1_b */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "mnist-conv1_b"; path = "mnist/mnist-conv1_b"; sourceTree = "<group>"; };
@@ -284,6 +288,7 @@
 				CFAD25391ED7EA090003C4FA /* BenderTestRunner.swift */,
 				CFAD253A1ED7EA090003C4FA /* TextureConversionTest.swift */,
 				8F9F358D1EDCC5FE005F4DAE /* InstanceNormTests.swift */,
+				46FAFCBC1F02CB89008754E1 /* ConcatTest.swift */,
 				CFAD25351ED7E9E70003C4FA /* Helpers */,
 			);
 			name = Tests;
@@ -292,6 +297,7 @@
 		CFAD25351ED7E9E70003C4FA /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				46FAFCC01F04142C008754E1 /* ConstantLayer.swift */,
 				8F4466CF1ECF756B00915819 /* UIImage.swift */,
 				CFAD25361ED7E9F30003C4FA /* Texture.swift */,
 				CFAD253E1ED7EA930003C4FA /* TestData.swift */,
@@ -442,6 +448,7 @@
 				8F9F358E1EDCC5FE005F4DAE /* InstanceNormTests.swift in Sources */,
 				CFAD253F1ED7EA930003C4FA /* TestData.swift in Sources */,
 				CFAD253B1ED7EA090003C4FA /* LocalResponseNormTest.swift in Sources */,
+				46FAFCBD1F02CB89008754E1 /* ConcatTest.swift in Sources */,
 				CFAD253C1ED7EA090003C4FA /* BenderTestRunner.swift in Sources */,
 				8F79B8111EC261D6002D02C8 /* Shaders.metal in Sources */,
 				8FE2D0891EDDEABC0080125D /* GrayScale.swift in Sources */,
@@ -452,6 +459,7 @@
 				CFAD253D1ED7EA090003C4FA /* TextureConversionTest.swift in Sources */,
 				CFAD25411ED7EB5A0003C4FA /* CompletionSerializer.swift in Sources */,
 				28F828D01C4B714D00330CF4 /* AppDelegate.swift in Sources */,
+				46FAFCC11F04142C008754E1 /* ConstantLayer.swift in Sources */,
 				8FE2D0851EDDD3570080125D /* MNISTTestController.swift in Sources */,
 				8F4466D01ECF756B00915819 /* UIImage.swift in Sources */,
 				8F79B80F1EC25ECA002D02C8 /* Luminance.swift in Sources */,

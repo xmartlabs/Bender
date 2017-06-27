@@ -1,0 +1,93 @@
+//
+//  Concat.swift
+//  Bender
+//
+//  Created by Diego Ernst on 6/27/17.
+//
+//
+
+import MetalPerformanceShaders
+
+open class Concat: NetworkLayer {
+
+    var pipeline: MTLComputePipelineState!
+    let axis: LayerSizeAxis
+
+    let maxInputTextures = 10 // must match kernel max input textures
+
+    public init(axis: LayerSizeAxis, id: String? = nil) {
+        self.axis = axis
+        super.init(id: id)
+    }
+
+    open override func initialize(network: Network, device: MTLDevice) {
+        super.initialize(network: network, device: device)
+        let incoming = getIncoming()
+
+        // correctness checks
+
+        // TODO: implement shader to support concat along z without restricting it to multiples of 4
+
+        assert(axis != .f || incoming.reduce(true) { $0.0 && ($0.1.outputSize.f % 4 == 0) }, "Concat: all z dimensions must be multiple of 4")
+        assert(!incoming.isEmpty, "Concat: expects at least one inputs")
+        assert(incoming.count <= maxInputTextures, "Concat: only accepts \(maxInputTextures) incomming nodes at most")
+
+        let allInputTexturesWithMoreThan4Channels = incoming.reduce(true) { $0.0 && $0.1.outputSize.f > 4 }
+        let allInputTexturesWithLessThanOrEqualTo4Channels = incoming.reduce(true) { $0.0 && $0.1.outputSize.f <= 4 }
+        assert(allInputTexturesWithMoreThan4Channels || allInputTexturesWithLessThanOrEqualTo4Channels, "All z dimensions must be either > 4 or <= 4 at the same time")
+
+        let axisThatMustBeEqual = LayerSizeAxis.all.filter { $0 != axis }
+        var axisValues = [LayerSizeAxis: Int]()
+
+        let sampleSize: LayerSize! = incoming[0].outputSize
+        axisThatMustBeEqual.forEach { axisValues[$0] = sampleSize[$0] }
+
+        incoming.forEach {
+            let inputSize: LayerSize! = $0.outputSize
+            axisThatMustBeEqual.forEach {
+                assert(inputSize[$0] == axisValues[$0]!, "Concat: Axis \($0) isn't equal in at least one pair of input nodes")
+            }
+        }
+        // end correctness checks
+
+        var outputDimensions = [LayerSizeAxis: Int]()
+        outputDimensions[axis] = incoming.reduce(0) { $0.0 + $0.1.outputSize[axis] }
+        axisThatMustBeEqual.forEach { outputDimensions[$0] = axisValues[$0] }
+
+        outputSize = LayerSize(f: outputDimensions[.f]!, w: outputDimensions[.w]!, h: outputDimensions[.h]!)
+        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+
+        var shaderFunc = ""
+        switch axis {
+        case .h:
+            shaderFunc = "concat_y"
+        case .w:
+            shaderFunc = "concat_x"
+        case .f:
+            shaderFunc = "concat_z"
+        }
+        if allInputTexturesWithLessThanOrEqualTo4Channels {
+            shaderFunc += "_3"
+        }
+        pipeline = MetalShaderManager.shared.getFunction(name: shaderFunc, in: Bundle(for: Concat.self))
+    }
+
+    open override func execute(commandBuffer: MTLCommandBuffer) {
+        let incoming = getIncoming()
+        let commandEncoder = commandBuffer.makeComputeCommandEncoder()
+        commandEncoder.label = "Concat encoder"
+        let tpTG = MTLSizeMake(32, 8, 1)
+        commandEncoder.setComputePipelineState(pipeline)
+
+        var inputTextures: [MTLTexture?] = [MTLTexture?].init(repeating: nil, count: maxInputTextures)
+        incoming.enumerated().forEach { inputTextures[$0.offset] = $0.element.outputImage.texture }
+        let texturesPointer: UnsafeMutablePointer<MTLTexture?> = UnsafeMutablePointer(mutating: inputTextures)
+        commandEncoder.setTextures(texturesPointer, with: NSRange.init(location: 0, length: maxInputTextures))
+
+        commandEncoder.setTexture(outputImage.texture, at: maxInputTextures)
+        let threadgroupsPerGrid = outputImage.texture.threadGrid(threadGroup: tpTG)
+        commandEncoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: tpTG)
+        commandEncoder.endEncoding()
+    }
+
+}

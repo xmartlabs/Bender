@@ -11,6 +11,8 @@
 		46354BC41EEF320700B083EF /* DependencyListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46354BC31EEF320700B083EF /* DependencyListBuilder.swift */; };
 		4697C2191ED31F8D003ED2E9 /* local_response_norm.metal in Sources */ = {isa = PBXBuildFile; fileRef = 4697C2181ED31F8D003ED2E9 /* local_response_norm.metal */; };
 		4697C21B1ED35E50003ED2E9 /* LocalResponseNorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4697C21A1ED35E50003ED2E9 /* LocalResponseNorm.swift */; };
+		46FAFCB91F029B09008754E1 /* Concat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FAFCB81F029B09008754E1 /* Concat.swift */; };
+		46FAFCBB1F02A725008754E1 /* concat.metal in Sources */ = {isa = PBXBuildFile; fileRef = 46FAFCBA1F02A725008754E1 /* concat.metal */; };
 		8F0669B11EC364A3009F5C7C /* PALFunctionConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0669B01EC364A3009F5C7C /* PALFunctionConstant.swift */; };
 		8F0669B31EC36672009F5C7C /* ComputePipelineDef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0669B21EC36672009F5C7C /* ComputePipelineDef.swift */; };
 		8F0669B71EC37424009F5C7C /* ParameterLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0669B61EC37424009F5C7C /* ParameterLoader.swift */; };
@@ -89,6 +91,8 @@
 		46354BC31EEF320700B083EF /* DependencyListBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyListBuilder.swift; sourceTree = "<group>"; };
 		4697C2181ED31F8D003ED2E9 /* local_response_norm.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = local_response_norm.metal; sourceTree = "<group>"; };
 		4697C21A1ED35E50003ED2E9 /* LocalResponseNorm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalResponseNorm.swift; sourceTree = "<group>"; };
+		46FAFCB81F029B09008754E1 /* Concat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Concat.swift; sourceTree = "<group>"; };
+		46FAFCBA1F02A725008754E1 /* concat.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = concat.metal; sourceTree = "<group>"; };
 		8F0669B01EC364A3009F5C7C /* PALFunctionConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PALFunctionConstant.swift; sourceTree = "<group>"; };
 		8F0669B21EC36672009F5C7C /* ComputePipelineDef.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComputePipelineDef.swift; sourceTree = "<group>"; };
 		8F0669B61EC37424009F5C7C /* ParameterLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterLoader.swift; sourceTree = "<group>"; };
@@ -283,6 +287,7 @@
 				8FA8E32D1EC0FD8800E8BAD8 /* Start.swift */,
 				8F60A3221EC4FA7A00296167 /* SpatialNorm.swift */,
 				4697C21A1ED35E50003ED2E9 /* LocalResponseNorm.swift */,
+				46FAFCB81F029B09008754E1 /* Concat.swift */,
 			);
 			path = Layers;
 			sourceTree = "<group>";
@@ -295,6 +300,7 @@
 				8FA984111EBA710000586D1B /* instanceNorm3.metal */,
 				8FA984121EBA710000586D1B /* Shaders.metal */,
 				4697C2181ED31F8D003ED2E9 /* local_response_norm.metal */,
+				46FAFCBA1F02A725008754E1 /* concat.metal */,
 			);
 			name = "Metal Shaders";
 			path = Metal;
@@ -476,6 +482,7 @@
 				8FAD35031ED47A97004B69DA /* TFDeleteSubgraph.swift in Sources */,
 				8F79B7FE1EC2302C002D02C8 /* Scale.swift in Sources */,
 				8F60A31A1EC4DBE800296167 /* Pooling.swift in Sources */,
+				46FAFCBB1F02A725008754E1 /* concat.metal in Sources */,
 				8F79B7FB1EC21C1D002D02C8 /* InstanceNorm.swift in Sources */,
 				8F4466CE1ECF5F8E00915819 /* TFWeightData.swift in Sources */,
 				8FAB77231ECC86170050AB16 /* graph.pb.swift in Sources */,
@@ -516,6 +523,7 @@
 				8FAB772E1ECC8D6E0050AB16 /* TFGraphLoader.swift in Sources */,
 				8FAB77241ECC86170050AB16 /* node_def.pb.swift in Sources */,
 				8FA984261EBA77E400586D1B /* LayerSize.swift in Sources */,
+				46FAFCB91F029B09008754E1 /* Concat.swift in Sources */,
 				8FA6BABC1ED5BD48004450C0 /* TFConverter+Mappers.swift in Sources */,
 				8FAB77261ECC86170050AB16 /* tensor_shape.pb.swift in Sources */,
 				8FA6BAC21ED5CFCE004450C0 /* TFInstanceNormOptimizer.swift in Sources */,

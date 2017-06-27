@@ -51,7 +51,7 @@ open class TFConverter: Converter {
         if verbose {
             debugPrint("\n\n\nNodes in my graph (pre optimization):")
             for node in graph.nodes {
-                debugPrint("\(node.nodeDef.name)")
+                debugPrint("\(node.nodeDef.name) \(node.nodeDef.op)")
             }
         }
 
