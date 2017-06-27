@@ -23,6 +23,7 @@ public typealias TransposeFunction = (Data, Shape) -> (Data)
 /// Transposes weights from HWIO to OHWI order. Used to pass TensorFlow's weights for Convolution layers
 func HWIOtoOHWI(weights: Data, shape: Shape) -> Data {
     var transposed = [Float](repeating: 0.0, count: shape.totalCount)
+    let weightsPointer: UnsafePointer<Float>! = weights.pointer()
 
     for o in 0..<shape.outputChannels {
         for h in 0..<shape.height {
@@ -30,13 +31,13 @@ func HWIOtoOHWI(weights: Data, shape: Shape) -> Data {
                 for i in 0..<shape.inputChannels {
                     let tIndex = i + shape.inputChannels * (w + shape.width * (h + shape.height * (o)))
                     let wIndex = o + shape.outputChannels * (i + shape.inputChannels * (w + shape.width * (h)))
-                    transposed[tIndex] = weights.pointer()![wIndex]
+                    transposed[tIndex] = weightsPointer[wIndex]
                 }
             }
         }
     }
 
-    return Data.init(bytes: transposed, count: shape.totalCount * MemoryLayout<Float>.stride)
+    return Data(bytes: transposed, count: shape.totalCount * MemoryLayout<Float>.stride)
 }
 
 func HWIOtoOWHI(weights: Data, shape: Shape) -> Data {
