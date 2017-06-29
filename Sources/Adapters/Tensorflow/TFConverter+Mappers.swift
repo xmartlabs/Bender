@@ -151,6 +151,15 @@ public extension TFConverter {
             return InstanceNorm(scale: scale, shift: shift, id: node.nodeDef.name)
         }
         mappers[Constants.Ops.InstanceNormAdd] = inormMapper
+
+        //MARK: Concat
+        let concatMapper = { (node: TFNode) -> NetworkLayer in
+            guard let axisInt = node.nodeDef.attr["Tidx"]?.i, let axis = LayerSizeAxis.fromTF(index: Int(axisInt)) else {
+                fatalError("Cannot create \(Constants.Ops.Concat). Axis missing (Tidx) or out of range")
+            }
+            return Concat(axis: axis, id: node.nodeDef.name)
+        }
+        mappers[Constants.Ops.Concat] = concatMapper
     }
     
 }
