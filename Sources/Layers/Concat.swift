@@ -22,34 +22,11 @@ open class Concat: NetworkLayer {
 
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
-        let incoming = getIncoming()
-
-        // correctness checks
-
-        // TODO: implement shader to support concat along z without restricting it to multiples of 4
-
-        assert(axis != .f || incoming.reduce(true) { $0.0 && ($0.1.outputSize.f % 4 == 0) }, "Concat: all z dimensions must be multiple of 4")
-        assert(!incoming.isEmpty, "Concat: expects at least one inputs")
-        assert(incoming.count <= maxInputTextures, "Concat: only accepts \(maxInputTextures) incomming nodes at most")
-
-        let allInputTexturesWithMoreThan4Channels = incoming.reduce(true) { $0.0 && $0.1.outputSize.f > 4 }
-        let allInputTexturesWithLessThanOrEqualTo4Channels = incoming.reduce(true) { $0.0 && $0.1.outputSize.f <= 4 }
-        assert(allInputTexturesWithMoreThan4Channels || allInputTexturesWithLessThanOrEqualTo4Channels, "All z dimensions must be either > 4 or <= 4 at the same time")
 
         let axisThatMustBeEqual = LayerSizeAxis.all.filter { $0 != axis }
-        var axisValues = [LayerSizeAxis: Int]()
+        let (allInputTexturesWithLessThanOrEqualTo4Channels, axisValues) = validatePreconditions(with: axisThatMustBeEqual)
 
-        let sampleSize: LayerSize! = incoming[0].outputSize
-        axisThatMustBeEqual.forEach { axisValues[$0] = sampleSize[$0] }
-
-        incoming.forEach {
-            let inputSize: LayerSize! = $0.outputSize
-            axisThatMustBeEqual.forEach {
-                assert(inputSize[$0] == axisValues[$0]!, "Concat: Axis \($0) isn't equal in at least one pair of input nodes")
-            }
-        }
-        // end correctness checks
-
+        let incoming = getIncoming()
         var outputDimensions = [LayerSizeAxis: Int]()
         outputDimensions[axis] = incoming.reduce(0) { $0.0 + $0.1.outputSize[axis] }
         axisThatMustBeEqual.forEach { outputDimensions[$0] = axisValues[$0] }
@@ -88,6 +65,33 @@ open class Concat: NetworkLayer {
         let threadgroupsPerGrid = outputImage.texture.threadGrid(threadGroup: tpTG)
         commandEncoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: tpTG)
         commandEncoder.endEncoding()
+    }
+
+    private func validatePreconditions(with axisThatMustBeEqual: [LayerSizeAxis]) -> (Bool, [LayerSizeAxis: Int]) {
+        let incoming = getIncoming()
+
+        // TODO: implement shader to support concat along z without restricting it to multiples of 4
+
+        assert(!incoming.isEmpty, "Concat: expects at least one inputs")
+        assert(axis != .f || incoming.reduce(true) { $0.0 && ($0.1.outputSize.f % 4 == 0) }, "Concat: all z dimensions must be multiple of 4")
+        assert(incoming.count <= maxInputTextures, "Concat: only accepts \(maxInputTextures) incomming nodes at most")
+
+        let allInputTexturesWithMoreThan4Channels = incoming.reduce(true) { $0.0 && $0.1.outputSize.f > 4 }
+        let allInputTexturesWithLessThanOrEqualTo4Channels = incoming.reduce(true) { $0.0 && $0.1.outputSize.f <= 4 }
+        assert(allInputTexturesWithMoreThan4Channels || allInputTexturesWithLessThanOrEqualTo4Channels, "All z dimensions must be either > 4 or <= 4 at the same time")
+
+        var axisValues = [LayerSizeAxis: Int]()
+
+        let sampleSize: LayerSize! = incoming[0].outputSize
+        axisThatMustBeEqual.forEach { axisValues[$0] = sampleSize[$0] }
+
+        incoming.forEach {
+            let inputSize: LayerSize! = $0.outputSize
+            axisThatMustBeEqual.forEach {
+                assert(inputSize[$0] == axisValues[$0]!, "Concat: Axis \($0) isn't equal in at least one pair of input nodes")
+            }
+        }
+        return (allInputTexturesWithLessThanOrEqualTo4Channels, axisValues)
     }
 
 }

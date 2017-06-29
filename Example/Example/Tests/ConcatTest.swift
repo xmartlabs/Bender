@@ -8,9 +8,9 @@
 
 import Accelerate
 import AVFoundation
+import Bender
 import MetalKit
 import MetalPerformanceShaders
-import Bender
 
 struct ConcatDataSet {
 
