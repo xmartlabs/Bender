@@ -29,7 +29,7 @@ public extension TFOptimizer {
             node.nodeDef.attr[Constants.CustomAttr.neuron] = neuron
 
             for output in next.outgoingNodes() {
-                output.addIncomingEdge(from: node)
+                output.replace(incomingEdge: next, with: node)
             }
 
             next.strip()
