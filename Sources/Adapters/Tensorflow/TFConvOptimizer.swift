@@ -29,7 +29,7 @@ class TFConvOptimizer: TFOptimizer {
                     let biasVar = (biasAdd.incomingNodes() as? [TFNode])?.first(where: { $0.nodeDef.isTFVariableOrConstOp }) {
                     node.addIncomingEdge(from: biasVar)
                     for output in biasAdd.outgoingNodes() {
-                        output.addIncomingEdge(from: node)
+                        output.replace(incomingEdge: biasAdd, with: node)
                     }
                     biasAdd.strip()
                 }

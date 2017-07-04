@@ -51,6 +51,18 @@ public extension Node {
         }
     }
 
+    /// Replaces the `old` incoming node by `new`. Also replaces the outgoing
+    /// ocurrence of `old` in the `new` node.
+    func replace(incomingEdge old: Node, with new: Node) {
+        let incoming = incomingNodes()
+        if let index = incoming.index(where: { $0.isEqual(to: old) }) {
+            edgeIn[index] = captureWeakly(object: new)
+            if let outIndex = new.edgeOut.index(where: { $0.isEqual(to: old)}) {
+                new.edgeOut[outIndex] = self
+            }
+        }
+    }
+
     /// All incoming connections
     func incomingNodes() -> [Node] {
         return edgeIn.flatMap { $0() }
