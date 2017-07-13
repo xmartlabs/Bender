@@ -56,10 +56,9 @@ open class Concat: NetworkLayer {
         let tpTG = MTLSizeMake(32, 8, 1)
         commandEncoder.setComputePipelineState(pipeline)
 
-        var inputTextures: [MTLTexture?] = [MTLTexture?].init(repeating: nil, count: maxInputTextures)
-        incoming.enumerated().forEach { inputTextures[$0.offset] = $0.element.outputImage.texture }
-        let texturesPointer: UnsafeMutablePointer<MTLTexture?> = UnsafeMutablePointer(mutating: inputTextures)
-        commandEncoder.setTextures(texturesPointer, with: NSRange.init(location: 0, length: maxInputTextures))
+        (0..<min(maxInputTextures, incoming.count)).forEach {
+            commandEncoder.setTexture(incoming[$0].outputImage.texture, at: $0)
+        }
 
         commandEncoder.setTexture(outputImage.texture, at: maxInputTextures)
         let threadgroupsPerGrid = outputImage.texture.threadGrid(threadGroup: tpTG)
