@@ -9,11 +9,14 @@
 #include <metal_stdlib>
 using namespace metal;
 
-/********************** Concat MARCO **********************/
+/********************** Concat MACRO **********************/
 
+/* Changing this value implies changing the
+ 'SRC_TEXTURES_ARRAY' & 'CONCAT' macros as well.
+ */
 #define INPUT_TEXTURES_COUNT (10)
 
-#define INPUT_TEXTURE(i) src ## _ ## i
+#define INPUT_TEXTURE(i) src_ ## i
 
 #define COMPUTE_INPUT_TEXTURE(inputAxis, outputAxis, sizeFunction, i)\
     {\
@@ -54,21 +57,21 @@ using namespace metal;
 
 /********** Helpers to define a list of input textures *******/
 
-#define TEXTURE(type, name, i) type name ## _ ## i [[ texture(i) ]]
+#define TEXTURE(type, i) type INPUT_TEXTURE(i) [[ texture(i) ]]
 
-#define TEXTURES_ARRAY(type, name)\
-    TEXTURE(type, name, 0),\
-    TEXTURE(type, name, 1),\
-    TEXTURE(type, name, 2),\
-    TEXTURE(type, name, 3),\
-    TEXTURE(type, name, 4),\
-    TEXTURE(type, name, 5),\
-    TEXTURE(type, name, 6),\
-    TEXTURE(type, name, 7),\
-    TEXTURE(type, name, 8),\
-    TEXTURE(type, name, 9)\
+#define SRC_TEXTURES_ARRAY(type)\
+    TEXTURE(type, 0),\
+    TEXTURE(type, 1),\
+    TEXTURE(type, 2),\
+    TEXTURE(type, 3),\
+    TEXTURE(type, 4),\
+    TEXTURE(type, 5),\
+    TEXTURE(type, 6),\
+    TEXTURE(type, 7),\
+    TEXTURE(type, 8),\
+    TEXTURE(type, 9)\
 
-/*** typedefs in order to avois issues with ',' in macros ***/
+/*** typedefs in order to avoid issues with ',' in macros ***/
 
 typedef const texture2d_array<float, access::read> texture2d_float_array;
 typedef const texture2d<float, access::read> texture2d_float;
@@ -76,7 +79,7 @@ typedef const texture2d<float, access::read> texture2d_float;
 /********************** Concat along x **********************/
 
 kernel void concat_x(
-                TEXTURES_ARRAY(texture2d_float_array, src),
+                SRC_TEXTURES_ARRAY(texture2d_float_array),
                 texture2d_array<float, access::write> dest [[ texture(INPUT_TEXTURES_COUNT) ]],
                 ushort3 gid [[thread_position_in_grid]]) {
 
@@ -85,7 +88,7 @@ kernel void concat_x(
 }
 
 kernel void concat_x_3(
-                     TEXTURES_ARRAY(texture2d_float, src),
+                     SRC_TEXTURES_ARRAY(texture2d_float),
                      texture2d<float, access::write> dest [[ texture(INPUT_TEXTURES_COUNT) ]],
                      ushort3 gid [[thread_position_in_grid]]) {
 
@@ -96,7 +99,7 @@ kernel void concat_x_3(
 /********************** Concat along y **********************/
 
 kernel void concat_y(
-                   TEXTURES_ARRAY(texture2d_float_array, src),
+                   SRC_TEXTURES_ARRAY(texture2d_float_array),
                    texture2d_array<float, access::write> dest [[ texture(INPUT_TEXTURES_COUNT) ]],
                    ushort3 gid [[thread_position_in_grid]]) {
 
@@ -105,7 +108,7 @@ kernel void concat_y(
 }
 
 kernel void concat_y_3(
-                    TEXTURES_ARRAY(texture2d_float, src),
+                    SRC_TEXTURES_ARRAY(texture2d_float),
                     texture2d<float, access::write> dest [[ texture(INPUT_TEXTURES_COUNT) ]],
                     ushort3 gid [[thread_position_in_grid]]) {
 
@@ -116,7 +119,7 @@ kernel void concat_y_3(
 /********************** Concat along z **********************/
 
 kernel void concat_z( /* only works when each input texture has a depth multiple of 4. */
-                     TEXTURES_ARRAY(texture2d_float_array, src),
+                     SRC_TEXTURES_ARRAY(texture2d_float_array),
                      texture2d_array<float, access::write> dest [[ texture(INPUT_TEXTURES_COUNT) ]],
                      ushort3 gid [[thread_position_in_grid]]) {
 
@@ -125,10 +128,10 @@ kernel void concat_z( /* only works when each input texture has a depth multiple
 }
 
 kernel void concat_z_3(
-                    TEXTURES_ARRAY(texture2d_float, src),
+                    SRC_TEXTURES_ARRAY(texture2d_float),
                     texture2d_array<float, access::write> dest [[ texture(INPUT_TEXTURES_COUNT) ]],
                     ushort3 gid [[thread_position_in_grid]]) {
 
-    CONCAT(inputZ, outputZ, get_width() & 0x00 | 0x01); /* Just want to pass 1 as the sizeFunction */
+    CONCAT(inputZ, outputZ, get_width() * 0 + 1); /* Just want to pass 1 as the sizeFunction */
 
 }
