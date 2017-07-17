@@ -13,6 +13,8 @@ using namespace metal;
 
 /* Changing this value implies changing the
  'SRC_TEXTURES_ARRAY' & 'CONCAT' macros as well.
+ Additionally it must match the property 'maxInputTextures'
+ of the Concat class defined in the Concat.swift file.
  */
 #define INPUT_TEXTURES_COUNT (10)
 
