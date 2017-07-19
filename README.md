@@ -96,7 +96,7 @@ To know more about this have a look at [API](Documentation/API.md).
 ## Requirements
 
 * iOS 10.0+
-* Xcode 8.3+
+* Xcode 8.3+ or Xcode 9.0 beta 3+
 
 ## Getting involved
 
