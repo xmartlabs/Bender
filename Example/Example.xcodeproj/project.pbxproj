@@ -13,6 +13,7 @@
 		28F828D51C4B714D00330CF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28F828D31C4B714D00330CF4 /* Main.storyboard */; };
 		28F828D71C4B714D00330CF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28F828D61C4B714D00330CF4 /* Assets.xcassets */; };
 		28F828DA1C4B714D00330CF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28F828D81C4B714D00330CF4 /* LaunchScreen.storyboard */; };
+		461EC9141F2285E800195392 /* test_concat.pb in Resources */ = {isa = PBXBuildFile; fileRef = 461EC9131F2285E800195392 /* test_concat.pb */; };
 		46FAFCBD1F02CB89008754E1 /* ConcatTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FAFCBC1F02CB89008754E1 /* ConcatTest.swift */; };
 		46FAFCC11F04142C008754E1 /* ConstantLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FAFCC01F04142C008754E1 /* ConstantLayer.swift */; };
 		8F28C68D1ED724BE0062039F /* g_and_w.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8F28C68C1ED724BE0062039F /* g_and_w.pb */; };
@@ -103,6 +104,7 @@
 		28F828DB1C4B714D00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Example/Info.plist; sourceTree = "<group>"; };
 		28F828E01C4B714D00330CF4 /* ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F828E61C4B714D00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		461EC9131F2285E800195392 /* test_concat.pb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test_concat.pb; path = ../test_concat.pb; sourceTree = "<group>"; };
 		46FAFCBC1F02CB89008754E1 /* ConcatTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConcatTest.swift; path = Example/Tests/ConcatTest.swift; sourceTree = "<group>"; };
 		46FAFCC01F04142C008754E1 /* ConstantLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConstantLayer.swift; path = Example/Tests/Helpers/ConstantLayer.swift; sourceTree = "<group>"; };
 		8F28C68C1ED724BE0062039F /* g_and_w.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = g_and_w.pb; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 		8FCD3E9C1ED8AC3D00B1AAE6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				461EC9131F2285E800195392 /* test_concat.pb */,
 				28F828CF1C4B714D00330CF4 /* AppDelegate.swift */,
 				28F828D31C4B714D00330CF4 /* Main.storyboard */,
 				28F828D61C4B714D00330CF4 /* Assets.xcassets */,
@@ -410,6 +413,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28F828DA1C4B714D00330CF4 /* LaunchScreen.storyboard in Resources */,
+				461EC9141F2285E800195392 /* test_concat.pb in Resources */,
 				8F46BCB31EE0B52D00DF275A /* mnist-fc2_b in Resources */,
 				8F46BCAE1EE0B52D00DF275A /* mnist-conv1_w in Resources */,
 				8FE2D0871EDDD5D30080125D /* mnist.pb in Resources */,
