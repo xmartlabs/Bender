@@ -37,10 +37,12 @@ if __name__ == '__main__':
 
         saver.save(sess, checkpoint_path)
 
-        print(sess.run(c3, {x: np.arange(x_len).reshape(x.shape),
-                            y: (np.arange(y_len) + x_len).reshape(y.shape),
-                            z: (np.arange(z_len) + x_len + y_len).reshape(z.shape),
-                            a: (np.arange(a_len) + x_len + y_len + z_len).reshape(a.shape)}))
+        feed_dict = {x: np.arange(x_len).reshape(x.shape), y: (np.arange(y_len) + x_len).reshape(y.shape),
+                     z: (np.arange(z_len) + x_len + y_len).reshape(z.shape),
+                     a: (np.arange(a_len) + x_len + y_len + z_len).reshape(a.shape)}
+        print(feed_dict)
+        print('')
+        print(sess.run(c3, feed_dict))
 
         tf_freeze.freeze_from_checkpoint(checkpoint_path, 'test_concat.pb', ['output'])
         # tf_freeze.save_graph_only(sess, 'test_concat.pb', ['output'])
