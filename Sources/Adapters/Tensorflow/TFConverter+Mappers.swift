@@ -154,8 +154,12 @@ public extension TFConverter {
 
         //MARK: Concat
         let concatMapper = { (node: TFNode) -> NetworkLayer in
-            guard let axisInt = node.nodeDef.attr["Tidx"]?.i, let axis = LayerSizeAxis.fromTF(index: Int(axisInt)) else {
-                fatalError("Cannot create \(Constants.Ops.Concat). Axis missing (Tidx) or out of range")
+            let inputs = node.incomingNodes().flatMap { $0 as? TFNode }
+            guard let axisNode = inputs.first(where: { $0.nodeDef.name == "\(node.nodeDef.name)/axis" }) else {
+                fatalError("Cannot create \(Constants.Ops.Concat). Missing input node \(node.nodeDef.name)/axis")
+            }
+            guard let axisInt32 = axisNode.nodeDef.attr["value"]?.tensor.intVal.first, let axis = LayerSizeAxis.fromTF(index: Int(axisInt32)) else {
+                fatalError("Cannot create \(Constants.Ops.Concat). Missing or invalid attribute axis.")
             }
             return Concat(axis: axis, id: node.nodeDef.name)
         }
