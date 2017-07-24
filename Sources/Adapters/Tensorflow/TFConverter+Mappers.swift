@@ -159,11 +159,11 @@ public extension TFConverter {
                 fatalError("Cannot create \(Constants.Ops.Concat). Missing input node \(node.nodeDef.name)/axis")
             }
             guard let axisInt32 = axisNode.nodeDef.attr["value"]?.tensor.intVal.first, let axis = LayerSizeAxis.fromTF(index: Int(axisInt32)) else {
-                fatalError("Cannot create \(Constants.Ops.Concat). Missing attribute axis.")
+                fatalError("Cannot create \(Constants.Ops.Concat). Missing or invalid attribute axis.")
             }
             return Concat(axis: axis, id: node.nodeDef.name)
         }
         mappers[Constants.Ops.Concat] = concatMapper
     }
-    
+
 }

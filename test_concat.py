@@ -24,9 +24,13 @@ if __name__ == '__main__':
         # noinspection PyUnresolvedReferences,PyProtectedMember
         a_len = np.prod(a.shape)._value
 
+        saver = tf.train.Saver(allow_empty=True)
+        checkpoint = saver.save(sess, 'checkpoint_file')
+
         print(sess.run(c3, {x: np.arange(x_len).reshape(x.shape),
                             y: (np.arange(y_len) + x_len).reshape(y.shape),
                             z: (np.arange(z_len) + x_len + y_len).reshape(z.shape),
                             a: (np.arange(a_len) + x_len + y_len + z_len).reshape(a.shape)}))
 
-        tf_freeze.save_graph_only(sess, 'test_concat.pb', ['output'])
+        tf_freeze.freeze_from_checkpoint(checkpoint, 'test_concat.pb', ['output'])
+        # tf_freeze.save_graph_only(sess, 'test_concat.pb', ['output'])

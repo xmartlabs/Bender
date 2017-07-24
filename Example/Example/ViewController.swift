@@ -24,7 +24,7 @@ class TestViewController: UIViewController {
         let inputSize = LayerSize(f: 3, w: 3, h: 5)
         let nnet = Network(device: device, inputSize: inputSize, parameterLoader: SingleBinaryLoader(checkpoint: "lala"))
         let converter = TFConverter.default()
-        nnet.convert(converter: converter, url: url, type: .text)
+        nnet.convert(converter: converter, url: url, type: .binary)
 
         nnet.initialize()
     }
