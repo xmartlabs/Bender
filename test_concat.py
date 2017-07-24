@@ -9,10 +9,10 @@ import tensorflow as tf
 if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
-    x = tf.placeholder(tf.float32, shape=(1, 2, 3))
-    y = tf.placeholder(tf.float32, shape=(4, 2, 3))
-    z = tf.placeholder(tf.float32, shape=(5, 6, 3))
-    a = tf.placeholder(tf.float32, shape=(5, 8, 7))
+    x = tf.placeholder(tf.float32, shape=(4, 8, 12))
+    y = tf.placeholder(tf.float32, shape=(4, x.shape[1], x.shape[2]))
+    z = tf.placeholder(tf.float32, shape=(x.shape[0] + y.shape[0], 24, x.shape[2]))
+    a = tf.placeholder(tf.float32, shape=(x.shape[0] + y.shape[0], y.shape[1] + z.shape[1], 28))
 
     c1 = tf.concat([x, y], axis=0)
     c2 = tf.concat([c1, z], axis=1)
