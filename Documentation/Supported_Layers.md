@@ -1,4 +1,3 @@
-
 # Supported Layers
 
 This is a list of the layers/ nodes that are currently supported. We plan to keep adding more and hope that the community will help with this as well.
@@ -8,10 +7,11 @@ This is a list of the layers/ nodes that are currently supported. We plan to kee
 
 The implemented layers are:
 * __Add__: Sums two textures element-wise. Both textures have to be of the same size
+* __Concat__: Concatenates the inputs along certain axis
 * __Convolution__: Wrapper for MPSCNNConvolution
 * __ConvTranspose__: Represents a transposed convolution
 * __FullyConnected__: Represents a Fully connected (or Dense) layer
-* __InstanceNorm__: Instance Normalization as described in Ulyanov's [Instance Normalization](https://arxiv.org/abs/1607.08022)
+* __InstanceNorm__: [Instance Normalization](https://arxiv.org/abs/1607.08022)
 * __LRN__: Local Response Normalization
 * __Pooling__: Implements _max_ and _average_ pooling
 * __Neuron__: Activation neurons such as ReLU, TanH, Sigmoid, Linear
@@ -36,6 +36,7 @@ Last but not least, there is a _CompositeLayer_ included:
 
 The following are the TensorFlow ops that are mapped to Bender layers:
 * __Add__ -> Add (works for two textures/tensors of the same size)
+* __ConcatV2__ -> Concat
 * __Conv2D__ -> Convolution
 * __Conv2Dtranspose__ -> ConvTranspose
 * __Matmul + BiasAdd__ -> FullyConnected
