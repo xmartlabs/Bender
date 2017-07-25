@@ -33,7 +33,7 @@ public class TFGraph: GraphProtocol {
 
         for node in nodes {
             // Filter TF control inputs
-            let filtered = node.nodeDef.input.filter { $0.first != "^" }
+            let filtered = node.nodeDef.input.filter { $0.characters.first != "^" }
             
             for input in filtered {
                 if let inputNode = nodesByName[input] {
