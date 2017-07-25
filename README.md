@@ -49,16 +49,15 @@ We also found ourselves creating scripts to translate the models we had from tra
 You can define your own network in Bender using our custom operator or you can load a model exported from TensorFlow. Defining a network and loading a model can be done like this:
 
 ```swift
-import Bender
+import MetalBender
 
 // Define a network and how it will load its weights / parameters
 let randomLoader = RandomParameterLoader(maxSize: 7*7*64*1024)
-network = Network(device: device, inputSize: LayerSize(f: 3, w: 256), parameterLoader: randomLoader)
+let network = Network(device: device, inputSize: LayerSize(f: 3, w: 256), parameterLoader: randomLoader)
 
 // Convert a graph from TensorFlow
 let url = Bundle.main.url(forResource: "myGraph", withExtension: "pb")!
-let converter = TFConverter.default()
-network.nodes = converter.convertGraph(file: url, type: .binary)
+TFConverter.default().convertGraph(file: url, type: .binary)
 
 // Initialize the network
 network.initialize()
@@ -75,7 +74,6 @@ You can read more information about this in [Importing](Documentation/Importing.
 If you want to define your network yourself you can do it like this:
 
 ```swift
-
 let network = ...
 
 network.start
