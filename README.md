@@ -102,11 +102,11 @@ To know more about this have a look at [API](Documentation/API.md).
 
 * If you **want to contribute** please feel free to **submit pull requests**.
 * If you **have a feature request** please **open an issue**.
-* If you **found a bug** or **need help** please **check older issues, [FAQ](#faq) and threads on [StackOverflow](http://stackoverflow.com/questions/tagged/Bender) (Tag 'Bender') before submitting an issue.**.
+* If you **found a bug** or **need help** please **check older issues, [FAQ](#faq) and threads on [StackOverflow](https://stackoverflow.com) before submitting an issue**.
 
 Before contribute check the [CONTRIBUTING] file for more info.
 
-If you use **Bender** in your app We would love to hear about it! Drop us a line on [twitter](https://twitter.com/xmartlabs).
+If you use **Bender** in your app We would love to hear about it! Drop us a line on [Twitter](https://twitter.com/xmartlabs).
 
 ## Examples
 
