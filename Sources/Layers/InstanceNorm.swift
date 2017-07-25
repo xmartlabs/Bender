@@ -6,7 +6,7 @@
 //  Copyright © 2017 Xmartlabs. All rights reserved.
 //
 
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 
 /// Instance normalization layer
 open class InstanceNorm: NetworkLayer {

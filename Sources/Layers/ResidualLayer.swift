@@ -6,7 +6,7 @@
 //  Copyright © 2017 Xmartlabs. All rights reserved.
 //
 
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 
 /** Generic Residual layer. This is a composite layer.
  */

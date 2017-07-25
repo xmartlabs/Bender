@@ -6,7 +6,7 @@
 //
 //
 
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 
 /// Identity layer. Returns the input image
 open class Identity: NetworkLayer {
