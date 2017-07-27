@@ -6,7 +6,7 @@
 //
 //
 
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 
 /// Implements Spatial normalization.
 open class SpatialNorm: NetworkLayer {

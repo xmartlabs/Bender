@@ -8,7 +8,7 @@
 
 import AVFoundation
 import CoreGraphics
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 import MetalKit
 import Bender
 import UIKit

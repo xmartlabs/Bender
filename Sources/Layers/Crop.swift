@@ -6,7 +6,7 @@
 //  Copyright © 2017 Xmartlabs. All rights reserved.
 //
 
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 
 /// This layer crops the input image to the desired size. The cropRect is taken from the center of the input image.
 open class Crop: NetworkLayer {

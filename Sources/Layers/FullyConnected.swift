@@ -6,7 +6,7 @@
 //
 //
 
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 
 /// FullyConnected or Dense layer.
 open class FullyConnected: NetworkLayer {

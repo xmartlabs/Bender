@@ -6,7 +6,7 @@
 //
 //
 
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 
 /// Type for Pooling layer
 public enum PoolingType {

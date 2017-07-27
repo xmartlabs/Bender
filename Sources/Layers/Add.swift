@@ -6,7 +6,7 @@
 //
 //
 
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 
 /// Receives two input images and sums them element-wise.
 open class Add: NetworkLayer {

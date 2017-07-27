@@ -9,7 +9,7 @@
 import Accelerate
 import AVFoundation
 import MetalKit
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 import Bender
 
 class InstanceNormTest: BenderTest {

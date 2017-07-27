@@ -39,6 +39,7 @@
 		8F79B8031EC23563002D02C8 /* ResidualLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA9841E1EBA74D700586D1B /* ResidualLayer.swift */; };
 		8F79B8081EC248CD002D02C8 /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B8071EC248CD002D02C8 /* Dummy.swift */; };
 		8F79B80A1EC2514A002D02C8 /* MTLDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B8091EC2514A002D02C8 /* MTLDevice.swift */; };
+		8F8568651F28FA6800FCC79D /* MetalPerformanceShadersProxy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F8568641F28FA6800FCC79D /* MetalPerformanceShadersProxy.framework */; };
 		8F8856591EE05C9E006140B3 /* TFReshapeOptimizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8856581EE05C9E006140B3 /* TFReshapeOptimizer.swift */; };
 		8F94C5301ECE042400D5E0E6 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94C52F1ECE042400D5E0E6 /* Converter.swift */; };
 		8F94C5321ECE0B8400D5E0E6 /* TFConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94C5311ECE0B8400D5E0E6 /* TFConverter.swift */; };
@@ -112,6 +113,7 @@
 		8F79B7FF1EC233A8002D02C8 /* ActivationNeuronType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivationNeuronType.swift; sourceTree = "<group>"; };
 		8F79B8071EC248CD002D02C8 /* Dummy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
 		8F79B8091EC2514A002D02C8 /* MTLDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MTLDevice.swift; sourceTree = "<group>"; };
+		8F8568641F28FA6800FCC79D /* MetalPerformanceShadersProxy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShadersProxy.framework; path = Carthage/Build/iOS/MetalPerformanceShadersProxy.framework; sourceTree = "<group>"; };
 		8F8856581EE05C9E006140B3 /* TFReshapeOptimizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFReshapeOptimizer.swift; sourceTree = "<group>"; };
 		8F94C52F1ECE042400D5E0E6 /* Converter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
 		8F94C5311ECE0B8400D5E0E6 /* TFConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFConverter.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8FC2B3A51EE5D9B80038E582 /* SwiftProtobuf.framework in Frameworks */,
+				8F8568651F28FA6800FCC79D /* MetalPerformanceShadersProxy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +376,7 @@
 		8FAB772A1ECC87E20050AB16 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8F8568641F28FA6800FCC79D /* MetalPerformanceShadersProxy.framework */,
 				8FAB772B1ECC87E20050AB16 /* SwiftProtobuf.framework */,
 			);
 			name = Frameworks;

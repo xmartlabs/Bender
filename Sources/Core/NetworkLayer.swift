@@ -7,7 +7,7 @@
 //
 
 import AVFoundation
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 
 /// A group is a temporary structure that represents every network component
 public protocol Group {

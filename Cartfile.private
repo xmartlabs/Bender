@@ -1,1 +1,2 @@
 github "apple/swift-protobuf" "master"
+github "xmartlabs/MetalPerformanceShadersProxy" "master"
