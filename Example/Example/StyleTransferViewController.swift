@@ -6,7 +6,7 @@
 //
 
 import Accelerate
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 import MetalKit
 import Bender
 import UIKit

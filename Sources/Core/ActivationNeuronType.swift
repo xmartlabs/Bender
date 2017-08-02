@@ -6,7 +6,7 @@
 //
 //
 
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 
 /// Activation neuron type
 public enum ActivationNeuronType {

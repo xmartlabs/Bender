@@ -27,6 +27,8 @@
 		8F46BCB41EE0B52D00DF275A /* mnist-fc2_w in Resources */ = {isa = PBXBuildFile; fileRef = 8F46BCAC1EE0B52D00DF275A /* mnist-fc2_w */; };
 		8F79B80F1EC25ECA002D02C8 /* Luminance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B80E1EC25ECA002D02C8 /* Luminance.swift */; };
 		8F79B8111EC261D6002D02C8 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B8101EC261D6002D02C8 /* Shaders.metal */; };
+		8F7C22341F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F7C22331F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework */; };
+		8F7C22351F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F7C22331F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8F9F358E1EDCC5FE005F4DAE /* InstanceNormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9F358D1EDCC5FE005F4DAE /* InstanceNormTests.swift */; };
 		8FA6BAB91ED5AB2D004450C0 /* RandomLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA6BAB81ED5AB2D004450C0 /* RandomLoader.swift */; };
 		8FA8E3251EC0BE7300E8BAD8 /* Bender.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9CAB221D89C756006E1824 /* Bender.framework */; };
@@ -83,6 +85,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				8F7C22351F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework in Embed Frameworks */,
 				8FA8E3261EC0BE7300E8BAD8 /* Bender.framework in Embed Frameworks */,
 				8FCD3EA81ED8BE1F00B1AAE6 /* SwiftProtobuf.framework in Embed Frameworks */,
 			);
@@ -117,6 +120,7 @@
 		8F46BCAC1EE0B52D00DF275A /* mnist-fc2_w */ = {isa = PBXFileReference; lastKnownFileType = file; name = "mnist-fc2_w"; path = "mnist/mnist-fc2_w"; sourceTree = "<group>"; };
 		8F79B80E1EC25ECA002D02C8 /* Luminance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Luminance.swift; path = Example/Luminance.swift; sourceTree = "<group>"; };
 		8F79B8101EC261D6002D02C8 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = Shaders.metal; path = Example/Shaders.metal; sourceTree = "<group>"; };
+		8F7C22331F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShadersProxy.framework; path = ../Carthage/Build/iOS/MetalPerformanceShadersProxy.framework; sourceTree = "<group>"; };
 		8F9F358D1EDCC5FE005F4DAE /* InstanceNormTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstanceNormTests.swift; path = Example/Tests/InstanceNormTests.swift; sourceTree = "<group>"; };
 		8FA6BAB81ED5AB2D004450C0 /* RandomLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomLoader.swift; sourceTree = "<group>"; };
 		8FAD35051ED48825004B69DA /* tftest.pbtxt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tftest.pbtxt; sourceTree = "<group>"; };
@@ -137,6 +141,7 @@
 		CFAD253A1ED7EA090003C4FA /* TextureConversionTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextureConversionTest.swift; path = Example/Tests/TextureConversionTest.swift; sourceTree = "<group>"; };
 		CFAD253E1ED7EA930003C4FA /* TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestData.swift; path = Example/Tests/Helpers/TestData.swift; sourceTree = "<group>"; };
 		CFAD25401ED7EB5A0003C4FA /* CompletionSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CompletionSerializer.swift; path = Example/Tests/Helpers/CompletionSerializer.swift; sourceTree = "<group>"; };
+		DC52F68BC56AC40E8DF9A1DE /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +149,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F7C22341F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework in Frameworks */,
 				8FA8E3251EC0BE7300E8BAD8 /* Bender.framework in Frameworks */,
 				8FCD3EA71ED8BE1F00B1AAE6 /* SwiftProtobuf.framework in Frameworks */,
 			);
@@ -162,6 +168,7 @@
 		28F828C31C4B714D00330CF4 = {
 			isa = PBXGroup;
 			children = (
+				8F7C22331F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework */,
 				28F828CE1C4B714D00330CF4 /* Example */,
 				28F828E31C4B714D00330CF4 /* ExampleUITests */,
 				28F828CD1C4B714D00330CF4 /* Products */,
@@ -277,6 +284,7 @@
 			isa = PBXGroup;
 			children = (
 				8FCD3EA61ED8BE1F00B1AAE6 /* SwiftProtobuf.framework */,
+				DC52F68BC56AC40E8DF9A1DE /* Pods_Example.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

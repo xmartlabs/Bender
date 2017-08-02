@@ -6,7 +6,7 @@
 //
 //
 
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 
 /// Dummy layers are helpers for certain situations and are removed before execution starts.
 open class Dummy: NetworkLayer {

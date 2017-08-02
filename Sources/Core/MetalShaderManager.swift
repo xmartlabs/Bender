@@ -7,6 +7,7 @@
 //
 
 import Metal
+import MetalPerformanceShadersProxy
 
 /// Manages the references to the different Metal compute kernels
 public class MetalShaderManager {

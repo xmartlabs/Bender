@@ -8,7 +8,7 @@
 
 import AVFoundation
 import CoreGraphics
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 import MetalKit
 import Bender
 import UIKit
@@ -254,7 +254,7 @@ extension MNISTTestController: MTKViewDelegate {
             return
         }
         let buffer = commandQueue.makeCommandBuffer()
-        let drawableTexture = view.currentDrawable?.texture
+        let drawableTexture = (view.currentDrawable as? CAMetalDrawable)?.texture
         let encoder = buffer.makeComputeCommandEncoder()
         encoder.label = "GrayScale encoder"
         encoder.setComputePipelineState(pipeline)

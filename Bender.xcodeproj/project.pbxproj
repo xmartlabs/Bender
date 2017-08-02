@@ -39,6 +39,7 @@
 		8F79B8031EC23563002D02C8 /* ResidualLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA9841E1EBA74D700586D1B /* ResidualLayer.swift */; };
 		8F79B8081EC248CD002D02C8 /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B8071EC248CD002D02C8 /* Dummy.swift */; };
 		8F79B80A1EC2514A002D02C8 /* MTLDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B8091EC2514A002D02C8 /* MTLDevice.swift */; };
+		8F7C22321F30EE5B006DA176 /* MetalPerformanceShadersProxy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F7C22311F30EE5B006DA176 /* MetalPerformanceShadersProxy.framework */; };
 		8F8856591EE05C9E006140B3 /* TFReshapeOptimizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8856581EE05C9E006140B3 /* TFReshapeOptimizer.swift */; };
 		8F94C5301ECE042400D5E0E6 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94C52F1ECE042400D5E0E6 /* Converter.swift */; };
 		8F94C5321ECE0B8400D5E0E6 /* TFConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94C5311ECE0B8400D5E0E6 /* TFConverter.swift */; };
@@ -85,6 +86,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		103E67F4764279069AF23A03 /* Pods_Bender.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bender.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F8287D1C494B2C00330CF4 /* Bender.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Bender.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F828801C494B2C00330CF4 /* Bender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bender.h; sourceTree = "<group>"; };
 		28F828821C494B2C00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 		8F79B7FF1EC233A8002D02C8 /* ActivationNeuronType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivationNeuronType.swift; sourceTree = "<group>"; };
 		8F79B8071EC248CD002D02C8 /* Dummy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
 		8F79B8091EC2514A002D02C8 /* MTLDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MTLDevice.swift; sourceTree = "<group>"; };
+		8F7C22311F30EE5B006DA176 /* MetalPerformanceShadersProxy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShadersProxy.framework; path = Carthage/Build/iOS/MetalPerformanceShadersProxy.framework; sourceTree = "<group>"; };
 		8F8856581EE05C9E006140B3 /* TFReshapeOptimizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFReshapeOptimizer.swift; sourceTree = "<group>"; };
 		8F94C52F1ECE042400D5E0E6 /* Converter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
 		8F94C5311ECE0B8400D5E0E6 /* TFConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFConverter.swift; sourceTree = "<group>"; };
@@ -170,6 +173,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8FC2B3A51EE5D9B80038E582 /* SwiftProtobuf.framework in Frameworks */,
+				8F7C22321F30EE5B006DA176 /* MetalPerformanceShadersProxy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,7 +377,9 @@
 		8FAB772A1ECC87E20050AB16 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8F7C22311F30EE5B006DA176 /* MetalPerformanceShadersProxy.framework */,
 				8FAB772B1ECC87E20050AB16 /* SwiftProtobuf.framework */,
+				103E67F4764279069AF23A03 /* Pods_Bender.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

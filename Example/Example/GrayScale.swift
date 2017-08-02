@@ -6,7 +6,7 @@
 //
 //
 
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 import Bender
 
 /// Receives two input images. The first is used to take the color and the second is used to take the luminance for the output image.

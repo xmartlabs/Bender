@@ -6,7 +6,7 @@
 //
 //
 
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 
 /// Implements Local Response Normalization (LRN).
 open class LocalResponseNorm: NetworkLayer {

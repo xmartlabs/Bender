@@ -6,8 +6,9 @@
 //
 //
 
-import UIKit
 import Bender
+import Metal
+import UIKit
 
 protocol ExampleViewController {
 

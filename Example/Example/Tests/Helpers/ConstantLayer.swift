@@ -7,7 +7,7 @@
 //
 
 import Bender
-import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 
 open class Constant: NetworkLayer {
 
