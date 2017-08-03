@@ -82,6 +82,7 @@
 		8FC2B3A51EE5D9B80038E582 /* SwiftProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAB772B1ECC87E20050AB16 /* SwiftProtobuf.framework */; };
 		8FC8F7AF1ED35396004DA113 /* TFDenseSubstitution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC8F7AE1ED35396004DA113 /* TFDenseSubstitution.swift */; };
 		8FC8F7B41ED38164004DA113 /* TFDeleteOptimizers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC8F7B31ED38164004DA113 /* TFDeleteOptimizers.swift */; };
+		8FE3ECB31F3367BD00C0B5DE /* Bender-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FE3ECB21F3367BD00C0B5DE /* Bender-Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8FFF4AD71EDEFDB600141E9D /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF4AD61EDEFDB600141E9D /* Shape.swift */; };
 /* End PBXBuildFile section */
 
@@ -164,6 +165,7 @@
 		8FAD35081ED4C7B3004B69DA /* TFConvOptimizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFConvOptimizer.swift; sourceTree = "<group>"; };
 		8FC8F7AE1ED35396004DA113 /* TFDenseSubstitution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFDenseSubstitution.swift; sourceTree = "<group>"; };
 		8FC8F7B31ED38164004DA113 /* TFDeleteOptimizers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFDeleteOptimizers.swift; sourceTree = "<group>"; };
+		8FE3ECB21F3367BD00C0B5DE /* Bender-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bender-Swift.h"; sourceTree = "<group>"; };
 		8FFF4AD61EDEFDB600141E9D /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -208,6 +210,7 @@
 				8FA983F21EBA70A400586D1B /* Core */,
 				28F828801C494B2C00330CF4 /* Bender.h */,
 				28F828821C494B2C00330CF4 /* Info.plist */,
+				8FE3ECB21F3367BD00C0B5DE /* Bender-Swift.h */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -401,6 +404,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FE3ECB31F3367BD00C0B5DE /* Bender-Swift.h in Headers */,
 				28F828811C494B2C00330CF4 /* Bender.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
