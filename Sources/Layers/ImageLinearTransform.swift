@@ -45,8 +45,7 @@ open class ImageLinearTransform: NetworkLayer {
         encoder.setTexture(getIncoming()[0].outputImage.texture, at: 0)
         encoder.setTexture(outputImage.texture, at: 1)
         let threadsPerGroups = MTLSizeMake(32, 8, 1)
-        let threadGroups = MTLSizeMake(outputImage.texture.width / threadsPerGroups.width,
-                                       outputImage.texture.height / threadsPerGroups.height, 1)
+        let threadGroups = outputImage.texture.threadGrid(threadGroup: threadsPerGroups)
         encoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadsPerGroups)
         encoder.endEncoding()
     }
