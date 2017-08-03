@@ -9,24 +9,24 @@
 import MetalPerformanceShadersProxy
 
 /// This layer is used as the starting point for any network. If the inputImage does not have the requested size then it will be resized.
-public class Start: NetworkLayer {
+open class Start: NetworkLayer {
 
-    public var inputImage: MPSImage!
-    var lanczos: MPSImageLanczosScale!
-    var croppedImg: MPSImage!
+    open var inputImage: MPSImage!
+    open var lanczos: MPSImageLanczosScale!
+    open var croppedImg: MPSImage!
 
-    init(size: LayerSize) {
+    public init(size: LayerSize) {
         super.init(id: "Bender_Start")
         outputSize = size
     }
 
-    public override func initialize(network: Network, device: MTLDevice) {
+    open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
         lanczos = MPSImageLanczosScale(device: device)
         croppedImg = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
 
-    public override func execute(commandBuffer: MTLCommandBuffer) {
+    open override func execute(commandBuffer: MTLCommandBuffer) {
         if inputImage.size == outputSize {
             outputImage = inputImage
             return
