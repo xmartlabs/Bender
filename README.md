@@ -125,15 +125,23 @@ pod 'MetalBender', :git => 'https://github.com/xmartlabs/Bender.git'
 
 > Remember that Bender compiles for iOS 10. So you must add `platform :ios, '10.0'` to your Podfile
 
-<!-- #### Carthage
+#### Carthage
 
 [Carthage](https://github.com/Carthage/Carthage) is a simple, decentralized dependency manager for Cocoa.
 
-To install Bender, simply add the following line to your Cartfile:
+To install Bender, add the following line to your Cartfile:
 
 ```ogdl
-github "xmartlabs/Bender" ~> 1.0
-``` -->
+github "xmartlabs/Bender"
+```
+
+Then run:
+
+```bash
+carthage update --platform iOS
+```
+
+Finally, drag the built `.framework` binaries for `Bender`, `MetalPerformanceShadersProxy`, `MetalPerformanceShadersStub` and `SwiftProtobuf` to your application's Xcode project.
 
 ## Author
 
