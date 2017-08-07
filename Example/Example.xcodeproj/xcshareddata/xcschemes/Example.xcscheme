@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "28F8287C1C494B2C00330CF4"
+               BuildableName = "MetalBender.framework"
+               BlueprintName = "MetalBender"
+               ReferencedContainer = "container:../Bender.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "28F828CB1C4B714D00330CF4"
                BuildableName = "Example.app"
                BlueprintName = "Example"

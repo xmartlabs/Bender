@@ -8,7 +8,7 @@
 
 import Accelerate
 import AVFoundation
-import Bender
+import MetalBender
 import MetalKit
 import MetalPerformanceShadersProxy
 

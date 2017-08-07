@@ -88,8 +88,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		103E67F4764279069AF23A03 /* Pods_Bender.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bender.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		28F8287D1C494B2C00330CF4 /* Bender.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Bender.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		28F8287D1C494B2C00330CF4 /* MetalBender.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MetalBender.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28F828801C494B2C00330CF4 /* Bender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bender.h; sourceTree = "<group>"; };
 		28F828821C494B2C00330CF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		46354BC31EEF320700B083EF /* DependencyListBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DependencyListBuilder.swift; sourceTree = "<group>"; };
@@ -197,7 +196,7 @@
 		28F8287E1C494B2C00330CF4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				28F8287D1C494B2C00330CF4 /* Bender.framework */,
+				28F8287D1C494B2C00330CF4 /* MetalBender.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -386,7 +385,6 @@
 				8F0693391F352B3C0004D3E9 /* MetalPerformanceShadersStub.framework */,
 				8F7C22311F30EE5B006DA176 /* MetalPerformanceShadersProxy.framework */,
 				8FAB772B1ECC87E20050AB16 /* SwiftProtobuf.framework */,
-				103E67F4764279069AF23A03 /* Pods_Bender.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -416,9 +414,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		28F8287C1C494B2C00330CF4 /* Bender */ = {
+		28F8287C1C494B2C00330CF4 /* MetalBender */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 28F828911C494B2C00330CF4 /* Build configuration list for PBXNativeTarget "Bender" */;
+			buildConfigurationList = 28F828911C494B2C00330CF4 /* Build configuration list for PBXNativeTarget "MetalBender" */;
 			buildPhases = (
 				28F828781C494B2C00330CF4 /* Sources */,
 				28F828791C494B2C00330CF4 /* Frameworks */,
@@ -429,9 +427,9 @@
 			);
 			dependencies = (
 			);
-			name = Bender;
+			name = MetalBender;
 			productName = Bender;
-			productReference = 28F8287D1C494B2C00330CF4 /* Bender.framework */;
+			productReference = 28F8287D1C494B2C00330CF4 /* MetalBender.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -461,7 +459,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				28F8287C1C494B2C00330CF4 /* Bender */,
+				28F8287C1C494B2C00330CF4 /* MetalBender */,
 			);
 		};
 /* End PBXProject section */
@@ -713,7 +711,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		28F828911C494B2C00330CF4 /* Build configuration list for PBXNativeTarget "Bender" */ = {
+		28F828911C494B2C00330CF4 /* Build configuration list for PBXNativeTarget "MetalBender" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				28F828921C494B2C00330CF4 /* Debug */,
