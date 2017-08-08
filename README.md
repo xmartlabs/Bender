@@ -141,7 +141,7 @@ Then run:
 carthage update --platform iOS
 ```
 
-Finally, drag the built `.framework` binaries for `Bender`, `MetalPerformanceShadersProxy`, `MetalPerformanceShadersStub` and `SwiftProtobuf` to your application's Xcode project.
+Finally, drag the built `.framework` binaries for `MetalBender`, `MetalPerformanceShadersProxy`, `MetalPerformanceShadersStub` and `SwiftProtobuf` to your application's Xcode project.
 
 ## Author
 
