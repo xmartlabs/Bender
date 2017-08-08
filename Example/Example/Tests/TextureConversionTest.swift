@@ -6,7 +6,7 @@
 //
 //
 
-import Bender
+import MetalBender
 
 class TextureConversionTest: BenderTest {
 

@@ -10,7 +10,7 @@ import Accelerate
 import AVFoundation
 import MetalKit
 import MetalPerformanceShadersProxy
-import Bender
+import MetalBender
 
 class LocalResponseNormTest: BenderTest {
 

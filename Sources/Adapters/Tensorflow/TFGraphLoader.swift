@@ -6,6 +6,7 @@
 //
 //
 
+import Foundation
 import SwiftProtobuf
 
 /// Imports a graph from TensorFlow

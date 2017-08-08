@@ -1,14 +1,16 @@
-language: objective-c
-osx_image: xcode8
+language: swift
+osx_image: xcode8.3
 env:
-- DESTINATION="OS=10.0,name=iPhone 7" SCHEME="Bender" SDK=iphonesimulator10.0
-
+  matrix:
+    - DESTINATION="OS=10.0,name=iPhone 7" SCHEME="MetalBender" SDK=iphonesimulator10.3
+    - DESTINATION="generic/platform=iOS" SCHEME="MetalBender" SDK=iphoneos10.3
+    - DESTINATION="OS=10.0,name=iPhone 7" SCHEME="Example" SDK=iphonesimulator10.3
+    - DESTINATION="generic/platform=iOS" SCHEME="Example" SDK=iphoneos10.3
 before_install:
 - brew update
 - brew outdated carthage || brew upgrade carthage
 - carthage update --platform iOS
 - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
-
 script:
-- xcodebuild clean build -project Bender.xcodeproj -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c
-- xcodebuild test -project Bender.xcodeproj -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c
+- xcodebuild clean -workspace Bender.xcworkspace -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c; test ${PIPESTATUS[0]} -eq 0
+- xcodebuild build -workspace Bender.xcworkspace -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c; test ${PIPESTATUS[0]} -eq 0

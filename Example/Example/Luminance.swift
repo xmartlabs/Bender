@@ -7,7 +7,7 @@
 //
 
 import MetalPerformanceShadersProxy
-import Bender
+import MetalBender
 
 /// Receives two input images. The first is used to take the luminance and the second is used to take the color for the output image. Used for color preservation
 class Luminance: NetworkLayer {
