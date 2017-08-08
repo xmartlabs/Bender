@@ -1,8 +1,5 @@
 language: swift
 osx_image: xcode8.3
-branches:
-  only:
-  - travis-conf
 env:
   matrix:
     - DESTINATION="OS=10.0,name=iPhone 7" SCHEME="MetalBender" SDK=iphonesimulator10.3
