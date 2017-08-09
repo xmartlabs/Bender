@@ -42,7 +42,7 @@ Bender is functional but still under active development and we also want to see 
 
 At [Xmartlabs] we were about to start a Machine Learning project and investigated frameworks to use in iOS. We found MetalPerformanceShaders useful but not very user friendly and we saw ourselves repeating a lot of code and information. That is why we starting building a framework to handle that kind of stuff.
 
-We also found ourselves creating scripts to translate the models we had from training with TensorFlow to iOS. This means transposing the weights to the MPSCNN format and also mapping the parameters of the different kinds of layers in TensorFlow to the parameters used by the MPSCNN kernels. TensorFlow can be compiled for iOS but currently it does not support running on GPU which we wanted to do. We also did not want to include TensorFlow's static library into our project. This is why we also started to work on an adapter that would parse a TF graph and translate it to our Bender layers. 
+We also found ourselves creating scripts to translate the models we had from training with TensorFlow to iOS. This means transposing the weights to the MPSCNN format and also mapping the parameters of the different kinds of layers in TensorFlow to the parameters used by the MPSCNN kernels. TensorFlow can be compiled for iOS but currently it does not support running on GPU which we wanted to do. We also did not want to include TensorFlow's static library into our project. This is why we also started to work on an adapter that would parse a TF graph and translate it to our Bender layers.
 
 ## Usage
 
@@ -57,7 +57,8 @@ let network = Network(device: device, inputSize: LayerSize(f: 3, w: 256), parame
 
 // Convert a graph from TensorFlow
 let url = Bundle.main.url(forResource: "myGraph", withExtension: "pb")!
-TFConverter.default().convertGraph(file: url, type: .binary)
+let converter = TFConverter.default()
+network.convert(converter: converter, url: url, type: .binary)
 
 // Initialize the network
 network.initialize()
@@ -108,7 +109,7 @@ If you use **Bender** in your app We would love to hear about it! Drop us a line
 
 ## Examples
 
-Follow these steps to run the examples: 
+Follow these steps to run the examples:
 * Clone Bender repository (or download it).
 * Run `carthage update --platform iOS` in the downloaded folder.
 * Open Bender workspace and run the *Example* project.
@@ -120,7 +121,7 @@ Follow these steps to run the examples:
 To install Bender, simply add the following line to your Podfile:
 
 ```ruby
-pod 'MetalBender', :git => 'https://github.com/xmartlabs/Bender.git'
+pod 'MetalBender', '~> 0.2'
 ```
 
 > Remember that Bender compiles for iOS 10. So you must add `platform :ios, '10.0'` to your Podfile
@@ -132,7 +133,7 @@ pod 'MetalBender', :git => 'https://github.com/xmartlabs/Bender.git'
 To install Bender, add the following line to your Cartfile:
 
 ```ogdl
-github "xmartlabs/Bender"
+github "xmartlabs/Bender" ~> 0.2
 ```
 
 Then run:
@@ -141,7 +142,7 @@ Then run:
 carthage update --platform iOS
 ```
 
-Finally, drag the built `.framework` binaries for `MetalBender`, `MetalPerformanceShadersProxy`, `MetalPerformanceShadersStub` and `SwiftProtobuf` to your application's Xcode project.
+Finally, drag the built `.framework` binaries for `MetalBender`, `MetalPerformanceShadersProxy` and `SwiftProtobuf` to your application's Xcode project.
 
 ## Author
 

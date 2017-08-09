@@ -16,7 +16,7 @@ This document explains the basic API in __Bender__.
 To create a network model you can create it from scratch or [import](Importing.md) it from a TensorFlow graph. We will explain how to create a network from scratch:
 
 ```swift
-let network = Network(device: device, 
+let network = Network(device: device,
                       inputSize: inputSize,
                       parameterLoader: loader)
 
@@ -47,7 +47,7 @@ previousLayer
     ->> Add()
 ```
 
-In this case the output of `previousLayer` is passed to two different Convolution layers and then tthrough a normalization layer and after that they are added with the `Add` layer.
+In this case the output of `previousLayer` is passed to two different Convolution layers and then through a normalization layer and after that they are added with the `Add` layer.
 
 After you finish adding layers to your network, you must call `network.initialize()` to finish setting up your network.
 
@@ -138,7 +138,7 @@ The MetalShaderManager keeps all the custom kernel functions that an app has loa
 
 It also manages the function constants passed to these Metal functions. If you have a function that relies on function constants then you can pass them to the MetalShaderManager when you get your function. The function to get a kernel function is this:
 
-```swift 
+```swift
 /// Get a MTLComputePipelineState with a Metal function of the given name
 ///
 /// - Parameters:

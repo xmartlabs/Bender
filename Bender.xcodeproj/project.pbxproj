@@ -18,7 +18,6 @@
 		8F0669B71EC37424009F5C7C /* ParameterLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0669B61EC37424009F5C7C /* ParameterLoader.swift */; };
 		8F0669BA1EC3A31B009F5C7C /* PerLayerBinaryLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0669B91EC3A31B009F5C7C /* PerLayerBinaryLoader.swift */; };
 		8F0669BC1EC3A4C1009F5C7C /* SingleBinaryLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0669BB1EC3A4C1009F5C7C /* SingleBinaryLoader.swift */; };
-		8F06933A1F352B3C0004D3E9 /* MetalPerformanceShadersStub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F0693391F352B3C0004D3E9 /* MetalPerformanceShadersStub.framework */; };
 		8F3DE15A1EBB962200D81949 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3DE1591EBB962200D81949 /* Network.swift */; };
 		8F3DE15D1EBB9ACC00D81949 /* MetalShaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3DE15C1EBB9ACC00D81949 /* MetalShaderManager.swift */; };
 		8F3DE15F1EBBD0C700D81949 /* Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3DE15E1EBBD0C700D81949 /* Add.swift */; };
@@ -177,7 +176,6 @@
 			files = (
 				8FC2B3A51EE5D9B80038E582 /* SwiftProtobuf.framework in Frameworks */,
 				8F7C22321F30EE5B006DA176 /* MetalPerformanceShadersProxy.framework in Frameworks */,
-				8F06933A1F352B3C0004D3E9 /* MetalPerformanceShadersStub.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

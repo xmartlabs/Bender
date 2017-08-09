@@ -1,7 +1,7 @@
 
 # Importing
 
-Bender aims to be a lightweight framework that executes its neural networks on the GPU and also allows to import models from other frameworks without adding big binaries. 
+Bender aims to be a lightweight framework that executes its neural networks on the GPU and also allows to import models from other frameworks without adding big binaries.
 In the case of TensorFlow, you could use it to run code using Accelerate framework (CPU) but to include TensorFlow in your app you have to compile it as a static binary and it will add around 23 MB to your app (June 2017).
 Bender offers a lightweight solution which also uses the GPU for performance gain.
 
@@ -38,7 +38,7 @@ let url = Bundle.main.url(forResource: "myGraph", withExtension: "pb")!
 let converter = TFConverter.default()
 
 // Convert graph
-network.nodes = converter.convertGraph(file: url, type: .binary)
+network.convert(converter: converter, url: url, type: .binary)
 
 // Initialize network
 network.initialize()
@@ -50,9 +50,9 @@ network.initialize()
 ### Default `TFConverter` and limitations
 
 The default converter will make the following simplifications / optimizations:
-* Remove subgraphs named with 'save', 'dropout', 'Regularizer' and 'Initializer' as this are training functions. There will certainly be more subgraphs added to this list in the future. This is implemented with `TFStripTrainingOps` and `TFDeleteDropout`.
+* Remove subgraphs named with 'save', 'dropout', 'Regularizer' and 'Initializer' as these are training functions. There will certainly be more subgraphs added to this list in the future. This is implemented with `TFStripTrainingOps` and `TFDeleteDropout`.
 * Process Variables (`TFVariableProcessor`): It leaves only constant variables (not randomly initialized).
-* Create FullyConnected (`TFDenseSubstitution`): In TF, the fully connected layer is implemented as a MatMul with an BiasAdd (or Add). If these nodes appear in the graph then they will be substitued by a 'FullyConnected' node.
+* Create FullyConnected (`TFDenseSubstitution`): In TF, the fully connected layer is implemented as a MatMul with an BiasAdd (or Add). If these nodes appear in the graph then they will be substituted by a 'FullyConnected' node.
 * Remove Reshape (`TFReshapeOptimizer`): Removes reshape nodes from the graph. We should investigate if in future releases we want to do something else in this case.
 * Add bias to a Convolution (`TFConvOptimizer`).
 
@@ -70,13 +70,13 @@ For __MPSCNNConvolution__ you need to pass [outputChannels, kernelHeight, kernel
 If the default optimizers do not fill your needs you might want to add custom optimizers. Also keep in mind that Bender does not support every function implemented in TensorFlow so it might be that you use not supported ops. In this case you can create a custom layer as explained below. We are open to receive Pull Requests implementing more layers.
 
 To create an optimizer, create a class that conforms to `TFOptimizer`.
-A TFOptimizer does just have one simple function: 
+A TFOptimizer does just have one simple function:
 
 ```swift
 func optimize(graph: TFGraph)
 ```
 
-After you create the optimizer, you have to add it to your `TFConverter` like this;
+After you create the optimizer, you have to add it to your `TFConverter` like this:
 
 ```swift
 let converter = TFConverter.default()

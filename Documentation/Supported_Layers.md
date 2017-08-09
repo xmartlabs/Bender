@@ -30,9 +30,9 @@ Also there are some layers that can be used for pre and post processing or which
 
 
 Last but not least, there is a _CompositeLayer_ included:
-* __Residual__: A Residual layer contains a group of sublayers which are executed and the ouput is the result of this sublayers added to the input of the residual layer.
+* __Residual__: A Residual layer contains a group of sublayers which are executed and the output is the result of this sublayers added to the input of the residual layer.
 
-
+## TensorFlow Mapping
 
 The following are the TensorFlow ops that are mapped to Bender layers:
 * __Add__ -> Add (works for two textures/tensors of the same size)
