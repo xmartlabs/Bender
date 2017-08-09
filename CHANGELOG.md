@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to Bender will be documented in this file.
 
-### [0.2.0](https://github.com/xmartlabs/Bender/releases/tag/0.1.0)
+### [0.2.0](https://github.com/xmartlabs/Bender/releases/tag/0.2.0)
 <!-- Released on 2017-08-09. -->
 
 * Adds Cocoapods & Carthage support.
