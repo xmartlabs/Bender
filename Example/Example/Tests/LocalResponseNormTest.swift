@@ -32,12 +32,12 @@ class LocalResponseNormTest: BenderTest {
     }
 
     func test(texture: Texture, parameters: LocalResponseNorm.Parameters, completion: @escaping (Void) -> ()) {
-        let styleNet = Network(device: device, inputSize: texture.size, parameterLoader: SingleBinaryLoader(checkpoint: "lala"))
+        let styleNet = Network(inputSize: texture.size)
         styleNet.start ->> LocalResponseNorm(parameters: parameters, id: nil)
         styleNet.initialize()
-        let metalTexture = texture.metalTexture(with: device)
+        let metalTexture = texture.metalTexture(with: Device.shared)
         let cpuComputed = cpuLocalResponseNorm(input: texture, parameters: parameters)
-        styleNet.run(inputImage: MPSImage(texture: metalTexture, featureChannels: texture.depth), queue: device.makeCommandQueue()) { image in
+        styleNet.run(input: MPSImage(texture: metalTexture, featureChannels: texture.depth)) { image in
             let textureFromGpu = Texture(metalTexture: image.texture, size: texture.size)
             assert(textureFromGpu.isEqual(to: cpuComputed, threshold: 0.001))
             completion()

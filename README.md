@@ -52,21 +52,13 @@ You can define your own network in Bender using our custom operator or you can l
 ```swift
 import MetalBender
 
-// Define a network and how it will load its weights / parameters
-let randomLoader = RandomParameterLoader(maxSize: 7*7*64*1024)
-let network = Network(device: device, inputSize: LayerSize(f: 3, w: 256), parameterLoader: randomLoader)
-
-// Convert a graph from TensorFlow
-let url = Bundle.main.url(forResource: "myGraph", withExtension: "pb")!
-let converter = TFConverter.default()
-network.convert(converter: converter, url: url, type: .binary)
-
-// Initialize the network
-network.initialize()
+// Load a model from TensorFlow
+let url = Bundle.main.url(forResource: "myModel", withExtension: "pb")!
+let network = Network.load(url: url, converter: TFConverter.default(), inputSize: LayerSize(f: 3, w: 256))
 
 // Run the network
-let inputImage = ...
-network.run(inputImage: image, queue: commandQueue) { output in
+let input = ...
+network.run(input: input) { output in
     ...
 }
 ```
@@ -76,7 +68,7 @@ You can read more information about this in [Importing](Documentation/Importing.
 If you want to define your network yourself you can do it like this:
 
 ```swift
-let network = ...
+let network = Network(inputSize: LayerSize(f: 3, w: 256))
 
 network.start
     ->> Convolution(convSize: ConvSize(outputChannels: 16, kernelSize: 3, stride: 2))
@@ -88,6 +80,12 @@ network.start
     ->> FullyConnected(neurons: 10)
     ->> Softmax()
 ...
+```
+
+and once you're done with all your layers:
+
+```swift
+network.initialize()
 ```
 
 To know more about this have a look at [API](Documentation/API.md).

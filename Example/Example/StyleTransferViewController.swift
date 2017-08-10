@@ -15,7 +15,6 @@ class StyleTransferViewController: UIViewController, ExampleViewController {
 
     var styleNet: Network!
     var styleNet2: Network!
-    var device: MTLDevice!
     var commandQueue: MTLCommandQueue!
     let inputSize = LayerSize(f: 3, w: 256)
 
@@ -24,8 +23,7 @@ class StyleTransferViewController: UIViewController, ExampleViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.device = MTLCreateSystemDefaultDevice()!
-        self.commandQueue = device.makeCommandQueue()
+        self.commandQueue = Device.shared.makeCommandQueue()
         setupStyleNet()
         var me = self
         me.setPixelBufferPool()
@@ -39,14 +37,13 @@ class StyleTransferViewController: UIViewController, ExampleViewController {
     func setupStyleNet() {
         measure("Set up takes:") {
 
-            styleNet = Network(device: device, inputSize: inputSize, parameterLoader: nil)
-
             let url = Bundle.main.url(forResource: "g_and_w2", withExtension: "pb")!
-            let converter = TFConverter.default()
-            converter.optimizers.append(TFInstanceNormOptimizer())
+            let converter = TFConverter.default(additionalOptimizers: [TFInstanceNormOptimizer()])
 
-            styleNet.convert(converter: converter, url: url, type: .binary)
+            styleNet = Network.load(url: url, converter: converter, inputSize: inputSize, performInitialize: false)
             styleNet.addPostProcessing(layers: [ImageLinearTransform()])
+
+            // after adding all our layers we are able to initialize the network
 
             styleNet.initialize()
         }
@@ -54,10 +51,10 @@ class StyleTransferViewController: UIViewController, ExampleViewController {
 
     @IBAction func runNetwork(_ sender: Any) {
         let buffer = commandQueue.makeCommandBuffer()
-        let image = loadTestImage(device: device, commandBuffer: buffer)
+        let image = loadTestImage(commandBuffer: buffer)
         buffer.commit()
         buffer.waitUntilCompleted()
-        styleNet.run(inputImage: image, queue: commandQueue) { [weak self] imageA in
+        styleNet.run(input: image, queue: commandQueue) { [weak self] imageA in
             if let buffer = self?.getPixelBuffer(from: imageA.texture, bufferPool: self!.pixelBufferPool!) {
                 let ciImage = CIImage(cvImageBuffer: buffer)
                 let context = CIContext()
@@ -70,9 +67,9 @@ class StyleTransferViewController: UIViewController, ExampleViewController {
         }
     }
 
-    func loadTestImage(device: MTLDevice, commandBuffer: MTLCommandBuffer) -> MPSImage{
+    func loadTestImage(commandBuffer: MTLCommandBuffer) -> MPSImage{
         // INPUT IMAGE
-        let textureLoader = MTKTextureLoader(device: device)
+        let textureLoader = MTKTextureLoader(device: Device.shared)
         let inputTexture = try! textureLoader.newTexture(withContentsOf: Bundle.main.url(forResource: "wall-e", withExtension: "png")!, options: [MTKTextureLoaderOptionSRGB : NSNumber(value: false)])
         return MPSImage(texture: inputTexture, featureChannels: 3)
     }

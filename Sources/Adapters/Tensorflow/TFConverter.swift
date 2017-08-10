@@ -8,6 +8,14 @@
 
 import Foundation
 
+/// Signals if a file is in binary or text format
+public enum ProtoFileType {
+
+    case binary
+    case text
+    
+}
+
 /// Converts a TFNode to a NetworkLayer of Bender
 public typealias TFMapper = (TFNode) -> NetworkLayer
 
@@ -23,19 +31,34 @@ open class TFConverter: Converter {
     /// If the framework should print information while converting a graph set this to true.
     public var verbose = false
 
-    public init(optimizers: [TFOptimizer]) {
+    /// Proto buffer type
+    fileprivate var type: ProtoFileType!
+
+    public init(type: ProtoFileType, optimizers: [TFOptimizer], verbose: Bool = false) {
+        self.type = type
         self.optimizers = optimizers
+        self.verbose = verbose
+        setupMappers()
     }
 
     /// Creates a TFConverter with the default optimizers.
-    open static func `default`() -> TFConverter {
-        let instance = TFConverter(optimizers: [TFStripTrainingOps(),
-                                                TFDeleteDropout(),
-                                                TFVariableProcessor(),
-                                                TFDenseSubstitution(),
-                                                TFReshapeOptimizer(),
-                                                TFConvOptimizer()])
-        instance.setupMappers()
+    open static func `default`(
+        type: ProtoFileType = .binary,
+        additionalOptimizers: [TFOptimizer] = [],
+        verbose: Bool = false) -> TFConverter {
+
+        let instance = TFConverter(
+            type: type,
+            optimizers: [
+                TFStripTrainingOps(),
+                TFDeleteDropout(),
+                TFVariableProcessor(),
+                TFDenseSubstitution(),
+                TFReshapeOptimizer(),
+                TFConvOptimizer()
+            ] + additionalOptimizers,
+            verbose: verbose
+        )
         return instance
     }
 
@@ -44,7 +67,7 @@ open class TFConverter: Converter {
     ///   - file: The file where the TensorFlow graph is stored
     ///   - type: If the file is in text or binary format
     /// - Returns: The converted network layers
-    open func convertGraph(file: URL, type: ProtoFileType) -> [NetworkLayer] {
+    open func convertGraph(file: URL) -> [NetworkLayer] {
         let loader = TFGraphLoader()
         var graph = loader.load(file: file, type: type)
 

@@ -167,15 +167,15 @@ class ConcatTest: BenderTest {
     }
 
     func test(inputTextures: [Texture], axis: LayerSizeAxis, expectedOutput: Texture, completion: @escaping (Void) -> ()) {
-        let styleNet = Network(device: device, inputSize: inputTextures[0].size, parameterLoader: SingleBinaryLoader(checkpoint: "lala"))
+        let styleNet = Network(inputSize: inputTextures[0].size)
 
         styleNet.start
             ->> inputTextures.map { Constant(outputTexture: $0) }
             ->> Concat(axis: axis)
 
         styleNet.initialize()
-        let metalTexture = inputTextures[0].metalTexture(with: device)
-        styleNet.run(inputImage: MPSImage(texture: metalTexture, featureChannels: inputTextures[0].depth), queue: device.makeCommandQueue()) { image in
+        let metalTexture = inputTextures[0].metalTexture(with: Device.shared)
+        styleNet.run(input: MPSImage(texture: metalTexture, featureChannels: inputTextures[0].depth)) { image in
             let textureFromGpu = Texture(metalTexture: image.texture, size: expectedOutput.size)
             assert(textureFromGpu.isEqual(to: expectedOutput))
             completion()
