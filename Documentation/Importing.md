@@ -29,14 +29,14 @@ To import a model saved in a [Protobuf](https://developers.google.com/protocol-b
 
 ```swift
 
-// Set an url to your model
+// Set an url pointing to your model
 let url = Bundle.main.url(forResource: "myGraph", withExtension: "pb")!
 
 // Create the converter
 let converter = TFConverter.default()
 
 // Load it
-let network = Network.load(url: url, converter: converter, inputSize: LayerSize(f: 3, w: 256))
+let network = Network.load(url: url, converter: converter, inputSize: LayerSize(f: 3, w: 256, h: 256))
 
 ```
 
