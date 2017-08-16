@@ -29,7 +29,7 @@ class MNISTTestController: UIViewController, ExampleViewController {
     var commandQueue: MTLCommandQueue!
 
     //MARK: ExampleViewController
-    let inputSize = LayerSize(f: 3, w: 28)
+    let inputSize = LayerSize(w: 28, f: 3)
     var pixelBufferPool: CVPixelBufferPool?
 
     var captureSession = AVCaptureSession()
@@ -175,7 +175,7 @@ class MNISTTestController: UIViewController, ExampleViewController {
     func runNetwork(_ image: MPSImage) {
         networkRunQueue.async { [weak self] in
             self?.network.run(input: image, queue: self!.commandQueue) { [weak self] results in
-                let numbers = Texture(metalTexture: results.texture, size: LayerSize(f: 10, w: 1, h: 1))
+                let numbers = Texture(metalTexture: results.texture, size: LayerSize(h: 1, w: 1, f: 10))
                 self?.didScan(numbers: numbers.data.flatMap { $0 })
             }
 

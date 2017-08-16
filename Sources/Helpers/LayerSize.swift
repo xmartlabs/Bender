@@ -37,16 +37,16 @@ public struct LayerSize: Equatable {
     public let w: Int
     public let h: Int
 
-    public init(f: Int, w: Int) {
-        self.f = f
-        self.w = w
+    public init(w: Int, f: Int) {
         self.h = w
+        self.w = w
+        self.f = f
     }
 
-    public init(f: Int, w: Int, h: Int) {
-        self.f = f
-        self.w = w
+    public init(h: Int, w: Int, f: Int) {
         self.h = h
+        self.w = w
+        self.f = f
     }
 
     subscript(axis: LayerSizeAxis) -> Int {

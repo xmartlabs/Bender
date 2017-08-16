@@ -54,11 +54,11 @@ import MetalBender
 
 // Load a model from TensorFlow
 let url = Bundle.main.url(forResource: "myModel", withExtension: "pb")!
-let network = Network.load(url: url, converter: TFConverter.default(), inputSize: LayerSize(f: 3, w: 256, h: 256))
+let network = Network.load(url: url, converter: TFConverter.default(), inputSize: LayerSize(h: 256, w: 256, f: 3))
 
 // Run the network
 network.run(input: /* ... */) { output in
-    ...
+    // ...
 }
 ```
 
@@ -67,7 +67,7 @@ You can read more information about this in [Importing](Documentation/Importing.
 If you want to define your network yourself you can do it like this:
 
 ```swift
-let network = Network(inputSize: LayerSize(f: 3, w: 256, h: 256))
+let network = Network(inputSize: LayerSize(h: 256, w: 256, f: 3))
 
 network.start
     ->> Convolution(convSize: ConvSize(outputChannels: 16, kernelSize: 3, stride: 2))
@@ -78,7 +78,7 @@ network.start
     ->> Neuron(type: .tanh)
     ->> FullyConnected(neurons: 10)
     ->> Softmax()
-...
+// ...
 ```
 
 and once you're done with all your layers:

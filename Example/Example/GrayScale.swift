@@ -27,7 +27,7 @@ class GrayScale: NetworkLayer {
         assert(getIncoming().count == 1, "GrayScale must have one input")
         let incoming = getIncoming()[0]
         assert(incoming.outputSize.f <= 4, "GrayScale input must have at most 4 feature channels")
-        outputSize = LayerSize(f: outputChannels, w: incoming.outputSize.w, h: incoming.outputSize.h)
+        outputSize = LayerSize(h: incoming.outputSize.h, w: incoming.outputSize.w, f: outputChannels)
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
 

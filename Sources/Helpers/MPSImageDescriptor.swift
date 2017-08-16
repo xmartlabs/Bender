@@ -17,6 +17,6 @@ public extension MPSImageDescriptor {
 public extension MPSImage {
 
     var size: LayerSize {
-        return LayerSize(f: featureChannels, w: width, h: height)
+        return LayerSize(h: height, w: width, f: featureChannels)
     }
 }

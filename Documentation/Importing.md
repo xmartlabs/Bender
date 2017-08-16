@@ -36,7 +36,7 @@ let url = Bundle.main.url(forResource: "myGraph", withExtension: "pb")!
 let converter = TFConverter.default()
 
 // Load it
-let network = Network.load(url: url, converter: converter, inputSize: LayerSize(f: 3, w: 256, h: 256))
+let network = Network.load(url: url, converter: converter, inputSize: LayerSize(h: 256, w: 256, f: 3))
 
 ```
 

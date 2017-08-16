@@ -44,9 +44,9 @@ open class Convolution: NetworkLayer {
         let incoming = getIncoming()
         assert(incoming.count == 1, "Convolution must have one input, not \(incoming.count)")
         prevSize = incoming[0].outputSize
-        outputSize = LayerSize(f: convSize.outputChannels,
+        outputSize = LayerSize(h: padding == .same ? prevSize.h / convSize.strideY : (prevSize.h - convSize.kernelHeight) / convSize.strideY + 1,
                                w: padding == .same ? prevSize.w / convSize.strideX : (prevSize.w - convSize.kernelWidth) / convSize.strideX + 1,
-                               h: padding == .same ? prevSize.h / convSize.strideY : (prevSize.h - convSize.kernelHeight) / convSize.strideY + 1)
+                               f: convSize.outputChannels)
 
         updateWeights(device: device)
         if(padding == .same){

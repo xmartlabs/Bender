@@ -53,14 +53,14 @@ After you finish adding layers to your network, you must call `network.initializ
 
 ## Running a network
 
-To run a network call `run(...)`:
+To run a network call `run(/* ... */)`:
 
 ```swift
 // get image from somewhere
-let image = MPSImage(...)
+let image = MPSImage(/* ... */)
 
 network.run(input: image) { output in
-    ...
+    // ...
 }
 ```
 
