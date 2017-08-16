@@ -44,8 +44,7 @@ open class FullyConnected: NetworkLayer {
         let incoming = getIncoming()
         assert(incoming.count == 1, "Fully Connected must have one input, not \(incoming.count)")
         prevSize = incoming.first?.outputSize
-        outputSize = LayerSize(w: 1,
-                               f: neurons)
+        outputSize = LayerSize(h: 1, w: 1, f: neurons)
 
         if let transpose = transpose, let weights = weightsPointer {
             weightsPointer = transpose(weights, Shape(width: prevSize.w, height: prevSize.h, inputChannels: prevSize.f, outputChannels: neurons))

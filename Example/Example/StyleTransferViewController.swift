@@ -16,7 +16,7 @@ class StyleTransferViewController: UIViewController, ExampleViewController {
     var styleNet: Network!
     var styleNet2: Network!
     var commandQueue: MTLCommandQueue!
-    let inputSize = LayerSize(w: 256, f: 3)
+    let inputSize = LayerSize(h: 256, w: 256, f: 3)
 
     var pixelBufferPool: CVPixelBufferPool?
     @IBOutlet weak var imageView: UIImageView!

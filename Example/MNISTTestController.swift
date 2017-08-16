@@ -29,7 +29,7 @@ class MNISTTestController: UIViewController, ExampleViewController {
     var commandQueue: MTLCommandQueue!
 
     //MARK: ExampleViewController
-    let inputSize = LayerSize(w: 28, f: 3)
+    let inputSize = LayerSize(h: 28, w: 28, f: 3)
     var pixelBufferPool: CVPixelBufferPool?
 
     var captureSession = AVCaptureSession()
