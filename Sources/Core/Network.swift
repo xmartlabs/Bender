@@ -23,21 +23,35 @@ public class Network {
     /// If set to true will print information about the graph and generated dependency list
     public var verbose = false
 
-    fileprivate var device: MTLDevice
-
     /// - Parameters:
-    ///   - device: the MTLDevice.
     ///   - inputSize: The image size for the first layer. Input images will be resized if they do not have this size.
     ///   - parameterLoader: The parameter loader responsible for loading the weights and biases for this network.
-    public init(device: MTLDevice, inputSize: LayerSize, parameterLoader: ParameterLoader?) {
+    public init(inputSize: LayerSize, parameterLoader: ParameterLoader? = nil) {
+        guard let device = Device.shared else {
+            fatalError("Couldn't create default device")
+        }
+        guard MPSSupportsMTLDevice(device) else {
+            fatalError("Metal Performance Shaders does not support this device \(device.description)")
+        }
+
         start = Start(size: inputSize)
-        self.device = device
         self.parameterLoader = parameterLoader ?? NoParameterLoader()
     }
 
     /// Converts the graph found at `url` to its nodes
-    public func convert(converter: Converter, url: URL, type: ProtoFileType) {
-        nodes = converter.convertGraph(file: url, type: type)
+    static public func load(
+        url: URL,
+        converter: Converter = TFConverter.default(),
+        inputSize: LayerSize,
+        parameterLoader: ParameterLoader? = nil,
+        performInitialize: Bool = true) -> Network {
+
+        let network = Network(inputSize: inputSize, parameterLoader: parameterLoader)
+        network.nodes = converter.convertGraph(file: url)
+        if performInitialize {
+            network.initialize()
+        }
+        return network
     }
 
     /// Initializes the layers of the network
@@ -52,7 +66,7 @@ public class Network {
             }
         }
         for layer in nodes {
-            layer.initialize(network: self, device: device)
+            layer.initialize(network: self, device: Device.shared)
         }
         nodes = nodes.filter { !($0 is Dummy) }
 
@@ -71,12 +85,18 @@ public class Network {
     ///   - queue: the command queue on which to run the kernels
     ///   - dispatchQueue: the dispatch queue where to run
     ///   - callback: will be called with the output image
-    public func run(inputImage: MPSImage, queue: MTLCommandQueue, dispatchQueue: DispatchQueue? = nil, callback: @escaping (MPSImage) -> Void) {
+    public func run(
+        input: MPSImage,
+        queue: MTLCommandQueue? = nil,
+        dispatchQueue: DispatchQueue? = nil,
+        callback: @escaping (MPSImage) -> Void) {
 
-        queue.insertDebugCaptureBoundary() // DEBUG
-        let commandBuffer = queue.makeCommandBuffer()
+        let commandQueue = queue ?? Device.shared.makeCommandQueue()
+
+        commandQueue.insertDebugCaptureBoundary() // DEBUG
+        let commandBuffer = commandQueue.makeCommandBuffer()
         commandBuffer.label = "Network run buffer"
-        start.inputImage = inputImage
+        start.inputImage = input
         autoreleasepool {
             for layer in nodes {
                 layer.execute(commandBuffer: commandBuffer)
@@ -105,7 +125,7 @@ public class Network {
 
         parameterLoader.checkpoint = checkpoint
         for layer in nodes {
-            layer.updatedCheckpoint(device: device)
+            layer.updatedCheckpoint(device: Device.shared)
         }
     }
 

@@ -21,16 +21,15 @@ class MNISTTestController: UIViewController, ExampleViewController {
     @IBOutlet weak var mtkView: MTKView!
     var pipeline: MTLComputePipelineState!
     var _texture: MTLTexture!
-    
+
     var network: Network!
     var scaledNetwork: Network!
     private var networkRunQueue: DispatchQueue!
 
-    var device: MTLDevice!
     var commandQueue: MTLCommandQueue!
 
     //MARK: ExampleViewController
-    let inputSize = LayerSize(f: 3, w: 28)
+    let inputSize = LayerSize(h: 28, w: 28, f: 3)
     var pixelBufferPool: CVPixelBufferPool?
 
     var captureSession = AVCaptureSession()
@@ -45,8 +44,7 @@ class MNISTTestController: UIViewController, ExampleViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.device = MTLCreateSystemDefaultDevice()!
-        self.commandQueue = device.makeCommandQueue()
+        self.commandQueue = Device.shared.makeCommandQueue()
         setupTextureCache()
         setupCaptureSession()
         setupScaledNetwork()
@@ -74,7 +72,7 @@ class MNISTTestController: UIViewController, ExampleViewController {
     }
 
     func setupMetalView() {
-        mtkView.device = device
+        mtkView.device = Device.shared
         mtkView.delegate = self
         mtkView.clearColor = MTLClearColorMake(0, 0, 0, 0)
         mtkView.framebufferOnly = false
@@ -125,7 +123,7 @@ class MNISTTestController: UIViewController, ExampleViewController {
     }
 
     func setupTextureCache() {
-        guard CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, device, nil, &textureCache) == kCVReturnSuccess else {
+        guard CVMetalTextureCacheCreate(kCFAllocatorDefault, nil, Device.shared, nil, &textureCache) == kCVReturnSuccess else {
             debugPrint("Error: Could not create a texture cache")
             return
         }
@@ -134,18 +132,15 @@ class MNISTTestController: UIViewController, ExampleViewController {
     //MARK: Set up network
     func importMNISTNetwork() {
         // Import the MNIST network from a TF exported graph
-        network = Network(device: device, inputSize: inputSize, parameterLoader: nil)
-        network.verbose = true
         let url = Bundle.main.url(forResource: "mnist_full", withExtension: "pb")!
-        let converter = TFConverter.default()
-        converter.verbose = true
+        let converter = TFConverter.default(verbose: true)
 
-        network.convert(converter: converter, url: url, type: .binary)
-        network.addPreProcessing(layers: [GrayScale(), Neuron(type: .custom(neuron: MPSCNNNeuronLinear(device: device, a: 255, b: 0)))])
+        network = Network.load(url: url, converter: converter, inputSize: inputSize, performInitialize: false)
+        network.addPreProcessing(layers: [GrayScale(), Neuron(type: .custom(neuron: MPSCNNNeuronLinear(device: Device.shared, a: 255, b: 0)))])
         network.addPostProcessing(layers: [Softmax()])
+        network.verbose = true
 
         network.initialize()
-
     }
 
     func createMNISTNetwork() {
@@ -156,10 +151,10 @@ class MNISTTestController: UIViewController, ExampleViewController {
         FullyConnected.biasModifier = "_b"
 
         let parameterLoader = PerLayerBinaryLoader(checkpoint: "mnist-")
-        network = Network(device: device, inputSize: inputSize, parameterLoader: parameterLoader)
+        network = Network(inputSize: inputSize, parameterLoader: parameterLoader)
 
         network.start ->> GrayScale()
-            ->> Neuron(type: .custom(neuron: MPSCNNNeuronLinear(device: device, a: 255, b: 0)))
+            ->> Neuron(type: .custom(neuron: MPSCNNNeuronLinear(device: Device.shared, a: 255, b: 0)))
             ->> Convolution(convSize: ConvSize(outputChannels: 32, kernelSize: 5, stride: 1), neuronType: .relu, useBias: true, id: "conv1")
             ->> Pooling(type: .max)
             ->> Convolution(convSize: ConvSize(outputChannels: 64, kernelSize: 5, stride: 1), neuronType: .relu, useBias: true, id: "conv2")
@@ -173,18 +168,18 @@ class MNISTTestController: UIViewController, ExampleViewController {
 
     func setupScaledNetwork() {
         // This network is used to display the texture as it is passed to the main MNIST network
-        scaledNetwork = Network(device: device, inputSize: inputSize, parameterLoader: nil)
+        scaledNetwork = Network(inputSize: inputSize)
         scaledNetwork.initialize()
     }
 
     func runNetwork(_ image: MPSImage) {
         networkRunQueue.async { [weak self] in
-            self?.network.run(inputImage: image, queue: self!.commandQueue) { [weak self] results in
-                let numbers = Texture(metalTexture: results.texture, size: LayerSize(f: 10, w: 1, h: 1))
+            self?.network.run(input: image, queue: self!.commandQueue) { [weak self] results in
+                let numbers = Texture(metalTexture: results.texture, size: LayerSize(h: 1, w: 1, f: 10))
                 self?.didScan(numbers: numbers.data.flatMap { $0 })
             }
 
-            self?.scaledNetwork.run(inputImage: image, queue: self!.commandQueue) { [weak self] (outputImage) in
+            self?.scaledNetwork.run(input: image, queue: self!.commandQueue) { [weak self] (outputImage) in
                 self?._texture = outputImage.texture
             }
         }

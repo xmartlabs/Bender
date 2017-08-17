@@ -33,7 +33,7 @@ struct ConcatDataSet {
                 [Float].init(repeating: 3, count: texture1Depth), [Float].init(repeating: 4, count: texture1Depth),
                 [Float].init(repeating: 5, count: texture1Depth), [Float].init(repeating: 6, count: texture1Depth),
             ],
-            size: LayerSize(f: texture1Depth, w: 2, h: 3)
+            size: LayerSize(h: 3, w: 2, f: texture1Depth)
         )
         let texture2Depth = depth
         let texture2 = Texture(
@@ -48,7 +48,7 @@ struct ConcatDataSet {
                 [Float].init(repeating: 7, count: texture2Depth), [Float].init(repeating: 8, count: texture2Depth),
                 [Float].init(repeating: 8, count: texture2Depth),
             ],
-            size: LayerSize(f: texture2Depth, w: 3, h: 3)
+            size: LayerSize(h: 3, w: 3, f: texture2Depth)
         )
         let expectedDepth = depth
         let expectedData: [[Float]] = [
@@ -68,7 +68,7 @@ struct ConcatDataSet {
 
         let expected: Texture = Texture(
             data: expectedData,
-            size: LayerSize(f: expectedDepth, w: 5, h: 3)
+            size: LayerSize(h: 3, w: 5, f: expectedDepth)
         )
         return (inputTextures: [texture1, texture2], axis: .w, expected: expected)
     }
@@ -81,7 +81,7 @@ struct ConcatDataSet {
                 [Float].init(repeating: 3, count: texture1Depth), [Float].init(repeating: 4, count: texture1Depth),
                 [Float].init(repeating: 5, count: texture1Depth), [Float].init(repeating: 6, count: texture1Depth),
             ],
-            size: LayerSize(f: texture1Depth, w: 2, h: 3)
+            size: LayerSize(h: 3, w: 2, f: texture1Depth)
         )
         let texture2Depth = depth
         let texture2 = Texture(
@@ -92,7 +92,7 @@ struct ConcatDataSet {
                 [Float].init(repeating: 9, count: texture1Depth), [Float].init(repeating: 7, count: texture1Depth),
                 [Float].init(repeating: 3, count: texture1Depth), [Float].init(repeating: 3, count: texture1Depth),
             ],
-            size: LayerSize(f: texture2Depth, w: 2, h: 5)
+            size: LayerSize(h: 5, w: 2, f: texture2Depth)
         )
         let expectedDepth = depth
         let expectedData: [[Float]] = [
@@ -108,7 +108,7 @@ struct ConcatDataSet {
 
         let expected: Texture = Texture(
             data: expectedData,
-            size: LayerSize(f: expectedDepth, w: 2, h: 8)
+            size: LayerSize(h: 8, w: 2, f: expectedDepth)
         )
         return (inputTextures: [texture1, texture2], axis: .h, expected: expected)
     }
@@ -121,7 +121,7 @@ struct ConcatDataSet {
                 [Float].init(repeating: 3, count: texture1Depth), [Float].init(repeating: 4, count: texture1Depth),
                 [Float].init(repeating: 5, count: texture1Depth), [Float].init(repeating: 6, count: texture1Depth),
             ],
-            size: LayerSize(f: texture1Depth, w: 2, h: 3)
+            size: LayerSize(h: 3, w: 2, f: texture1Depth)
         )
         let texture2Depth = depth2
         let texture2 = Texture(
@@ -130,7 +130,7 @@ struct ConcatDataSet {
                 [Float].init(repeating: 9, count: texture2Depth), [Float].init(repeating: 10, count: texture2Depth),
                 [Float].init(repeating: 11, count: texture2Depth), [Float].init(repeating: 12, count: texture2Depth),
             ],
-            size: LayerSize(f: texture2Depth, w: 2, h: 3)
+            size: LayerSize(h: 3, w: 2, f: texture2Depth)
         )
         let expectedDepth = depth1 + depth2
         let expectedData: [[Float]] = [
@@ -147,7 +147,7 @@ struct ConcatDataSet {
 
         let expected: Texture = Texture(
             data: expectedData,
-            size: LayerSize(f: expectedDepth, w: 2, h: 3)
+            size: LayerSize(h: 3, w: 2, f: expectedDepth)
         )
         return (inputTextures: [texture1, texture2], axis: .f, expected: expected)
     }
@@ -167,15 +167,15 @@ class ConcatTest: BenderTest {
     }
 
     func test(inputTextures: [Texture], axis: LayerSizeAxis, expectedOutput: Texture, completion: @escaping (Void) -> ()) {
-        let styleNet = Network(device: device, inputSize: inputTextures[0].size, parameterLoader: SingleBinaryLoader(checkpoint: "lala"))
+        let styleNet = Network(inputSize: inputTextures[0].size)
 
         styleNet.start
             ->> inputTextures.map { Constant(outputTexture: $0) }
             ->> Concat(axis: axis)
 
         styleNet.initialize()
-        let metalTexture = inputTextures[0].metalTexture(with: device)
-        styleNet.run(inputImage: MPSImage(texture: metalTexture, featureChannels: inputTextures[0].depth), queue: device.makeCommandQueue()) { image in
+        let metalTexture = inputTextures[0].metalTexture(with: Device.shared)
+        styleNet.run(input: MPSImage(texture: metalTexture, featureChannels: inputTextures[0].depth)) { image in
             let textureFromGpu = Texture(metalTexture: image.texture, size: expectedOutput.size)
             assert(textureFromGpu.isEqual(to: expectedOutput))
             completion()

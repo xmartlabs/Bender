@@ -16,8 +16,7 @@ This document explains the basic API in __Bender__.
 To create a network model you can create it from scratch or [import](Importing.md) it from a TensorFlow graph. We will explain how to create a network from scratch:
 
 ```swift
-let network = Network(device: device,
-                      inputSize: inputSize,
+let network = Network(inputSize: inputSize,
                       parameterLoader: loader)
 
 network.start
@@ -33,7 +32,7 @@ network.start
 network.initialize()
 ```
 
-First, we have to create the `network` which receives the MTLDevice (GPU), an inputSize and a parameter loader. The network comes with a `start` node which is the starting point of the network. The `inputSize` is the size expected by the first layer in the network. If the images you pass the network to be processed are not of the expected size then the `start` node will resize them accordingly.
+First, we have to create the `network` which receives the inputSize and a parameter loader. The network comes with a `start` node which is the starting point of the network. The `inputSize` is the size expected by the first layer in the network. If the images you pass the network to be processed are not of the expected size then the `start` node will resize them accordingly.
 
 The `parameterLoader` is responsible for loading the weights for each layer. It will be explained in detail further below.
 
@@ -54,16 +53,14 @@ After you finish adding layers to your network, you must call `network.initializ
 
 ## Running a network
 
-To run a network call `run(...)`:
+To run a network call `run(/* ... */)`:
 
 ```swift
-let commandQueue: MTLCommandQueue = ...
-
 // get image from somewhere
-let image = MPSImage(...)
+let image = MPSImage(/* ... */)
 
-network.run(inputImage: image, queue: commandQueue) { outputImage in
-    ...
+network.run(input: image) { output in
+    // ...
 }
 ```
 

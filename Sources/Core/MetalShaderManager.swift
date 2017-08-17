@@ -14,15 +14,13 @@ public class MetalShaderManager {
 
     /// MetalShaderManager singleton instance
     public static var shared = MetalShaderManager()
-    var device: MTLDevice
     var benderLibrary: MTLLibrary
     var mainLibrary: MTLLibrary?
     var pipelines = [ComputePipelineDef: MTLComputePipelineState]()
 
     private init() {
-        self.device = MTLCreateSystemDefaultDevice()!
-        self.benderLibrary = device.makeMyLibrary(bundle: Bundle(for: MetalShaderManager.self))!
-        self.mainLibrary = device.makeMyLibrary(bundle: Bundle.main)
+        self.benderLibrary = Device.shared.makeMyLibrary(bundle: Bundle(for: MetalShaderManager.self))!
+        self.mainLibrary = Device.shared.makeMyLibrary(bundle: Bundle.main)
     }
 
     /// Get a MTLComputePipelineState with a Metal function of the given name
@@ -55,7 +53,7 @@ public class MetalShaderManager {
                 }
                 function = loadedFunction
             }
-            let pipeline = try device.makeComputePipelineState(function: function)
+            let pipeline = try Device.shared.makeComputePipelineState(function: function)
             pipelines[pipelineDef] = pipeline
             return pipeline
         } catch {

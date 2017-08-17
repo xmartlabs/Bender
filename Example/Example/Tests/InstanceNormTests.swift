@@ -24,16 +24,16 @@ class InstanceNormTest: BenderTest {
     }
 
     func test(texture: Texture, completion: @escaping (Void) -> ()) {
-        let styleNet = Network(device: device, inputSize: texture.size, parameterLoader: SingleBinaryLoader(checkpoint: "lala"))
+        let styleNet = Network(inputSize: texture.size)
         let weights = [Float].init(repeating: Float(arc4random()) / Float(UINT32_MAX), count: texture.depth)
         let bias = [Float].init(repeating: Float(arc4random()) / Float(UINT32_MAX), count: texture.depth)
         let scale = Data.init(bytes: weights, count: texture.totalCount * MemoryLayout<Float>.stride)
         let shift = Data.init(bytes: bias, count: texture.totalCount * MemoryLayout<Float>.stride)
         styleNet.start ->> InstanceNorm(scale: scale, shift: shift)
         styleNet.initialize()
-        let metalTexture = texture.metalTexture(with: device)
+        let metalTexture = texture.metalTexture(with: Device.shared)
         let cpuComputed = cpuInstanceNorm(input: texture, weights: weights, bias: bias)
-        styleNet.run(inputImage: MPSImage(texture: metalTexture, featureChannels: texture.depth), queue: device.makeCommandQueue()) { image in
+        styleNet.run(input: MPSImage(texture: metalTexture, featureChannels: texture.depth)) { image in
             let textureFromGpu = Texture(metalTexture: image.texture, size: texture.size)
             assert(textureFromGpu.isEqual(to: cpuComputed, threshold: 0.002))
             completion()

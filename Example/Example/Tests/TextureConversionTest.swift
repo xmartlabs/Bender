@@ -16,7 +16,7 @@ class TextureConversionTest: BenderTest {
     }
 
     func test(texture: Texture) {
-        let metalTexture = texture.metalTexture(with: device)
+        let metalTexture = texture.metalTexture(with: Device.shared)
         assert(Texture(metalTexture: metalTexture, size: texture.size).isEqual(to: texture))
     }
 

@@ -28,20 +28,16 @@ benderthon tf-freeze checkpoint_path.ckpt graph_with_weights.pb Output_Node_Name
 To import a model saved in a [Protobuf](https://developers.google.com/protocol-buffers/) file you must add it to your Xcode project and load it like this:
 
 ```swift
-// Define network
-network = Network(device: device, inputSize: inputSize, parameterLoader: nil)
 
-// Load graph file
+// Set an url pointing to your model
 let url = Bundle.main.url(forResource: "myGraph", withExtension: "pb")!
 
-// Create converter
+// Create the converter
 let converter = TFConverter.default()
 
-// Convert graph
-network.convert(converter: converter, url: url, type: .binary)
+// Load it
+let network = Network.load(url: url, converter: converter, inputSize: LayerSize(h: 256, w: 256, f: 3))
 
-// Initialize network
-network.initialize()
 ```
 
 `TFConverter` is the class responsible for converting a TF model to Bender. It will try to map nodes or groups of nodes in the TF graph to Bender layers. If it encounters unknown nodes then it will ignore them. This means that a graph might be disconnected if your TF model uses functions that are not implemented in Bender.
@@ -79,8 +75,7 @@ func optimize(graph: TFGraph)
 After you create the optimizer, you have to add it to your `TFConverter` like this:
 
 ```swift
-let converter = TFConverter.default()
-converter.optimizers.append(MyTFOptimizer())
+let converter = TFConverter.default(additionalOptimizers: [MyTFOptimizer()])
 ```
 
 #### Removing nodes

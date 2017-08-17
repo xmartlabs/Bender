@@ -63,15 +63,15 @@ open class Pooling: NetworkLayer {
         case .same:
             self.pooling.offset.x += (((prevSize.w - 1) % pooling.strideInPixelsX) / 2) + (pooling.kernelWidth + 1) % 2
             self.pooling.offset.y += (((prevSize.h - 1) % pooling.strideInPixelsY) / 2) + (pooling.kernelHeight + 1) % 2
-            outputSize = LayerSize(f: prevSize.f,
+            outputSize = LayerSize(h: prevSize.h / pooling.strideInPixelsY,
                                    w: prevSize.w / pooling.strideInPixelsX,
-                                   h: prevSize.h / pooling.strideInPixelsY)
+                                   f: prevSize.f)
         case .valid:
             self.pooling.offset.x += Int(pooling.kernelWidth)/2
             self.pooling.offset.y += Int(pooling.kernelHeight)/2
-            outputSize = LayerSize(f: prevSize.f,
+            outputSize = LayerSize(h: (prevSize.h - pooling.kernelHeight) / pooling.strideInPixelsY + 1,
                                    w: (prevSize.w - pooling.kernelWidth) / pooling.strideInPixelsX + 1,
-                                   h: (prevSize.h - pooling.kernelHeight) / pooling.strideInPixelsY + 1)
+                                   f: prevSize.f)
         }
 
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))

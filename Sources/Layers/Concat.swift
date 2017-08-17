@@ -31,7 +31,7 @@ open class Concat: NetworkLayer {
         outputDimensions[axis] = incoming.reduce(0) { $0.0 + $0.1.outputSize[axis] }
         axisThatMustBeEqual.forEach { outputDimensions[$0] = axisValues[$0] }
 
-        outputSize = LayerSize(f: outputDimensions[.f]!, w: outputDimensions[.w]!, h: outputDimensions[.h]!)
+        outputSize = LayerSize(h: outputDimensions[.h]!, w: outputDimensions[.w]!, f: outputDimensions[.f]!)
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
 
         var shaderFunc = ""

@@ -10,12 +10,6 @@ import MetalKit
 
 public class BenderTest {
 
-    var device: MTLDevice!
-
-    init() {
-        device = MTLCreateSystemDefaultDevice()
-    }
-
     func run(completion: @escaping (Void) -> ()) {
         completion()
     }
