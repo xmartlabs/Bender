@@ -11,8 +11,6 @@ All notable changes to Bender will be documented in this file.
   * `Network` `run` method.
   * `Converter` protocol definition.
 
-
-
 ### [0.2.0](https://github.com/xmartlabs/Bender/releases/tag/0.2.0)
 <!-- Released on 2017-08-09. -->
 
