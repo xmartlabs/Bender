@@ -1,6 +1,18 @@
 # Change Log
 All notable changes to Bender will be documented in this file.
 
+### [0.3.0](https://github.com/xmartlabs/Bender/releases/tag/0.3.0)
+<!-- Released on 2017-08-17. -->
+
+* Breaking changes:
+  * Constructor of `LayerSize`.
+  * Constructor of `Network` class.
+  * `Network` static method for loading a graph from TensorFlow.
+  * `Network` `run` method.
+  * `Converter` protocol definition.
+
+
+
 ### [0.2.0](https://github.com/xmartlabs/Bender/releases/tag/0.2.0)
 <!-- Released on 2017-08-09. -->
 

@@ -52,11 +52,9 @@ You can define your own network in Bender using our custom operator or you can l
 ```swift
 import MetalBender
 
-// Load a model from TensorFlow
-let url = Bundle.main.url(forResource: "myModel", withExtension: "pb")!
-let network = Network.load(url: url, converter: TFConverter.default(), inputSize: LayerSize(h: 256, w: 256, f: 3))
+let url = Bundle.main.url(forResource: "myModel", withExtension: "pb")! // A TensorFlow model.
+let network = Network.load(url: url, inputSize: LayerSize(h: 256, w: 256, f: 3))
 
-// Run the network
 network.run(input: /* ... */) { output in
     // ...
 }
@@ -119,7 +117,7 @@ Follow these steps to run the examples:
 To install Bender, simply add the following line to your Podfile:
 
 ```ruby
-pod 'MetalBender', '~> 0.2'
+pod 'MetalBender', '~> 0.3'
 ```
 
 > Remember that Bender compiles for iOS 10. So you must add `platform :ios, '10.0'` to your Podfile
@@ -131,7 +129,7 @@ pod 'MetalBender', '~> 0.2'
 To install Bender, add the following line to your Cartfile:
 
 ```ogdl
-github "xmartlabs/Bender" ~> 0.2
+github "xmartlabs/Bender" ~> 0.3
 ```
 
 Then run:

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "MetalBender"
-  s.version          = "0.2.0"
+  s.version          = "0.3.0"
   s.summary          = "Bender is an abstraction layer over MetalPerformanceShaders useful for working with neural networks."
   s.homepage         = "https://github.com/xmartlabs/Bender"
   s.license          = { type: 'MIT', file: 'LICENSE' }
