@@ -44,6 +44,8 @@
 		8FE2D0891EDDEABC0080125D /* GrayScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE2D0881EDDEABC0080125D /* GrayScale.swift */; };
 		8FFF4AD91EDF056D00141E9D /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF4AD81EDF056D00141E9D /* UIViewController.swift */; };
 		8FFF4ADB1EDF3B9100141E9D /* mnist_full.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8FFF4ADA1EDF3B9100141E9D /* mnist_full.pb */; };
+		CB574B901F5DFE5200043642 /* FSTViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB574B8F1F5DFE5200043642 /* FSTViewController.swift */; };
+		CB574B941F5E00C900043642 /* fst.pb in Resources */ = {isa = PBXBuildFile; fileRef = CB574B931F5E00C900043642 /* fst.pb */; };
 		CFAD25371ED7E9F30003C4FA /* Texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD25361ED7E9F30003C4FA /* Texture.swift */; };
 		CFAD253B1ED7EA090003C4FA /* LocalResponseNormTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD25381ED7EA090003C4FA /* LocalResponseNormTest.swift */; };
 		CFAD253C1ED7EA090003C4FA /* BenderTestRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD25391ED7EA090003C4FA /* BenderTestRunner.swift */; };
@@ -121,6 +123,8 @@
 		8FE2D0881EDDEABC0080125D /* GrayScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GrayScale.swift; path = Example/GrayScale.swift; sourceTree = "<group>"; };
 		8FFF4AD81EDF056D00141E9D /* UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIViewController.swift; path = Example/Tests/Helpers/UIViewController.swift; sourceTree = "<group>"; };
 		8FFF4ADA1EDF3B9100141E9D /* mnist_full.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = mnist_full.pb; sourceTree = "<group>"; };
+		CB574B8F1F5DFE5200043642 /* FSTViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSTViewController.swift; sourceTree = "<group>"; };
+		CB574B931F5E00C900043642 /* fst.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = fst.pb; sourceTree = "<group>"; };
 		CFAD25361ED7E9F30003C4FA /* Texture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Texture.swift; path = Example/Tests/Helpers/Texture.swift; sourceTree = "<group>"; };
 		CFAD25381ED7EA090003C4FA /* LocalResponseNormTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalResponseNormTest.swift; path = Example/Tests/LocalResponseNormTest.swift; sourceTree = "<group>"; };
 		CFAD25391ED7EA090003C4FA /* BenderTestRunner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BenderTestRunner.swift; path = Example/Tests/BenderTestRunner.swift; sourceTree = "<group>"; };
@@ -194,6 +198,7 @@
 		8F0669C01EC3AFAB009F5C7C /* data */ = {
 			isa = PBXGroup;
 			children = (
+				CB574B931F5E00C900043642 /* fst.pb */,
 				8F46BCA41EE0B52000DF275A /* mnist */,
 				8FFF4ADA1EDF3B9100141E9D /* mnist_full.pb */,
 				8FE2D0861EDDD5D30080125D /* mnist.pb */,
@@ -240,6 +245,7 @@
 				8FCD3E981ED8A88200B1AAE6 /* ViewController.swift */,
 				28F828D11C4B714D00330CF4 /* StyleTransferViewController.swift */,
 				8FE2D0841EDDD3570080125D /* MNISTTestController.swift */,
+				CB574B8F1F5DFE5200043642 /* FSTViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -393,6 +399,7 @@
 				8FCD3EA31ED8B67E00B1AAE6 /* rainSquare.png in Resources */,
 				8F28C68D1ED724BE0062039F /* g_and_w.pb in Resources */,
 				28F828D51C4B714D00330CF4 /* Main.storyboard in Resources */,
+				CB574B941F5E00C900043642 /* fst.pb in Resources */,
 				8F46BCAF1EE0B52D00DF275A /* mnist-conv2_b in Resources */,
 				8F46BCB41EE0B52D00DF275A /* mnist-fc2_w in Resources */,
 				8F46BCB11EE0B52D00DF275A /* mnist-fc1_b in Resources */,
@@ -428,6 +435,7 @@
 				CFAD253D1ED7EA090003C4FA /* TextureConversionTest.swift in Sources */,
 				CFAD25411ED7EB5A0003C4FA /* CompletionSerializer.swift in Sources */,
 				28F828D01C4B714D00330CF4 /* AppDelegate.swift in Sources */,
+				CB574B901F5DFE5200043642 /* FSTViewController.swift in Sources */,
 				46FAFCC11F04142C008754E1 /* ConstantLayer.swift in Sources */,
 				8FE2D0851EDDD3570080125D /* MNISTTestController.swift in Sources */,
 				8F4466D01ECF756B00915819 /* UIImage.swift in Sources */,
