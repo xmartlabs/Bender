@@ -19,8 +19,8 @@ open class Add: NetworkLayer {
         let incoming = getIncoming()
 
         // Correctness checks
-        assert(incoming.count == 2, "Add works for two layers")
-        assert(incoming[0].outputSize == incoming[1].outputSize, "Add works for two layers of the same size")
+        assert(incoming.count == 2, "Add only works for two layers (currently \(incoming.count) inputs)")
+        assert(incoming[0].outputSize == incoming[1].outputSize, "Add only works for two layers of the same size")
 
         outputSize = incoming[0].outputSize
         pipelineAdd = MetalShaderManager.shared.getFunction(name: "sum_matrix" + (outputSize.f > 4 ? "" : "_3"), in: Bundle(for: Add.self))
