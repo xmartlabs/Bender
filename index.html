@@ -192,15 +192,15 @@
                     <h2 class="h2 large wtopmargin">Where it falls short</h2>
                     <p class="paragraph">The main problem of CoreML is the limited amout of layers supported. If your model includes a custom layer or one which is not supported there is no way yet to add it.
                         <br>
-                        <br> Additionally, CoreML models don’t seem to be very optimized and can be relatively large in size. Bender allows you to use efficient storage methods to keep the models up to 10x smaller in size.
+                        <br> Additionally, CoreML limits the GPU performance at its will (supposedly to ensure battery life). Bender gives you 100% control by running directly on the GPU using the MPS API. Just remember that with a great power comes a great responsability.
                         <br>
-                        <br>Also, there is no easy way to add additional pre or post-processing layers to run on the GPU along with the model which are often needed to adapt the input or output.</p>
+                        <br>Finally, there is no easy way to add additional pre or post-processing layers to run on the GPU along with the model which are often needed to adapt the input and output.</p>
                 </div>
                 <div class="coreml-right-column"><img src="./img/597210e27d301501aec06f09_coreml.png" width="218">
                     <h2 class="h2 wtopmargin">TL;DR:</h2>
                     <ul class="coreml-list">
                         <li class="coreml-list-item">
-                            <p class="paragraph">Models are large (lots of Mb)</p>
+                            <p class="paragraph">Bender is up to 40% faster when running the same model</p>
                         </li>
                         <li>
                             <p class="paragraph">Limited supported layers</p>
@@ -209,10 +209,10 @@
                             <p class="paragraph">No extensibility for custom layers</p>
                         </li>
                         <li>
-                            <p class="paragraph">Preprocessing needs to run separately</p>
+                            <p class="paragraph">Pre/Post-processing needs to run separately</p>
                         </li>
                         <li>
-                            <p class="paragraph">Needs iOS 11 (Bender works on iOS 9)</p>
+                            <p class="paragraph">Needs iOS 11 (Bender works on iOS 9+)</p>
                         </li>
                     </ul>
                 </div>
