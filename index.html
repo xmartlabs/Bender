@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Bender a modern ML framework for mobile platforms | Xmartlabs</title>
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <meta content="summary" name="twitter:card">    
+    <meta content="summary" name="twitter:card">
     <meta content="Bender a modern ML framework for mobile platforms | Xmartlabs" name="title">
     <meta content="Bender allows you to easily define and run neural networks on your iOS apps which execute using Apple’s MetalPerformanceShaders. It has the ease of use of CoreML but with the flexibility of a modern ML framework." name="description">
     <meta content="https://xmartlabs.github.io/bender/" name="link">
@@ -247,24 +247,21 @@
             <div class="center-container"><img sizes="(max-width: 479px) 100vw, (max-width: 767px) 95vw, (max-width: 991px) 728px, 811px" src="./img/597215e67a605b55754bfca3_diagram1.png"></div>
             <div>Swift Code Example</div>
             <div class="code-area">
-                <p><span class="code-comment">// Define network</span>
-                    <br><span class="code-var">network</span> = <span class="code-var">Network</span>(device: device, inputSize: inputSize, parameterLoader: nil)
+                <p>
+                    <span class="code-keyword">import</span> <span class="code-var">MetalBender</span>
                     <br>
                     <br>
-                    <span class="code-comment">// Load graph file</span>
-                    <br><span class="code-keyword">let</span> url = <span class="code-var">Bundle</span>.<span class="code-var">main</span>.<span class="code-var">url</span>(forResource: <span class="code-string">"myGraph"</span>, withExtension: <span class="code-string">"pb"</span>)!
+                    <span class="code-keyword">let</span> url = <span class="code-var">Bundle</span>.<span class="code-var">main</span>.<span class="code-var">url</span>(forResource: <span class="code-string">"myModel"</span>, withExtension: <span class="code-string">"pb"</span>)! <span class="code-comment">// A TensorFlow model.</span>
+                    <br>
+                    <span class="code-keyword">let</span> network = <span class="code-var">Network</span>.<span class="code-var">load</span>(url: url, inputSize: LayerSize(h: 256, w: 256, f: 3))
                     <br>
                     <br>
-                    <span class="code-comment">// Create converter
-</span>
-                    <br><span class="code-keyword">let</span> converter = <span class="code-var">TFConverter</span>.default()
+                    <span class="code-var">network</span>.<span class="code-var">run</span>(input: <span class="code-comment">/* ... */</span>) { output <span class="code-keyword">in</span>
                     <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// ...</span>
                     <br>
-                    <span class="code-comment">// Convert graph</span>
-                    <br><span class="code-var">network</span>.<span class="code-var">nodes</span> = converter.<span class="code-var">convertGraph</span>(file: url, type: .binary)
-                    <br>
-                    <br><span class="code-comment">// Initialize network</span>
-                    <br>network.<span class="code-var">initialize</span>()</p>
+                    }
+                </p>
             </div>
             <div class="text-container">
                 <h2 class="h2 large wmargintop">Option 2: Load the weights</h2>
