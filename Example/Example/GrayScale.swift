@@ -6,6 +6,7 @@
 //
 //
 
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 import MetalBender
 
@@ -33,11 +34,11 @@ class GrayScale: NetworkLayer {
 
     override func execute(commandBuffer: MTLCommandBuffer) {
         let incoming = getIncoming()
-        let encoder = commandBuffer.makeComputeCommandEncoder()
+        let encoder = commandBuffer.makeComputeCommandEncoder()!
         encoder.label = "GrayScale encoder"
         encoder.setComputePipelineState(pipeline)
-        encoder.setTexture(incoming[0].outputImage.texture, at: 0)
-        encoder.setTexture(outputImage.texture, at: 1)
+        encoder.setTexture(incoming[0].outputImage.texture, index: 0)
+        encoder.setTexture(outputImage.texture, index: 1)
         let threadsPerGroups = MTLSizeMake(32, 4, 1)
         let threadGroups = outputImage.texture.threadGrid(threadGroup: threadsPerGroups)
         encoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadsPerGroups)

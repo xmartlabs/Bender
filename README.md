@@ -3,7 +3,7 @@
 <p align="left">
 <a href="https://travis-ci.org/xmartlabs/Bender"><img src="https://travis-ci.org/xmartlabs/Bender.svg?branch=master" alt="Build status" /></a>
 <img src="https://img.shields.io/badge/platform-iOS-blue.svg?style=flat" alt="Platform iOS" />
-<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift3-compatible-4BC51D.svg?style=flat" alt="Swift 3 compatible" /></a>
+<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift4-compatible-4BC51D.svg?style=flat" alt="Swift 4 compatible" /></a>
 <!-- <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a> -->
 <a href="https://cocoapods.org/pods/MetalBender"><img src="https://img.shields.io/cocoapods/v/MetalBender.svg" alt="CocoaPods compatible" /></a>
 <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a>

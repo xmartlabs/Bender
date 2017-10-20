@@ -6,6 +6,7 @@
 //
 //
 
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 
 /// Transforms an image from RGBA to BGRA. (You can use it the other way around too)
@@ -29,11 +30,11 @@ open class BGRAtoRGBA: NetworkLayer {
     }
 
     open override func execute(commandBuffer: MTLCommandBuffer) {
-        let encoder = commandBuffer.makeComputeCommandEncoder()
+        let encoder = commandBuffer.makeComputeCommandEncoder()!
         encoder.label = "BGRA to RGBA encoder"
         encoder.setComputePipelineState(pipelineBGRAtoRGBA)
-        encoder.setTexture(getIncoming()[0].outputImage.texture, at: 0)
-        encoder.setTexture(outputImage.texture, at: 1)
+        encoder.setTexture(getIncoming()[0].outputImage.texture, index: 0)
+        encoder.setTexture(outputImage.texture, index: 1)
         let threadsPerGroups = MTLSizeMake(32, 8, 1)
         let threadGroups = outputImage.texture.threadGrid(threadGroup: threadsPerGroups)
         encoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadsPerGroups)

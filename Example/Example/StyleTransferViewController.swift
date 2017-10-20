@@ -6,6 +6,7 @@
 //
 
 import Accelerate
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 import MetalKit
 import MetalBender
@@ -50,7 +51,7 @@ class StyleTransferViewController: UIViewController, ExampleViewController {
     }
 
     @IBAction func runNetwork(_ sender: Any) {
-        let buffer = commandQueue.makeCommandBuffer()
+        let buffer = commandQueue.makeCommandBuffer()!
         let image = loadTestImage(commandBuffer: buffer)
         buffer.commit()
         buffer.waitUntilCompleted()
@@ -70,7 +71,7 @@ class StyleTransferViewController: UIViewController, ExampleViewController {
     func loadTestImage(commandBuffer: MTLCommandBuffer) -> MPSImage{
         // INPUT IMAGE
         let textureLoader = MTKTextureLoader(device: Device.shared)
-        let inputTexture = try! textureLoader.newTexture(withContentsOf: Bundle.main.url(forResource: "wall-e", withExtension: "png")!, options: [MTKTextureLoaderOptionSRGB : NSNumber(value: false)])
+        let inputTexture = try! textureLoader.newTexture(URL: Bundle.main.url(forResource: "wall-e", withExtension: "png")!, options: [MTKTextureLoader.Option.SRGB : NSNumber(value: false)])
         return MPSImage(texture: inputTexture, featureChannels: 3)
     }
 

@@ -6,6 +6,7 @@
 //
 //
 
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 
 /// Represents a neural network
@@ -91,10 +92,10 @@ public class Network {
         dispatchQueue: DispatchQueue? = nil,
         callback: @escaping (MPSImage) -> Void) {
 
-        let commandQueue = queue ?? Device.shared.makeCommandQueue()
+        let commandQueue = queue ?? Device.shared.makeCommandQueue()!
 
         commandQueue.insertDebugCaptureBoundary() // DEBUG
-        let commandBuffer = commandQueue.makeCommandBuffer()
+        let commandBuffer = commandQueue.makeCommandBuffer()!
         commandBuffer.label = "Network run buffer"
         start.inputImage = input
         autoreleasepool {

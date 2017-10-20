@@ -10,7 +10,7 @@ import Foundation
 
 class CompletionSerializer {
 
-    typealias CompletableFunction = (@escaping (Void) -> ()) -> ()
+    typealias CompletableFunction = (@escaping () -> ()) -> ()
     private let willStartHandler: ((Int) -> Void)?
     private let completableFunctions: [CompletableFunction]
 
@@ -19,11 +19,11 @@ class CompletionSerializer {
         self.willStartHandler = willStartHandler
     }
 
-    func run(completion: @escaping (Void) -> ()) {
+    func run(completion: @escaping () -> ()) {
         recursiveRun(index: 0, completion: completion)
     }
 
-    private func recursiveRun(index: Int, completion: @escaping (Void) -> ()) {
+    private func recursiveRun(index: Int, completion: @escaping () -> ()) {
         if index < completableFunctions.count {
             willStartHandler?(index)
             completableFunctions[index]() { [weak self] in

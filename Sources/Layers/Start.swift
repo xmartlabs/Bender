@@ -6,6 +6,7 @@
 //
 //
 
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 
 /// This layer is used as the starting point for any network. If the inputImage does not have the requested size then it will be resized.
@@ -56,7 +57,7 @@ open class Start: NetworkLayer {
         lanczos.encode(commandBuffer: commandBuffer, sourceTexture: inputImage.texture, destinationTexture: resizedImg.texture)
 
         // CROP
-        let blitEncoder = commandBuffer.makeBlitCommandEncoder()
+        let blitEncoder = commandBuffer.makeBlitCommandEncoder()!
         blitEncoder.copy(from: resizedImg.texture, sourceSlice: 0, sourceLevel: 0,
                          sourceOrigin: MTLOrigin(x: (scaledW - outputSize.w) / 2,
                                                  y: (scaledH - outputSize.h) / 2,

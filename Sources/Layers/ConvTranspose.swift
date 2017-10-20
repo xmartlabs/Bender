@@ -6,6 +6,7 @@
 //  Copyright © 2017 Xmartlabs. All rights reserved.
 //
 
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 
 /// Transpose 2D Convolution (conv2d_transpose in TF). Not Deconvolution.
@@ -110,12 +111,12 @@ open class ConvTranspose: NetworkLayer {
         let step1Img = MPSTemporaryImage(commandBuffer: commandBuffer, imageDescriptor: MPSImageDescriptor(layerSize: step1ImageSize))
 
         // calculation step
-        let encoder = commandBuffer.makeComputeCommandEncoder()
+        let encoder = commandBuffer.makeComputeCommandEncoder()!
         encoder.label = "convT compute encoder"
         encoder.setComputePipelineState(pipelineCalculate)
-        encoder.setTexture(incoming[0].outputImage.texture, at: 0)
-        encoder.setTexture(step1Img.texture, at: 1)
-        encoder.setBuffer(weightsBuffer, offset: 0, at: 0)
+        encoder.setTexture(incoming[0].outputImage.texture, index: 0)
+        encoder.setTexture(step1Img.texture, index: 1)
+        encoder.setBuffer(weightsBuffer, offset: 0, index: 0)
 
         encoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: threadsPerGroups)
         encoder.endEncoding()
@@ -123,11 +124,11 @@ open class ConvTranspose: NetworkLayer {
         let step2Img = MPSTemporaryImage(commandBuffer: commandBuffer, imageDescriptor: MPSImageDescriptor(layerSize: step2ImageSize))
 
         // shift left step
-        let encoder2 = commandBuffer.makeComputeCommandEncoder()
+        let encoder2 = commandBuffer.makeComputeCommandEncoder()!
         encoder2.label = "convT shift left encoder"
         encoder2.setComputePipelineState(pipelineShifLeft)
-        encoder2.setTexture(step1Img.texture, at: 0)
-        encoder2.setTexture(step2Img.texture, at: 1)
+        encoder2.setTexture(step1Img.texture, index: 0)
+        encoder2.setTexture(step2Img.texture, index: 1)
 
         encoder2.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: threadsPerGroups)
         encoder2.endEncoding()
@@ -135,11 +136,11 @@ open class ConvTranspose: NetworkLayer {
         step1Img.readCount = 0
 
         // shift top step
-        let encoder3 = commandBuffer.makeComputeCommandEncoder()
+        let encoder3 = commandBuffer.makeComputeCommandEncoder()!
         encoder3.label = "convT shift top encoder"
         encoder3.setComputePipelineState(pipelineShiftTop)
-        encoder3.setTexture(step2Img.texture, at: 0)
-        encoder3.setTexture(outputImage.texture, at: 1)
+        encoder3.setTexture(step2Img.texture, index: 0)
+        encoder3.setTexture(outputImage.texture, index: 1)
 
         encoder3.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: threadsPerGroups)
         encoder3.endEncoding()

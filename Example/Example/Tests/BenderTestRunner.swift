@@ -10,7 +10,7 @@ import MetalKit
 
 public class BenderTest {
 
-    func run(completion: @escaping (Void) -> ()) {
+    func run(completion: @escaping () -> ()) {
         completion()
     }
 

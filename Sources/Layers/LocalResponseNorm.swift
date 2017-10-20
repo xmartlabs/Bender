@@ -6,6 +6,7 @@
 //
 //
 
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 
 /// Implements Local Response Normalization (LRN).
@@ -59,13 +60,13 @@ open class LocalResponseNorm: NetworkLayer {
 
     open override func execute(commandBuffer: MTLCommandBuffer) {
         let incoming = getIncoming()
-        let commandEncoder = commandBuffer.makeComputeCommandEncoder()
+        let commandEncoder = commandBuffer.makeComputeCommandEncoder()!
         commandEncoder.label = "Local Response Norm encoder"
         let tpTG = MTLSizeMake(32, 8, 1)
         commandEncoder.setComputePipelineState(pipelineLocalResponseNorm)
 
-        commandEncoder.setTexture(incoming[0].outputImage.texture, at: 0)
-        commandEncoder.setTexture(outputImage.texture, at: 1)
+        commandEncoder.setTexture(incoming[0].outputImage.texture, index: 0)
+        commandEncoder.setTexture(outputImage.texture, index: 1)
         let threadgroupsPerGrid = incoming[0].outputImage.texture.threadGrid(threadGroup: tpTG)
         commandEncoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: tpTG)
         commandEncoder.endEncoding()

@@ -6,6 +6,7 @@
 //
 //
 
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 
 open class Concat: NetworkLayer {
@@ -28,7 +29,7 @@ open class Concat: NetworkLayer {
 
         let incoming = getIncoming()
         var outputDimensions = [LayerSizeAxis: Int]()
-        outputDimensions[axis] = incoming.reduce(0) { $0.0 + $0.1.outputSize[axis] }
+        outputDimensions[axis] = incoming.reduce (0) { result, networkLayer in result + networkLayer.outputSize[axis] }
         axisThatMustBeEqual.forEach { outputDimensions[$0] = axisValues[$0] }
 
         outputSize = LayerSize(h: outputDimensions[.h]!, w: outputDimensions[.w]!, f: outputDimensions[.f]!)
@@ -51,16 +52,16 @@ open class Concat: NetworkLayer {
 
     open override func execute(commandBuffer: MTLCommandBuffer) {
         let incoming = getIncoming()
-        let commandEncoder = commandBuffer.makeComputeCommandEncoder()
+        let commandEncoder = commandBuffer.makeComputeCommandEncoder()!
         commandEncoder.label = "Concat encoder"
         let tpTG = MTLSizeMake(32, 8, 1)
         commandEncoder.setComputePipelineState(pipeline)
 
         (0..<min(maxInputTextures, incoming.count)).forEach {
-            commandEncoder.setTexture(incoming[$0].outputImage.texture, at: $0)
+            commandEncoder.setTexture(incoming[$0].outputImage.texture, index: $0)
         }
 
-        commandEncoder.setTexture(outputImage.texture, at: maxInputTextures)
+        commandEncoder.setTexture(outputImage.texture, index: maxInputTextures)
         let threadgroupsPerGrid = outputImage.texture.threadGrid(threadGroup: tpTG)
         commandEncoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: tpTG)
         commandEncoder.endEncoding()
@@ -72,11 +73,11 @@ open class Concat: NetworkLayer {
         // TODO: implement shader to support concat along z without restricting it to multiples of 4
 
         assert(!incoming.isEmpty, "Concat: expects at least one inputs")
-        assert(axis != .f || incoming.reduce(true) { $0.0 && ($0.1.outputSize.f % 4 == 0) }, "Concat: all z dimensions must be multiple of 4")
+        assert(axis != .f || incoming.reduce(true) { result, networkLayer in result && (networkLayer.outputSize.f % 4 == 0) }, "Concat: all z dimensions must be multiple of 4")
         assert(incoming.count <= maxInputTextures, "Concat: only accepts \(maxInputTextures) incomming nodes at most")
 
-        let allInputTexturesWithMoreThan4Channels = incoming.reduce(true) { $0.0 && $0.1.outputSize.f > 4 }
-        let allInputTexturesWithLessThanOrEqualTo4Channels = incoming.reduce(true) { $0.0 && $0.1.outputSize.f <= 4 }
+        let allInputTexturesWithMoreThan4Channels = incoming.reduce(true) { result, networkLayer in result && networkLayer.outputSize.f > 4 }
+        let allInputTexturesWithLessThanOrEqualTo4Channels = incoming.reduce(true) { result, networkLayer in result && networkLayer.outputSize.f <= 4 }
         assert(allInputTexturesWithMoreThan4Channels || allInputTexturesWithLessThanOrEqualTo4Channels, "All z dimensions must be either > 4 or <= 4 at the same time")
 
         var axisValues = [LayerSizeAxis: Int]()

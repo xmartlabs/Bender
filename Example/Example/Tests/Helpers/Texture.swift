@@ -9,6 +9,7 @@
 import Accelerate
 import AVFoundation
 import MetalKit
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 import MetalBender
 
@@ -125,7 +126,7 @@ extension Texture {
         let desc = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: MTLPixelFormat.rgba16Float, width: width, height: height, mipmapped: false)
         desc.textureType = size.f > 4 ? MTLTextureType.type2DArray : MTLTextureType.type2D
         desc.arrayLength = (depth + 3) / 4
-        let texture = device.makeTexture(descriptor: desc)
+        let texture = device.makeTexture(descriptor: desc)!
         let region = MTLRegionMake2D(0, 0, width, height)
 
         for i in 0..<texture.arrayLength {

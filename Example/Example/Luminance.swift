@@ -6,6 +6,7 @@
 //  Copyright © 2017 Xmartlabs. All rights reserved.
 //
 
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 import MetalBender
 
@@ -39,12 +40,12 @@ class Luminance: NetworkLayer {
             outputImage = incoming[0].outputImage
             return
         }
-        let encoder = commandBuffer.makeComputeCommandEncoder()
+        let encoder = commandBuffer.makeComputeCommandEncoder()!
         encoder.label = "Luminance encoder"
         encoder.setComputePipelineState(pipelineLuminance)
-        encoder.setTexture(incoming[0].outputImage.texture, at: 0)
-        encoder.setTexture(incoming[1].outputImage.texture, at: 1)
-        encoder.setTexture(outputImage.texture, at: 2)
+        encoder.setTexture(incoming[0].outputImage.texture, index: 0)
+        encoder.setTexture(incoming[1].outputImage.texture, index: 1)
+        encoder.setTexture(outputImage.texture, index: 2)
         let threadsPerGroups = MTLSizeMake(32, 8, 1)
         let threadGroups = MTLSizeMake(outputImage.texture.width / threadsPerGroups.width,
                                        outputImage.texture.height / threadsPerGroups.height, 1)

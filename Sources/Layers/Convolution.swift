@@ -6,6 +6,7 @@
 //  Copyright © 2017 Xmartlabs. All rights reserved.
 //
 
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 
 /// 2D Convolution layer

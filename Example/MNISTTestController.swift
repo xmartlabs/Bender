@@ -8,9 +8,10 @@
 
 import AVFoundation
 import CoreGraphics
-import MetalPerformanceShadersProxy
-import MetalKit
 import MetalBender
+import MetalKit
+import MetalPerformanceShaders
+import MetalPerformanceShadersProxy
 import UIKit
 
 class MNISTTestController: UIViewController, ExampleViewController {
@@ -36,7 +37,7 @@ class MNISTTestController: UIViewController, ExampleViewController {
     var previewLayer = AVCaptureVideoPreviewLayer()
     var movieOutput: AVCaptureVideoDataOutput!
     lazy var videoDevice: AVCaptureDevice! = {
-        let x = AVCaptureDeviceDiscoverySession(deviceTypes: [AVCaptureDeviceType.builtInDuoCamera, .builtInWideAngleCamera, .builtInTelephotoCamera], mediaType: AVMediaTypeVideo, position: AVCaptureDevicePosition.back).devices!
+        let x = AVCaptureDevice.DiscoverySession(deviceTypes: [AVCaptureDevice.DeviceType.builtInDuoCamera, .builtInWideAngleCamera, .builtInTelephotoCamera], mediaType: AVMediaType.video, position: AVCaptureDevice.Position.back).devices
         return x.first
     }()
 
@@ -84,8 +85,8 @@ class MNISTTestController: UIViewController, ExampleViewController {
     }
 
     func setupCaptureSession() {
-        let capturePreset = AVCaptureSessionPreset352x288
-        guard videoDevice.supportsAVCaptureSessionPreset(capturePreset) else {
+        let capturePreset = AVCaptureSession.Preset.cif352x288
+        guard videoDevice.supportsSessionPreset(capturePreset) else {
             print("Device does not support medium quality")
             return
         }
@@ -108,8 +109,8 @@ class MNISTTestController: UIViewController, ExampleViewController {
         captureSession.addOutput(movieOutput)
 
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-        previewLayer.connection.videoOrientation = AVCaptureVideoOrientation.portrait
+        previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        previewLayer.connection?.videoOrientation = AVCaptureVideoOrientation.portrait
         cameraView.layer.addSublayer(previewLayer)
 
         captureSession.commitConfiguration()
@@ -202,8 +203,7 @@ class MNISTTestController: UIViewController, ExampleViewController {
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
 extension MNISTTestController: AVCaptureVideoDataOutputSampleBufferDelegate {
 
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard 1 == CMSampleBufferGetNumSamples(sampleBuffer) else {
             return
         }
@@ -216,11 +216,6 @@ extension MNISTTestController: AVCaptureVideoDataOutputSampleBufferDelegate {
         if let texture = createTexture(from: sampleBuffer) {
             runNetwork(MPSImage(texture: texture, featureChannels: 3))
         }
-
-    }
-
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didDrop sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-
     }
 
     func createTexture(from sampleBuffer: CMSampleBuffer) -> MTLTexture? {
@@ -248,13 +243,13 @@ extension MNISTTestController: MTKViewDelegate {
         if _texture == nil {
             return
         }
-        let buffer = commandQueue.makeCommandBuffer()
+        let buffer = commandQueue.makeCommandBuffer()!
         let drawableTexture = (view.currentDrawable as? CAMetalDrawable)?.texture
-        let encoder = buffer.makeComputeCommandEncoder()
+        let encoder = buffer.makeComputeCommandEncoder()!
         encoder.label = "GrayScale encoder"
         encoder.setComputePipelineState(pipeline)
-        encoder.setTexture(_texture, at: 0)
-        encoder.setTexture(drawableTexture, at: 1)
+        encoder.setTexture(_texture, index: 0)
+        encoder.setTexture(drawableTexture, index: 1)
         let threadsPerGroups = MTLSizeMake(32, 4, 1)
         let threadGroups = _texture.threadGrid(threadGroup: threadsPerGroups)
         encoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadsPerGroups)

@@ -6,6 +6,7 @@
 //
 //
 
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 
 /// Implements the different activation neurons like ReLu, Tanh, Sigmoid, Linear
