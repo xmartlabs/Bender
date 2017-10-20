@@ -29,7 +29,7 @@ open class Concat: NetworkLayer {
 
         let incoming = getIncoming()
         var outputDimensions = [LayerSizeAxis: Int]()
-        outputDimensions[axis] = incoming.reduce (0) { result, networkLayer in result + networkLayer.outputSize[axis] }
+        outputDimensions[axis] = incoming.reduce(0) { result, networkLayer in result + networkLayer.outputSize[axis] }
         axisThatMustBeEqual.forEach { outputDimensions[$0] = axisValues[$0] }
 
         outputSize = LayerSize(h: outputDimensions[.h]!, w: outputDimensions[.w]!, f: outputDimensions[.f]!)
