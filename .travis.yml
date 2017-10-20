@@ -1,11 +1,11 @@
 language: swift
-osx_image: xcode8.3
+osx_image: xcode9
 env:
   matrix:
-    - DESTINATION="OS=10.0,name=iPhone 7" SCHEME="MetalBender" SDK=iphonesimulator10.3
-    - DESTINATION="generic/platform=iOS" SCHEME="MetalBender" SDK=iphoneos10.3
-    - DESTINATION="OS=10.0,name=iPhone 7" SCHEME="Example" SDK=iphonesimulator10.3
-    - DESTINATION="generic/platform=iOS" SCHEME="Example" SDK=iphoneos10.3
+    - DESTINATION="OS=11.0,name=iPhone 8" SCHEME="MetalBender" SDK=iphonesimulator
+    - DESTINATION="generic/platform=iOS" SCHEME="MetalBender" SDK=iphoneos
+    - DESTINATION="OS=11.0,name=iPhone 8" SCHEME="Example" SDK=iphonesimulator
+    - DESTINATION="generic/platform=iOS" SCHEME="Example" SDK=iphoneos
 before_install:
 - brew update
 - brew outdated carthage || brew upgrade carthage
