@@ -6,6 +6,7 @@
 //  Copyright © 2017 Xmartlabs. All rights reserved.
 //
 
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 
 /// This layer crops the input image to the desired size. The cropRect is taken from the center of the input image.
@@ -25,7 +26,7 @@ open class Crop: NetworkLayer {
     
     open override func execute(commandBuffer: MTLCommandBuffer) {
         let input = getIncoming()[0].outputImage!
-        let blitEncoder = commandBuffer.makeBlitCommandEncoder()
+        let blitEncoder = commandBuffer.makeBlitCommandEncoder()!
         blitEncoder.copy(from: input.texture, sourceSlice: 0, sourceLevel: 0,
                          sourceOrigin: MTLOrigin(x: (input.width - outputSize.w) / 2,
                                                  y: (input.height - outputSize.h) / 2,

@@ -44,7 +44,7 @@ public class MetalShaderManager {
                 let values = MTLFunctionConstantValues()
                 for constant in constants {
                     var val = constant.getValue()
-                    values.setConstantValue(&val, type: constant.type, at: constant.index)
+                    values.setConstantValue(&val, type: constant.type, index: constant.index)
                 }
                 function = try library.makeFunction(name: name, constantValues: values)
             } else {

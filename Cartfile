@@ -1,2 +1,2 @@
-github "apple/swift-protobuf" "0.9.904"
-github "xmartlabs/MetalPerformanceShadersProxy" ~> 0.1.5
+github "apple/swift-protobuf" "1.0.0"
+github "xmartlabs/MetalPerformanceShadersProxy" ~> 0.2.0

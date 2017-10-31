@@ -9,12 +9,13 @@
 import Accelerate
 import AVFoundation
 import MetalKit
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 import MetalBender
 
 class InstanceNormTest: BenderTest {
 
-    override func run(completion: @escaping (Void) -> ()) {
+    override func run(completion: @escaping () -> ()) {
         var tests: [CompletionSerializer.CompletableFunction] = []
         for texture in TestData.textures {
             tests.append { completion in self.test(texture: texture, completion: completion) }
@@ -23,7 +24,7 @@ class InstanceNormTest: BenderTest {
         CompletionSerializer(completableFunctions: tests).run(completion: completion)
     }
 
-    func test(texture: Texture, completion: @escaping (Void) -> ()) {
+    func test(texture: Texture, completion: @escaping () -> ()) {
         let styleNet = Network(inputSize: texture.size)
         let weights = [Float].init(repeating: Float(arc4random()) / Float(UINT32_MAX), count: texture.depth)
         let bias = [Float].init(repeating: Float(arc4random()) / Float(UINT32_MAX), count: texture.depth)

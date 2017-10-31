@@ -9,6 +9,7 @@
 import Accelerate
 import AVFoundation
 import MetalKit
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 import MetalBender
 
@@ -21,7 +22,7 @@ class LocalResponseNormTest: BenderTest {
         LocalResponseNorm.Parameters(depthRadius: 20, bias: 8, alpha: 9, beta: 10)
     ]
 
-    override func run(completion: @escaping (Void) -> ()) {
+    override func run(completion: @escaping () -> ()) {
         var tests: [CompletionSerializer.CompletableFunction] = []
         for params in testParameters {
             for texture in TestData.textures {
@@ -31,7 +32,7 @@ class LocalResponseNormTest: BenderTest {
         CompletionSerializer(completableFunctions: tests).run(completion: completion)
     }
 
-    func test(texture: Texture, parameters: LocalResponseNorm.Parameters, completion: @escaping (Void) -> ()) {
+    func test(texture: Texture, parameters: LocalResponseNorm.Parameters, completion: @escaping () -> ()) {
         let styleNet = Network(inputSize: texture.size)
         styleNet.start ->> LocalResponseNorm(parameters: parameters, id: nil)
         styleNet.initialize()

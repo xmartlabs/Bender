@@ -6,6 +6,7 @@
 //
 //
 
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 
 /// Performs a scaling and clamps the output values to between 0 and 1
@@ -39,11 +40,11 @@ open class ImageLinearTransform: NetworkLayer {
     }
 
     open override func execute(commandBuffer: MTLCommandBuffer) {
-        let encoder = commandBuffer.makeComputeCommandEncoder()
+        let encoder = commandBuffer.makeComputeCommandEncoder()!
         encoder.label = "Scale to Image encoder"
         encoder.setComputePipelineState(pipeline)
-        encoder.setTexture(getIncoming()[0].outputImage.texture, at: 0)
-        encoder.setTexture(outputImage.texture, at: 1)
+        encoder.setTexture(getIncoming()[0].outputImage.texture, index: 0)
+        encoder.setTexture(outputImage.texture, index: 1)
         let threadsPerGroups = MTLSizeMake(32, 8, 1)
         let threadGroups = outputImage.texture.threadGrid(threadGroup: threadsPerGroups)
         encoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadsPerGroups)

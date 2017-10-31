@@ -6,6 +6,7 @@
 //  Copyright © 2017 Xmartlabs. All rights reserved.
 //
 
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 
 /// Instance normalization layer
@@ -62,15 +63,15 @@ open class InstanceNorm: NetworkLayer {
         let tpTG = MTLSizeMake(threadWidth, threadHeight, 1)
 
         // apply instance normalization
-        let commandEncoder5 = commandBuffer.makeComputeCommandEncoder()
+        let commandEncoder5 = commandBuffer.makeComputeCommandEncoder()!
         commandEncoder5.label = "instance norm encoder"
         commandEncoder5.setComputePipelineState(inormPS)
 
-        commandEncoder5.setTexture(inputImage.texture, at: 0)
-        commandEncoder5.setTexture(outputImage.texture, at: 1) // out texture
+        commandEncoder5.setTexture(inputImage.texture, index: 0)
+        commandEncoder5.setTexture(outputImage.texture, index: 1) // out texture
 
-        commandEncoder5.setBuffer(scaleBuffer, offset: 0, at: 0)
-        commandEncoder5.setBuffer(shiftBuffer, offset: 0, at: 1)
+        commandEncoder5.setBuffer(scaleBuffer, offset: 0, index: 0)
+        commandEncoder5.setBuffer(shiftBuffer, offset: 0, index: 1)
         commandEncoder5.dispatchThreadgroups(MTLSize(width: 1, height: 1, depth: inputImage.texture.arrayLength), threadsPerThreadgroup: tpTG)
         commandEncoder5.endEncoding()
     }

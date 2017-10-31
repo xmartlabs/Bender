@@ -10,6 +10,7 @@ import Accelerate
 import AVFoundation
 import MetalBender
 import MetalKit
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 
 struct ConcatDataSet {
@@ -156,7 +157,7 @@ struct ConcatDataSet {
 
 class ConcatTest: BenderTest {
 
-    override func run(completion: @escaping (Void) -> ()) {
+    override func run(completion: @escaping () -> ()) {
         var tests: [CompletionSerializer.CompletableFunction] = []
         ConcatDataSet.testData.forEach { testData in
             tests.append( { completion in
@@ -166,7 +167,7 @@ class ConcatTest: BenderTest {
         CompletionSerializer(completableFunctions: tests).run(completion: completion)
     }
 
-    func test(inputTextures: [Texture], axis: LayerSizeAxis, expectedOutput: Texture, completion: @escaping (Void) -> ()) {
+    func test(inputTextures: [Texture], axis: LayerSizeAxis, expectedOutput: Texture, completion: @escaping () -> ()) {
         let styleNet = Network(inputSize: inputTextures[0].size)
 
         styleNet.start

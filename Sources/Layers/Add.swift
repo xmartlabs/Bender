@@ -6,6 +6,7 @@
 //
 //
 
+import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 
 /// Receives two input images and sums them element-wise.
@@ -30,15 +31,15 @@ open class Add: NetworkLayer {
 
     open override func execute(commandBuffer: MTLCommandBuffer) {
         let incoming = getIncoming()
-        let commandEncoder = commandBuffer.makeComputeCommandEncoder()
+        let commandEncoder = commandBuffer.makeComputeCommandEncoder()!
         commandEncoder.label = "sum matrix encoder"
         // mean calculation 1st step
         let tpTG = MTLSizeMake(32, 8, 1)
         commandEncoder.setComputePipelineState(pipelineAdd)
 
-        commandEncoder.setTexture(incoming[0].outputImage.texture, at: 0)
-        commandEncoder.setTexture(incoming[1].outputImage.texture, at: 1)
-        commandEncoder.setTexture(outputImage.texture, at: 2)
+        commandEncoder.setTexture(incoming[0].outputImage.texture, index: 0)
+        commandEncoder.setTexture(incoming[1].outputImage.texture, index: 1)
+        commandEncoder.setTexture(outputImage.texture, index: 2)
         let threadgroupsPerGrid = incoming[0].outputImage.texture.threadGrid(threadGroup: tpTG)
         commandEncoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: tpTG)
         commandEncoder.endEncoding()

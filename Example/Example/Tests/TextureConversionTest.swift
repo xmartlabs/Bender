@@ -10,7 +10,7 @@ import MetalBender
 
 class TextureConversionTest: BenderTest {
 
-    override func run(completion: @escaping (Void) -> ()) {
+    override func run(completion: @escaping () -> ()) {
         TestData.textures.forEach { test(texture: $0) }
         completion()
     }

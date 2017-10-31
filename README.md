@@ -3,8 +3,7 @@
 <p align="left">
 <a href="https://travis-ci.org/xmartlabs/Bender"><img src="https://travis-ci.org/xmartlabs/Bender.svg?branch=master" alt="Build status" /></a>
 <img src="https://img.shields.io/badge/platform-iOS-blue.svg?style=flat" alt="Platform iOS" />
-<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift3-compatible-4BC51D.svg?style=flat" alt="Swift 3 compatible" /></a>
-<!-- <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a> -->
+<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift4-compatible-4BC51D.svg?style=flat" alt="Swift 4 compatible" /></a>
 <a href="https://cocoapods.org/pods/MetalBender"><img src="https://img.shields.io/cocoapods/v/MetalBender.svg" alt="CocoaPods compatible" /></a>
 <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a>
 <a href="https://raw.githubusercontent.com/xmartlabs/Bender/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
@@ -90,8 +89,8 @@ To know more about this have a look at [API](Documentation/API.md).
 
 ## Requirements
 
-* iOS 10.0+
-* Xcode 8.3+ or Xcode 9.0 beta 3+
+* Xcode 9
+* iOS 11.0+ (but deployment target is iOS 10.0, so iOS 10 is supported)
 
 ## Getting involved
 
@@ -117,7 +116,7 @@ Follow these steps to run the examples:
 To install Bender, simply add the following line to your Podfile:
 
 ```ruby
-pod 'MetalBender', '~> 0.3'
+pod 'MetalBender', '~> 0.4'
 ```
 
 > Remember that Bender compiles for iOS 10. So you must add `platform :ios, '10.0'` to your Podfile
@@ -129,7 +128,7 @@ pod 'MetalBender', '~> 0.3'
 To install Bender, add the following line to your Cartfile:
 
 ```ogdl
-github "xmartlabs/Bender" ~> 0.3
+github "xmartlabs/Bender" ~> 0.4
 ```
 
 Then run:
