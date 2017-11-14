@@ -1,7 +1,15 @@
 # Change Log
 All notable changes to Bender will be documented in this file.
 
-### [0.3.0](https://github.com/xmartlabs/Bender/releases/tag/0.3.0)
+## [0.4.1](https://github.com/xmartlabs/Bender/releases/tag/0.4.1)
+
+* Support for Xcode 9.1.
+
+## [0.4.0](https://github.com/xmartlabs/Bender/releases/tag/0.4.0)
+
+* Support for Swift 4 and Xcode 9.
+
+## [0.3.0](https://github.com/xmartlabs/Bender/releases/tag/0.3.0)
 <!-- Released on 2017-08-17. -->
 
 * Breaking changes:
@@ -11,7 +19,7 @@ All notable changes to Bender will be documented in this file.
   * `Network` `run` method.
   * `Converter` protocol definition.
 
-### [0.2.0](https://github.com/xmartlabs/Bender/releases/tag/0.2.0)
+## [0.2.0](https://github.com/xmartlabs/Bender/releases/tag/0.2.0)
 <!-- Released on 2017-08-09. -->
 
 * Adds Cocoapods & Carthage support.
@@ -23,7 +31,7 @@ All notable changes to Bender will be documented in this file.
 * Fixes ConvTranspose layer.
 * Adds optional dispatchQueue where to run.
 
-### [0.1.0](https://github.com/xmartlabs/Bender/releases/tag/0.1.0)
+## [0.1.0](https://github.com/xmartlabs/Bender/releases/tag/0.1.0)
 <!-- Released on 2017-06-05. -->
 
 * This is the initial version.
