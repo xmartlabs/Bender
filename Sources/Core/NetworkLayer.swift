@@ -55,9 +55,13 @@ open class NetworkLayer: Node {
         }
     }
 
+    /// Validates the correctness of a layers inputs and parameters
+    open func validate() {}
+
     /// Initializes the layer
     open func initialize(network: Network, device: MTLDevice) {
         self.network = network
+        validate()
     }
 
     /// Runs the layer

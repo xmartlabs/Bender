@@ -133,4 +133,17 @@ public extension Node {
         edgeIn = []
     }
 
+    /// Will insert all the nodes after this node updating the corresponding links
+    /// Precondition: The nodes are already linked among them and there is just one beginning and one end in their graph
+    func insert(outgoing nodes: [Node]) {
+        guard nodes.count > 0 else {
+            return
+        }
+        for outgoing in outgoingNodes() {
+            outgoing.replace(incomingEdge: self, with: nodes.last!)
+            self.deleteOutgoingEdge(node: outgoing)
+        }
+        nodes.first!.addIncomingEdge(from: self)
+    }
+
 }

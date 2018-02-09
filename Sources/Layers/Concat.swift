@@ -21,16 +21,19 @@ open class Concat: NetworkLayer {
         super.init(id: id)
     }
 
+    open override func validate() {
+        let axisThatMustBeEqual = LayerSizeAxis.all.filter { $0 != axis }
+        validatePreconditions(with: axisThatMustBeEqual)
+    }
+
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
-
         let axisThatMustBeEqual = LayerSizeAxis.all.filter { $0 != axis }
-        let (allInputTexturesWithLessThanOrEqualTo4Channels, axisValues) = validatePreconditions(with: axisThatMustBeEqual)
-
         let incoming = getIncoming()
+
         var outputDimensions = [LayerSizeAxis: Int]()
         outputDimensions[axis] = incoming.reduce(0) { result, networkLayer in result + networkLayer.outputSize[axis] }
-        axisThatMustBeEqual.forEach { outputDimensions[$0] = axisValues[$0] }
+        axisThatMustBeEqual.forEach { outputDimensions[$0] = incoming[0].outputSize[$0] }
 
         outputSize = LayerSize(h: outputDimensions[.h]!, w: outputDimensions[.w]!, f: outputDimensions[.f]!)
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
@@ -44,7 +47,7 @@ open class Concat: NetworkLayer {
         case .f:
             shaderFunc = "concat_z"
         }
-        if allInputTexturesWithLessThanOrEqualTo4Channels {
+        if incoming[0].outputSize.f <= 4 {
             shaderFunc += "_3"
         }
         pipeline = MetalShaderManager.shared.getFunction(name: shaderFunc, in: Bundle(for: Concat.self))
@@ -67,7 +70,7 @@ open class Concat: NetworkLayer {
         commandEncoder.endEncoding()
     }
 
-    private func validatePreconditions(with axisThatMustBeEqual: [LayerSizeAxis]) -> (Bool, [LayerSizeAxis: Int]) {
+    private func validatePreconditions(with axisThatMustBeEqual: [LayerSizeAxis]) {
         let incoming = getIncoming()
 
         // TODO: implement shader to support concat along z without restricting it to multiples of 4
@@ -91,7 +94,6 @@ open class Concat: NetworkLayer {
                 assert(inputSize[$0] == axisValues[$0]!, "Concat: Axis \($0) isn't equal in at least one pair of input nodes")
             }
         }
-        return (allInputTexturesWithLessThanOrEqualTo4Channels, axisValues)
     }
 
 }

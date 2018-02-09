@@ -14,10 +14,14 @@ open class Softmax: NetworkLayer {
 
     public var kernel: MPSCNNSoftMax!
 
+    open override func validate() {
+        let incoming = getIncoming()
+        assert(incoming.count == 1, "SoftMax must have one input, not \(incoming.count)")
+    }
+
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
         let incoming = getIncoming()
-        assert(incoming.count == 1, "SoftMax must have one input, not \(incoming.count)")
         outputSize = getIncoming()[0].outputSize
 
         kernel = MPSCNNSoftMax(device: device)

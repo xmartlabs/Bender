@@ -281,6 +281,7 @@
 			children = (
 				8F3DE15E1EBBD0C700D81949 /* Add.swift */,
 				8FA8E3201EC0B8B500E8BAD8 /* BGRAtoRGBA.swift */,
+				46FAFCB81F029B09008754E1 /* Concat.swift */,
 				8FA983FB1EBA70F900586D1B /* Convolution.swift */,
 				8FA983FC1EBA70F900586D1B /* ConvTranspose.swift */,
 				8FA983FD1EBA70F900586D1B /* Crop.swift */,
@@ -289,15 +290,14 @@
 				8FA8E31C1EC0AE5800E8BAD8 /* Identity.swift */,
 				8F60A3131EC4D04E00296167 /* ImageLinearTransform.swift */,
 				8FA983F51EBA70F200586D1B /* InstanceNorm.swift */,
-				8F60A3191EC4DBE800296167 /* Pooling.swift */,
+				4697C21A1ED35E50003ED2E9 /* LocalResponseNorm.swift */,
 				8FA8E31E1EC0B2B100E8BAD8 /* Neuron.swift */,
+				8F60A3191EC4DBE800296167 /* Pooling.swift */,
 				8FA9841E1EBA74D700586D1B /* ResidualLayer.swift */,
 				8FA983FE1EBA70F900586D1B /* Scale.swift */,
 				8F60A3201EC4F9CD00296167 /* Softmax.swift */,
 				8FA8E32D1EC0FD8800E8BAD8 /* Start.swift */,
 				8F60A3221EC4FA7A00296167 /* SpatialNorm.swift */,
-				4697C21A1ED35E50003ED2E9 /* LocalResponseNorm.swift */,
-				46FAFCB81F029B09008754E1 /* Concat.swift */,
 			);
 			path = Layers;
 			sourceTree = "<group>";

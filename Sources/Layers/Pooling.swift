@@ -34,12 +34,15 @@ open class Pooling: NetworkLayer {
         super.init(id: id)
     }
 
-    open override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
-
+    open override func validate() {
         // Check correctness
         let incoming = getIncoming()
         assert(incoming.count == 1, "Pooling must have one input, not \(incoming.count)")
+    }
+
+    open override func initialize(network: Network, device: MTLDevice) {
+        super.initialize(network: network, device: device)
+        let incoming = getIncoming()
         let prevSize = incoming[0].outputSize!
 
         // Set up pooling

@@ -24,10 +24,49 @@ public class Network {
     /// If set to true will print information about the graph and generated dependency list
     public var verbose = false
 
+    var initialized = false
+
     /// - Parameters:
     ///   - inputSize: The image size for the first layer. Input images will be resized if they do not have this size.
     ///   - parameterLoader: The parameter loader responsible for loading the weights and biases for this network.
     public init(inputSize: LayerSize, parameterLoader: ParameterLoader? = nil) {
+        start = Start(size: inputSize)
+        self.parameterLoader = parameterLoader ?? NoParameterLoader()
+    }
+
+    /// Converts the graph found at `url` to its nodes
+    static public func load(url: URL,
+                            converter: Converter = TFConverter.default(),
+                            inputSize: LayerSize,
+                            parameterLoader: ParameterLoader? = nil,
+                            performInitialize: Bool = true) -> Network {
+
+        let network = Network(inputSize: inputSize, parameterLoader: parameterLoader)
+        network.set(layers: converter.convertGraph(file: url))
+
+        if performInitialize {
+            network.initialize()
+        }
+        return network
+    }
+
+    func set(layers: [NetworkLayer]) {
+        nodes = layers
+        if !nodes.contains(start) {
+            nodes.first?.addIncomingEdge(from: start)
+            nodes.insert(start, at: 0)
+        }
+    }
+
+    /// Validates that the network has been correctly converted and set up
+    public func validate() {
+        for layer in nodes {
+            layer.validate()
+        }
+    }
+
+    /// Initializes the layers of the network
+    public func initialize() {
         guard let device = Device.shared else {
             fatalError("Couldn't create default device")
         }
@@ -35,37 +74,10 @@ public class Network {
             fatalError("Metal Performance Shaders does not support this device \(device.description)")
         }
 
-        start = Start(size: inputSize)
-        self.parameterLoader = parameterLoader ?? NoParameterLoader()
-    }
-
-    /// Converts the graph found at `url` to its nodes
-    static public func load(
-        url: URL,
-        converter: Converter = TFConverter.default(),
-        inputSize: LayerSize,
-        parameterLoader: ParameterLoader? = nil,
-        performInitialize: Bool = true) -> Network {
-
-        let network = Network(inputSize: inputSize, parameterLoader: parameterLoader)
-        network.nodes = converter.convertGraph(file: url)
-        if performInitialize {
-            network.initialize()
-        }
-        return network
-    }
-
-    /// Initializes the layers of the network
-    public func initialize() {
         if nodes.isEmpty {
             nodes = DependencyListBuilder().list(from: start)
-        } else {
-            // Add start node
-            if !nodes.contains(start) {
-                nodes.first?.addIncomingEdge(from: start)
-                nodes.insert(start, at: 0)
-            }
         }
+
         for layer in nodes {
             layer.initialize(network: self, device: Device.shared)
         }
@@ -76,6 +88,8 @@ public class Network {
                 debugPrint($0.id)
             }
         }
+
+        initialized = true
     }
 
 
@@ -134,7 +148,7 @@ public class Network {
     /// Should only be used when converting graphs from other models. Is not needed if defining the network yourself.
     public func addPreProcessing(layers: [NetworkLayer]) {
         guard layers.count > 0 else { return }
-        guard nodes.index(of: start) == nil else {
+        guard !initialized, nodes.index(of: start) != nil else {
             fatalError("Must not call this function after initializing. Also only call after converting from a different model")
         }
 
@@ -142,15 +156,16 @@ public class Network {
             layers[i+1].addIncomingEdge(from: layers[i])
         }
 
-        nodes.first?.addIncomingEdge(from: layers.last!)
-        nodes.insert(contentsOf: layers, at: 0)
+        start.insert(outgoing: layers)
+
+        nodes.insert(contentsOf: layers, at: 1)
     }
 
     /// Adds layers executed at the end of the execution list.
     /// Should only be used when converting graphs from other models. Is not needed if defining the network yourself.
     public func addPostProcessing(layers: [NetworkLayer]) {
         guard layers.count > 0 else { return }
-        guard nodes.index(of: start) == nil else {
+        guard !initialized else {
             fatalError("Must not call this function after initializing. Also only call after converting from a different model")
         }
 

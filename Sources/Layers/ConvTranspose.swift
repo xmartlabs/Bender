@@ -45,14 +45,18 @@ open class ConvTranspose: NetworkLayer {
         self.weightsPointer = weights
         super.init(id: id)
     }
-    
-    open override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
+
+    open override func validate() {
         let incoming = getIncoming()
         assert(incoming.count == 1, "ConvTranspose must have one input, not \(incoming.count)")
         assert(size.strideX == size.strideY, "ConvTranspose must have symmetric strides") // restriction might be taken away
         assert(size.kernelWidth == size.kernelHeight, "ConvTranspose must have symmetric kernel sizes") // restriction might be taken away
         assert(size.strideX == size.kernelWidth - 1, "ConvTranspose: stride must be kernelSize - 1")
+    }
+    
+    open override func initialize(network: Network, device: MTLDevice) {
+        super.initialize(network: network, device: device)
+        let incoming = getIncoming()
 
         // Load custom metal kernels
         let constants = [FunctionConstant<ushort>(index: 0, type: MTLDataType.ushort, value: ushort(size.kernelWidth)),
