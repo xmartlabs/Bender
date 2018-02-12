@@ -23,13 +23,16 @@ open class ImageLinearTransform: NetworkLayer {
         super.init(id: id)
     }
 
+    open override func validate() {
+        let incoming = getIncoming()
+        assert(incoming.count == 1, "ImageLinearTransform must have one input, not \(incoming.count)")
+        assert(incoming[0].outputSize.f == 3 || incoming[0].outputSize.f == 4, "ImageLinearTransform should only be used if it has 3 or 4 feature channels as input")
+    }
+
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
         let incoming = getIncoming()
-        assert(incoming.count == 1, "ImageLinearTransform must have one input, not \(incoming.count)")
         outputSize = incoming[0].outputSize
-        assert(outputSize.f == 3 || outputSize.f == 4, "ImageLinearTransform should only be used if it has 3 or 4 feature channels as input")
-
         // Load custom metal kernels
         pipeline = MetalShaderManager.shared.getFunction(name: "image_linear_transform",
                                                          in: Bundle(for: ImageLinearTransform.self),

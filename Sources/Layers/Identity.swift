@@ -11,10 +11,14 @@ import MetalPerformanceShadersProxy
 /// Identity layer. Returns the input image
 open class Identity: NetworkLayer {
 
+    open override func validate() {
+        let incoming = getIncoming()
+        assert(incoming.count == 1, "Identity must have one input, not \(incoming.count)")
+    }
+
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
         let incoming = getIncoming()
-        assert(incoming.count == 1, "Identity must have one input, not \(incoming.count)")
         outputSize = incoming[0].outputSize
     }
 

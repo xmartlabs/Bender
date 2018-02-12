@@ -20,11 +20,14 @@ open class BGRAtoRGBA: NetworkLayer {
         pipelineBGRAtoRGBA = MetalShaderManager.shared.getFunction(name: "bgra_to_rgba", in: Bundle(for: BGRAtoRGBA.self))
         super.init(id: id)
     }
+    open override func validate() {
+        let incoming = getIncoming()
+        assert(incoming.count == 1, "BGRAtoRGBA supports one input, not \(incoming.count)")
+    }
 
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
         let incoming = getIncoming()
-        assert(incoming.count == 1, "BGRAtoRGBA supports one input, not \(incoming.count)")
         outputSize = incoming[0].outputSize
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }

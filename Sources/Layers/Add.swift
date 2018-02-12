@@ -15,14 +15,17 @@ open class Add: NetworkLayer {
     // Custom kernels
     var pipelineAdd: MTLComputePipelineState!
 
-    open override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
+    open override func validate() {
         let incoming = getIncoming()
-
         // Correctness checks
         assert(incoming.count == 2, "Add only works for two layers (currently \(incoming.count) inputs)")
         assert(incoming[0].outputSize == incoming[1].outputSize, "Add only works for two layers of the same size")
+    }
 
+    open override func initialize(network: Network, device: MTLDevice) {
+        super.initialize(network: network, device: device)
+
+        let incoming = getIncoming()
         outputSize = incoming[0].outputSize
         pipelineAdd = MetalShaderManager.shared.getFunction(name: "sum_matrix" + (outputSize.f > 4 ? "" : "_3"), in: Bundle(for: Add.self))
 

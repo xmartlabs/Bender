@@ -19,10 +19,14 @@ open class Scale: NetworkLayer {
         self.outputSize = layerSize
     }
 
+    open override func validate() {
+        let incoming = getIncoming()
+        assert(incoming.count == 1, "Scale must have one input, not \(incoming.count)")
+    }
+
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
         let incoming = getIncoming()
-        assert(incoming.count == 1, "Scale must have one input, not \(incoming.count)")
         lanczos = MPSImageLanczosScale(device: device)
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }

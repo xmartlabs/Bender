@@ -37,13 +37,17 @@ open class LocalResponseNorm: NetworkLayer {
         super.init(id: id)
     }
 
-    open override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
+    open override func validate() {
         let incoming = getIncoming()
 
         // Correctness checks
         assert(incoming.count == 1, "LocalResponseNorm works for only one image")
         assert(parameters.depthRadius <= 20, "depthRadius must be less or equal to 20")
+    }
+
+    open override func initialize(network: Network, device: MTLDevice) {
+        super.initialize(network: network, device: device)
+        let incoming = getIncoming()
 
         outputSize = incoming.first?.outputSize
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))

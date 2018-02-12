@@ -30,10 +30,14 @@ open class SpatialNorm: NetworkLayer {
         super.init(id: id)
     }
 
+    open override func validate() {
+        let incoming = getIncoming()
+        assert(incoming.count == 1, "SpatialNorm must have one input, not \(incoming.count)")
+    }
+
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
         let incoming = getIncoming()
-        assert(incoming.count == 1, "SpatialNorm must have one input, not \(incoming.count)")
         outputSize = incoming[0].outputSize
 
         kernel = MPSCNNSpatialNormalization(device: device, kernelWidth: kWidth, kernelHeight: kHeight)
