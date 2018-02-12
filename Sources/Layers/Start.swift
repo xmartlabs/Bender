@@ -15,9 +15,11 @@ open class Start: NetworkLayer {
     open var inputImage: MPSImage!
     open var lanczos: MPSImageLanczosScale!
     open var croppedImg: MPSImage!
+    var inputName: String
 
-    public init(size: LayerSize) {
-        super.init(id: "Bender_Start")
+    public init(size: LayerSize, inputName: String = "") {
+        self.inputName = inputName
+        super.init(id: "Start_" + inputName)
         outputSize = size
     }
 

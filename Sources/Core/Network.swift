@@ -12,8 +12,13 @@ import MetalPerformanceShadersProxy
 /// Represents a neural network
 public class Network {
 
-    /// Input node of the neural network.
-    public var start: Start
+    /// All the input node of the neural network.
+    public var startNodes: [Start]
+
+    /// First input node of the neural network.
+    public var start: Start {
+        return startNodes[0]
+    }
 
     /// All the layers of the network
     var nodes = [NetworkLayer]()
@@ -29,32 +34,66 @@ public class Network {
     /// - Parameters:
     ///   - inputSize: The image size for the first layer. Input images will be resized if they do not have this size.
     ///   - parameterLoader: The parameter loader responsible for loading the weights and biases for this network.
+    public init(inputSizes: [String: LayerSize], parameterLoader: ParameterLoader? = nil) {
+        startNodes = inputSizes.map { Start(size: $0.value, inputName: $0.key) }
+        self.parameterLoader = parameterLoader ?? NoParameterLoader()
+    }
+
     public init(inputSize: LayerSize, parameterLoader: ParameterLoader? = nil) {
-        start = Start(size: inputSize)
+        startNodes = [Start(size: inputSize)]
         self.parameterLoader = parameterLoader ?? NoParameterLoader()
     }
 
     /// Converts the graph found at `url` to its nodes
     static public func load(url: URL,
+                            inputSizes: [String: LayerSize],
                             converter: Converter = TFConverter.default(),
+                            parameterLoader: ParameterLoader? = nil,
+                            performInitialize: Bool = true) -> Network {
+
+        let network = Network(inputSizes: inputSizes, parameterLoader: parameterLoader)
+        network.load(url: url, converter: converter, performInitialize: performInitialize)
+        return network
+    }
+
+    /// Converts the graph found at `url` to its nodes. Used if there is only one Start node
+    static public func load(url: URL,
                             inputSize: LayerSize,
+                            converter: Converter = TFConverter.default(),
                             parameterLoader: ParameterLoader? = nil,
                             performInitialize: Bool = true) -> Network {
 
         let network = Network(inputSize: inputSize, parameterLoader: parameterLoader)
-        network.set(layers: converter.convertGraph(file: url))
+        network.load(url: url, converter: converter, performInitialize: performInitialize)
+        return network
+    }
+
+    func load(url: URL, converter: Converter, performInitialize: Bool) {
+        set(layers: converter.convertGraph(file: url))
 
         if performInitialize {
-            network.initialize()
+            initialize()
         }
-        return network
     }
 
     func set(layers: [NetworkLayer]) {
         nodes = layers
-        if !nodes.contains(start) {
-            nodes.first?.addIncomingEdge(from: start)
-            nodes.insert(start, at: 0)
+        let inputNodes = nodes.filter { $0.getIncoming().count == 0 }
+        assert(inputNodes.count == startNodes.count, "Number of network inputs() and input sizes() are not equal")
+        // " + inputNodes.count + ", " + startNodes.count + "
+        if inputNodes.count == 1 {
+            inputNodes[0].addIncomingEdge(from: startNodes[0])
+            nodes.insert(startNodes[0], at: 0)
+        } else {
+            for node in startNodes {
+                assert(!nodes.contains(node), "THIS is to make sure that they haven't been inserted. TODO: remove this")
+                let inputNode = inputNodes.first {
+                    return $0.id == node.inputName
+                }
+
+                inputNode?.addIncomingEdge(from: node)
+                nodes.insert(node, at: 0)
+            }
         }
     }
 
@@ -75,7 +114,14 @@ public class Network {
         }
 
         if nodes.isEmpty {
-            nodes = DependencyListBuilder().list(from: start)
+            nodes = DependencyListBuilder().list(from: startNodes as [NetworkLayer])
+        }
+
+        for node in nodes {
+            print("=======\n" + node.id)
+            print("Inputs: " + node.incomingNodes().reduce("", {$0 + ", " + ($1 as? NetworkLayer)!.id}))
+            print("Outputs: " + node.outgoingNodes().reduce("", {$0 + ", " + ($1 as? NetworkLayer)!.id}))
+            print("\n")
         }
 
         for layer in nodes {
@@ -106,12 +152,28 @@ public class Network {
         dispatchQueue: DispatchQueue? = nil,
         callback: @escaping (MPSImage) -> Void) {
 
+        run(inputs: [input], queue: queue, dispatchQueue: dispatchQueue, callback: callback)
+    }
+
+    public func run(
+        inputs: [MPSImage],
+        queue: MTLCommandQueue? = nil,
+        dispatchQueue: DispatchQueue? = nil,
+        callback: @escaping (MPSImage) -> Void) {
+
+        guard inputs.count == startNodes.count else {
+            fatalError("You must pass as many inputs (" + String(inputs.count) + ") as inputSize's" + String(startNodes.count) +
+                " you passed when creating the network")
+        }
         let commandQueue = queue ?? Device.shared.makeCommandQueue()!
 
         commandQueue.insertDebugCaptureBoundary() // DEBUG
         let commandBuffer = commandQueue.makeCommandBuffer()!
         commandBuffer.label = "Network run buffer"
-        start.inputImage = input
+
+        for (index, input) in inputs.enumerated() {
+            startNodes[index].inputImage = input
+        }
         autoreleasepool {
             for layer in nodes {
                 layer.execute(commandBuffer: commandBuffer)
@@ -144,11 +206,11 @@ public class Network {
         }
     }
 
-    /// Adds layers executed at the beginning of the execution list (after the Start node).
+    /// Adds layers executed at the beginning of the execution list (after the Start node). Use only when you have a single input layer
     /// Should only be used when converting graphs from other models. Is not needed if defining the network yourself.
     public func addPreProcessing(layers: [NetworkLayer]) {
         guard layers.count > 0 else { return }
-        guard !initialized, nodes.index(of: start) != nil else {
+        guard !initialized, let start = startNodes.first, nodes.index(of: start) != nil else {
             fatalError("Must not call this function after initializing. Also only call after converting from a different model")
         }
 
@@ -159,6 +221,25 @@ public class Network {
         start.insert(outgoing: layers)
 
         nodes.insert(contentsOf: layers, at: 1)
+    }
+
+    /// Adds layers executed at the beginning of the execution list. The dictionary's keys are the names of the input nodes while
+    /// the values are arrays of layers that will be executed before that input layer
+    /// Should only be used when converting graphs from other models. Is not needed if defining the network yourself.
+    public func addPreProcessing(layers: [String: [NetworkLayer]]) {
+        guard layers.count > 0 else { return }
+        guard !initialized, let start = startNodes.first, nodes.index(of: start) != nil else {
+            fatalError("Must not call this function after initializing. Also only call after converting from a different model")
+        }
+        for (inputName, preprocessing) in layers {
+            for i in 0..<preprocessing.count-1 {
+                preprocessing[i+1].addIncomingEdge(from: preprocessing[i])
+            }
+
+            startNode(for: inputName)?.insert(outgoing: preprocessing)
+            //TODO: Study if it would be better to add these layers before their input node.
+            nodes.insert(contentsOf: preprocessing, at: startNodes.count)
+        }
     }
 
     /// Adds layers executed at the end of the execution list.
@@ -179,6 +260,11 @@ public class Network {
         nodes.append(contentsOf: layers)
     }
 
+    func startNode(for name: String) -> Start? {
+        return startNodes.first {
+            return $0.inputName == name
+        }
+    }
 }
 
 //extension Network: GraphProtocol {}

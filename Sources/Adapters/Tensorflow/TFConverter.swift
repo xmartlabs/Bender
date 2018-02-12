@@ -31,6 +31,8 @@ open class TFConverter: Converter {
     /// If the framework should print information while converting a graph set this to true.
     public var verbose = false
 
+    var ignoredOps = ["Const", "Placeholder"]
+
     /// Proto buffer type
     fileprivate var type: ProtoFileType!
 
@@ -125,7 +127,7 @@ open class TFConverter: Converter {
                         layer.addIncomingEdge(from: inputLayer)
                     }
                 }
-            } else {
+            } else if !(ignoredOps.contains(node.nodeDef.op)) {
                 // We found an unsupported layer. We ignore it but warn.
                 if verbose {
                     debugPrint("Bender:: Unsupported layer found: \(node.nodeDef.op)")
