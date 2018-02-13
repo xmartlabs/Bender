@@ -20,6 +20,7 @@ extension Tensorflow_NodeDef {
     var isTFMeanOp: Bool { return op == Constants.Ops.Mean }
     var isTFMulOp: Bool { return op == Constants.Ops.Mul }
     var isTFPowOp: Bool { return op == Constants.Ops.Pow }
+    var isTFQReshapeOp: Bool { return op == Constants.Ops.QuantizedReshape }
     var isTFRealDivOp: Bool { return op == Constants.Ops.RealDiv }
     var isTFReshapeOp: Bool { return op == Constants.Ops.Reshape }
     var isTFReLuOp: Bool { return op == Constants.Ops.Relu }
@@ -29,5 +30,15 @@ extension Tensorflow_NodeDef {
     var isTFTanhOp: Bool { return op == Constants.Ops.Tanh }
     var isTFVariableV2Op: Bool { return op == Constants.Ops.Variable }
     var isTFVariableOrConstOp: Bool { return isTFVariableV2Op || isTFConstOp }
+
+}
+
+// Node Names
+extension Tensorflow_NodeDef {
+
+    var isTFMovMean: Bool { return name.hasSuffix("/moving_mean") }
+    var isTFMovVariance: Bool { return name.hasSuffix("/moving_variance") }
+    var isTFGamma: Bool { return name.hasSuffix("/gamma") }
+    var isTFBeta: Bool { return name.hasSuffix("/beta") }
 
 }

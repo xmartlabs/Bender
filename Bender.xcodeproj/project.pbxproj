@@ -84,6 +84,8 @@
 		8FC8F7AF1ED35396004DA113 /* TFDenseSubstitution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC8F7AE1ED35396004DA113 /* TFDenseSubstitution.swift */; };
 		8FC8F7B41ED38164004DA113 /* TFDeleteOptimizers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC8F7B31ED38164004DA113 /* TFDeleteOptimizers.swift */; };
 		8FE3ECB31F3367BD00C0B5DE /* Bender-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FE3ECB21F3367BD00C0B5DE /* Bender-Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8FF71C772032241B004A7406 /* BatchNorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF71C762032241B004A7406 /* BatchNorm.swift */; };
+		8FF71C792032298E004A7406 /* batch_norm.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8FF71C782032298E004A7406 /* batch_norm.metal */; };
 		8FFF4AD71EDEFDB600141E9D /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF4AD61EDEFDB600141E9D /* Shape.swift */; };
 /* End PBXBuildFile section */
 
@@ -168,6 +170,8 @@
 		8FC8F7AE1ED35396004DA113 /* TFDenseSubstitution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFDenseSubstitution.swift; sourceTree = "<group>"; };
 		8FC8F7B31ED38164004DA113 /* TFDeleteOptimizers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFDeleteOptimizers.swift; sourceTree = "<group>"; };
 		8FE3ECB21F3367BD00C0B5DE /* Bender-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bender-Swift.h"; sourceTree = "<group>"; };
+		8FF71C762032241B004A7406 /* BatchNorm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchNorm.swift; sourceTree = "<group>"; };
+		8FF71C782032298E004A7406 /* batch_norm.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = batch_norm.metal; sourceTree = "<group>"; };
 		8FFF4AD61EDEFDB600141E9D /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -280,6 +284,7 @@
 			isa = PBXGroup;
 			children = (
 				8F3DE15E1EBBD0C700D81949 /* Add.swift */,
+				8FF71C762032241B004A7406 /* BatchNorm.swift */,
 				8FA8E3201EC0B8B500E8BAD8 /* BGRAtoRGBA.swift */,
 				46FAFCB81F029B09008754E1 /* Concat.swift */,
 				8FA983FB1EBA70F900586D1B /* Convolution.swift */,
@@ -311,6 +316,7 @@
 				8FA984121EBA710000586D1B /* Shaders.metal */,
 				4697C2181ED31F8D003ED2E9 /* local_response_norm.metal */,
 				46FAFCBA1F02A725008754E1 /* concat.metal */,
+				8FF71C782032298E004A7406 /* batch_norm.metal */,
 			);
 			name = "Metal Shaders";
 			path = Metal;
@@ -501,6 +507,7 @@
 				8F4466CE1ECF5F8E00915819 /* TFWeightData.swift in Sources */,
 				8FAB77231ECC86170050AB16 /* graph.pb.swift in Sources */,
 				8FAB77281ECC86170050AB16 /* types.pb.swift in Sources */,
+				8FF71C772032241B004A7406 /* BatchNorm.swift in Sources */,
 				8FC8F7B41ED38164004DA113 /* TFDeleteOptimizers.swift in Sources */,
 				8F60A31D1EC4E6E400296167 /* PaddingType.swift in Sources */,
 				8F60A3211EC4F9CD00296167 /* Softmax.swift in Sources */,
@@ -529,6 +536,7 @@
 				8FAB773D1ECC9B0F0050AB16 /* Node.swift in Sources */,
 				8FC8F7AF1ED35396004DA113 /* TFDenseSubstitution.swift in Sources */,
 				8FAD35091ED4C7B3004B69DA /* TFConvOptimizer.swift in Sources */,
+				8FF71C792032298E004A7406 /* batch_norm.metal in Sources */,
 				8FA984241EBA77AE00586D1B /* MPSImageDescriptor.swift in Sources */,
 				8FA9841D1EBA726B00586D1B /* Constants.swift in Sources */,
 				4697C2191ED31F8D003ED2E9 /* local_response_norm.metal in Sources */,

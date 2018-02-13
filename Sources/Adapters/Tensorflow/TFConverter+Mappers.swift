@@ -25,6 +25,7 @@ public extension TFConverter {
         }
 
         mappers[Constants.Ops.Relu] = neuronMapper(.relu)
+        mappers[Constants.Ops.QuantizedRelu] = neuronMapper(.relu)
         mappers[Constants.Ops.Tanh] = neuronMapper(.tanh)
         mappers[Constants.Ops.Sigmoid] = neuronMapper(.sigmoid)
 
@@ -44,14 +45,14 @@ public extension TFConverter {
                            id: node.nodeDef.name)
             }
         }
-        mappers["MaxPool"] = poolingMapper(.max)
-        mappers["AvgPool"] = poolingMapper(.avg)
+        mappers[Constants.Ops.MaxPool] = poolingMapper(.max)
+        mappers[Constants.Ops.AvgPool] = poolingMapper(.avg)
 
         //MARK: SoftMax
         let softMaxMapper = { (node: TFNode) in
             return Softmax(id: node.nodeDef.name)
         }
-        mappers["Softmax"] = softMaxMapper
+        mappers[Constants.Ops.Softmax] = softMaxMapper
 
 
         //MARK: Conv
@@ -80,7 +81,8 @@ public extension TFConverter {
                                bias: weightData.bias,
                                id: node.nodeDef.name)
         }
-        mappers["Conv2D"] = convMapper
+        mappers[Constants.Ops.Conv] = convMapper
+        mappers[Constants.Ops.QuantizedConv2D] = convMapper
 
         //MARK: ConvTranspose
         let convTransposeMapper = { (node: TFNode) -> NetworkLayer in
@@ -155,7 +157,9 @@ public extension TFConverter {
         //MARK: Concat
         let concatMapper = { (node: TFNode) -> NetworkLayer in
             let inputs = node.incomingNodes().flatMap { $0 as? TFNode }
-            guard let axisNode = inputs.first(where: { $0.nodeDef.name == "\(node.nodeDef.name)/axis" }) else {
+            let axisNodeV2 = inputs.first(where: { $0.nodeDef.name == "\(node.nodeDef.name)/axis" })
+            let axisNodeV1 = inputs.first(where: { $0.nodeDef.name == "\(node.nodeDef.name)/concat_dim" })
+            guard let axisNode = axisNodeV2 ?? axisNodeV1 else {
                 fatalError("Cannot create \(Constants.Ops.Concat). Missing input node \(node.nodeDef.name)/axis")
             }
             guard let axisInt32 = axisNode.nodeDef.attr["value"]?.tensor.intVal.first, let axis = LayerSizeAxis.fromTF(index: Int(axisInt32)) else {
@@ -164,6 +168,54 @@ public extension TFConverter {
             return Concat(axis: axis, id: node.nodeDef.name)
         }
         mappers[Constants.Ops.Concat] = concatMapper
+        mappers[Constants.Ops.ConcatV1] = concatMapper
+
+        //MARK: BatchNorm
+        let batchnormMapper = { (node: TFNode) -> NetworkLayer in
+            guard let variables = (node.incomingNodes() as? [TFNode])?.filter({ $0.nodeDef.isTFVariableOrConstOp }),
+                let meanVar = variables.first(where: { $0.nodeDef.isTFMovMean }),
+                let varianceVar = variables.first(where: { $0.nodeDef.isTFMovVariance }),
+                let gammaVar = variables.first(where: { $0.nodeDef.isTFGamma }),
+                let betaVar = variables.first(where: { $0.nodeDef.isTFBeta }) else {
+                    fatalError("Could not parse Batch norm node")
+            }
+
+            var mean: Data?
+            var variance: Data?
+            var scale: Data?
+            var offset: Data?
+
+            if meanVar.nodeDef.isTFConstOp {
+                mean = meanVar.nodeDef.valueData()
+            } else {
+                mean = (meanVar.incomingNodes().first as? TFNode)?.nodeDef.valueData()
+            }
+
+            if varianceVar.nodeDef.isTFConstOp {
+                variance = varianceVar.nodeDef.valueData()
+            } else {
+                variance = (varianceVar.incomingNodes().first as? TFNode)?.nodeDef.valueData()
+            }
+
+            if betaVar.nodeDef.isTFConstOp {
+                offset = betaVar.nodeDef.valueData()
+            } else {
+                offset = (betaVar.incomingNodes().first as? TFNode)?.nodeDef.valueData()
+            }
+
+            if node.nodeDef.attr["scale_after_normalization"]?.b == false {
+                if gammaVar.nodeDef.isTFConstOp {
+                    scale = gammaVar.nodeDef.valueData()
+                } else {
+                    scale = (gammaVar.incomingNodes().first as? TFNode)?.nodeDef.valueData()
+                }
+            }
+
+            let epsilon = node.nodeDef.attr["variance_epsilon"]?.f ?? 0.001
+            return BatchNorm(mean: mean, variance: variance, offset: offset, scale: scale, epsilon: epsilon, id: node.nodeDef.name)
+        }
+        mappers[Constants.Ops.BatchNorm] = batchnormMapper
+        mappers[Constants.Ops.BatchNormGlobal] = batchnormMapper
     }
     
 }
