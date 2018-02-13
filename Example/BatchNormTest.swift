@@ -21,11 +21,11 @@ struct BatchNormDataSet {
     static let offset = [Float].init(repeating: 1, count: 8)
 
     static func resultWithScale(val: Float) -> Float {
-        return (val - mean[0]) * scale[0] / variance[0] + offset[0]
+        return (val - mean[0]) * scale[0] / (variance[0] + epsilon) + offset[0]
     }
 
     static func resultSimple(val: Float) -> Float {
-        return (val - mean[0]) / variance[0]
+        return (val - mean[0]) / (variance[0] + epsilon)
     }
 
     typealias Test = (inputTexture: Texture, useScale: Bool, expected: Texture)

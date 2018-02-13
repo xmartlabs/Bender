@@ -41,6 +41,7 @@ open class BatchNorm: NetworkLayer {
                 let offsetArr = Array<Float>(repeating: 0.0, count: variance.count / 4)
                 params?.append(UnsafeBufferPointer(start: offsetArr, count: offsetArr.count))
             }
+            params?.append(UnsafeBufferPointer(start: [epsilon], count: 1))
             allParamsSet = true
 
         } else if let scale = scale, let offset = offset {
@@ -78,11 +79,12 @@ open class BatchNorm: NetworkLayer {
                 d1.append(Data(bytes: network.parameterLoader.loadWeights(for: id, modifier: BatchNorm.offsetModifier, size: outputSize.f),
                                count: outputSize.f * Constants.FloatSize))
             }
+            d1.append(UnsafeBufferPointer(start: [epsilon], count: 1))
             self.params = d1
         }
         if let params = params {
             paramBuffer = device.makeBuffer(bytes: params.pointer()!,
-                                            length: max(4, outputSize.f) * Constants.FloatSize * 4, // last 4 is because we have 4 buffers
+                                            length: (max(4, outputSize.f) * 4 + 1) * Constants.FloatSize,
                                             options: [])
         }
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))

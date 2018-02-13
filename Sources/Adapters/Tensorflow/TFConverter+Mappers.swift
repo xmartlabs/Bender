@@ -203,7 +203,7 @@ public extension TFConverter {
                 offset = (betaVar.incomingNodes().first as? TFNode)?.nodeDef.valueData()
             }
 
-            if node.nodeDef.attr["scale_after_normalization"]?.b == false {
+            if node.nodeDef.attr["scale_after_normalization"]?.b == true {
                 if gammaVar.nodeDef.isTFConstOp {
                     scale = gammaVar.nodeDef.valueData()
                 } else {
