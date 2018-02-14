@@ -214,7 +214,6 @@ public extension TFConverter {
             let epsilon = node.nodeDef.attr["variance_epsilon"]?.f ?? 0.001
             return BatchNorm(mean: mean, variance: variance, offset: offset, scale: scale, epsilon: epsilon, id: node.nodeDef.name)
         }
-        mappers[Constants.Ops.BatchNorm] = batchnormMapper
         mappers[Constants.Ops.BatchNormGlobal] = batchnormMapper
     }
     
