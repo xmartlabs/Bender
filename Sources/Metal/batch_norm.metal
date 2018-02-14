@@ -8,25 +8,30 @@
 #include <metal_stdlib>
 using namespace metal;
 
-kernel void batch_norm_3(texture2d<float, access::read> inTexture [[texture(0)]],
-                         texture2d<float, access::write> outTexture [[texture(1)]],
-                         constant float4* params[[buffer(0)]],
+kernel void batch_norm_3(texture2d<half, access::read> inTexture [[texture(0)]],
+                         texture2d<half, access::write> outTexture [[texture(1)]],
+                         constant half4* params[[buffer(0)]],
                          ushort2 gid [[thread_position_in_grid]]) {
-    
-    float4 i = inTexture.read(gid);
-    float4 out = params[2] * (i - params[0]) / (params[1] + params[4]) + params[3];
+    // params is a buffer with [mean, variance, scale, offset, epsilon]
+    half4 i = inTexture.read(gid);
+    half4 out = params[2] * (i - params[0]) / (params[1] + params[4]) + params[3];
     outTexture.write(out, gid);
 }
 
-kernel void batch_norm(texture2d_array<float, access::read> inTexture [[texture(0)]],
-                       texture2d_array<float, access::write> outTexture [[texture(1)]],
-                       constant float4* params[[buffer(0)]],
+kernel void batch_norm(texture2d_array<half, access::read> inTexture [[texture(0)]],
+                       texture2d_array<half, access::write> outTexture [[texture(1)]],
+                       constant half4* params[[buffer(0)]],
 
                        ushort3 gid [[thread_position_in_grid]]
                        ) {
-
-    float4 i = inTexture.read(ushort2(gid.x, gid.y), gid.z);
-    int depth = inTexture.get_array_size();
-    float4 out = params[2 * depth + gid.z] * (i - params[gid.z]) / (params[depth + gid.z] + params[4 * depth]) + params[3 * depth + gid.z];
-    outTexture.write(float4(out), ushort2(gid.x, gid.y), gid.z);
+    // params is a buffer with [mean, variance, scale, offset, epsilon]
+    half4 i = inTexture.read(ushort2(gid.x, gid.y), gid.z);
+    ushort depth = inTexture.get_array_size();
+    ushort varianceIndex = depth;
+    ushort scaleIndex = 2 * depth;
+    ushort offsetIndex = 3 * depth;
+    ushort epsilonIndex = 4 * depth;
+    half4 out = params[scaleIndex + gid.z] * (i - params[gid.z]) / (params[varianceIndex + gid.z] + params[epsilonIndex])
+        + params[offsetIndex + gid.z];
+    outTexture.write(out, ushort2(gid.x, gid.y), gid.z);
 }

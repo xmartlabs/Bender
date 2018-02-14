@@ -15,10 +15,10 @@ import MetalPerformanceShadersProxy
 struct BatchNormDataSet {
 
     static let epsilon: Float = 0.001
-    static let mean = [Float].init(repeating: 0.5, count: 8)
-    static let variance = [Float].init(repeating: 2, count: 8)
-    static let scale = [Float].init(repeating: 1.5, count: 8)
-    static let offset = [Float].init(repeating: 1, count: 8)
+    static let mean = [Float](repeating: 0.5, count: 8)
+    static let variance = [Float](repeating: 2, count: 8)
+    static let scale = [Float](repeating: 1.5, count: 8)
+    static let offset = [Float](repeating: 1, count: 8)
 
     static func resultWithScale(val: Float) -> Float {
         return (val - mean[0]) * scale[0] / (variance[0] + epsilon) + offset[0]
@@ -38,20 +38,18 @@ struct BatchNormDataSet {
     ]
 
     static func test1(useScale: Bool, depth: Int = 8) -> Test {
-        let texture1 = Texture(
-            data: [
-                [Float].init(repeating: 1, count: depth), [Float].init(repeating: 2, count: depth),
-                [Float].init(repeating: 3, count: depth), [Float].init(repeating: 4, count: depth),
-                [Float].init(repeating: 5, count: depth), [Float].init(repeating: 6, count: depth),
-                ],
+        let texture = Texture(
+            data: [[Float].init(repeating: 1, count: depth), [Float].init(repeating: 2, count: depth),
+                   [Float].init(repeating: 3, count: depth), [Float].init(repeating: 4, count: depth),
+                   [Float].init(repeating: 5, count: depth), [Float].init(repeating: 6, count: depth)],
             size: LayerSize(h: 3, w: 2, f: depth)
         )
 
         let expected: Texture = Texture(
-            data: texture1.map(op: useScale ? resultWithScale : resultSimple),
+            data: texture.map(op: useScale ? resultWithScale : resultSimple),
             size: LayerSize(h: 3, w: 2, f: depth)
         )
-        return (inputTexture: texture1, useScale: useScale, expected: expected)
+        return (inputTexture: texture, useScale: useScale, expected: expected)
     }
 
     static func test2(useScale: Bool, depth: Int = 8) -> Test {
@@ -61,11 +59,11 @@ struct BatchNormDataSet {
                 data.append([Float].random(count: depth))
             }
         }
-        let texture1 = Texture(data: data, size: LayerSize(h: 3, w: 3, f: depth))
+        let texture = Texture(data: data, size: LayerSize(h: 3, w: 3, f: depth))
 
-        let expected: Texture = Texture(data: texture1.map(op: useScale ? resultWithScale : resultSimple),
+        let expected: Texture = Texture(data: texture.map(op: useScale ? resultWithScale : resultSimple),
                                         size: LayerSize(h: 3, w: 3, f: depth))
-        return (inputTexture: texture1, useScale: useScale, expected: expected)
+        return (inputTexture: texture, useScale: useScale, expected: expected)
     }
 
 }
@@ -99,13 +97,7 @@ class BatchNormTest: BenderTest {
         let metalTexture = inputTexture.metalTexture(with: Device.shared)
         styleNet.run(input: MPSImage(texture: metalTexture, featureChannels: inputTexture.depth)) { image in
             let textureFromGpu = Texture(metalTexture: image.texture, size: expectedOutput.size)
-            if !textureFromGpu.isEqual(to: expectedOutput, threshold: 0.01) {
-                print("TEST failed:")
-                print(textureFromGpu)
-                print(expectedOutput)
-            } else {
-                print("TEST PASSES")
-            }
+            assert(textureFromGpu.isEqual(to: expectedOutput, threshold: 0.01))
             completion()
         }
     }

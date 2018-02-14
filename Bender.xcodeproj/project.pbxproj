@@ -86,6 +86,7 @@
 		8FE3ECB31F3367BD00C0B5DE /* Bender-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FE3ECB21F3367BD00C0B5DE /* Bender-Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8FF71C772032241B004A7406 /* BatchNorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF71C762032241B004A7406 /* BatchNorm.swift */; };
 		8FF71C792032298E004A7406 /* batch_norm.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8FF71C782032298E004A7406 /* batch_norm.metal */; };
+		8FF71C8120345BF1004A7406 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF71C8020345BF1004A7406 /* Array.swift */; };
 		8FFF4AD71EDEFDB600141E9D /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF4AD61EDEFDB600141E9D /* Shape.swift */; };
 /* End PBXBuildFile section */
 
@@ -172,6 +173,7 @@
 		8FE3ECB21F3367BD00C0B5DE /* Bender-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bender-Swift.h"; sourceTree = "<group>"; };
 		8FF71C762032241B004A7406 /* BatchNorm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchNorm.swift; sourceTree = "<group>"; };
 		8FF71C782032298E004A7406 /* batch_norm.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = batch_norm.metal; sourceTree = "<group>"; };
+		8FF71C8020345BF1004A7406 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		8FFF4AD61EDEFDB600141E9D /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -342,6 +344,7 @@
 				8FA984231EBA77AE00586D1B /* MPSImageDescriptor.swift */,
 				8F79B8091EC2514A002D02C8 /* MTLDevice.swift */,
 				8F9F35841EDC83CE005F4DAE /* Data.swift */,
+				8FF71C8020345BF1004A7406 /* Array.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -558,6 +561,7 @@
 				8F60A3231EC4FA7A00296167 /* SpatialNorm.swift in Sources */,
 				8FA984211EBA778900586D1B /* MTLTexture.swift in Sources */,
 				8F79B8021EC23444002D02C8 /* Neuron.swift in Sources */,
+				8FF71C8120345BF1004A7406 /* Array.swift in Sources */,
 				4697C21B1ED35E50003ED2E9 /* LocalResponseNorm.swift in Sources */,
 				8F79B8001EC233A8002D02C8 /* ActivationNeuronType.swift in Sources */,
 				8FA9841B1EBA723500586D1B /* Helpers.swift in Sources */,

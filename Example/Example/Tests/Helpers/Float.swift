@@ -10,15 +10,7 @@ import Foundation
 extension Array where Element == Float {
 
     static func random(count: Int) -> [Float] {
-        var arr = [Float]()
-        for _ in 0..<count {
-            arr.append(Float(arc4random()) / Float(UINT32_MAX))
-        }
-        return arr
-    }
-
-    func toData(count: Int? = nil) -> Data {
-        return Data(buffer: UnsafeBufferPointer(start: self, count: count ?? self.count))
+        return (0..<count).map { _ in Float(arc4random()) / Float(UINT32_MAX) }
     }
 
 }
