@@ -41,7 +41,7 @@ class StyleTransferViewController: UIViewController, ExampleViewController {
             let url = Bundle.main.url(forResource: "g_and_w2", withExtension: "pb")!
             let converter = TFConverter.default(additionalOptimizers: [TFInstanceNormOptimizer()])
 
-            styleNet = Network.load(url: url, converter: converter, inputSize: inputSize, performInitialize: false)
+            styleNet = Network.load(url: url, inputSize: inputSize, converter: converter, performInitialize: false)
             styleNet.addPostProcessing(layers: [ImageLinearTransform()])
 
             // after adding all our layers we are able to initialize the network

@@ -34,8 +34,8 @@ public class Network {
     /// - Parameters:
     ///   - inputSize: The image size for the first layer. Input images will be resized if they do not have this size.
     ///   - parameterLoader: The parameter loader responsible for loading the weights and biases for this network.
-    public init(inputSizes: [String: LayerSize], parameterLoader: ParameterLoader? = nil) {
-        startNodes = inputSizes.map { Start(size: $0.value, inputName: $0.key) }
+    public init(inputSizes: [(String, LayerSize)], parameterLoader: ParameterLoader? = nil) {
+        startNodes = inputSizes.map { Start(size: $0.1, inputName: $0.0) }
         self.parameterLoader = parameterLoader ?? NoParameterLoader()
     }
 
@@ -46,7 +46,7 @@ public class Network {
 
     /// Converts the graph found at `url` to its nodes
     static public func load(url: URL,
-                            inputSizes: [String: LayerSize],
+                            inputSizes: [(String, LayerSize)],
                             converter: Converter = TFConverter.default(),
                             parameterLoader: ParameterLoader? = nil,
                             performInitialize: Bool = true) -> Network {
