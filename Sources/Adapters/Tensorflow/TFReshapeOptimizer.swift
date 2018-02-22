@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// Removes Reshape nodes
 public class TFReshapeOptimizer: TFOptimizer {
 

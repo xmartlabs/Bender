@@ -7,10 +7,20 @@
 
 import Foundation
 
-extension Array where Element == Float {
+public protocol Randomizable {
+    static func random() -> Self
+}
 
-    static func random(count: Int) -> [Float] {
-        return (0..<count).map { _ in Float(arc4random()) / Float(UINT32_MAX) }
+extension Float : Randomizable {
+    public static func random() -> Float {
+        return Float(arc4random()) / Float(UInt32.max)
+    }
+}
+
+extension Array where Element : Randomizable {
+
+    static func random(count: Int) -> [Element] {
+        return (0..<count).map { _ in Element.random() }
     }
 
 }

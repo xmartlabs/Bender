@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// Parameter loader that expects the parameters separated in different files for each layer
 public class PerLayerBinaryLoader: ParameterLoader {
 

@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// Processes a grpah imported from TensorFlow applying some optimizations/simplifications
 public protocol TFOptimizer {
 

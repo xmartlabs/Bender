@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// Represents an axis within a LayerSize
 public enum LayerSizeAxis {
     case f
@@ -51,11 +49,11 @@ public struct LayerSize: Equatable {
         }
     }
 
+    public static func ==(left: LayerSize, right: LayerSize) -> Bool {
+        return left.f == right.f && left.w == right.w && left.h == right.h
+    }
 }
 
-public func == (left: LayerSize, right: LayerSize) -> Bool {
-    return left.f == right.f && left.w == right.w && left.h == right.h
-}
 
 /// Holds variables that determine the size of a Convolution layer
 public struct ConvSize {

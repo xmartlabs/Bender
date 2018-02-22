@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// Deletes a specific subgraph from a TFGraph
 public protocol TFDeleteSubgraphOptimizer: TFOptimizer {
 
@@ -37,7 +35,7 @@ public extension TFDeleteSubgraphOptimizer {
     /// Returns an identifier for a node in this graph
     func id(for node: TFNode) -> String {
         let match = regex.match(node.nodeDef.name)
-        return (node.nodeDef.name as NSString).substring(to: match.location + match.length)
+        return String(node.nodeDef.name.prefix(match.location + match.length))
     }
 
     /// Returns if the node has incoming connections to nodes outside of the subgraph

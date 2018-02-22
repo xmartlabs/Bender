@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 class CompletionSerializer {
 
     typealias CompletableFunction = (@escaping () -> ()) -> ()

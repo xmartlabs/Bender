@@ -6,9 +6,8 @@
 //
 //
 
-import Foundation
-
 /// Strips common nodes that are used in training but not in evaluating/testing
+
 public class TFStripTrainingOps: TFOptimizer {
 
     public var regexes: [Regex] = [TFDeleteSave().regex, TFDeleteRegularizer().regex, TFDeleteInitializer().regex]

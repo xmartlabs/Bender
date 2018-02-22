@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// A node of a graph imported from TensorFlow
 public class TFNode: Node {
 
@@ -24,9 +22,10 @@ public class TFNode: Node {
     public func isEqual(to other: Node) -> Bool {
         return self.nodeDef == (other as? TFNode)?.nodeDef
     }
-
 }
 
-public func ==(lhs: Tensorflow_NodeDef, rhs: Tensorflow_NodeDef) -> Bool {
-    return lhs.name == rhs.name
+extension Tensorflow_NodeDef : Equatable {
+    public static func ==(lhs: Tensorflow_NodeDef, rhs: Tensorflow_NodeDef) -> Bool {
+        return lhs.name == rhs.name
+    }
 }

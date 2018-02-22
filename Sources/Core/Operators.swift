@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 precedencegroup AppendPrecedence {
     associativity: left
     higherThan: LogicalConjunctionPrecedence

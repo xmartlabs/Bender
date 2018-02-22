@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// Protocol implemented by any Graph
 public protocol GraphProtocol {
 
@@ -25,7 +23,7 @@ public extension GraphProtocol {
 
     /// Sort nodes by dependencies
     mutating func sortNodes() {
-        let inputs: [T] = nodes.filter { $0.incomingNodes().count == 0 }
+        let inputs: [T] = nodes.filter { $0.incomingNodes().isEmpty }
         let sorted = DependencyListBuilder().list(from: inputs)
         assert(nodes.count == sorted.count, "Seems you might have a cyclic dependency in your graph. That is not supported!")
         nodes = sorted

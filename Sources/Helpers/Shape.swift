@@ -5,9 +5,6 @@
 //  Created by Mathias Claassen on 5/31/17.
 //
 //
-
-import Foundation
-
 public struct Shape {
 
     let width: Int

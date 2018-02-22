@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// Combines Conv2d with BiasAdd. Should be executed after Variable Processor
 class TFConvOptimizer: TFOptimizer {
 

@@ -5,7 +5,6 @@
 //  Created by Mathias Claassen on 5/24/17.
 //
 //
-
 import Foundation
 import MetalBender
 
@@ -24,13 +23,9 @@ class RandomParameterLoader: ParameterLoader {
         free(pointer)
     }
 
-    func random() -> Float {
-        return Float(Double(arc4random()) / Double(UINT32_MAX))
-    }
-
     func uniformRandom(_ x: UnsafeMutablePointer<Float>, count: Int, scale: Float) {
         for i in 0..<count {
-            x[i] = (random()*2 - 1) * scale
+            x[i] = (Float.random()*2 - 1) * scale
         }
     }
 

@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 // This must be a class because a Weak object requires its value to be a class and Equatable
 
 /// Closures that must return weak references to Node
@@ -31,7 +29,7 @@ public extension Node {
 
     /// Returns if the node has no connections
     var isLonely: Bool {
-        return edgeIn.count == 0 && edgeOut.count == 0
+        return edgeIn.isEmpty && edgeOut.isEmpty
     }
 
     /// Creates a closure that returns a weak reference to an object

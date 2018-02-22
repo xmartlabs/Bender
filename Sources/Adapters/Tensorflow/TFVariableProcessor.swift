@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// Processes `Variable` nodes / groups from TensorFlow.
 public class TFVariableProcessor: TFOptimizer {
 

@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 extension Tensorflow_NodeDef {
 
     var isTFAddOp: Bool { return op == Constants.Ops.Add }

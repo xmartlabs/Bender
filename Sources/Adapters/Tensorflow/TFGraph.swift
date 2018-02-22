@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// Represents a graph that is imported from a TensorFlow model
 public class TFGraph: GraphProtocol {
 
