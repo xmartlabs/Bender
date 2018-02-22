@@ -117,13 +117,6 @@ public class Network {
             nodes = DependencyListBuilder().list(from: startNodes as [NetworkLayer])
         }
 
-        for node in nodes {
-            print("=======\n" + node.id)
-            print("Inputs: " + node.incomingNodes().reduce("", {$0 + ", " + ($1 as? NetworkLayer)!.id}))
-            print("Outputs: " + node.outgoingNodes().reduce("", {$0 + ", " + ($1 as? NetworkLayer)!.id}))
-            print("\n")
-        }
-
         for layer in nodes {
             layer.initialize(network: self, device: Device.shared)
         }
