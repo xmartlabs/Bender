@@ -59,8 +59,8 @@ open class ConvTranspose: NetworkLayer {
         let incoming = getIncoming()
 
         // Load custom metal kernels
-        let constants = [FunctionConstant<ushort>(index: 0, type: MTLDataType.ushort, value: ushort(size.kernelWidth)),
-                         FunctionConstant<ushort>(index: 1, type: MTLDataType.ushort, value: ushort(size.kernelHeight))]
+        let constants = [FunctionConstant<ushort>(index: 0, type: .ushort, value: ushort(size.kernelWidth)),
+                         FunctionConstant<ushort>(index: 1, type: .ushort, value: ushort(size.kernelHeight))]
         pipelineCalculate = MetalShaderManager.shared.getFunction(name: "transpose_conv_calculate",
                                                                   in: Bundle(for: ConvTranspose.self),
                                                                   constants: constants)

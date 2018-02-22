@@ -39,7 +39,7 @@ public class FunctionConstantBase: Equatable {
 
 
 /// Generic class that holds information for Metals function constants.
-public class FunctionConstant<T: Any>: FunctionConstantBase where T: Equatable {
+public class FunctionConstant<T: Equatable>: FunctionConstantBase {
 
     /// Value to be passed to the compute kernels function constant
     public var value: T

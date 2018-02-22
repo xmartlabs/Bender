@@ -53,10 +53,10 @@ open class LocalResponseNorm: NetworkLayer {
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
 
         let constants: [FunctionConstantBase] = [
-            FunctionConstant(index: 0, type: MTLDataType.ushort, value: parameters.depthRadius),
-            FunctionConstant(index: 1, type: MTLDataType.float, value: parameters.bias),
-            FunctionConstant(index: 2, type: MTLDataType.float, value: parameters.alpha),
-            FunctionConstant(index: 3, type: MTLDataType.float, value: parameters.beta),
+            FunctionConstant(index: 0, type: .ushort, value: parameters.depthRadius),
+            FunctionConstant(index: 1, type: .float, value: parameters.bias),
+            FunctionConstant(index: 2, type: .float, value: parameters.alpha),
+            FunctionConstant(index: 3, type: .float, value: parameters.beta),
         ]
         let isArray = outputSize.f > 4
         pipelineLocalResponseNorm = MetalShaderManager.shared.getFunction(name: "local_response_norm" + (isArray ? "" : "_3"), in: Bundle(for: LocalResponseNorm.self), constants: constants)
