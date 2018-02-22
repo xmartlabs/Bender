@@ -66,7 +66,7 @@ open class Start: NetworkLayer {
                                                  z: 0),
                          sourceSize: MTLSizeMake(croppedImg.width, croppedImg.height, 1),
                          to: croppedImg.texture, destinationSlice: 0, destinationLevel: 0,
-                         destinationOrigin: MTLOrigin(x: 0, y: 0, z: 0))
+                         destinationOrigin: .zero)
         blitEncoder.endEncoding()
 
         resizedImg.readCount = 0

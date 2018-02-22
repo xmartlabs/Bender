@@ -9,6 +9,10 @@
 import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 
+extension MTLOrigin {
+    static let zero = MTLOrigin()
+}
+
 /// This layer crops the input image to the desired size. The cropRect is taken from the center of the input image.
 open class Crop: NetworkLayer {
 
@@ -32,7 +36,7 @@ open class Crop: NetworkLayer {
                                                  z: 0),
                          sourceSize: MTLSizeMake(outputSize.w, outputSize.h, 1),
                          to: outputImage.texture, destinationSlice: 0, destinationLevel: 0,
-                         destinationOrigin: MTLOrigin(x: 0, y: 0, z: 0))
+                         destinationOrigin: .zero)
         blitEncoder.endEncoding()
     }
 }
