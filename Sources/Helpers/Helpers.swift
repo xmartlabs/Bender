@@ -6,7 +6,7 @@
 //  Copyright © 2017 Xmartlabs. All rights reserved.
 //
 
-import Foundation
+import Accelerate
 
 /// Helper function to measure the time elapsed during the execution of a block of code
 public func measure(_ label: String = "", _ block: () -> ()) {
@@ -56,4 +56,15 @@ func HWIOtoOWHI(weights: Data, shape: Shape) -> Data {
     }
 
     return Data.init(bytes: transposed, count: shape.totalCount * MemoryLayout<Float>.stride)
+}
+
+public func float32to16(_ input: UnsafeMutablePointer<Float>, count: Int) -> [UInt16] {
+    var output = [UInt16](repeating: 0, count: count)
+    var bufferFloat32 = vImage_Buffer(data: input,   height: 1, width: UInt(count), rowBytes: count * 4)
+    var bufferFloat16 = vImage_Buffer(data: &output, height: 1, width: UInt(count), rowBytes: count * 2)
+
+    if vImageConvert_PlanarFtoPlanar16F(&bufferFloat32, &bufferFloat16, 0) != kvImageNoError {
+        fatalError("Error converting float32 to float16")
+    }
+    return output
 }

@@ -29,7 +29,7 @@ public protocol Node: class {
 
 public extension Node {
 
-    /// returns if the node has no connections
+    /// Returns if the node has no connections
     var isLonely: Bool {
         return edgeIn.count == 0 && edgeOut.count == 0
     }
@@ -52,7 +52,7 @@ public extension Node {
     }
 
     /// Replaces the `old` incoming node by `new`. Also replaces the outgoing
-    /// ocurrence of `old` in the `new` node.
+    /// occurrence of `old` in the `new` node.
     func replace(incomingEdge old: Node, with new: Node) {
         let incoming = incomingNodes()
         if let index = incoming.index(where: { $0.isEqual(to: old) }) {
@@ -89,7 +89,7 @@ public extension Node {
 
     /// Removes all edges from this node and rewires the inputs to the outputs
     func removeFromGraph() {
-        //TODO: could we combine this function with `strip`
+        //TODO: we could combine this function with `strip`
         let outgoing = outgoingNodes()
         let incoming = incomingNodes()
         for out in outgoing {

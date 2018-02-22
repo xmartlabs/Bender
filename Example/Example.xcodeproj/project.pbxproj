@@ -41,6 +41,8 @@
 		8FE2D0851EDDD3570080125D /* MNISTTestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE2D0841EDDD3570080125D /* MNISTTestController.swift */; };
 		8FE2D0871EDDD5D30080125D /* mnist.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8FE2D0861EDDD5D30080125D /* mnist.pb */; };
 		8FE2D0891EDDEABC0080125D /* GrayScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE2D0881EDDEABC0080125D /* GrayScale.swift */; };
+		8FF71C7D20333FF3004A7406 /* BatchNormTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF71C7C20333FF3004A7406 /* BatchNormTest.swift */; };
+		8FF71C7F2033466E004A7406 /* Float.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF71C7E2033466E004A7406 /* Float.swift */; };
 		8FFF4AD91EDF056D00141E9D /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF4AD81EDF056D00141E9D /* UIViewController.swift */; };
 		8FFF4ADB1EDF3B9100141E9D /* mnist_full.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8FFF4ADA1EDF3B9100141E9D /* mnist_full.pb */; };
 		CFAD25371ED7E9F30003C4FA /* Texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD25361ED7E9F30003C4FA /* Texture.swift */; };
@@ -105,6 +107,8 @@
 		8FE2D0841EDDD3570080125D /* MNISTTestController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MNISTTestController.swift; sourceTree = "<group>"; };
 		8FE2D0861EDDD5D30080125D /* mnist.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = mnist.pb; sourceTree = "<group>"; };
 		8FE2D0881EDDEABC0080125D /* GrayScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GrayScale.swift; path = Example/GrayScale.swift; sourceTree = "<group>"; };
+		8FF71C7C20333FF3004A7406 /* BatchNormTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchNormTest.swift; sourceTree = "<group>"; };
+		8FF71C7E2033466E004A7406 /* Float.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Float.swift; path = Example/Tests/Helpers/Float.swift; sourceTree = "<group>"; };
 		8FFF4AD81EDF056D00141E9D /* UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIViewController.swift; path = Example/Tests/Helpers/UIViewController.swift; sourceTree = "<group>"; };
 		8FFF4ADA1EDF3B9100141E9D /* mnist_full.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = mnist_full.pb; sourceTree = "<group>"; };
 		CFAD25361ED7E9F30003C4FA /* Texture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Texture.swift; path = Example/Tests/Helpers/Texture.swift; sourceTree = "<group>"; };
@@ -243,6 +247,7 @@
 				CFAD253A1ED7EA090003C4FA /* TextureConversionTest.swift */,
 				8F9F358D1EDCC5FE005F4DAE /* InstanceNormTests.swift */,
 				46FAFCBC1F02CB89008754E1 /* ConcatTest.swift */,
+				8FF71C7C20333FF3004A7406 /* BatchNormTest.swift */,
 				CFAD25351ED7E9E70003C4FA /* Helpers */,
 			);
 			name = Tests;
@@ -257,6 +262,7 @@
 				CFAD253E1ED7EA930003C4FA /* TestData.swift */,
 				CFAD25401ED7EB5A0003C4FA /* CompletionSerializer.swift */,
 				8FFF4AD81EDF056D00141E9D /* UIViewController.swift */,
+				8FF71C7E2033466E004A7406 /* Float.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -353,6 +359,8 @@
 			files = (
 				8F9F358E1EDCC5FE005F4DAE /* InstanceNormTests.swift in Sources */,
 				CFAD253F1ED7EA930003C4FA /* TestData.swift in Sources */,
+				8FF71C7D20333FF3004A7406 /* BatchNormTest.swift in Sources */,
+				8FF71C7F2033466E004A7406 /* Float.swift in Sources */,
 				CFAD253B1ED7EA090003C4FA /* LocalResponseNormTest.swift in Sources */,
 				46FAFCBD1F02CB89008754E1 /* ConcatTest.swift in Sources */,
 				CFAD253C1ED7EA090003C4FA /* BenderTestRunner.swift in Sources */,

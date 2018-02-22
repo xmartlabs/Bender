@@ -53,6 +53,7 @@ open class TFConverter: Converter {
             type: type,
             optimizers: [
                 TFStripTrainingOps(),
+                TFIgnoredOpsDeleter(),
                 TFDeleteDropout(),
                 TFVariableProcessor(),
                 TFDenseSubstitution(),
