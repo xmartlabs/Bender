@@ -22,13 +22,13 @@ public class Regex {
 
     /// Returns if the expression matches the String passed as parameter
     public func test(_ input: String) -> Bool {
-        let matches = expression.matches(in: input, options: [], range: NSRange(location: 0, length: input.characters.count))
+        let matches = expression.matches(in: input, options: [], range: NSRange(location: 0, length: input.count))
         return matches.count > 0
     }
 
     /// Returns the range of the first match of the expression in the String passed as parameter
     public func match(_ input: String) -> NSRange {
-        let range = expression.rangeOfFirstMatch(in: input, options: [], range: NSRange(location: 0, length: input.characters.count))
+        let range = expression.rangeOfFirstMatch(in: input, options: [], range: NSRange(location: 0, length: input.count))
         return range
     }
 
