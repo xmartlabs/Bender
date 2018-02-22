@@ -12,7 +12,7 @@ import MetalPerformanceShadersProxy
 /// Represents a neural network
 public class Network {
 
-    /// All the input node of the neural network.
+    /// All the input nodes of the neural network.
     public var startNodes: [Start]
 
     /// First input node of the neural network.
@@ -32,19 +32,32 @@ public class Network {
     var initialized = false
 
     /// - Parameters:
-    ///   - inputSize: The image size for the first layer. Input images will be resized if they do not have this size.
+    ///   - inputSizes: An array of tuples where the first item is the identifier of an input node and the second is its size.
+    /// Images will be resized if they do not have the correct size
     ///   - parameterLoader: The parameter loader responsible for loading the weights and biases for this network.
     public init(inputSizes: [(String, LayerSize)], parameterLoader: ParameterLoader? = nil) {
         startNodes = inputSizes.map { Start(size: $0.1, inputName: $0.0) }
         self.parameterLoader = parameterLoader ?? NoParameterLoader()
     }
 
+    /// - Parameters:
+    ///   - inputSize: The image size for the first layer. Input images will be resized if they do not have this size.
+    ///   - parameterLoader: The parameter loader responsible for loading the weights and biases for this network.
     public init(inputSize: LayerSize, parameterLoader: ParameterLoader? = nil) {
         startNodes = [Start(size: inputSize)]
         self.parameterLoader = parameterLoader ?? NoParameterLoader()
     }
 
     /// Converts the graph found at `url` to its nodes
+    ///
+    /// - Parameters:
+    ///   - url: URL to the file containing the graph
+    ///   - inputSizes: array of tuples (identifier, size) for each input node of the graph
+    ///   - converter: the converter to use
+    ///   - parameterLoader: The parameter loader responsible for loading the weights and biases for this network.
+    ///         Not needed if the graph includes weights
+    ///   - performInitialize: if the network should be initialized. If false you will have to call network.initialize()
+    /// - Returns: the converted network
     static public func load(url: URL,
                             inputSizes: [(String, LayerSize)],
                             converter: Converter = TFConverter.default(),
@@ -57,6 +70,15 @@ public class Network {
     }
 
     /// Converts the graph found at `url` to its nodes. Used if there is only one Start node
+    ///
+    /// - Parameters:
+    ///   - url: URL to the file containing the graph
+    ///   - inputSizes: size of the input node of the graph
+    ///   - converter: the converter to use
+    ///   - parameterLoader: The parameter loader responsible for loading the weights and biases for this network.
+    ///         Not needed if the graph includes weights
+    ///   - performInitialize: if the network should be initialized. If false you will have to call network.initialize()
+    /// - Returns: the converted network
     static public func load(url: URL,
                             inputSize: LayerSize,
                             converter: Converter = TFConverter.default(),
@@ -79,17 +101,14 @@ public class Network {
     func set(layers: [NetworkLayer]) {
         nodes = layers
         let inputNodes = nodes.filter { $0.getIncoming().count == 0 }
-        assert(inputNodes.count == startNodes.count, "Number of network inputs() and input sizes() are not equal")
-        // " + inputNodes.count + ", " + startNodes.count + "
+        assert(inputNodes.count == startNodes.count, "Number of network inputs(\(inputNodes.count)) and input sizes(\(startNodes.count)) are not equal")
         if inputNodes.count == 1 {
             inputNodes[0].addIncomingEdge(from: startNodes[0])
             nodes.insert(startNodes[0], at: 0)
         } else {
             for node in startNodes {
                 assert(!nodes.contains(node), "THIS is to make sure that they haven't been inserted. TODO: remove this")
-                let inputNode = inputNodes.first {
-                    return $0.id == node.inputName
-                }
+                let inputNode = inputNodes.first { $0.id == node.inputName }
 
                 inputNode?.addIncomingEdge(from: node)
                 nodes.insert(node, at: 0)
@@ -254,9 +273,7 @@ public class Network {
     }
 
     func startNode(for name: String) -> Start? {
-        return startNodes.first {
-            return $0.inputName == name
-        }
+        return startNodes.first { $0.inputName == name }
     }
 }
 
