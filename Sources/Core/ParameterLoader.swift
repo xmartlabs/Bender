@@ -47,7 +47,7 @@ extension ParameterLoader {
         let w = UnsafePointer(hdrW!.bindMemory(to: Float.self, capacity: Int(sizeWeights)))
 
         close(fd_w)
-        assert(w != UnsafePointer<Float>.init(bitPattern: -1), "mmap failed with errno = \(errno)")
+        assert(w != UnsafePointer<Float>(bitPattern: -1), "mmap failed with errno = \(errno)")
         return w
     }
 
