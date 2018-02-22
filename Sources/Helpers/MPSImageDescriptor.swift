@@ -7,7 +7,6 @@
 //
 
 import MetalPerformanceShaders
-import MetalPerformanceShadersProxy
 
 public extension MPSImageDescriptor {
     public convenience init(layerSize: LayerSize) {

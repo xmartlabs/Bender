@@ -55,7 +55,7 @@ func HWIOtoOWHI(weights: Data, shape: Shape) -> Data {
         }
     }
 
-    return Data.init(bytes: transposed, count: shape.totalCount * MemoryLayout<Float>.stride)
+    return Data(bytes: transposed, count: shape.totalCount * MemoryLayout<Float>.stride)
 }
 
 public func float32to16(_ input: UnsafeMutablePointer<Float>, count: Int) -> [UInt16] {
