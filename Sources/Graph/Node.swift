@@ -31,7 +31,7 @@ public extension Node {
 
     /// Returns if the node has no connections
     var isLonely: Bool {
-        return edgeIn.count == 0 && edgeOut.count == 0
+        return edgeIn.isEmpty && edgeOut.isEmpty
     }
 
     /// Creates a closure that returns a weak reference to an object
