@@ -114,8 +114,8 @@ public extension NetworkLayer {
 
 }
 
-extension NetworkLayer: Equatable {}
-
-public func ==(lhs: NetworkLayer, rhs: NetworkLayer) -> Bool {
-    return lhs.id == rhs.id
+extension NetworkLayer: Equatable {
+    public static func ==(lhs: NetworkLayer, rhs: NetworkLayer) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
