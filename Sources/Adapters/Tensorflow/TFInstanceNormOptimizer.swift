@@ -21,7 +21,7 @@ public class TFInstanceNormOptimizer: TFDeleteSubgraphOptimizer {
                                 ^       ^
          Variable -> InstanceNormMul | Variable
      
-     Set_of_nodes if ([Add -> Pow, Sub] -> RealDiv)
+     Set_of_nodes is ([Add -> Pow, Sub] -> RealDiv)
 
      */
 

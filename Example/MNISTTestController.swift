@@ -136,7 +136,7 @@ class MNISTTestController: UIViewController, ExampleViewController {
         let url = Bundle.main.url(forResource: "mnist_full", withExtension: "pb")!
         let converter = TFConverter.default(verbose: true)
 
-        network = Network.load(url: url, converter: converter, inputSize: inputSize, performInitialize: false)
+        network = Network.load(url: url, inputSize: inputSize, converter: converter, performInitialize: false)
         network.addPreProcessing(layers: [GrayScale(), Neuron(type: .custom(neuron: MPSCNNNeuronLinear(device: Device.shared, a: 255, b: 0)))])
         network.addPostProcessing(layers: [Softmax()])
         network.verbose = true
