@@ -312,13 +312,13 @@
 		8FA983F41EBA70BF00586D1B /* Metal Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				8FF71C782032298E004A7406 /* batch_norm.metal */,
 				8FA9840E1EBA710000586D1B /* conv_transpose.metal */,
 				8FA984101EBA710000586D1B /* instanceNorm.metal */,
 				8FA984111EBA710000586D1B /* instanceNorm3.metal */,
 				8FA984121EBA710000586D1B /* Shaders.metal */,
 				4697C2181ED31F8D003ED2E9 /* local_response_norm.metal */,
 				46FAFCBA1F02A725008754E1 /* concat.metal */,
-				8FF71C782032298E004A7406 /* batch_norm.metal */,
 			);
 			name = "Metal Shaders";
 			path = Metal;

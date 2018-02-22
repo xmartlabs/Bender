@@ -10,7 +10,7 @@ import Foundation
 public extension Array {
 
     func toData(count: Int? = nil) -> Data {
-        return Data(buffer: UnsafeBufferPointer(start: self, count: count ?? self.count))
+        return Data(buffer: UnsafeBufferPointer(start: self, count: Swift.min(count ?? self.count, self.count)))
     }
     
 }

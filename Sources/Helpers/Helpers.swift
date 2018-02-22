@@ -64,7 +64,7 @@ public func float32to16(_ input: UnsafeMutablePointer<Float>, count: Int) -> [UI
     var bufferFloat16 = vImage_Buffer(data: &output, height: 1, width: UInt(count), rowBytes: count * 2)
 
     if vImageConvert_PlanarFtoPlanar16F(&bufferFloat32, &bufferFloat16, 0) != kvImageNoError {
-        print("Error converting float32 to float16")
+        fatalError("Error converting float32 to float16")
     }
     return output
 }
