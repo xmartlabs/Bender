@@ -22,7 +22,8 @@ public class BenderTestRunner {
         TextureConversionTest(),
         LocalResponseNormTest(),
         InstanceNormTest(),
-        ConcatTest()
+        ConcatTest(),
+        BatchNormTest()
     ]
 
     public init() {}

@@ -23,6 +23,21 @@ public class TFStripTrainingOps: TFOptimizer {
 
 }
 
+public class TFIgnoredOpsDeleter: TFOptimizer {
+
+    let ops = ["NoOp", "ExpandDims", "Cast", "Squeeze", "StopGradient", "CheckNumerics", "Assert", "Equal", "All",
+               "Dequantize", "RequantizationRange", "Requantize", "PlaceholderWithDefault", "Identity"]
+    
+    public func optimize(graph: TFGraph) {
+        for node in graph.nodes {
+            if ops.contains(node.nodeDef.op) {
+                node.removeFromGraph()
+            }
+        }
+    }
+
+}
+
 /// Deletes 'Save' subgraphs
 public class TFDeleteSave: TFDeleteSubgraphOptimizer {
 

@@ -23,6 +23,8 @@ public protocol TFDeleteSubgraphOptimizer: TFOptimizer {
     /// - Returns: If the node is connected to an output that should be rewired
     func isOutputNode(_ node: TFNode) -> Bool
 
+    /// Rewires inputs to outputs of subgraph. You can optionally override this to insert a custom node
+    func rewire(mappings: [String: (inputs: [TFNode]?, outputs: [TFNode]?)])
 }
 
 public extension TFDeleteSubgraphOptimizer {
@@ -48,6 +50,19 @@ public extension TFDeleteSubgraphOptimizer {
     func isOutputNode(_ node: TFNode) -> Bool {
         // If the subgraph should be discarded without rewiring
         return false
+    }
+
+    /// Rewires inputs to outputs of subgraph. You can optionally override this to insert a custom node
+    func rewire(mappings: [String: (inputs: [TFNode]?, outputs: [TFNode]?)]) {
+        for id in mappings.keys {
+            if let inputs = mappings[id]?.inputs, let outputs = mappings[id]?.outputs {
+                for output in outputs {
+                    for input in inputs {
+                        output.addIncomingEdge(from: input)
+                    }
+                }
+            }
+        }
     }
 
     func optimize(graph: TFGraph) {
@@ -78,15 +93,7 @@ public extension TFDeleteSubgraphOptimizer {
         }
 
         // wire together
-        for id in mappings.keys {
-            if let inputs = mappings[id]?.inputs, let outputs = mappings[id]?.outputs {
-                for output in outputs {
-                    for input in inputs {
-                        output.addIncomingEdge(from: input)
-                    }
-                }
-            }
-        }
+        rewire(mappings: mappings)
     }
     
 }

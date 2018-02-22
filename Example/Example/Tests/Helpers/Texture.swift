@@ -74,6 +74,17 @@ extension Texture: CustomStringConvertible {
 
 }
 
+extension Texture {
+
+    public func map(op: (Float) -> Float) -> [[Float]]{
+        return data.map { arr in
+            return arr.map { val in
+                return op(val)
+            }
+        }
+    }
+}
+
 // MARK: - Convenience initializer from a metal texture
 
 public extension Texture {

@@ -18,11 +18,11 @@ public enum LayerSizeAxis {
 
     static func fromTF(index: Int) -> LayerSizeAxis? {
         switch index {
-        case 0:
-            return .w
         case 1:
-            return .h
+            return .w
         case 2:
+            return .h
+        case 3:
             return .f
         default:
             return nil
