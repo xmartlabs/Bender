@@ -13,7 +13,7 @@ public enum ProtoFileType {
 
     case binary
     case text
-    
+
 }
 
 /// Converts a TFNode to a NetworkLayer of Bender
@@ -105,7 +105,7 @@ open class TFConverter: Converter {
     }
 
     /// Runs the mappers through all the nodes in the `graph`.
-    /// Ops that cannot be mapped are discarded. If these ops are in the main path of the graph then the resulting graph will be disconnected. 
+    /// Ops that cannot be mapped are discarded. If these ops are in the main path of the graph then the resulting graph will be disconnected.
     ///
     /// - Parameter graph: The TFGraph to be mapped
     /// - Returns: An array of mapped oprations as NetworkLayer's

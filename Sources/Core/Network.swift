@@ -191,11 +191,11 @@ public class Network {
                 layer.execute(commandBuffer: commandBuffer)
             }
             commandBuffer.commit()
-            
+
             if let dispatchQueue = dispatchQueue {
                 dispatchQueue.async { [weak self] in
                     guard let me = self else { return }
-                    
+
                     commandBuffer.waitUntilCompleted()
                     callback(me.nodes.last!.outputImage)
                 }

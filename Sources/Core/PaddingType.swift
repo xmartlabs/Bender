@@ -28,5 +28,5 @@ public extension PaddingType {
             return PaddingType.valid
         }
     }
-    
+
 }

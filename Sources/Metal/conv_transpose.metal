@@ -13,10 +13,10 @@ constant ushort filter_x   [[ function_constant(0) ]];
 constant ushort filter_y   [[ function_constant(1) ]];
 
 /* ConvTranspose is implemented in three steps. This can most probably be optimized but GPU frame capture says it works faster than Apple's MPSCNNConvolution.
-   
+
  Currently the only supported cases are for textures with more than 4 feature channels (both input and output).
  Another restriction is that kernel sizes and strides must be symmetric and that (stride = kernel_size-1).
- 
+
  Three-step implementation: (kW=kernel_width, kH=kernel_height, iC=input_channels, oC=output_channels, s=stride)
  1- Calculate all multiplications and sums and save them one next to the other in an intermediate texture. Each thread reads its pixel and the corresponding weights (kW*kH*iC*4) and writes (kW*kH*4) pixels to the output.
  2- Shift Left: As the calculations of the neighbor threads should overlap we implement this overlapping by shifting left each block of (kW*kH*oC) to its correct position.

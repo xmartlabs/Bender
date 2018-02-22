@@ -11,7 +11,7 @@ import MetalPerformanceShadersProxy
 
 /// Implements Local Response Normalization (LRN).
 open class LocalResponseNorm: NetworkLayer {
-    
+
     public struct Parameters {
 
         public let depthRadius: Int

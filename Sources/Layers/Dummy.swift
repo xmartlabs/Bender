@@ -21,5 +21,5 @@ open class Dummy: NetworkLayer {
     open override func execute(commandBuffer: MTLCommandBuffer) {
         fatalError("Dummy in execution list")
     }
-    
+
 }

@@ -53,5 +53,5 @@ open class ImageLinearTransform: NetworkLayer {
         encoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadsPerGroups)
         encoder.endEncoding()
     }
-    
+
 }

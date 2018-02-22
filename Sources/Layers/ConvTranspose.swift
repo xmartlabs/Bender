@@ -20,10 +20,10 @@ open class ConvTranspose: NetworkLayer {
     /// Used to determine the filename for this layers weights. (Ignored if there is no ParameterLoader)
     static var weightModifier: String = ""
     var weightsPointer: Data?
-    
+
     let size: ConvSize
     private var prevSize: LayerSize!
-    
+
     var pipelineCalculate: MTLComputePipelineState!
     var pipelineShifLeft: MTLComputePipelineState!
     var pipelineShiftTop: MTLComputePipelineState!
@@ -53,7 +53,7 @@ open class ConvTranspose: NetworkLayer {
         assert(size.kernelWidth == size.kernelHeight, "ConvTranspose must have symmetric kernel sizes") // restriction might be taken away
         assert(size.strideX == size.kernelWidth - 1, "ConvTranspose: stride must be kernelSize - 1")
     }
-    
+
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
         let incoming = getIncoming()

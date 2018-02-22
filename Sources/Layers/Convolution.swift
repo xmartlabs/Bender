@@ -44,7 +44,7 @@ open class Convolution: NetworkLayer {
         let incoming = getIncoming()
         assert(incoming.count == 1, "Convolution must have one input, not \(incoming.count)")
     }
-    
+
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
         let incoming = getIncoming()
@@ -108,7 +108,7 @@ open class Convolution: NetworkLayer {
                                  biasTerms: bias,
                                  flags: .none)
     }
-    
+
     open override func execute(commandBuffer: MTLCommandBuffer) {
         conv?.encode(commandBuffer: commandBuffer,
                      sourceImage: getIncoming()[0].outputImage,

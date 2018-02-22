@@ -57,5 +57,5 @@ public class FunctionConstant<T: Any>: FunctionConstantBase where T: Equatable {
         guard let otherValue = other.getValue() as? T else { return false }
         return type == other.type && index == other.index && value == otherValue
     }
-    
+
 }

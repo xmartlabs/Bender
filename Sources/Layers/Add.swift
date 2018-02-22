@@ -47,5 +47,5 @@ open class Add: NetworkLayer {
         commandEncoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: tpTG)
         commandEncoder.endEncoding()
     }
-    
+
 }

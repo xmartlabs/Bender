@@ -32,7 +32,7 @@ public class TFGraph: GraphProtocol {
         for node in nodes {
             // Filter TF control inputs
             let filtered = node.nodeDef.input.filter { $0.first != "^" }
-            
+
             for input in filtered {
                 if let inputNode = nodesByName[input] {
                     node.addIncomingEdge(from: inputNode)
@@ -46,5 +46,5 @@ public class TFGraph: GraphProtocol {
         var me = self
         me.sortNodes()
     }
-    
+
 }

@@ -100,5 +100,5 @@ class InstanceNormTest: BenderTest {
 //        }
         return output
     }
-    
+
 }

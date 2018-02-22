@@ -105,7 +105,7 @@ public extension Node {
         edgeIn = []
     }
 
-    /// Removes all edges of this node. If recursive then it will call strip recursively on all of its neighbors 
+    /// Removes all edges of this node. If recursive then it will call strip recursively on all of its neighbors
     /// (so the calling node should remove himself before calling this recursively)
     func strip(recursive: Bool = false) {
         let outgoing = outgoingNodes()

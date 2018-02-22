@@ -58,7 +58,7 @@ class NoParameterLoader: ParameterLoader {
     var checkpoint: String = ""
 
     init() {}
-    
+
     func loadWeights(for id: String, modifier: String, size: Int) -> UnsafePointer<Float> {
         fatalError("No parameter loader has been specified!")
     }

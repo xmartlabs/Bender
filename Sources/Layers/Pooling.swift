@@ -85,5 +85,5 @@ open class Pooling: NetworkLayer {
     open override func execute(commandBuffer: MTLCommandBuffer) {
         pooling.encode(commandBuffer: commandBuffer, sourceImage: getIncoming()[0].outputImage, destinationImage: outputImage)
     }
-    
+
 }
