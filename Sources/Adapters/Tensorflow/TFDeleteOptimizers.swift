@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// Strips common nodes tht are used in training but not in evaluating/testing
 public class TFStripTrainingOps: TFOptimizer {
 

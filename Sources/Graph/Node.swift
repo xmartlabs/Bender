@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 // This must be a class because a Weak object requires its value to be a class and Equatable
 
 /// Closures that must return weak references to Node

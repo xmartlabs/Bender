@@ -6,7 +6,6 @@
 //
 //
 
-import Foundation
 import MetalBender
 
 class RandomParameterLoader: ParameterLoader {

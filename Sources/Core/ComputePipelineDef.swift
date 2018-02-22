@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// Hash key for MTLComputePipelineState
 struct ComputePipelineDef: Hashable {
 

@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// Transforms a MatMul and a BiasAdd into a FullyConnected. Should be executed after Variable Processor
 /// Does not work with embedded weights. Transposing of weights must be done previously on Python side.
 public class TFDenseSubstitution: TFOptimizer {

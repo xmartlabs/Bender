@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// Protocol implemented by any Graph
 public protocol GraphProtocol {
 

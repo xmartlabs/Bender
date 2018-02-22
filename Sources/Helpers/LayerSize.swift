@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// Represents an axis within a LayerSize
 public enum LayerSizeAxis {
     case f

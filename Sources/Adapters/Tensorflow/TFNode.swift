@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// A node of a graph imported from TensorFlow
 public class TFNode: Node {
 

@@ -6,8 +6,6 @@
 //
 //
 
-import Foundation
-
 /// Creates an Instance norm from a series of nodes. Must be executed after Variable processor
 /// This implementation works with the one presented in https://github.com/lengstrom/fast-style-transfer/blob/master/src/transform.py#L49  (29/05/2017)
 /// If you implement InstanceNorm differently you migth have to create your own parser.
