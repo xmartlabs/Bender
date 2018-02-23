@@ -58,6 +58,7 @@ open class TFConverter: Converter {
                 TFVariableProcessor(),
                 TFDenseSubstitution(),
                 TFReshapeOptimizer(),
+                TFConvDilationOptimizer(),
                 TFConvOptimizer()
             ] + additionalOptimizers,
             verbose: verbose

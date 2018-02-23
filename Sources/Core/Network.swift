@@ -27,7 +27,11 @@ public class Network {
     public var parameterLoader: ParameterLoader
 
     /// If set to true will print information about the graph and generated dependency list
-    public var verbose = false
+    public var verbose = true
+
+    public func node(for id: String) -> NetworkLayer? {
+        return nodes.first(where: { $0.id == id })
+    }
 
     var initialized = false
 

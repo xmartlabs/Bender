@@ -21,7 +21,7 @@ open class Convolution: NetworkLayer {
     var weightsPointer: Data?
     var biasPointer: Data?
 
-    private var prevSize: LayerSize!
+    var prevSize: LayerSize!
     public var convSize: ConvSize
 
     var conv: MPSCNNConvolution?
@@ -103,6 +103,8 @@ open class Convolution: NetworkLayer {
             outputFeatureChannels: convSize.outputChannels,
             neuronFilter: neuronType.createNeuron(device: device))
 
+        desc.dilationRateX = convSize.dilationX
+        desc.dilationRateY = convSize.dilationY
         desc.strideInPixelsX = convSize.strideX
         desc.strideInPixelsY = convSize.strideY
 
