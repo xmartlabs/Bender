@@ -103,8 +103,10 @@ open class Convolution: NetworkLayer {
             outputFeatureChannels: convSize.outputChannels,
             neuronFilter: neuronType.createNeuron(device: device))
 
-        desc.dilationRateX = convSize.dilationX
-        desc.dilationRateY = convSize.dilationY
+        if #available(iOS 11.0, *) {
+            desc.dilationRateX = convSize.dilationX
+            desc.dilationRateY = convSize.dilationY
+        }
         desc.strideInPixelsX = convSize.strideX
         desc.strideInPixelsY = convSize.strideY
 
