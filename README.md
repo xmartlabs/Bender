@@ -7,6 +7,7 @@
 <a href="https://cocoapods.org/pods/MetalBender"><img src="https://img.shields.io/cocoapods/v/MetalBender.svg" alt="CocoaPods compatible" /></a>
 <a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a>
 <a href="https://raw.githubusercontent.com/xmartlabs/Bender/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
+<a href="https://app.fossa.io/projects/git%2Bgithub.com%2Fxmartlabs%2FBender?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Fxmartlabs%2FBender.svg?type=shield"/></a>
 </p>
 
 ![Bender](Documentation/Media/Artboard.png)
@@ -154,3 +155,7 @@ This can be found in the [CHANGELOG.md](CHANGELOG.md) file.
 [CONTRIBUTING]: https://github.com/xmartlabs/Bender/blob/master/CONTRIBUTING.md
 [API]: Documentation/API.md
 [Supported Layers]: Documentation/Supported_Layers.md
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fxmartlabs%2FBender.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fxmartlabs%2FBender?ref=badge_large)
