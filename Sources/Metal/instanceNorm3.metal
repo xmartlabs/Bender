@@ -56,7 +56,7 @@ kernel void instance_norm_3(constant float4 &scale[[buffer(0)]],
     float4 mean = shared_mem[0];
 
     threadgroup_barrier(mem_flags::mem_threadgroup);
-    
+
     // Variance
     sum = 0;
     for(ushort xIndex = gid.x; xIndex < width; xIndex += tg_size.x) {

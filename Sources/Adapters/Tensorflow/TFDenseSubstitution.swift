@@ -14,7 +14,7 @@ public class TFDenseSubstitution: TFOptimizer {
           MatMul --> BiasAdd [--> Neuron]
             ^           ^
         Variable    Variable
-     
+
      Returns:
         Variable -> BiasAdd(+add-ons) <- Variable
 

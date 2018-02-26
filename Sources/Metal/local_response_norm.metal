@@ -78,7 +78,7 @@ kernel void local_response_norm(
     } else if (offsetChunks == 3) {
 
         COMPUTE_LOCAL_RESPONSE_NORM(3, src.get_array_size());
-        
+
     } else if (offsetChunks == 4) {
 
         COMPUTE_LOCAL_RESPONSE_NORM(4, src.get_array_size());
@@ -86,7 +86,7 @@ kernel void local_response_norm(
     } else if (offsetChunks == 5) {
 
         COMPUTE_LOCAL_RESPONSE_NORM(5, src.get_array_size());
-        
+
     }
 
 }

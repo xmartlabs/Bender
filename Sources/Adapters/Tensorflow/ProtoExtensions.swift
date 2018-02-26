@@ -25,7 +25,7 @@ extension Tensorflow_NodeDef {
             let formatString = String(data: dataFormat, encoding: .utf8) else {
             return (Int(strides[1]), Int(strides[2]))
         }
-        
+
         let strideX = formatString == "NHWC" ? strides[2] : strides[3]
         let strideY = formatString == "NHWC" ? strides[1] : strides[2]
         return (Int(strideX), Int(strideY))

@@ -9,20 +9,24 @@
 import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 
+extension MTLOrigin {
+    static let zero = MTLOrigin()
+}
+
 /// This layer crops the input image to the desired size. The cropRect is taken from the center of the input image.
 open class Crop: NetworkLayer {
-    
+
     public init(device: MTLDevice, croppedSize: LayerSize, id: String? = nil) {
         super.init(id: id)
         self.outputSize = croppedSize
         self.outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: croppedSize))
     }
-    
+
     open override func validate() {
         let incoming = getIncoming()
         assert(incoming.count == 1, "Crop must have one input, not \(incoming.count)")
     }
-    
+
     open override func execute(commandBuffer: MTLCommandBuffer) {
         let input = getIncoming()[0].outputImage!
         let blitEncoder = commandBuffer.makeBlitCommandEncoder()!
@@ -32,7 +36,7 @@ open class Crop: NetworkLayer {
                                                  z: 0),
                          sourceSize: MTLSizeMake(outputSize.w, outputSize.h, 1),
                          to: outputImage.texture, destinationSlice: 0, destinationLevel: 0,
-                         destinationOrigin: MTLOrigin(x: 0, y: 0, z: 0))
+                         destinationOrigin: .zero)
         blitEncoder.endEncoding()
     }
 }

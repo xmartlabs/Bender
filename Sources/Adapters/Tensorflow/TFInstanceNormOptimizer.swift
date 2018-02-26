@@ -20,7 +20,7 @@ public class TFInstanceNormOptimizer: TFDeleteSubgraphOptimizer {
              Input   -->   InstanceNormAdd  -->  Output
                                 ^       ^
          Variable -> InstanceNormMul | Variable
-     
+
      Set_of_nodes is ([Add -> Pow, Sub] -> RealDiv)
 
      */
@@ -79,5 +79,5 @@ public class TFInstanceNormOptimizer: TFDeleteSubgraphOptimizer {
             }
         }
     }
-    
+
 }

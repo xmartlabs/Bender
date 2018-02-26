@@ -55,7 +55,7 @@ class MNISTTestController: UIViewController, ExampleViewController {
 
         // If you want to create it from scratch comment the line above and uncomment:
         // createMNISTNetwork()
-        
+
         var me = self
         me.setPixelBufferPool()
         setupMetalView()
@@ -197,7 +197,7 @@ class MNISTTestController: UIViewController, ExampleViewController {
         }
 
     }
-    
+
 }
 
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
@@ -231,7 +231,7 @@ extension MNISTTestController: AVCaptureVideoDataOutputSampleBufferDelegate {
         } else {
             debugPrint("samplebuffer is nil \(sampleBuffer)")
         }
-        
+
         return nil
     }
 

@@ -216,5 +216,5 @@ public extension TFConverter {
         }
         mappers[Constants.Ops.BatchNormGlobal] = batchnormMapper
     }
-    
+
 }

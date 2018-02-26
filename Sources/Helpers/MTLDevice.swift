@@ -17,5 +17,5 @@ extension MTLDevice {
 
         return try! makeLibrary(filepath: path)
     }
-    
+
 }

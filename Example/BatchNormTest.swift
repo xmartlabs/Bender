@@ -39,9 +39,9 @@ struct BatchNormDataSet {
 
     static func test1(useScale: Bool, depth: Int = 8) -> Test {
         let texture = Texture(
-            data: [[Float].init(repeating: 1, count: depth), [Float].init(repeating: 2, count: depth),
-                   [Float].init(repeating: 3, count: depth), [Float].init(repeating: 4, count: depth),
-                   [Float].init(repeating: 5, count: depth), [Float].init(repeating: 6, count: depth)],
+            data: [[Float](repeating: 1, count: depth), [Float](repeating: 2, count: depth),
+                   [Float](repeating: 3, count: depth), [Float](repeating: 4, count: depth),
+                   [Float](repeating: 5, count: depth), [Float](repeating: 6, count: depth)],
             size: LayerSize(h: 3, w: 2, f: depth)
         )
 

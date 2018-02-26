@@ -31,15 +31,15 @@ public class Texture {
             data[y * width + x][z] = newValue
         }
     }
-    
+
     var width: Int {
         return size.w
     }
-    
+
     var height: Int {
         return size.h
     }
-    
+
     var depth: Int {
         return size.f
     }
@@ -164,5 +164,5 @@ extension Texture {
         }
         return texture
     }
-    
+
 }

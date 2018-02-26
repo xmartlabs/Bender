@@ -30,9 +30,9 @@ struct ConcatDataSet {
         let texture1Depth = depth
         let texture1 = Texture(
             data: [
-                [Float].init(repeating: 1, count: texture1Depth), [Float].init(repeating: 2, count: texture1Depth),
-                [Float].init(repeating: 3, count: texture1Depth), [Float].init(repeating: 4, count: texture1Depth),
-                [Float].init(repeating: 5, count: texture1Depth), [Float].init(repeating: 6, count: texture1Depth),
+                [Float](repeating: 1, count: texture1Depth), [Float](repeating: 2, count: texture1Depth),
+                [Float](repeating: 3, count: texture1Depth), [Float](repeating: 4, count: texture1Depth),
+                [Float](repeating: 5, count: texture1Depth), [Float](repeating: 6, count: texture1Depth),
             ],
             size: LayerSize(h: 3, w: 2, f: texture1Depth)
         )
@@ -40,31 +40,31 @@ struct ConcatDataSet {
         let texture2 = Texture(
             data: [
                 // row
-                [Float].init(repeating: 1, count: texture2Depth), [Float].init(repeating: 2, count: texture2Depth),
-                [Float].init(repeating: 3, count: texture2Depth),
+                [Float](repeating: 1, count: texture2Depth), [Float](repeating: 2, count: texture2Depth),
+                [Float](repeating: 3, count: texture2Depth),
                 // row
-                [Float].init(repeating: 4, count: texture2Depth), [Float].init(repeating: 5, count: texture2Depth),
-                [Float].init(repeating: 6, count: texture2Depth),
+                [Float](repeating: 4, count: texture2Depth), [Float](repeating: 5, count: texture2Depth),
+                [Float](repeating: 6, count: texture2Depth),
                 // row
-                [Float].init(repeating: 7, count: texture2Depth), [Float].init(repeating: 8, count: texture2Depth),
-                [Float].init(repeating: 8, count: texture2Depth),
+                [Float](repeating: 7, count: texture2Depth), [Float](repeating: 8, count: texture2Depth),
+                [Float](repeating: 8, count: texture2Depth),
             ],
             size: LayerSize(h: 3, w: 3, f: texture2Depth)
         )
         let expectedDepth = depth
         let expectedData: [[Float]] = [
             // row
-            [Float].init(repeating: 1, count: expectedDepth), [Float].init(repeating: 2, count: expectedDepth),
-            [Float].init(repeating: 1, count: expectedDepth), [Float].init(repeating: 2, count: expectedDepth),
-            [Float].init(repeating: 3, count: expectedDepth),
+            [Float](repeating: 1, count: expectedDepth), [Float](repeating: 2, count: expectedDepth),
+            [Float](repeating: 1, count: expectedDepth), [Float](repeating: 2, count: expectedDepth),
+            [Float](repeating: 3, count: expectedDepth),
             // row
-            [Float].init(repeating: 3, count: texture1Depth), [Float].init(repeating: 4, count: texture1Depth),
-            [Float].init(repeating: 4, count: texture2Depth), [Float].init(repeating: 5, count: texture2Depth),
-            [Float].init(repeating: 6, count: texture2Depth),
+            [Float](repeating: 3, count: texture1Depth), [Float](repeating: 4, count: texture1Depth),
+            [Float](repeating: 4, count: texture2Depth), [Float](repeating: 5, count: texture2Depth),
+            [Float](repeating: 6, count: texture2Depth),
             // row
-            [Float].init(repeating: 5, count: texture1Depth), [Float].init(repeating: 6, count: texture1Depth),
-            [Float].init(repeating: 7, count: texture2Depth), [Float].init(repeating: 8, count: texture2Depth),
-            [Float].init(repeating: 8, count: texture2Depth),
+            [Float](repeating: 5, count: texture1Depth), [Float](repeating: 6, count: texture1Depth),
+            [Float](repeating: 7, count: texture2Depth), [Float](repeating: 8, count: texture2Depth),
+            [Float](repeating: 8, count: texture2Depth),
         ]
 
         let expected: Texture = Texture(
@@ -78,33 +78,33 @@ struct ConcatDataSet {
         let texture1Depth = depth
         let texture1 = Texture(
             data: [
-                [Float].init(repeating: 1, count: texture1Depth), [Float].init(repeating: 2, count: texture1Depth),
-                [Float].init(repeating: 3, count: texture1Depth), [Float].init(repeating: 4, count: texture1Depth),
-                [Float].init(repeating: 5, count: texture1Depth), [Float].init(repeating: 6, count: texture1Depth),
+                [Float](repeating: 1, count: texture1Depth), [Float](repeating: 2, count: texture1Depth),
+                [Float](repeating: 3, count: texture1Depth), [Float](repeating: 4, count: texture1Depth),
+                [Float](repeating: 5, count: texture1Depth), [Float](repeating: 6, count: texture1Depth),
             ],
             size: LayerSize(h: 3, w: 2, f: texture1Depth)
         )
         let texture2Depth = depth
         let texture2 = Texture(
             data: [
-                [Float].init(repeating: 1, count: texture1Depth), [Float].init(repeating: 2, count: texture1Depth),
-                [Float].init(repeating: 3, count: texture1Depth), [Float].init(repeating: 4, count: texture1Depth),
-                [Float].init(repeating: 5, count: texture1Depth), [Float].init(repeating: 6, count: texture1Depth),
-                [Float].init(repeating: 9, count: texture1Depth), [Float].init(repeating: 7, count: texture1Depth),
-                [Float].init(repeating: 3, count: texture1Depth), [Float].init(repeating: 3, count: texture1Depth),
+                [Float](repeating: 1, count: texture1Depth), [Float](repeating: 2, count: texture1Depth),
+                [Float](repeating: 3, count: texture1Depth), [Float](repeating: 4, count: texture1Depth),
+                [Float](repeating: 5, count: texture1Depth), [Float](repeating: 6, count: texture1Depth),
+                [Float](repeating: 9, count: texture1Depth), [Float](repeating: 7, count: texture1Depth),
+                [Float](repeating: 3, count: texture1Depth), [Float](repeating: 3, count: texture1Depth),
             ],
             size: LayerSize(h: 5, w: 2, f: texture2Depth)
         )
         let expectedDepth = depth
         let expectedData: [[Float]] = [
-            [Float].init(repeating: 1, count: texture1Depth), [Float].init(repeating: 2, count: texture1Depth),
-            [Float].init(repeating: 3, count: texture1Depth), [Float].init(repeating: 4, count: texture1Depth),
-            [Float].init(repeating: 5, count: texture1Depth), [Float].init(repeating: 6, count: texture1Depth),
-            [Float].init(repeating: 1, count: texture1Depth), [Float].init(repeating: 2, count: texture1Depth),
-            [Float].init(repeating: 3, count: texture1Depth), [Float].init(repeating: 4, count: texture1Depth),
-            [Float].init(repeating: 5, count: texture1Depth), [Float].init(repeating: 6, count: texture1Depth),
-            [Float].init(repeating: 9, count: texture1Depth), [Float].init(repeating: 7, count: texture1Depth),
-            [Float].init(repeating: 3, count: texture1Depth), [Float].init(repeating: 3, count: texture1Depth),
+            [Float](repeating: 1, count: texture1Depth), [Float](repeating: 2, count: texture1Depth),
+            [Float](repeating: 3, count: texture1Depth), [Float](repeating: 4, count: texture1Depth),
+            [Float](repeating: 5, count: texture1Depth), [Float](repeating: 6, count: texture1Depth),
+            [Float](repeating: 1, count: texture1Depth), [Float](repeating: 2, count: texture1Depth),
+            [Float](repeating: 3, count: texture1Depth), [Float](repeating: 4, count: texture1Depth),
+            [Float](repeating: 5, count: texture1Depth), [Float](repeating: 6, count: texture1Depth),
+            [Float](repeating: 9, count: texture1Depth), [Float](repeating: 7, count: texture1Depth),
+            [Float](repeating: 3, count: texture1Depth), [Float](repeating: 3, count: texture1Depth),
         ]
 
         let expected: Texture = Texture(
@@ -118,32 +118,32 @@ struct ConcatDataSet {
         let texture1Depth = depth1
         let texture1 = Texture(
             data: [
-                [Float].init(repeating: 1, count: texture1Depth), [Float].init(repeating: 2, count: texture1Depth),
-                [Float].init(repeating: 3, count: texture1Depth), [Float].init(repeating: 4, count: texture1Depth),
-                [Float].init(repeating: 5, count: texture1Depth), [Float].init(repeating: 6, count: texture1Depth),
+                [Float](repeating: 1, count: texture1Depth), [Float](repeating: 2, count: texture1Depth),
+                [Float](repeating: 3, count: texture1Depth), [Float](repeating: 4, count: texture1Depth),
+                [Float](repeating: 5, count: texture1Depth), [Float](repeating: 6, count: texture1Depth),
             ],
             size: LayerSize(h: 3, w: 2, f: texture1Depth)
         )
         let texture2Depth = depth2
         let texture2 = Texture(
             data: [
-                [Float].init(repeating: 7, count: texture2Depth), [Float].init(repeating: 8, count: texture2Depth),
-                [Float].init(repeating: 9, count: texture2Depth), [Float].init(repeating: 10, count: texture2Depth),
-                [Float].init(repeating: 11, count: texture2Depth), [Float].init(repeating: 12, count: texture2Depth),
+                [Float](repeating: 7, count: texture2Depth), [Float](repeating: 8, count: texture2Depth),
+                [Float](repeating: 9, count: texture2Depth), [Float](repeating: 10, count: texture2Depth),
+                [Float](repeating: 11, count: texture2Depth), [Float](repeating: 12, count: texture2Depth),
             ],
             size: LayerSize(h: 3, w: 2, f: texture2Depth)
         )
         let expectedDepth = depth1 + depth2
         let expectedData: [[Float]] = [
             // row
-            [Float].init(repeating: 1, count: texture1Depth) + [Float].init(repeating: 7, count: texture2Depth),
-            [Float].init(repeating: 2, count: texture1Depth) + [Float].init(repeating: 8, count: texture2Depth),
+            [Float](repeating: 1, count: texture1Depth) + [Float](repeating: 7, count: texture2Depth),
+            [Float](repeating: 2, count: texture1Depth) + [Float](repeating: 8, count: texture2Depth),
             // row
-            [Float].init(repeating: 3, count: texture1Depth) + [Float].init(repeating: 9, count: texture2Depth),
-            [Float].init(repeating: 4, count: texture1Depth) + [Float].init(repeating: 10, count: texture2Depth),
+            [Float](repeating: 3, count: texture1Depth) + [Float](repeating: 9, count: texture2Depth),
+            [Float](repeating: 4, count: texture1Depth) + [Float](repeating: 10, count: texture2Depth),
             // row
-            [Float].init(repeating: 5, count: texture1Depth) + [Float].init(repeating: 11, count: texture2Depth),
-            [Float].init(repeating: 6, count: texture1Depth) + [Float].init(repeating: 12, count: texture2Depth)
+            [Float](repeating: 5, count: texture1Depth) + [Float](repeating: 11, count: texture2Depth),
+            [Float](repeating: 6, count: texture1Depth) + [Float](repeating: 12, count: texture2Depth)
         ]
 
         let expected: Texture = Texture(

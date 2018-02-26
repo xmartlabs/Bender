@@ -39,7 +39,7 @@ public class FunctionConstantBase: Equatable {
 
 
 /// Generic class that holds information for Metals function constants.
-public class FunctionConstant<T: Any>: FunctionConstantBase where T: Equatable {
+public class FunctionConstant<T: Equatable>: FunctionConstantBase {
 
     /// Value to be passed to the compute kernels function constant
     public var value: T
@@ -57,5 +57,5 @@ public class FunctionConstant<T: Any>: FunctionConstantBase where T: Equatable {
         guard let otherValue = other.getValue() as? T else { return false }
         return type == other.type && index == other.index && value == otherValue
     }
-    
+
 }

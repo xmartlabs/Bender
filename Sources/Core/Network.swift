@@ -100,10 +100,10 @@ public class Network {
 
     func set(layers: [NetworkLayer]) {
         nodes = layers
-        let inputNodes = nodes.filter { $0.getIncoming().count == 0 }
+        let inputNodes = nodes.filter { $0.getIncoming().isEmpty }
         assert(inputNodes.count == startNodes.count, "Number of network inputs(\(inputNodes.count)) and input sizes(\(startNodes.count)) are not equal")
-        if inputNodes.count == 1 {
-            inputNodes[0].addIncomingEdge(from: startNodes[0])
+        if let first = inputNodes.first {
+            first.addIncomingEdge(from: startNodes[0])
             nodes.insert(startNodes[0], at: 0)
         } else {
             for node in startNodes {
@@ -191,11 +191,11 @@ public class Network {
                 layer.execute(commandBuffer: commandBuffer)
             }
             commandBuffer.commit()
-            
+
             if let dispatchQueue = dispatchQueue {
                 dispatchQueue.async { [weak self] in
                     guard let me = self else { return }
-                    
+
                     commandBuffer.waitUntilCompleted()
                     callback(me.nodes.last!.outputImage)
                 }

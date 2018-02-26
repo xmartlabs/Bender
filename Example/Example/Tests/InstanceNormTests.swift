@@ -26,10 +26,10 @@ class InstanceNormTest: BenderTest {
 
     func test(texture: Texture, completion: @escaping () -> ()) {
         let styleNet = Network(inputSize: texture.size)
-        let weights = [Float].init(repeating: Float.random(), count: texture.depth)
-        let bias = [Float].init(repeating: Float.random(), count: texture.depth)
-        let scale = Data.init(bytes: weights, count: texture.totalCount * MemoryLayout<Float>.stride)
-        let shift = Data.init(bytes: bias, count: texture.totalCount * MemoryLayout<Float>.stride)
+        let weights = [Float](repeating: Float.random(), count: texture.depth)
+        let bias = [Float](repeating: Float.random(), count: texture.depth)
+        let scale = Data(bytes: weights, count: texture.totalCount * MemoryLayout<Float>.stride)
+        let shift = Data(bytes: bias, count: texture.totalCount * MemoryLayout<Float>.stride)
         styleNet.start ->> InstanceNorm(scale: scale, shift: shift)
         styleNet.initialize()
         let metalTexture = texture.metalTexture(with: Device.shared)
@@ -100,5 +100,5 @@ class InstanceNormTest: BenderTest {
 //        }
         return output
     }
-    
+
 }

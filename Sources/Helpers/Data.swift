@@ -21,5 +21,5 @@ extension Data {
         }
         return nil
     }
-    
+
 }

@@ -36,8 +36,8 @@ open class ImageLinearTransform: NetworkLayer {
         // Load custom metal kernels
         pipeline = MetalShaderManager.shared.getFunction(name: "image_linear_transform",
                                                          in: Bundle(for: ImageLinearTransform.self),
-                                                         constants: [FunctionConstant<Float>(index: 0, type: MTLDataType.float, value: scale),
-                                                                     FunctionConstant<Float>(index: 1, type: MTLDataType.float, value: shift)])
+                                                         constants: [FunctionConstant<Float>(index: 0, type: .float, value: scale),
+                                                                     FunctionConstant<Float>(index: 1, type: .float, value: shift)])
 
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
@@ -53,5 +53,5 @@ open class ImageLinearTransform: NetworkLayer {
         encoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadsPerGroups)
         encoder.endEncoding()
     }
-    
+
 }

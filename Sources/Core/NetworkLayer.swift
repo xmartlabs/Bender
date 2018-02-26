@@ -97,7 +97,7 @@ public struct LayerGroup: Group {
 
     public var input: NetworkLayer
     public var output: NetworkLayer
-    
+
 }
 
 public extension NetworkLayer {

@@ -101,5 +101,5 @@ open class FullyConnected: NetworkLayer {
                        sourceImage: getIncoming()[0].outputImage,
                        destinationImage: outputImage)
     }
-    
+
 }

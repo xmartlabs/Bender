@@ -6,7 +6,7 @@
 //
 //
 
-/** Parameter loader that expects all the parameters in one big file. You can either specify the offset for each layer or, by default, it will keep 
+/** Parameter loader that expects all the parameters in one big file. You can either specify the offset for each layer or, by default, it will keep
     a counter and advacne it with each call to loadWeights(for:modifier:size:)
  */
 public class SingleBinaryLoader: ParameterLoader {
@@ -51,5 +51,5 @@ public class SingleBinaryLoader: ParameterLoader {
         currentOffset = 0
         file = nil
     }
-    
+
 }

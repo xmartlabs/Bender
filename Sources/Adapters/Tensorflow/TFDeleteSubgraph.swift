@@ -9,7 +9,7 @@
 /// Deletes a specific subgraph from a TFGraph
 public protocol TFDeleteSubgraphOptimizer: TFOptimizer {
 
-    /// This Regex tells if a node is in a subgraph to be deleted or not. 
+    /// This Regex tells if a node is in a subgraph to be deleted or not.
     /// If the node's name has a match for this regex then it will be considered as belonging to a subgraph
     var regex: Regex { get set }
 
@@ -93,5 +93,5 @@ public extension TFDeleteSubgraphOptimizer {
         // wire together
         rewire(mappings: mappings)
     }
-    
+
 }

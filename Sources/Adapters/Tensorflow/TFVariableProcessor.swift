@@ -17,7 +17,7 @@ public class TFVariableProcessor: TFOptimizer {
         Returns
                 Const  -->  VariableV2  -->  Output
      */
-    
+
     public func optimize(graph: TFGraph) {
         for node in graph.nodes {
             if node.nodeDef.isTFVariableV2Op {
@@ -67,5 +67,5 @@ fileprivate extension String {
         let regex = try! Regex(".*/read$")
         return regex.test(self)
     }
-    
+
 }
