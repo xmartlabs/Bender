@@ -10,7 +10,6 @@ import AVFoundation
 import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 
-
 /// A group is a temporary structure that represents every network component
 public protocol Group {
 
@@ -42,7 +41,7 @@ open class NetworkLayer: Node {
     /// points to the network where this layer is being executed
     public weak var network: Network?
 
-    //MARK: Node protocol
+    // MARK: Node protocol
     public var edgeOut = [Node]()
     public var edgeIn = [WeakNodeClosure]()
 
@@ -97,7 +96,7 @@ public struct LayerGroup: Group {
 
     public var input: NetworkLayer
     public var output: NetworkLayer
-    
+
 }
 
 public extension NetworkLayer {
@@ -115,7 +114,7 @@ public extension NetworkLayer {
 }
 
 extension NetworkLayer: Equatable {
-    public static func ==(lhs: NetworkLayer, rhs: NetworkLayer) -> Bool {
+    public static func == (lhs: NetworkLayer, rhs: NetworkLayer) -> Bool {
         return lhs.id == rhs.id
     }
 }

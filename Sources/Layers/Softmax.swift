@@ -22,7 +22,7 @@ open class Softmax: NetworkLayer {
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
         let incoming = getIncoming()
-        outputSize = getIncoming()[0].outputSize
+        outputSize = incoming[0].outputSize
 
         kernel = MPSCNNSoftMax(device: device)
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
@@ -32,4 +32,3 @@ open class Softmax: NetworkLayer {
         kernel.encode(commandBuffer: commandBuffer, sourceImage: getIncoming()[0].outputImage, destinationImage: outputImage)
     }
 }
-

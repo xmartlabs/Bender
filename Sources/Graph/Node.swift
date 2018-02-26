@@ -41,9 +41,9 @@ public extension Node {
     /// Should be called to add an edge. Adds both directions of the edge
     func addIncomingEdge(from node: Node) {
         let incoming = incomingNodes()
-        if !incoming.contains(where: { $0.isEqual(to: node) } ) {
+        if !incoming.contains(where: { $0.isEqual(to: node) }) {
             edgeIn.append(captureWeakly(object: node))
-            if !node.edgeOut.contains(where: { $0.isEqual(to: self) } ) {
+            if !node.edgeOut.contains(where: { $0.isEqual(to: self) }) {
                 node.edgeOut.append(self)
             }
         }
@@ -68,7 +68,7 @@ public extension Node {
 
     /// Delete an incoming connection
     func deleteIncomingEdge(node: Node) {
-        if let index = edgeIn.index(where: { $0()?.isEqual(to: node) ?? false } ) {
+        if let index = edgeIn.index(where: { $0()?.isEqual(to: node) ?? false }) {
             _ = edgeIn.remove(at: index)
         }
     }
@@ -80,7 +80,7 @@ public extension Node {
 
     /// Delete an outgoing connection
     func deleteOutgoingEdge(node: Node) {
-        if let index = edgeOut.index(where: { $0.isEqual(to: node) } ) {
+        if let index = edgeOut.index(where: { $0.isEqual(to: node) }) {
             edgeOut.remove(at: index)
         }
     }
@@ -134,7 +134,7 @@ public extension Node {
     /// Will insert all the nodes after this node updating the corresponding links
     /// Precondition: The nodes are already linked among them and there is just one beginning and one end in their graph
     func insert(outgoing nodes: [Node]) {
-        guard nodes.count > 0 else {
+        guard !nodes.isEmpty else {
             return
         }
         for outgoing in outgoingNodes() {

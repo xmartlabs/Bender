@@ -11,7 +11,7 @@ import MetalPerformanceShadersProxy
 
 /// Implements Local Response Normalization (LRN).
 open class LocalResponseNorm: NetworkLayer {
-    
+
     public struct Parameters {
 
         public let depthRadius: Int
@@ -56,10 +56,12 @@ open class LocalResponseNorm: NetworkLayer {
             FunctionConstant(index: 0, type: MTLDataType.ushort, value: parameters.depthRadius),
             FunctionConstant(index: 1, type: MTLDataType.float, value: parameters.bias),
             FunctionConstant(index: 2, type: MTLDataType.float, value: parameters.alpha),
-            FunctionConstant(index: 3, type: MTLDataType.float, value: parameters.beta),
+            FunctionConstant(index: 3, type: MTLDataType.float, value: parameters.beta)
         ]
         let isArray = outputSize.f > 4
-        pipelineLocalResponseNorm = MetalShaderManager.shared.getFunction(name: "local_response_norm" + (isArray ? "" : "_3"), in: Bundle(for: LocalResponseNorm.self), constants: constants)
+        pipelineLocalResponseNorm = MetalShaderManager.shared.getFunction(name: "local_response_norm" + (isArray ? "" : "_3"),
+                                                                          in: Bundle(for: LocalResponseNorm.self),
+                                                                          constants: constants)
     }
 
     open override func execute(commandBuffer: MTLCommandBuffer) {

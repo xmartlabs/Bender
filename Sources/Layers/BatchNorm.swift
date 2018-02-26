@@ -31,14 +31,14 @@ open class BatchNorm: NetworkLayer {
             if let scale = scale {
                 params?.append(scale)
             } else {
-                let scaleArr = Array<Float>(repeating: 1.0, count: variance.count / 4)
+                let scaleArr = [Float](repeating: 1.0, count: variance.count / 4)
                 params?.append(UnsafeBufferPointer(start: scaleArr, count: scaleArr.count))
             }
 
             if let offset = offset {
                 params?.append(offset)
             } else {
-                let offsetArr = Array<Float>(repeating: 0.0, count: variance.count / 4)
+                let offsetArr = [Float](repeating: 0.0, count: variance.count / 4)
                 params?.append(UnsafeBufferPointer(start: offsetArr, count: offsetArr.count))
             }
             params?.append(UnsafeBufferPointer(start: [epsilon], count: 1))

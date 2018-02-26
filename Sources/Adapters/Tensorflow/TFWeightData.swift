@@ -15,9 +15,9 @@ struct TFWeightData {
     let bias: Data?
     let weightShape: Tensorflow_TensorShapeProto
     let useBias: Bool
-    
+
     static func getWeightData(node: TFNode) -> TFWeightData? {
-        let varInputs = node.incomingNodes().filter { ($0 as! TFNode).nodeDef.isTFVariableOrConstOp } as! [TFNode]
+        let varInputs = node.incomingNodes().flatMap { ($0 as? TFNode) }.filter { $0.nodeDef.isTFVariableOrConstOp }
         var weightsVar: TFNode
         var biasVar: TFNode?
 

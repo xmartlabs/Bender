@@ -7,7 +7,8 @@
 //
 
 /// Creates an Instance norm from a series of nodes. Must be executed after Variable processor
-/// This implementation works with the one presented in https://github.com/lengstrom/fast-style-transfer/blob/master/src/transform.py#L49  (29/05/2017)
+/// This implementation works with the one presented in
+//  https://github.com/lengstrom/fast-style-transfer/blob/master/src/transform.py#L49  (29/05/2017)
 /// If you implement InstanceNorm differently you migth have to create your own parser.
 public class TFInstanceNormOptimizer: TFDeleteSubgraphOptimizer {
 
@@ -31,7 +32,7 @@ public class TFInstanceNormOptimizer: TFDeleteSubgraphOptimizer {
         var toStrip: [TFNode] = []
     }
 
-    public var regex: Regex = try! Regex("moments(_\\d+)?/")
+    public var regex: Regex = try! Regex("moments(_\\d+)?/") // swiftlint:disable:this force_try
 
     public init() {}
 
@@ -53,12 +54,11 @@ public class TFInstanceNormOptimizer: TFDeleteSubgraphOptimizer {
                     let powOut = (pow.outgoingNodes() as? [TFNode]), powOut.count == 1,
                     let trueDiv = powOut.first, trueDiv.nodeDef.isTFRealDivOp,
                     let trueDivOut = (trueDiv.outgoingNodes() as? [TFNode]), trueDivOut.count == 1,
-                    let sub = trueDiv.incomingNodes().filter({ ($0 as? TFNode)?.nodeDef.isTFSubOp ?? false }).first,
+                    let sub = trueDiv.incomingNodes().filter({ ($0 as? TFNode)?.nodeDef.isTFSubOp ?? false }).first as? TFNode,
                     let mul = trueDivOut.first, mul.nodeDef.isTFMulOp,
                     let mulOut = (mul.outgoingNodes() as? [TFNode]), mulOut.count == 1,
-                    let addFinal = mulOut.first, addFinal.nodeDef.isTFAddOp
-                {
-                    currentValue.toStrip.append(contentsOf: [sub, add, pow, trueDiv] as! [TFNode])
+                    let addFinal = mulOut.first, addFinal.nodeDef.isTFAddOp {
+                    currentValue.toStrip.append(contentsOf: [sub, add, pow, trueDiv])
                     // change final add to Instancenorm node
                     addFinal.nodeDef.op = Constants.Ops.InstanceNormAdd
                     mul.nodeDef.op = Constants.Ops.InstanceNormMul
@@ -79,5 +79,5 @@ public class TFInstanceNormOptimizer: TFDeleteSubgraphOptimizer {
             }
         }
     }
-    
+
 }

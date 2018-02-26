@@ -15,7 +15,7 @@ extension MTLDevice {
             return nil
         }
 
-        return try! makeLibrary(filepath: path)
+        return try? makeLibrary(filepath: path)
     }
-    
+
 }

@@ -26,7 +26,8 @@ open class Pooling: NetworkLayer {
     var kernelSize: (width: Int, height: Int)
     var stride: (x: Int, y: Int)
 
-    public init(type: PoolingType, padding: PaddingType = .same, kernelSize: (width: Int, height: Int) = (2, 2), stride: (x: Int, y: Int) = (2, 2), id: String? = nil) {
+    public init(type: PoolingType, padding: PaddingType = .same, kernelSize: (width: Int, height: Int) = (2, 2),
+                stride: (x: Int, y: Int) = (2, 2), id: String? = nil) {
         self.type = type
         self.kernelSize = kernelSize
         self.stride = stride
@@ -81,9 +82,8 @@ open class Pooling: NetworkLayer {
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
     }
 
-
     open override func execute(commandBuffer: MTLCommandBuffer) {
         pooling.encode(commandBuffer: commandBuffer, sourceImage: getIncoming()[0].outputImage, destinationImage: outputImage)
     }
-    
+
 }

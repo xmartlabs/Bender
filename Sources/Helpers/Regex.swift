@@ -19,11 +19,10 @@ public class Regex {
         self.expression = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
     }
 
-
     /// Returns if the expression matches the String passed as parameter
     public func test(_ input: String) -> Bool {
         let matches = expression.matches(in: input, options: [], range: NSRange(location: 0, length: input.count))
-        return matches.count > 0
+        return !matches.isEmpty
     }
 
     /// Returns the range of the first match of the expression in the String passed as parameter

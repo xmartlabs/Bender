@@ -54,7 +54,10 @@ open class Start: NetworkLayer {
         }
 
         // SCALE
-        let resizedDescriptor = MPSImageDescriptor(channelFormat: .float16, width: scaledW, height: scaledH, featureChannels: inputImage.featureChannels)
+        let resizedDescriptor = MPSImageDescriptor(channelFormat: .float16,
+                                                   width: scaledW,
+                                                   height: scaledH,
+                                                   featureChannels: inputImage.featureChannels)
         let resizedImg = MPSTemporaryImage(commandBuffer: commandBuffer, imageDescriptor: resizedDescriptor)
         lanczos.encode(commandBuffer: commandBuffer, sourceTexture: inputImage.texture, destinationTexture: resizedImg.texture)
 

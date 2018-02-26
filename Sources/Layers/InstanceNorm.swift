@@ -40,10 +40,14 @@ open class InstanceNorm: NetworkLayer {
         let incoming = getIncoming()
         outputSize = incoming[0].outputSize
         outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
-        scaleBuffer = device.makeBuffer(bytes: scale?.pointer() ?? network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.scaleModifier, size: outputSize.f),
+        scaleBuffer = device.makeBuffer(bytes: scale?.pointer() ?? network.parameterLoader.loadWeights(for: id,
+                                                                                                       modifier: InstanceNorm.scaleModifier,
+                                                                                                       size: outputSize.f),
                                          length: max(4, outputSize.f) * Constants.FloatSize,
                                          options: [])
-        shiftBuffer = device.makeBuffer(bytes: shift?.pointer() ?? network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.shiftModifier, size: outputSize.f),
+        shiftBuffer = device.makeBuffer(bytes: shift?.pointer() ?? network.parameterLoader.loadWeights(for: id,
+                                                                                                       modifier: InstanceNorm.shiftModifier,
+                                                                                                       size: outputSize.f),
                                          length: max(4, outputSize.f) * Constants.FloatSize,
                                          options: [])
         let isArray = outputSize.f > 4

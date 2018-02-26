@@ -76,12 +76,16 @@ open class Concat: NetworkLayer {
         // TODO: implement shader to support concat along z without restricting it to multiples of 4
 
         assert(!incoming.isEmpty, "Concat: expects at least one inputs")
-        assert(axis != .f || incoming.reduce(true) { result, networkLayer in result && (networkLayer.outputSize.f % 4 == 0) }, "Concat: all z dimensions must be multiple of 4")
+        assert(axis != .f || incoming.reduce(true) { result, networkLayer in result && (networkLayer.outputSize.f % 4 == 0) },
+               "Concat: all z dimensions must be multiple of 4")
         assert(incoming.count <= maxInputTextures, "Concat: only accepts \(maxInputTextures) incomming nodes at most")
 
         let allInputTexturesWithMoreThan4Channels = incoming.reduce(true) { result, networkLayer in result && networkLayer.outputSize.f > 4 }
-        let allInputTexturesWithLessThanOrEqualTo4Channels = incoming.reduce(true) { result, networkLayer in result && networkLayer.outputSize.f <= 4 }
-        assert(allInputTexturesWithMoreThan4Channels || allInputTexturesWithLessThanOrEqualTo4Channels, "All z dimensions must be either > 4 or <= 4 at the same time")
+        let allInputTexturesWithLessThanOrEqualTo4Channels = incoming.reduce(true) { result, networkLayer in
+            result && networkLayer.outputSize.f <= 4
+        }
+        assert(allInputTexturesWithMoreThan4Channels || allInputTexturesWithLessThanOrEqualTo4Channels,
+               "All z dimensions must be either > 4 or <= 4 at the same time")
 
         var axisValues = [LayerSizeAxis: Int]()
 

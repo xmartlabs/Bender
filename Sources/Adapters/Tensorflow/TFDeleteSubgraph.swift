@@ -93,5 +93,5 @@ public extension TFDeleteSubgraphOptimizer {
         // wire together
         rewire(mappings: mappings)
     }
-    
+
 }

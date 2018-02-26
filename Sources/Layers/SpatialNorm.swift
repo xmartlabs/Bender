@@ -19,7 +19,6 @@ open class SpatialNorm: NetworkLayer {
     var beta: Float?
     var delta: Float?
 
-
     public init(kWidth: Int, kHeight: Int, alpha: Float? = nil, beta: Float? = nil, delta: Float? = nil, id: String? = nil) {
         assert(alpha == nil || alpha! >= 0.0, "Alpha must be non-negative")
         self.kWidth = kWidth

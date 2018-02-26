@@ -41,7 +41,7 @@ extension ParameterLoader {
         assert(fd_w != -1, "Error: failed to open output file at \""+wtPath!+"\"  errno = \(errno)\n")
 
         // memory map the parameters
-        let hdrW = mmap(nil, Int(sizeWeights), PROT_READ, MAP_FILE | MAP_SHARED, fd_w, 0);
+        let hdrW = mmap(nil, Int(sizeWeights), PROT_READ, MAP_FILE | MAP_SHARED, fd_w, 0)
 
         // cast Void pointers to Float
         let w = UnsafePointer(hdrW!.bindMemory(to: Float.self, capacity: Int(sizeWeights)))
@@ -58,7 +58,7 @@ class NoParameterLoader: ParameterLoader {
     var checkpoint: String = ""
 
     init() {}
-    
+
     func loadWeights(for id: String, modifier: String, size: Int) -> UnsafePointer<Float> {
         fatalError("No parameter loader has been specified!")
     }

@@ -1,0 +1,27 @@
+disabled_rules:
+  - identifier_name
+opt_in_rules:
+  - empty_count
+included:
+  - Sources
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - Carthage
+  - Pods
+  - Sources/Adapters/Tensorflow/protos
+line_length: 150
+type_body_length:
+  - 300 # warning
+  - 400 # error
+file_length:
+  warning: 500
+  error: 1200
+type_name:
+  min_length: 1 # only warning
+  max_length:
+    warning: 40
+    error: 50
+identifier_name:
+  min_length:
+    warning: 2
+    error: 1
+reporter: "xcode"

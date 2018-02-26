@@ -37,5 +37,5 @@ class TFConvOptimizer: TFOptimizer {
             }
         }
     }
-    
+
 }

@@ -17,7 +17,7 @@ public class TFVariableProcessor: TFOptimizer {
         Returns
                 Const  -->  VariableV2  -->  Output
      */
-    
+
     public func optimize(graph: TFGraph) {
         for node in graph.nodes {
             if node.nodeDef.isTFVariableV2Op {
@@ -40,7 +40,7 @@ public class TFVariableProcessor: TFOptimizer {
             } else if node.nodeDef.name.isTFVariableReadName,
                     let readInput = node.incomingNodes() as? [TFNode], readInput.count == 1,
                     let variable = readInput.first, variable.nodeDef.isTFConstOp, variable.incomingNodes().isEmpty,
-                    let outputs = node.outgoingNodes() as? [TFNode], outputs.count == 1 , let output = outputs.first {
+                    let outputs = node.outgoingNodes() as? [TFNode], outputs.count == 1, let output = outputs.first {
                 //Freezed graph variables are transformed to Const
 
                 node.strip()
@@ -53,6 +53,7 @@ public class TFVariableProcessor: TFOptimizer {
 
 fileprivate extension String {
 
+    // swiftlint:disable force_try
     var isTFVariableValue: Bool {
         let regex = try! Regex("Variable(_\\d+)?/initial_value")
         return regex.test(self)
@@ -67,5 +68,6 @@ fileprivate extension String {
         let regex = try! Regex(".*/read$")
         return regex.test(self)
     }
-    
+    // swiftlint:enable force_try
+
 }

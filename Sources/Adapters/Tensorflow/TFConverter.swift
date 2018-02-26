@@ -13,7 +13,7 @@ public enum ProtoFileType {
 
     case binary
     case text
-    
+
 }
 
 /// Converts a TFNode to a NetworkLayer of Bender
@@ -120,11 +120,11 @@ open class TFConverter: Converter {
                 processed[node.nodeDef.name] = layer
                 // I get the indexes for all the input nodes and link the corresponding network layers
                 // For this to work we must add the Dummies when we cannot translate an `op`
-                for input in node.incomingNodes() {
+                for input in node.incomingNodes().flatMap({ $0 as? TFNode }) {
                     // Following unwrap will never fail because all nodes are TFNode
                     // If clause is false only when the input node could not be processed because we do not support it.
                     // This is because graphs are dependency ordered and therefore dependencies will always be processed before.
-                    if let inputLayer = processed[(input as! TFNode).nodeDef.name] {
+                    if let inputLayer = processed[input.nodeDef.name] {
                         layer.addIncomingEdge(from: inputLayer)
                     }
                 }

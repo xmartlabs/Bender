@@ -19,7 +19,7 @@ struct ComputePipelineDef: Hashable {
     /// Function constants for the compute kernel function
     var constants: [FunctionConstantBase]
 
-    static func ==(left: ComputePipelineDef, right: ComputePipelineDef) -> Bool {
+    static func == (left: ComputePipelineDef, right: ComputePipelineDef) -> Bool {
         return left.function == right.function && left.constants == right.constants
     }
 }

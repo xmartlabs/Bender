@@ -24,8 +24,8 @@ public class TFNode: Node {
     }
 }
 
-extension Tensorflow_NodeDef : Equatable {
-    public static func ==(lhs: Tensorflow_NodeDef, rhs: Tensorflow_NodeDef) -> Bool {
+extension Tensorflow_NodeDef: Equatable {
+    public static func == (lhs: Tensorflow_NodeDef, rhs: Tensorflow_NodeDef) -> Bool {
         return lhs.name == rhs.name
     }
 }
