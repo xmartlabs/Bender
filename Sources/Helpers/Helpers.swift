@@ -9,7 +9,7 @@
 import Accelerate
 
 /// Helper function to measure the time elapsed during the execution of a block of code
-public func measure(_ label: String = "", _ block: () -> ()) {
+public func measure(_ label: String = "", _ block: () -> Void) {
     let time1 = Date()
     block()
     let time2 = Date()
@@ -60,7 +60,7 @@ func HWIOtoOWHI(weights: Data, shape: Shape) -> Data {
 
 public func float32to16(_ input: UnsafeMutablePointer<Float>, count: Int) -> [UInt16] {
     var output = [UInt16](repeating: 0, count: count)
-    var bufferFloat32 = vImage_Buffer(data: input,   height: 1, width: UInt(count), rowBytes: count * 4)
+    var bufferFloat32 = vImage_Buffer(data: input, height: 1, width: UInt(count), rowBytes: count * 4)
     var bufferFloat16 = vImage_Buffer(data: &output, height: 1, width: UInt(count), rowBytes: count * 2)
 
     if vImageConvert_PlanarFtoPlanar16F(&bufferFloat32, &bufferFloat16, 0) != kvImageNoError {

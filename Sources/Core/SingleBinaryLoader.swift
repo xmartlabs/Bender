@@ -51,5 +51,5 @@ public class SingleBinaryLoader: ParameterLoader {
         currentOffset = 0
         file = nil
     }
-    
+
 }

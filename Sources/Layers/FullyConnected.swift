@@ -72,10 +72,14 @@ open class FullyConnected: NetworkLayer {
             return
         }
 
-        let weights = weightsPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id, modifier: Convolution.weightModifier, size: getWeightsSize())
+        let weights = weightsPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id,
+                                                                                       modifier: Convolution.weightModifier,
+                                                                                       size: getWeightsSize())
         var bias: UnsafePointer<Float>? = nil
         if useBias {
-            bias = biasPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id, modifier: Convolution.biasModifier, size: neurons)
+            bias = biasPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id,
+                                                                                 modifier: Convolution.biasModifier,
+                                                                                 size: neurons)
         }
 
         makeConv(device: device, weights: weights, bias: bias)
@@ -101,5 +105,5 @@ open class FullyConnected: NetworkLayer {
                        sourceImage: getIncoming()[0].outputImage,
                        destinationImage: outputImage)
     }
-    
+
 }

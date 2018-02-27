@@ -100,8 +100,9 @@ public class Network {
 
     func set(layers: [NetworkLayer]) {
         nodes = layers
-        let inputNodes = nodes.filter { $0.getIncoming().count == 0 }
-        assert(inputNodes.count == startNodes.count, "Number of network inputs(\(inputNodes.count)) and input sizes(\(startNodes.count)) are not equal")
+        let inputNodes = nodes.filter { $0.getIncoming().isEmpty }
+        assert(inputNodes.count == startNodes.count,
+               "Number of network inputs(\(inputNodes.count)) and input sizes(\(startNodes.count)) are not equal")
         if inputNodes.count == 1 {
             inputNodes[0].addIncomingEdge(from: startNodes[0])
             nodes.insert(startNodes[0], at: 0)
@@ -150,7 +151,6 @@ public class Network {
         initialized = true
     }
 
-
     /// Executes the neural network
     ///
     /// - Parameters:
@@ -191,11 +191,11 @@ public class Network {
                 layer.execute(commandBuffer: commandBuffer)
             }
             commandBuffer.commit()
-            
+
             if let dispatchQueue = dispatchQueue {
                 dispatchQueue.async { [weak self] in
                     guard let me = self else { return }
-                    
+
                     commandBuffer.waitUntilCompleted()
                     callback(me.nodes.last!.outputImage)
                 }
@@ -221,7 +221,7 @@ public class Network {
     /// Adds layers executed at the beginning of the execution list (after the Start node). Use only when you have a single input layer
     /// Should only be used when converting graphs from other models. Is not needed if defining the network yourself.
     public func addPreProcessing(layers: [NetworkLayer]) {
-        guard layers.count > 0 else { return }
+        guard !layers.isEmpty else { return }
         guard !initialized, let start = startNodes.first, nodes.index(of: start) != nil else {
             fatalError("Must not call this function after initializing. Also only call after converting from a different model")
         }
@@ -239,7 +239,7 @@ public class Network {
     /// the values are arrays of layers that will be executed before that input layer
     /// Should only be used when converting graphs from other models. Is not needed if defining the network yourself.
     public func addPreProcessing(layers: [String: [NetworkLayer]]) {
-        guard layers.count > 0 else { return }
+        guard !layers.isEmpty else { return }
         guard !initialized, let start = startNodes.first, nodes.index(of: start) != nil else {
             fatalError("Must not call this function after initializing. Also only call after converting from a different model")
         }
@@ -257,7 +257,7 @@ public class Network {
     /// Adds layers executed at the end of the execution list.
     /// Should only be used when converting graphs from other models. Is not needed if defining the network yourself.
     public func addPostProcessing(layers: [NetworkLayer]) {
-        guard layers.count > 0 else { return }
+        guard !layers.isEmpty else { return }
         guard !initialized else {
             fatalError("Must not call this function after initializing. Also only call after converting from a different model")
         }

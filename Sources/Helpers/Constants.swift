@@ -61,7 +61,7 @@ extension Constants {
     struct CustomAttr {
 
         static let neuron = "neuron"
-        
+
     }
 
 }

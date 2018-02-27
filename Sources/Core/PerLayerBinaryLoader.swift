@@ -28,5 +28,5 @@ public class PerLayerBinaryLoader: ParameterLoader {
         let filename = checkpoint + filenameForLayer(id, modifier) + suffix
         return load(from: filename, size: size)
     }
-    
+
 }

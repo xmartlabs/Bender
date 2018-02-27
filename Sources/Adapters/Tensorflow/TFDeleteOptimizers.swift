@@ -14,7 +14,7 @@ public class TFStripTrainingOps: TFOptimizer {
 
     public func optimize(graph: TFGraph) {
         for node in graph.nodes {
-            if let _ = regexes.first(where: { $0.test(node.nodeDef.name) }) {
+            if regexes.first(where: { $0.test(node.nodeDef.name) }) != nil {
                 node.strip()
             }
         }
@@ -26,7 +26,7 @@ public class TFIgnoredOpsDeleter: TFOptimizer {
 
     let ops = ["NoOp", "ExpandDims", "Cast", "Squeeze", "StopGradient", "CheckNumerics", "Assert", "Equal", "All",
                "Dequantize", "RequantizationRange", "Requantize", "PlaceholderWithDefault", "Identity"]
-    
+
     public func optimize(graph: TFGraph) {
         for node in graph.nodes {
             if ops.contains(node.nodeDef.op) {
@@ -37,11 +37,13 @@ public class TFIgnoredOpsDeleter: TFOptimizer {
 
 }
 
+// swiftlint:disable force_try
+
 /// Deletes 'Save' subgraphs
 public class TFDeleteSave: TFDeleteSubgraphOptimizer {
 
     public var regex: Regex = try! Regex("save(_\\d+)?/")
-    
+
 }
 
 /// Deletes 'Initializer' subgraphs
@@ -79,5 +81,7 @@ fileprivate extension String {
         let regex = try! Regex("dropout(_\\d+)?/mul")
         return regex.test(self)
     }
-    
+
 }
+
+// swiftlint:enable force_try

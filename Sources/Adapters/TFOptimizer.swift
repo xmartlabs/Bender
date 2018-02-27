@@ -11,7 +11,7 @@ public protocol TFOptimizer {
 
     /// Optimize a grsph imported from TensorFlow. Nodes that are to be removed should be left without adjacencies
     func optimize(graph: TFGraph)
-    
+
 }
 
 public extension TFOptimizer {

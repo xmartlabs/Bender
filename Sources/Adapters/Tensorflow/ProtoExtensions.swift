@@ -25,7 +25,7 @@ extension Tensorflow_NodeDef {
             let formatString = String(data: dataFormat, encoding: .utf8) else {
             return (Int(strides[1]), Int(strides[2]))
         }
-        
+
         let strideX = formatString == "NHWC" ? strides[2] : strides[3]
         let strideY = formatString == "NHWC" ? strides[1] : strides[2]
         return (Int(strideX), Int(strideY))
@@ -84,7 +84,7 @@ extension Tensorflow_TensorShapeProto {
         return Shape(width: kernelWidth, height: kernelHeight, inputChannels: inputChannels, outputChannels: outputChannels)
     }
 
-    //MARK: Named dimensions (these apply to Conv2D order)
+    // MARK: Named dimensions (these apply to Conv2D order)
     var kernelHeight: Int {
         return Int(dim[0].size)
     }
@@ -101,7 +101,7 @@ extension Tensorflow_TensorShapeProto {
         return Int(dim[3].size)
     }
 
-    //MARK: Other helpers
+    // MARK: Other helpers
     var totalCount: Int {
         return outputChannels * inputChannels * kernelWidth * kernelHeight
     }

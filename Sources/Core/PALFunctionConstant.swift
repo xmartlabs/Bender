@@ -32,11 +32,10 @@ public class FunctionConstantBase: Equatable {
         return type == other.type && index == other.index
     }
 
-    public static func ==(left: FunctionConstantBase, right: FunctionConstantBase) -> Bool {
+    public static func == (left: FunctionConstantBase, right: FunctionConstantBase) -> Bool {
         return left.isEqual(to: right)
     }
 }
-
 
 /// Generic class that holds information for Metals function constants.
 public class FunctionConstant<T: Any>: FunctionConstantBase where T: Equatable {
@@ -57,5 +56,5 @@ public class FunctionConstant<T: Any>: FunctionConstantBase where T: Equatable {
         guard let otherValue = other.getValue() as? T else { return false }
         return type == other.type && index == other.index && value == otherValue
     }
-    
+
 }
