@@ -226,6 +226,9 @@ public extension TFConverter {
         // MARK: Conv
         mappers[Constants.Ops.Conv] = convMapper
         mappers[Constants.Ops.QuantizedConv2D] = convMapper
+        if #available(iOS 11.0, *) {
+            mappers[Constants.Ops.DepthwiseConv] = convMapper
+        }
 
         // MARK: ConvTranspose
         mappers["Conv2DBackpropInput"] = convTransposeMapper

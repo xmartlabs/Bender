@@ -12,7 +12,8 @@ import MetalPerformanceShadersProxy
 @available(iOS 11.0, *)
 open class DepthwiseConvolution: Convolution {
 
-    public required init(convSize: ConvSize, neuronType: ActivationNeuronType = .none, useBias: Bool = false, padding: PaddingType = .same, weights: Data? = nil, bias: Data? = nil, id: String? = nil) {
+    public required override init(convSize: ConvSize, neuronType: ActivationNeuronType = .none, useBias: Bool = false,
+                                  padding: PaddingType = .same, weights: Data? = nil, bias: Data? = nil, id: String? = nil) {
         super.init(convSize: convSize, neuronType: neuronType, useBias: useBias, padding: padding, weights: weights, bias: bias, id: id)
     }
 
