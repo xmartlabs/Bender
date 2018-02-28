@@ -12,9 +12,11 @@ extension Tensorflow_NodeDef {
     var isTFVariableAssignOp: Bool { return op == Constants.Ops.Assign }
     var isTFFusedBatchNorm: Bool { return op == Constants.Ops.FusedBatchNorm }
     var isTFBatchNormGlobal: Bool { return op == Constants.Ops.BatchNormGlobal }
+    var isTFBatchToSpace: Bool { return op == Constants.Ops.BatchToSpace }
     var isTFBiasAddOp: Bool { return op == Constants.Ops.BiasAdd }
     var isTFConvOp: Bool { return op == Constants.Ops.Conv }
     var isTFConstOp: Bool { return op == Constants.Ops.Const }
+    var isTFDepthwiseConvOp: Bool { return op == Constants.Ops.DepthwiseConv }
     var isTFInstanceNormMulOp: Bool { return op == Constants.Ops.InstanceNormMul }
     var isTFMatMulOp: Bool { return op == Constants.Ops.MatMul }
     var isTFMeanOp: Bool { return op == Constants.Ops.Mean }
@@ -27,6 +29,7 @@ extension Tensorflow_NodeDef {
     var isTFReLuOp: Bool { return op == Constants.Ops.Relu }
     var isTFShapeOp: Bool { return op == Constants.Ops.Shape }
     var isTFSigmoidOp: Bool { return op == Constants.Ops.Sigmoid }
+    var isTFSpaceToBatch: Bool { return op == Constants.Ops.SpaceToBatch }
     var isTFSubOp: Bool { return op == Constants.Ops.Sub }
     var isTFSwitchOp: Bool { return op == Constants.Ops.Switch }
     var isTFTanhOp: Bool { return op == Constants.Ops.Tanh }

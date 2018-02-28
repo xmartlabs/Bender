@@ -31,6 +31,22 @@ extension Tensorflow_NodeDef {
         return (Int(strideX), Int(strideY))
     }
 
+    /// Parse dilations from a node
+    var dilations: (x: Int, y: Int)? {
+        guard let dilations = attr["dilations"]?.list.i else {
+            return nil
+        }
+
+        guard let dataFormat = attr["data_format"]?.s,
+            let formatString = String(data: dataFormat, encoding: .utf8) else {
+                return (Int(dilations[1]), Int(dilations[2]))
+        }
+
+        let dilationX = formatString == "NHWC" ? dilations[2] : dilations[3]
+        let dilationY = formatString == "NHWC" ? dilations[1] : dilations[2]
+        return (Int(dilationX), Int(dilationY))
+    }
+
     /// Parses a size from a node like in Max and AvgPooling
     var ksize: (width: Int, height: Int)? {
         guard let size = attr["ksize"]?.list.i else {

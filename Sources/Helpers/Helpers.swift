@@ -58,6 +58,26 @@ func HWIOtoOWHI(weights: Data, shape: Shape) -> Data {
     return Data.init(bytes: transposed, count: shape.totalCount * MemoryLayout<Float>.stride)
 }
 
+/// Transposes weights from HWIO to OHWI order. Used to pass TensorFlow's weights for Convolution layers
+func HWIOtoIOWH(weights: Data, shape: Shape) -> Data {
+    var transposed = [Float](repeating: 0.0, count: shape.totalCount)
+    let weightsPointer: UnsafePointer<Float>! = weights.pointer()
+
+    for o in 0..<shape.outputChannels {
+        for h in 0..<shape.height {
+            for w in 0..<shape.width {
+                for i in 0..<shape.inputChannels {
+                    let tIndex = h + shape.height * (w + shape.width * (o + shape.outputChannels * (i)))
+                    let wIndex = o + shape.outputChannels * (i + shape.inputChannels * (w + shape.width * (h)))
+                    transposed[tIndex] = weightsPointer[wIndex]
+                }
+            }
+        }
+    }
+
+    return Data(bytes: transposed, count: shape.totalCount * MemoryLayout<Float>.stride)
+}
+
 public func float32to16(_ input: UnsafeMutablePointer<Float>, count: Int) -> [UInt16] {
     var output = [UInt16](repeating: 0, count: count)
     var bufferFloat32 = vImage_Buffer(data: input, height: 1, width: UInt(count), rowBytes: count * 4)

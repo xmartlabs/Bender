@@ -61,22 +61,26 @@ public struct ConvSize {
     public let kernelHeight: Int
     public let strideX: Int
     public let strideY: Int
+    public let dilationX: Int
+    public let dilationY: Int
 
-    public init(outputChannels: Int, kernelWidth: Int, kernelHeight: Int, strideX: Int, strideY: Int) {
+    public init(outputChannels: Int, kernelWidth: Int, kernelHeight: Int, strideX: Int, strideY: Int, dilationX: Int = 1, dilationY: Int = 1) {
         self.outputChannels = outputChannels
         self.kernelWidth = kernelWidth
         self.kernelHeight = kernelHeight
         self.strideX = strideX
         self.strideY = strideY
+        self.dilationX = dilationX
+        self.dilationY = dilationY
     }
 
-    public init(outputChannels: Int, kernelSize: Int, stride: Int) {
+    public init(outputChannels: Int, kernelSize: Int, stride: Int, dilation: Int = 1) {
         self.init(outputChannels: outputChannels, kernelWidth: kernelSize, kernelHeight: kernelSize, strideX: stride, strideY: stride)
     }
 
-    init(shape: Tensorflow_TensorShapeProto, strideX: Int, strideY: Int) {
+    init(shape: Tensorflow_TensorShapeProto, strideX: Int, strideY: Int, dilationX: Int, dilationY: Int) {
         self.init(outputChannels: shape.outputChannels, kernelWidth: shape.kernelWidth, kernelHeight: shape.kernelHeight,
-                  strideX: strideX, strideY: strideY)
+                  strideX: strideX, strideY: strideY, dilationX: dilationX, dilationY: dilationY)
     }
 
 }

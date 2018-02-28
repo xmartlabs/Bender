@@ -29,6 +29,10 @@ public class Network {
     /// If set to true will print information about the graph and generated dependency list
     public var verbose = false
 
+    public func node(for id: String) -> NetworkLayer? {
+        return nodes.first(where: { $0.id == id })
+    }
+
     var initialized = false
 
     /// - Parameters:

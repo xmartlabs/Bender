@@ -45,24 +45,46 @@ public extension TFConverter {
             let strides = node.nodeDef.strides else {
                 fatalError("Cannot create Conv2D")
         }
+        let dilations = node.nodeDef.dilations ?? (1, 1)
 
         guard let weightData = TFWeightData.getWeightData(node: node) else {
             fatalError("Could not get weight information for this Conv2DTranspose")
         }
 
-        //transpose weights
-        let weights = weightData.weights != nil ? HWIOtoOHWI(weights: weightData.weights!, shape: weightData.weightShape.toShape) : nil
-
-        let convSize = ConvSize(shape: weightData.weightShape,
-                                strideX: Int(strides.x),
-                                strideY: Int(strides.y))
-        return Convolution(convSize: convSize,
-                           neuronType: node.nodeDef.activationNeuron(),
-                           useBias: weightData.useBias,
-                           padding: PaddingType.fromTF(padString),
-                           weights: weights,
-                           bias: weightData.bias,
-                           id: node.nodeDef.name)
+        if node.nodeDef.isTFDepthwiseConvOp, #available(iOS 11.0, *) {
+            //transpose weights
+            let weights = weightData.weights != nil ? HWIOtoIOWH(weights: weightData.weights!, shape: weightData.weightShape.toShape) : nil
+            // Depthwise does not change feature channels count
+            let convSize = ConvSize(outputChannels: weightData.weightShape.inputChannels,
+                                    kernelWidth: weightData.weightShape.kernelHeight,
+                                    kernelHeight: weightData.weightShape.kernelWidth,
+                                    strideX: Int(strides.x),
+                                    strideY: Int(strides.y),
+                                    dilationX: dilations.x,
+                                    dilationY: dilations.y)
+            return DepthwiseConvolution(convSize: convSize,
+                                        neuronType: node.nodeDef.activationNeuron(),
+                                        useBias: weightData.useBias,
+                                        padding: PaddingType.fromTF(padString),
+                                        weights: weights,
+                                        bias: weightData.bias,
+                                        id: node.nodeDef.name)
+        } else {
+            //transpose weights
+            let weights = weightData.weights != nil ? HWIOtoOHWI(weights: weightData.weights!, shape: weightData.weightShape.toShape) : nil
+            let convSize = ConvSize(shape: weightData.weightShape,
+                                    strideX: Int(strides.x),
+                                    strideY: Int(strides.y),
+                                    dilationX: dilations.x,
+                                    dilationY: dilations.y)
+            return Convolution(convSize: convSize,
+                               neuronType: node.nodeDef.activationNeuron(),
+                               useBias: weightData.useBias,
+                               padding: PaddingType.fromTF(padString),
+                               weights: weights,
+                               bias: weightData.bias,
+                               id: node.nodeDef.name)
+        }
     }
 
     private func convTransposeMapper(node: TFNode) -> NetworkLayer {
@@ -204,6 +226,9 @@ public extension TFConverter {
         // MARK: Conv
         mappers[Constants.Ops.Conv] = convMapper
         mappers[Constants.Ops.QuantizedConv2D] = convMapper
+        if #available(iOS 11.0, *) {
+            mappers[Constants.Ops.DepthwiseConv] = convMapper
+        }
 
         // MARK: ConvTranspose
         mappers["Conv2DBackpropInput"] = convTransposeMapper

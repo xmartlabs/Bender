@@ -39,8 +39,8 @@ extension ExampleViewController {
 
         CVPixelBufferLockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
         if let pointer = CVPixelBufferGetBaseAddress(buffer) {
-            let region = MTLRegionMake2D(0, 0, inputSize.w, inputSize.h)
-            texture.getBytes(pointer, bytesPerRow: 2 * channels * inputSize.w, from: region, mipmapLevel: 0)
+            let region = MTLRegionMake2D(0, 0, texture.width, texture.height)
+            texture.getBytes(pointer, bytesPerRow: 2 * channels * texture.width, from: region, mipmapLevel: 0)
         }
         CVPixelBufferUnlockBaseAddress(buffer, CVPixelBufferLockFlags(rawValue: 0))
 

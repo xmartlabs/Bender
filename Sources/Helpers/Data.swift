@@ -22,4 +22,12 @@ extension Data {
         return nil
     }
 
+    func toArray<T>() -> [T] {
+        return withUnsafeBytes { (pointer: UnsafePointer<T>) -> [T] in
+            let buffer = UnsafeBufferPointer(start: pointer,
+                                             count: self.count / MemoryLayout<T>.size)
+            return [T](buffer)
+        }
+    }
+
 }
