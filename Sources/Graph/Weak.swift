@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol WeakClass: Any, class {}
+protocol WeakClass: class, Any {}
 
 class Weak<T: WeakClass>: Equatable where T: Equatable {
     weak var value: T?

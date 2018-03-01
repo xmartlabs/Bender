@@ -150,7 +150,7 @@ public extension TFConverter {
     }
 
     private func concatMapper(node: TFNode) -> NetworkLayer {
-        let inputs = node.incomingNodes().flatMap { $0 as? TFNode }
+        let inputs = node.incomingNodes().cleanMap { $0 as? TFNode }
         let axisNodeV2 = inputs.first(where: { $0.nodeDef.name == "\(node.nodeDef.name)/axis" })
         let axisNodeV1 = inputs.first(where: { $0.nodeDef.name == "\(node.nodeDef.name)/concat_dim" })
         guard let axisNode = axisNodeV2 ?? axisNodeV1 else {

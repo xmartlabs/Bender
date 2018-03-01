@@ -13,4 +13,12 @@ public extension Array {
         return Data(buffer: UnsafeBufferPointer(start: self, count: Swift.min(count ?? self.count, self.count)))
     }
 
+    func cleanMap<ElementOfResult>(_ block: (Element) -> ElementOfResult?) -> [ElementOfResult] {
+        #if swift(>=4.1)
+            return compactMap(block)
+        #else
+            return flatMap(block)
+        #endif
+    }
+
 }

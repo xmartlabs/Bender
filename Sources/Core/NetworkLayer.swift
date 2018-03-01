@@ -103,12 +103,12 @@ public extension NetworkLayer {
 
     /// Helper method that casts the incoming edges to NetworkLayer
     func getIncoming() -> [NetworkLayer] {
-        return incomingNodes().flatMap { $0 as? NetworkLayer }
+        return incomingNodes().cleanMap { $0 as? NetworkLayer }
     }
 
     /// Helper method that casts the outgoing edges to NetworkLayer
     func getOutgoing() -> [NetworkLayer] {
-        return outgoingNodes().flatMap { $0 as? NetworkLayer }
+        return outgoingNodes().cleanMap { $0 as? NetworkLayer }
     }
 
 }
