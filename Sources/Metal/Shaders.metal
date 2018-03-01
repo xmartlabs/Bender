@@ -5,25 +5,28 @@ using namespace metal;
 constant float imageScale [[ function_constant(0) ]];
 constant float imageShift [[ function_constant(1) ]];
 
+using PType = half;
+using PType4 = half4;
+
 /// Sums two texture arrays of identical size element-wise
-kernel void sum_matrix(texture2d_array<half, access::read> texA [[texture(0)]],
-                       texture2d_array<half, access::read> texB [[texture(1)]],
-                       texture2d_array<half, access::write> outTexture [[texture(2)]],
+kernel void sum_matrix(texture2d_array<PType, access::read> texA [[texture(0)]],
+                       texture2d_array<PType, access::read> texB [[texture(1)]],
+                       texture2d_array<PType, access::write> outTexture [[texture(2)]],
                        ushort3 gid [[thread_position_in_grid]]) {
 
-    const half4 a = texA.read(ushort2(gid.x, gid.y), gid.z);
-    const half4 b = texB.read(ushort2(gid.x, gid.y), gid.z);
-    outTexture.write(a + b, ushort2(gid.x, gid.y), gid.z);
+    const half4 a = PType4(texA.read(ushort2(gid.x, gid.y), gid.z));
+    const half4 b = PType4(texB.read(ushort2(gid.x, gid.y), gid.z));
+    outTexture.write(PType4(a + b), ushort2(gid.x, gid.y), gid.z);
 }
 
-kernel void sum_matrix_3(texture2d<half, access::read> texA [[texture(0)]],
-                         texture2d<half, access::read> texB [[texture(1)]],
-                         texture2d<half, access::write> outTexture [[texture(2)]],
+kernel void sum_matrix_3(texture2d<PType, access::read> texA [[texture(0)]],
+                         texture2d<PType, access::read> texB [[texture(1)]],
+                         texture2d<PType, access::write> outTexture [[texture(2)]],
                          ushort2 gid [[thread_position_in_grid]]) {
 
-    const half4 a = texA.read(gid);
-    const half4 b = texB.read(gid);
-    outTexture.write(a + b, gid);
+    const half4 a = PType4(texA.read(gid));
+    const half4 b = PType4(texB.read(gid));
+    outTexture.write(PType4(a + b), gid);
 }
 
 /// Transforms BGRA to RGBA
