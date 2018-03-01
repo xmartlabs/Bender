@@ -23,8 +23,8 @@ constant ushort filter_y   [[ function_constant(1) ]];
  3- Shift Top: Same as before, shifting top
  */
 kernel void transpose_conv_calculate(
-                                     texture2d_array<float, access::read> src [[texture(0)]],
-                                     texture2d_array<float, access::write> dest [[texture(1)]],
+                                     texture2d_array<half, access::read> src [[texture(0)]],
+                                     texture2d_array<half, access::write> dest [[texture(1)]],
 
                                      constant float4 *weights [[ buffer(0) ]],
 
@@ -70,15 +70,15 @@ kernel void transpose_conv_calculate(
         // loop through filter_y
         for (ushort fy=0; fy<filter_y; fy++)
         {
-            dest.write(float4(results[fx + filter_y * fy]), ushort2(gid.x * filter_x + fx,
+            dest.write(results[fx + filter_y * fy], ushort2(gid.x * filter_x + fx,
                                                                     gid.y * filter_y + fy), gid.z);
         }
     }
 }
 
 kernel void transpose_conv_shift_left(
-                                      texture2d_array<float, access::read> src [[texture(0)]],
-                                      texture2d_array<float, access::write> dest [[texture(1)]],
+                                      texture2d_array<half, access::read> src [[texture(0)]],
+                                      texture2d_array<half, access::write> dest [[texture(1)]],
 
                                       ushort3 gid [[thread_position_in_grid]]
                                       ) {
@@ -94,14 +94,14 @@ kernel void transpose_conv_shift_left(
         half4 pix_prev = half4(src.read(ushort2(in_x - 1, in_out_y + fy), gid.z));
         half4 pix1 = half4(src.read(ushort2(in_x, in_out_y + fy), gid.z));
         half4 pix2 = half4(src.read(ushort2(in_x + 1, in_out_y + fy), gid.z));
-        dest.write(float4(pix_prev + pix1), ushort2(out_x, in_out_y + fy), gid.z);
-        dest.write(float4(pix2), ushort2(out_x + 1, in_out_y + fy), gid.z);
+        dest.write(pix_prev + pix1, ushort2(out_x, in_out_y + fy), gid.z);
+        dest.write(pix2, ushort2(out_x + 1, in_out_y + fy), gid.z);
     }
 }
 
 kernel void transpose_conv_shift_top(
-                                      texture2d_array<float, access::read> src [[texture(0)]],
-                                      texture2d_array<float, access::write> dest [[texture(1)]],
+                                      texture2d_array<half, access::read> src [[texture(0)]],
+                                      texture2d_array<half, access::write> dest [[texture(1)]],
 
                                       ushort3 gid [[thread_position_in_grid]]
                                       ) {
@@ -117,7 +117,7 @@ kernel void transpose_conv_shift_top(
         half4 pix_prev = half4(src.read(ushort2(in_out_x + fx, in_y - 1), gid.z));
         half4 pix1 = half4(src.read(ushort2(in_out_x + fx, in_y), gid.z));
         half4 pix2 = half4(src.read(ushort2(in_out_x + fx, in_y + 1), gid.z));
-        dest.write(float4(pix_prev + pix1), ushort2(in_out_x + fx, out_y), gid.z);
-        dest.write(float4(pix2), ushort2(in_out_x + fx, out_y + 1), gid.z);
+        dest.write(pix_prev + pix1, ushort2(in_out_x + fx, out_y), gid.z);
+        dest.write(pix2, ushort2(in_out_x + fx, out_y + 1), gid.z);
     }
 }

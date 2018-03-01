@@ -177,6 +177,10 @@ public class Network {
         dispatchQueue: DispatchQueue? = nil,
         callback: @escaping (MPSImage) -> Void) {
 
+        guard initialized else {
+            return
+        }
+        
         guard inputs.count == startNodes.count else {
             fatalError("You must pass as many inputs (" + String(inputs.count) + ") as inputSize's" + String(startNodes.count) +
                 " you passed when creating the network")
