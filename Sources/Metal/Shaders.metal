@@ -14,8 +14,8 @@ kernel void sum_matrix(texture2d_array<PType, access::read> texA [[texture(0)]],
                        texture2d_array<PType, access::write> outTexture [[texture(2)]],
                        ushort3 gid [[thread_position_in_grid]]) {
 
-    const half4 a = PType4(texA.read(ushort2(gid.x, gid.y), gid.z));
-    const half4 b = PType4(texB.read(ushort2(gid.x, gid.y), gid.z));
+    const half4 a = half4(texA.read(ushort2(gid.x, gid.y), gid.z));
+    const half4 b = half4(texB.read(ushort2(gid.x, gid.y), gid.z));
     outTexture.write(PType4(a + b), ushort2(gid.x, gid.y), gid.z);
 }
 
@@ -24,8 +24,8 @@ kernel void sum_matrix_3(texture2d<PType, access::read> texA [[texture(0)]],
                          texture2d<PType, access::write> outTexture [[texture(2)]],
                          ushort2 gid [[thread_position_in_grid]]) {
 
-    const half4 a = PType4(texA.read(gid));
-    const half4 b = PType4(texB.read(gid));
+    const half4 a = half4(texA.read(gid));
+    const half4 b = half4(texB.read(gid));
     outTexture.write(PType4(a + b), gid);
 }
 
