@@ -21,7 +21,7 @@ open class Constant: NetworkLayer {
 
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
-        let incoming = getIncoming()
+        let incoming: [NetworkLayer] = getIncoming()
         assert(incoming.count == 1, "Constant must have one input, not \(incoming.count)")
         outputSize = constantOutputTexture.size
         constantOutputImage = MPSImage(texture: constantOutputTexture.metalTexture(with: device), featureChannels: constantOutputTexture.size.f)

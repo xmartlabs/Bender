@@ -22,10 +22,10 @@ public extension PaddingType {
 
     /// Parses a padding from TensorFlow to PaddingType
     static func fromTF(_ padding: String) -> PaddingType {
-        if padding == "SAME" {
-            return PaddingType.same
-        } else {
+        if padding == "VALID" {
             return PaddingType.valid
+        } else {
+            return PaddingType.same
         }
     }
 
