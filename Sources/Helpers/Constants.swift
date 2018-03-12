@@ -47,6 +47,7 @@ extension Constants {
         static let QuantizedReshape = "QuantizedReshape"
         static let QuantizeV2 = "QuantizeV2"
         static let Relu = "Relu"
+        static let Relu6 = "Relu6"
         static let Reshape = "Reshape"
         static let Rsqrt = "Rsqrt"
         static let Shape = "Shape"
