@@ -160,8 +160,8 @@ class MNISTTestController: UIViewController, ExampleViewController {
             ->> Pooling(type: .max)
             ->> Convolution(convSize: ConvSize(outputChannels: 64, kernelSize: 5, stride: 1), neuronType: .relu, useBias: true, id: "conv2")
             ->> Pooling(type: .max)
-            ->> FullyConnected(neurons: 1024, neuronType: .relu, useBias: true, transpose: permute(order: [3, 1, 0, 2]), id: "fc1")
-            ->> FullyConnected(neurons: 10, neuronType: .relu, useBias: true, transpose: permute(order: [3, 1, 0, 2]), id: "fc2")
+            ->> FullyConnected(neurons: 1024, neuronType: .relu, useBias: true, id: "fc1")
+            ->> FullyConnected(neurons: 10, neuronType: .relu, useBias: true, id: "fc2")
             ->> Softmax()
 
         network.initialize()
