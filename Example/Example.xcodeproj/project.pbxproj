@@ -32,7 +32,7 @@
 		8F9F358E1EDCC5FE005F4DAE /* InstanceNormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9F358D1EDCC5FE005F4DAE /* InstanceNormTests.swift */; };
 		8FA6BAB91ED5AB2D004450C0 /* RandomLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA6BAB81ED5AB2D004450C0 /* RandomLoader.swift */; };
 		8FB8F4C42052EE92008587E0 /* mobilenet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8FB8F4C32052EE92008587E0 /* mobilenet.mlmodel */; };
-		8FBF18BB205179DC000246F3 /* mobilenet_v1_1.0_224_frozen.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8FBF18BA205179DC000246F3 /* mobilenet_v1_1.0_224_frozen.pb */; };
+		8FBF18BB205179DC000246F3 /* mobilenet_frozen.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8FBF18BA205179DC000246F3 /* mobilenet_frozen.pb */; };
 		8FBF18BD20517EA5000246F3 /* mobilenet_labels.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8FBF18BC20517EA5000246F3 /* mobilenet_labels.txt */; };
 		8FBF18C12051C956000246F3 /* DenseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBF18C02051C956000246F3 /* DenseTests.swift */; };
 		8FBF18C42051D149000246F3 /* InceptionExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9934FE202B2F1100CBD374 /* InceptionExample.swift */; };
@@ -106,7 +106,7 @@
 		8F9F358D1EDCC5FE005F4DAE /* InstanceNormTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstanceNormTests.swift; path = Example/Tests/InstanceNormTests.swift; sourceTree = "<group>"; };
 		8FA6BAB81ED5AB2D004450C0 /* RandomLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomLoader.swift; sourceTree = "<group>"; };
 		8FB8F4C32052EE92008587E0 /* mobilenet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = mobilenet.mlmodel; sourceTree = "<group>"; };
-		8FBF18BA205179DC000246F3 /* mobilenet_v1_1.0_224_frozen.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = mobilenet_v1_1.0_224_frozen.pb; sourceTree = "<group>"; };
+		8FBF18BA205179DC000246F3 /* mobilenet_frozen.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = mobilenet_frozen.pb; sourceTree = "<group>"; };
 		8FBF18BC20517EA5000246F3 /* mobilenet_labels.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mobilenet_labels.txt; sourceTree = "<group>"; };
 		8FBF18C02051C956000246F3 /* DenseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DenseTests.swift; path = Example/Tests/DenseTests.swift; sourceTree = "<group>"; };
 		8FCD3E981ED8A88200B1AAE6 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Example/ViewController.swift; sourceTree = "<group>"; };
@@ -181,7 +181,7 @@
 				8F46BCA41EE0B52000DF275A /* mnist */,
 				8FFF4ADA1EDF3B9100141E9D /* mnist_full.pb */,
 				8FB8F4C32052EE92008587E0 /* mobilenet.mlmodel */,
-				8FBF18BA205179DC000246F3 /* mobilenet_v1_1.0_224_frozen.pb */,
+				8FBF18BA205179DC000246F3 /* mobilenet_frozen.pb */,
 				8FF71CC72034B510004A7406 /* denseTest.pb */,
 				8F9934FD202B2EEE00CBD374 /* inception_v3.pb */,
 				8FBF18BC20517EA5000246F3 /* mobilenet_labels.txt */,
@@ -362,7 +362,7 @@
 				8FCD3EA31ED8B67E00B1AAE6 /* rainSquare.png in Resources */,
 				8FBF18BD20517EA5000246F3 /* mobilenet_labels.txt in Resources */,
 				28F828D51C4B714D00330CF4 /* Main.storyboard in Resources */,
-				8FBF18BB205179DC000246F3 /* mobilenet_v1_1.0_224_frozen.pb in Resources */,
+				8FBF18BB205179DC000246F3 /* mobilenet_frozen.pb in Resources */,
 				8F46BCAF1EE0B52D00DF275A /* mnist-conv2_b in Resources */,
 				8F46BCB41EE0B52D00DF275A /* mnist-fc2_w in Resources */,
 				8F46BCB11EE0B52D00DF275A /* mnist-fc1_b in Resources */,

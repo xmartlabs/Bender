@@ -14,7 +14,7 @@ import UIKit
 @available(iOS 11.0, *)
 class InceptionViewController: UIViewController, UINavigationControllerDelegate {
 
-    var inception: Network!
+    var inception: Network?
     var mobilenetwork: Network!
     var model: mobilenet!
 
@@ -38,11 +38,7 @@ class InceptionViewController: UIViewController, UINavigationControllerDelegate 
     }
 
     func setupNetwork() {
-        guard let mobilenetUrl = Bundle.main.url(forResource: "mobilenet_v1_1.0_224_frozen", withExtension: "pb"),
-            let inceptionUrl = Bundle.main.url(forResource: "inception_v3", withExtension: "pb") else {
-            assertionFailure("Download the models from: http://download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz" +
-                             " and http://download.tensorflow.org/models/inception_v3_2016_08_28.tar.gz and extract mobilenet_v1_1.0_224_frozen.pb" +
-                             " and inception_v3.pb in Example/data folder.")
+        guard let mobilenetUrl = Bundle.main.url(forResource: "mobilenet_frozen", withExtension: "pb") else {
             return
         }
         let converter = TFConverter.default()
@@ -53,11 +49,16 @@ class InceptionViewController: UIViewController, UINavigationControllerDelegate 
         mobilenetwork.addPreProcessing(layers: [Neuron(type: ActivationNeuronType.custom(neuron: MPSCNNNeuronLinear(device: Device.shared, a: 2.0, b: -1)), id: "scale_neuron")])
         mobilenetwork.initialize()
 
+        guard let inceptionUrl = Bundle.main.url(forResource: "inception_v3", withExtension: "pb") else {
+            print("Download Inception from: http://download.tensorflow.org/models/inception_v3_2016_08_28.tar.gz" +
+                  " and freeze it using Benderthon or download a frozen .pb file. Leave it as 'inception_v3.pb' in the Example/data folder")
+            return
+        }
         inception = Network.load(url: inceptionUrl, inputSize: LayerSize(h: 299, w: 299, f: 3), converter: converter, performInitialize: false)
 
         // after adding all our layers we are able to initialize the network
-        inception.addPreProcessing(layers: [Neuron(type: ActivationNeuronType.custom(neuron: MPSCNNNeuronLinear(device: Device.shared, a: 2.0, b: -1)))])
-        inception.initialize()
+        inception?.addPreProcessing(layers: [Neuron(type: ActivationNeuronType.custom(neuron: MPSCNNNeuronLinear(device: Device.shared, a: 2.0, b: -1)))])
+        inception?.initialize()
     }
 
     @IBAction func runNetwork(_ sender: Any) {
@@ -73,7 +74,7 @@ class InceptionViewController: UIViewController, UINavigationControllerDelegate 
                 }
             }
         } else if selectedIndex == 2 {
-            guard let image = imageView.image?.toMPS(loader: textureLoader) else {
+            guard let inception = inception, let image = imageView.image?.toMPS(loader: textureLoader) else {
                 return
             }
             inception.run(input: image, queue: commandQueue) { [weak self] result in
