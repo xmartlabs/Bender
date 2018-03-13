@@ -37,8 +37,6 @@ Bender allows you to easily define and run neural networks using the most common
 
 We also want to support loading models trained on other frameworks such as TensorFlow or Caffe2. Currently Bender includes an adapter for TensorFlow that loads a graph with variables and "translates" it to Bender layers. This feature supports a subset of TensorFlow's operations but we plan to enhance it to cover more cases.
 
-Bender is functional but still under active development and we also want to see where the needs of the community drive it. Please, note that the API is not stable yet.
-
 ## Why did we need Bender? <a name="why"></a>
 
 At [Xmartlabs] we were about to start a Machine Learning project and investigated frameworks to use in iOS. We found MetalPerformanceShaders useful but not very user friendly and we saw ourselves repeating a lot of code and information. That is why we starting building a framework to handle that kind of stuff.
@@ -109,6 +107,9 @@ Follow these steps to run the examples:
 * Clone Bender repository (or download it).
 * Run `carthage update --platform iOS` in the downloaded folder.
 * Open Bender workspace and run the *Example* project.
+
+> There is an Image recognition example which includes a MobileNet model in Bender and one in CoreML. It is also set up to run an Inception model but you will have to download it separately as it is almost 100 MB in size.
+You can download it from http://download.tensorflow.org/models/inception_v3_2016_08_28.tar.gz but then you have to freeze it and add it to the 'Example' Xcode project as 'inception_v3.pb'. 
 
 ## Installation
 

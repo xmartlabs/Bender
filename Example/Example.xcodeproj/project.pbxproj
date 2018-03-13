@@ -28,7 +28,6 @@
 		8F7C22341F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F7C22331F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework */; };
 		8F7C22351F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F7C22331F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8F8F93F62056DE55004A944C /* MPSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F993500202B316A00CBD374 /* MPSImage.swift */; };
-		8F993502202B3A2B00CBD374 /* inception_v3.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8F9934FD202B2EEE00CBD374 /* inception_v3.pb */; };
 		8F9F358E1EDCC5FE005F4DAE /* InstanceNormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9F358D1EDCC5FE005F4DAE /* InstanceNormTests.swift */; };
 		8FA6BAB91ED5AB2D004450C0 /* RandomLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA6BAB81ED5AB2D004450C0 /* RandomLoader.swift */; };
 		8FB8F4C42052EE92008587E0 /* mobilenet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8FB8F4C32052EE92008587E0 /* mobilenet.mlmodel */; };
@@ -100,7 +99,6 @@
 		8F79B80E1EC25ECA002D02C8 /* Luminance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Luminance.swift; path = Example/Luminance.swift; sourceTree = "<group>"; };
 		8F79B8101EC261D6002D02C8 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = Shaders.metal; path = Example/Shaders.metal; sourceTree = "<group>"; };
 		8F7C22331F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShadersProxy.framework; path = ../Carthage/Build/iOS/MetalPerformanceShadersProxy.framework; sourceTree = "<group>"; };
-		8F9934FD202B2EEE00CBD374 /* inception_v3.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = inception_v3.pb; sourceTree = "<group>"; };
 		8F9934FE202B2F1100CBD374 /* InceptionExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InceptionExample.swift; path = Example/InceptionExample.swift; sourceTree = "<group>"; };
 		8F993500202B316A00CBD374 /* MPSImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPSImage.swift; sourceTree = "<group>"; };
 		8F9F358D1EDCC5FE005F4DAE /* InstanceNormTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstanceNormTests.swift; path = Example/Tests/InstanceNormTests.swift; sourceTree = "<group>"; };
@@ -183,7 +181,6 @@
 				8FB8F4C32052EE92008587E0 /* mobilenet.mlmodel */,
 				8FBF18BA205179DC000246F3 /* mobilenet_frozen.pb */,
 				8FF71CC72034B510004A7406 /* denseTest.pb */,
-				8F9934FD202B2EEE00CBD374 /* inception_v3.pb */,
 				8FBF18BC20517EA5000246F3 /* mobilenet_labels.txt */,
 				8FF71C7A20333905004A7406 /* imagenet_label_strings.txt */,
 				8FCD3EA01ED8B67E00B1AAE6 /* rainSquare.png */,
@@ -358,7 +355,6 @@
 				8FFF4ADB1EDF3B9100141E9D /* mnist_full.pb in Resources */,
 				8F46BCB01EE0B52D00DF275A /* mnist-conv2_w in Resources */,
 				28F828D71C4B714D00330CF4 /* Assets.xcassets in Resources */,
-				8F993502202B3A2B00CBD374 /* inception_v3.pb in Resources */,
 				8FCD3EA31ED8B67E00B1AAE6 /* rainSquare.png in Resources */,
 				8FBF18BD20517EA5000246F3 /* mobilenet_labels.txt in Resources */,
 				28F828D51C4B714D00330CF4 /* Main.storyboard in Resources */,
