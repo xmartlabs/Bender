@@ -41,9 +41,8 @@ class InceptionViewController: UIViewController, UINavigationControllerDelegate 
         guard let mobilenetUrl = Bundle.main.url(forResource: "mobilenet_frozen", withExtension: "pb") else {
             return
         }
-        let converter = TFConverter.default()
 
-        mobilenetwork = Network.load(url: mobilenetUrl, inputSize: LayerSize(h: 224, w: 224, f: 3), converter: converter, performInitialize: false)
+        mobilenetwork = Network.load(url: mobilenetUrl, inputSize: LayerSize(h: 224, w: 224, f: 3), performInitialize: false)
 
         // after adding all our layers we are able to initialize the network
         mobilenetwork.addPreProcessing(layers: [Neuron(type: ActivationNeuronType.custom(neuron: MPSCNNNeuronLinear(device: Device.shared, a: 2.0, b: -1)), id: "scale_neuron")])
@@ -54,7 +53,7 @@ class InceptionViewController: UIViewController, UINavigationControllerDelegate 
                   " and freeze it using Benderthon or download a frozen .pb file. Leave it as 'inception_v3.pb' in the Example/data folder")
             return
         }
-        inception = Network.load(url: inceptionUrl, inputSize: LayerSize(h: 299, w: 299, f: 3), converter: converter, performInitialize: false)
+        inception = Network.load(url: inceptionUrl, inputSize: LayerSize(h: 299, w: 299, f: 3), performInitialize: false)
 
         // after adding all our layers we are able to initialize the network
         inception?.addPreProcessing(layers: [Neuron(type: ActivationNeuronType.custom(neuron: MPSCNNNeuronLinear(device: Device.shared, a: 2.0, b: -1)))])
@@ -62,29 +61,7 @@ class InceptionViewController: UIViewController, UINavigationControllerDelegate 
     }
 
     @IBAction func runNetwork(_ sender: Any) {
-        if selectedIndex == 0 {
-            guard let image = imageView.image?.toMPS(loader: textureLoader) else {
-                return
-            }
-            mobilenetwork.run(input: image, queue: commandQueue) { [weak self] result in
-                let arr = result.toArray()
-                let top5 = arr.argsort(by: > ).prefix(5)
-                self?.label.text = top5.reduce("") {
-                    return $0 + (self?.classLabels?[$1] ?? "__") + "\n"
-                }
-            }
-        } else if selectedIndex == 2 {
-            guard let inception = inception, let image = imageView.image?.toMPS(loader: textureLoader) else {
-                return
-            }
-            inception.run(input: image, queue: commandQueue) { [weak self] result in
-                let arr = result.toArray()
-                let top5 = arr.argsort(by: > ).prefix(5)
-                self?.label.text = top5.reduce("") {
-                    return $0 + (self?.inceptionLabels?[$1] ?? "__") + "\n"
-                }
-            }
-        } else {
+        if selectedIndex == 1 {
             if let buffer = imageView.image?.toCVPixelBuffer() {
                 print(buffer)
                 let pred = try! model.prediction(input__0: buffer).MobilenetV1__Predictions__Reshape_1__0
@@ -93,6 +70,28 @@ class InceptionViewController: UIViewController, UINavigationControllerDelegate 
                 let top5 = arr.argsort(by: > ).prefix(5)
                 label.text = top5.reduce("") {
                     return $0 + (classLabels?[$1] ?? "__") + "\n"
+                }
+            }
+        } else {
+            guard let image = imageView.image?.toMPS(loader: textureLoader) else {
+                return
+            }
+            var model: Network!
+            let labels: [String]!
+            if selectedIndex == 0 {
+                model = mobilenetwork
+                labels = classLabels
+            } else if let inception = inception {
+                model = inception
+                labels = inceptionLabels
+            } else {
+                return
+            }
+            model.run(input: image, queue: commandQueue) { [weak self] result in
+                let arr = result.toArray()
+                let top5 = arr.argsort(by: > ).prefix(5)
+                self?.label.text = top5.reduce("") {
+                    return $0 + labels[$1] + "\n"
                 }
             }
         }
