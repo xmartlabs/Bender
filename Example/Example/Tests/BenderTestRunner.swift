@@ -18,7 +18,7 @@ public class BenderTest {
 
 public class BenderTestRunner {
 
-    let tests: [BenderTest] = [
+    var tests: [BenderTest] = [
         TextureConversionTest(),
         LocalResponseNormTest(),
         InstanceNormTest(),
@@ -26,7 +26,11 @@ public class BenderTestRunner {
         BatchNormTest()
     ]
 
-    public init() {}
+    public init() {
+        if #available(iOS 11.0, *) {
+            tests.append(DenseTest())
+        }
+    }
 
     public func run() {
         CompletionSerializer(completableFunctions: tests.map { $0.run }) {

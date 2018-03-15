@@ -30,7 +30,7 @@ open class FullyConnected: NetworkLayer {
     var transpose: TransposeFunction?
 
     public init(neurons: Int, neuronType: ActivationNeuronType = .none, useBias: Bool = false, weights: Data? = nil, bias: Data? = nil,
-                transpose: TransposeFunction? = nil, id: String? = nil) {
+                transpose: TransposeFunction? = permute(order: [3, 1, 0, 2]), id: String? = nil) {
         self.neurons = neurons
         self.neuronType = neuronType
         self.useBias = useBias

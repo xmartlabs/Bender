@@ -119,7 +119,7 @@ public extension TFConverter {
                               useBias: weightData.useBias,
                               weights: weightData.weights,
                               bias: weightData.bias,
-                              transpose: HWIOtoOWHI,
+                              transpose: permute(order: [3, 1, 0, 2]),
                               id: node.nodeDef.name)
     }
 
@@ -166,10 +166,11 @@ public extension TFConverter {
         guard let variables = (node.incomingNodes() as? [TFNode])?.filter({ $0.nodeDef.isTFVariableOrConstOp }),
             let meanVar = variables.first(where: { $0.nodeDef.isTFMovMean }),
             let varianceVar = variables.first(where: { $0.nodeDef.isTFMovVariance }),
-            let gammaVar = variables.first(where: { $0.nodeDef.isTFGamma }),
             let betaVar = variables.first(where: { $0.nodeDef.isTFBeta }) else {
                 fatalError("Could not parse Batch norm node")
         }
+
+        let gammaVar = variables.first(where: { $0.nodeDef.isTFGamma })
 
         var mean: Data?
         var variance: Data?
@@ -194,7 +195,7 @@ public extension TFConverter {
             offset = (betaVar.incomingNodes().first as? TFNode)?.nodeDef.valueData()
         }
 
-        if node.nodeDef.attr["scale_after_normalization"]?.b == true {
+        if let gammaVar = gammaVar, node.nodeDef.attr["scale_after_normalization"]?.b != false {
             if gammaVar.nodeDef.isTFConstOp {
                 scale = gammaVar.nodeDef.valueData()
             } else {
@@ -202,7 +203,7 @@ public extension TFConverter {
             }
         }
 
-        let epsilon = node.nodeDef.attr["variance_epsilon"]?.f ?? 0.001
+        let epsilon = node.nodeDef.attr["variance_epsilon"]?.f ?? node.nodeDef.attr["epsilon"]?.f ?? 0.001
         return BatchNorm(mean: mean, variance: variance, offset: offset, scale: scale, epsilon: epsilon, id: node.nodeDef.name)
     }
 
@@ -212,6 +213,7 @@ public extension TFConverter {
 
         // MARK: Activation neurons
         mappers[Constants.Ops.Relu] = neuronMapper(.relu)
+        mappers[Constants.Ops.Relu6] = neuronMapper(.relu6)
         mappers[Constants.Ops.QuantizedRelu] = neuronMapper(.relu)
         mappers[Constants.Ops.Tanh] = neuronMapper(.tanh)
         mappers[Constants.Ops.Sigmoid] = neuronMapper(.sigmoid)
@@ -245,6 +247,7 @@ public extension TFConverter {
 
         // MARK: BatchNorm
         mappers[Constants.Ops.BatchNormGlobal] = batchnormMapper
+        mappers[Constants.Ops.FusedBatchNorm] = batchnormMapper
     }
 
 }

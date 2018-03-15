@@ -40,22 +40,32 @@ func HWIOtoOHWI(weights: Data, shape: Shape) -> Data {
     return Data(bytes: transposed, count: shape.totalCount * MemoryLayout<Float>.stride)
 }
 
-func HWIOtoOWHI(weights: Data, shape: Shape) -> Data {
-    var transposed = [Float](repeating: 0.0, count: shape.totalCount)
+public func permute(order: [Int]) -> (_ weights: Data, _ shape: Shape) -> Data {
+    return { weights, shape in
+        var transposed = [Float](repeating: 0.0, count: shape.totalCount)
+        let weightsPointer: UnsafePointer<Float>! = weights.pointer()
 
-    for o in 0..<shape.outputChannels {
-        for h in 0..<shape.height {
-            for w in 0..<shape.width {
-                for i in 0..<shape.inputChannels {
-                    let tIndex = i + shape.inputChannels * (h + shape.height * (w + shape.width * (o)))
-                    let wIndex = o + shape.outputChannels * (i + shape.inputChannels * (w + shape.width * (h)))
-                    transposed[tIndex] = weights.pointer()![wIndex]
+        var index = 0
+        var index_order = [0, 0, 0, 0]
+        for d in 0..<shape.at(order[0]) {
+
+            index_order[order[0]] = d
+            for c in 0..<shape.at(order[1]) {
+                index_order[order[1]] = c
+                for b in 0..<shape.at(order[2]) {
+                    index_order[order[2]] = b
+                    for a in 0..<shape.at(order[3]) {
+                        index_order[order[3]] = a
+                        let tIndex = index_order[3] + shape.at(3) * (index_order[2] + shape.at(2) * (index_order[1] + shape.at(1) * (index_order[0])))
+                        transposed[index] = weightsPointer[tIndex]
+                        index += 1
+                    }
                 }
             }
         }
-    }
 
-    return Data.init(bytes: transposed, count: shape.totalCount * MemoryLayout<Float>.stride)
+        return Data(bytes: transposed, count: shape.totalCount * MemoryLayout<Float>.stride)
+    }
 }
 
 /// Transposes weights from HWIO to OHWI order. Used to pass TensorFlow's weights for Convolution layers
