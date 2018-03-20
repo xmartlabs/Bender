@@ -96,7 +96,7 @@ class BatchNormTest: BenderTest {
         styleNet.initialize()
         let metalTexture = inputTexture.metalTexture(with: Device.shared)
         styleNet.run(input: MPSImage(texture: metalTexture, featureChannels: inputTexture.depth)) { image in
-            let textureFromGpu = Texture(metalTexture: image.texture, size: expectedOutput.size)
+            let textureFromGpu = Texture(metalTexture: image!.texture, size: expectedOutput.size)
             assert(textureFromGpu.isEqual(to: expectedOutput, threshold: 0.01))
             completion()
         }

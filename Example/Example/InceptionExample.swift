@@ -88,7 +88,7 @@ class InceptionViewController: UIViewController, UINavigationControllerDelegate 
                 return
             }
             model.run(input: image, queue: commandQueue) { [weak self] result in
-                let arr = result.toArray()
+                let arr = result!.toArray()
                 let top5 = arr.argsort(by: > ).prefix(5)
                 self?.label.text = top5.reduce("") {
                     return $0 + labels[$1] + "\n"

@@ -56,7 +56,7 @@ open class FullyConnected: NetworkLayer {
         }
 
         updateWeights(device: device)
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+        createOutputs(size: outputSize)
     }
 
     open func getWeightsSize() -> Int {
@@ -100,10 +100,10 @@ open class FullyConnected: NetworkLayer {
                                       flags: .none)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
         kernel?.encode(commandBuffer: commandBuffer,
-                       sourceImage: getIncoming()[0].outputImage,
-                       destinationImage: outputImage)
+                       sourceImage: getIncoming()[0].outputs[executionIndex],
+                       destinationImage: outputs[executionIndex])
     }
 
 }

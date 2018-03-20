@@ -39,7 +39,7 @@ class DenseTest: BenderTest {
 
         network = Network.load(url: url, inputSizes: sizes, converter: converter)
         network.run(inputs: [inputImage]) { result in
-            let out = Texture(metalTexture: result.texture, size: LayerSize(h: 1, w: 1, f: 10))
+            let out = Texture(metalTexture: result!.texture, size: LayerSize(h: 1, w: 1, f: 10))
             assert(out.isEqual(to: DenseDataSet.result, threshold: 0.01))
             completion()
         }
