@@ -64,6 +64,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bra-Rv-ZvL"/>
+                    <connections>
+                        <outlet property="imageRecognitionButton" destination="Nbd-gd-fKK" id="6HB-Pd-JFu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Ja-HJ-5Vu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
