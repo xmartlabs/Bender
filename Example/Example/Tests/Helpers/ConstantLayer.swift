@@ -19,8 +19,8 @@ open class Constant: NetworkLayer {
         constantOutputTexture = outputTexture
     }
 
-    open override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
+    open override func initialize(network: Network, device: MTLDevice, temporaryImage: Bool = true) {
+        super.initialize(network: network, device: device, temporaryImage: temporaryImage)
         let incoming: [NetworkLayer] = getIncoming()
         assert(incoming.count == 1, "Constant must have one input, not \(incoming.count)")
         outputSize = constantOutputTexture.size
@@ -28,7 +28,7 @@ open class Constant: NetworkLayer {
     }
 
     open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
-        outputs.append(constantOutputImage)
+        rewireIdentity(at: executionIndex, image: constantOutputImage)
     }
 
 }

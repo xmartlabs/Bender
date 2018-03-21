@@ -24,13 +24,18 @@ open class Scale: NetworkLayer {
         assert(incoming.count == 1, "Scale must have one input, not \(incoming.count)")
     }
 
-    open override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
+    open override func initialize(network: Network, device: MTLDevice, temporaryImage: Bool = true) {
+        super.initialize(network: network, device: device, temporaryImage: temporaryImage)
         lanczos = MPSImageLanczosScale(device: device)
-        createOutputs(size: outputSize)
+        createOutputs(size: outputSize, temporary: true)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
-        lanczos.encode(commandBuffer: commandBuffer, sourceTexture: getIncoming()[0].outputs[executionIndex].texture, destinationTexture: outputs[executionIndex].texture)
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex index: Int = 0) {
+        let input = getIncoming()[0].getOutput(index: index)
+        let output = getOrCreateOutput(commandBuffer: commandBuffer, index: index)
+        lanczos.encode(commandBuffer: commandBuffer,
+                       sourceTexture: input.texture,
+                       destinationTexture: output.texture)
+        input.setRead()
     }
 }

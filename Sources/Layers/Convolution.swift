@@ -46,14 +46,13 @@ open class Convolution: NetworkLayer {
         assert(incoming.count == 1, "Convolution must have one input, not \(incoming.count)")
     }
 
-    open override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
+    open override func initialize(network: Network, device: MTLDevice, temporaryImage: Bool = true) {
+        super.initialize(network: network, device: device, temporaryImage: temporaryImage)
         let incoming = getIncoming()
         prevSize = incoming[0].outputSize
         outputSize = LayerSize(h: padding == .same ? prevSize.h / convSize.strideY : (prevSize.h - convSize.kernelHeight) / convSize.strideY + 1,
                                w: padding == .same ? prevSize.w / convSize.strideX : (prevSize.w - convSize.kernelWidth) / convSize.strideX + 1,
                                f: convSize.outputChannels)
-
         updateWeights(device: device)
         if padding == .same {
             let padHeight = ((outputSize.h - 1) * convSize.strideY + convSize.kernelHeight - prevSize.h)
@@ -66,7 +65,7 @@ open class Convolution: NetworkLayer {
             conv?.offset = MPSOffset(x: Int(convSize.kernelWidth)/2, y: Int(convSize.kernelHeight)/2, z: 0)
         }
 
-        createOutputs(size: outputSize)
+        createOutputs(size: outputSize, temporary: temporaryImage)
     }
 
     open func getWeightsSize() -> Int {
@@ -117,10 +116,10 @@ open class Convolution: NetworkLayer {
                                  flags: .none)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex index: Int = 0) {
         conv?.encode(commandBuffer: commandBuffer,
-                     sourceImage: getIncoming()[0].outputs[executionIndex],
-                     destinationImage: outputs[executionIndex])
+                     sourceImage: getIncoming()[0].getOutput(index: index),
+                     destinationImage: getOrCreateOutput(commandBuffer: commandBuffer, index: index))
     }
 
 }

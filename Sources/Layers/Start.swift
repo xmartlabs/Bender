@@ -22,17 +22,19 @@ open class Start: NetworkLayer {
         outputSize = size
     }
 
-    open override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
+    open override func initialize(network: Network, device: MTLDevice, temporaryImage: Bool = true) {
+        super.initialize(network: network, device: device, temporaryImage: temporaryImage)
         lanczos = MPSImageLanczosScale(device: device)
-        createOutputs(size: outputSize)
+        createOutputs(size: outputSize, temporary: temporaryImage)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex index: Int = 0) {
         if inputImage.size == outputSize {
-            outputs[executionIndex] = inputImage
+            rewireIdentity(at: index, image: inputImage)
             return
         }
+
+        let output = getOrCreateOutput(commandBuffer: commandBuffer, index: index)
 
         // If the inputImage does not have the requested output size then we have to resize it.
         let inputAspect = Double(inputImage.width) / Double(inputImage.height)
@@ -40,7 +42,9 @@ open class Start: NetworkLayer {
         var scaledW: Int
         var scaledH: Int
         if aspect == 0.0 { // input and output aspect ratio are equal
-            lanczos.encode(commandBuffer: commandBuffer, sourceTexture: inputImage.texture, destinationTexture: outputs[executionIndex].texture)
+            lanczos.encode(commandBuffer: commandBuffer,
+                           sourceTexture: inputImage.texture,
+                           destinationTexture: output.texture)
             return
         } else if aspect > 0.0 { // input aspect ratio greater than output aspect ratio
             scaledH = outputSize.h
@@ -64,8 +68,8 @@ open class Start: NetworkLayer {
                          sourceOrigin: MTLOrigin(x: (scaledW - outputSize.w) / 2,
                                                  y: (scaledH - outputSize.h) / 2,
                                                  z: 0),
-                         sourceSize: MTLSizeMake(outputs[executionIndex].width, outputs[executionIndex].height, 1),
-                         to: outputs[executionIndex].texture, destinationSlice: 0, destinationLevel: 0,
+                         sourceSize: MTLSizeMake(output.width, output.height, 1),
+                         to: output.texture, destinationSlice: 0, destinationLevel: 0,
                          destinationOrigin: MTLOrigin(x: 0, y: 0, z: 0))
         blitEncoder.endEncoding()
 

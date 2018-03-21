@@ -13,7 +13,7 @@ open class Dummy: NetworkLayer {
 
     // Dummy layers should be removed after initialize
     // Assign inputs to outputs and vice versa
-    open override func initialize(network: Network, device: MTLDevice) {
+    open override func initialize(network: Network, device: MTLDevice, temporaryImage: Bool = true) {
         super.initialize(network: network, device: device)
         removeFromGraph()
     }

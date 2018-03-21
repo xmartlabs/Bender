@@ -23,25 +23,29 @@ class GrayScale: NetworkLayer {
         super.init(id: id)
     }
 
-    override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
+    override func initialize(network: Network, device: MTLDevice, temporaryImage: Bool = true) {
+        super.initialize(network: network, device: device, temporaryImage: temporaryImage)
         assert(getIncoming().count == 1, "GrayScale must have one input")
         let incoming = getIncoming()[0]
         assert(incoming.outputSize.f <= 4, "GrayScale input must have at most 4 feature channels")
         outputSize = LayerSize(h: incoming.outputSize.h, w: incoming.outputSize.w, f: outputChannels)
-        createOutputs(size: outputSize)
+        createOutputs(size: outputSize, temporary: temporaryImage)
     }
 
-    override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
-        let incoming = getIncoming()
+    override func execute(commandBuffer: MTLCommandBuffer, executionIndex index: Int = 0) {
+        let incoming = getIncoming()[0]
+        let input = incoming.getOutput(index: index)
+        let output = getOrCreateOutput(commandBuffer: commandBuffer, index: index)
         let encoder = commandBuffer.makeComputeCommandEncoder()!
         encoder.label = "GrayScale encoder"
         encoder.setComputePipelineState(pipeline)
-        encoder.setTexture(incoming[0].outputs[executionIndex].texture, index: 0)
-        encoder.setTexture(outputs[executionIndex].texture, index: 1)
+        encoder.setTexture(input.texture, index: 0)
+        encoder.setTexture(output.texture, index: 1)
         let threadsPerGroups = MTLSizeMake(32, 4, 1)
-        let threadGroups = outputs[executionIndex].texture.threadGrid(threadGroup: threadsPerGroups)
+        let threadGroups = output.texture.threadGrid(threadGroup: threadsPerGroups)
         encoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadsPerGroups)
         encoder.endEncoding()
+
+        input.setRead()
     }
 }

@@ -31,16 +31,18 @@ open class Neuron: NetworkLayer {
         assert(incoming.count == 1, "Neuron must have one input, not \(incoming.count)")
     }
 
-    open override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
+    open override func initialize(network: Network, device: MTLDevice, temporaryImage: Bool = true) {
+        super.initialize(network: network, device: device, temporaryImage: temporaryImage)
         let incoming = getIncoming()
         outputSize = incoming[0].outputSize
 
         self.neuron = type.createNeuron(device: device)
-        createOutputs(size: outputSize)
+        createOutputs(size: outputSize, temporary: temporaryImage)
     }
 
     open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
-        neuron.encode(commandBuffer: commandBuffer, sourceImage: getIncoming()[0].outputs[executionIndex], destinationImage: outputs[executionIndex])
+        neuron.encode(commandBuffer: commandBuffer,
+                      sourceImage: getIncoming()[0].getOutput(index: executionIndex),
+                      destinationImage: getOrCreateOutput(commandBuffer: commandBuffer, index: executionIndex))
     }
 }

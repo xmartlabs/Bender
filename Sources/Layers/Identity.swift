@@ -16,14 +16,14 @@ open class Identity: NetworkLayer {
         assert(incoming.count == 1, "Identity must have one input, not \(incoming.count)")
     }
 
-    open override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
+    open override func initialize(network: Network, device: MTLDevice, temporaryImage: Bool = true) {
+        super.initialize(network: network, device: device, temporaryImage: temporaryImage)
         let incoming = getIncoming()
         outputSize = incoming[0].outputSize
     }
 
     open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
-        outputs[executionIndex] = getIncoming()[0].outputs[executionIndex]
+        rewireIdentity(at: executionIndex, image: getIncoming()[0].getOutput(index: executionIndex))
     }
 
 }

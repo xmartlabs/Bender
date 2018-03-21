@@ -30,8 +30,8 @@ open class ImageLinearTransform: NetworkLayer {
                "ImageLinearTransform should only be used if it has 3 or 4 feature channels as input")
     }
 
-    open override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
+    open override func initialize(network: Network, device: MTLDevice, temporaryImage: Bool = true) {
+        super.initialize(network: network, device: device, temporaryImage: temporaryImage)
         let incoming = getIncoming()
         outputSize = incoming[0].outputSize
         // Load custom metal kernels
@@ -40,19 +40,23 @@ open class ImageLinearTransform: NetworkLayer {
                                                          constants: [FunctionConstant<Float>(index: 0, type: MTLDataType.float, value: scale),
                                                                      FunctionConstant<Float>(index: 1, type: MTLDataType.float, value: shift)])
 
-        createOutputs(size: outputSize)
+        createOutputs(size: outputSize, temporary: temporaryImage)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex index: Int = 0) {
+        let input = getIncoming()[0].getOutput(index: index)
+        let output = getOrCreateOutput(commandBuffer: commandBuffer, index: index)
         let encoder = commandBuffer.makeComputeCommandEncoder()!
         encoder.label = "Scale to Image encoder"
         encoder.setComputePipelineState(pipeline)
-        encoder.setTexture(getIncoming()[0].outputs[executionIndex].texture, index: 0)
-        encoder.setTexture(outputs[executionIndex].texture, index: 1)
+        encoder.setTexture(input.texture, index: 0)
+        encoder.setTexture(output.texture, index: 1)
         let threadsPerGroups = MTLSizeMake(32, 8, 1)
-        let threadGroups = outputs[executionIndex].texture.threadGrid(threadGroup: threadsPerGroups)
+        let threadGroups = output.texture.threadGrid(threadGroup: threadsPerGroups)
         encoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadsPerGroups)
         encoder.endEncoding()
+
+        input.setRead()
     }
 
 }

@@ -41,8 +41,8 @@ open class Pooling: NetworkLayer {
         assert(incoming.count == 1, "Pooling must have one input, not \(incoming.count)")
     }
 
-    open override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
+    open override func initialize(network: Network, device: MTLDevice, temporaryImage: Bool = true) {
+        super.initialize(network: network, device: device, temporaryImage: temporaryImage)
         let incoming = getIncoming()
         let prevSize = incoming[0].outputSize!
 
@@ -79,11 +79,13 @@ open class Pooling: NetworkLayer {
                                    f: prevSize.f)
         }
 
-        createOutputs(size: outputSize)
+        createOutputs(size: outputSize, temporary: temporaryImage)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
-        pooling.encode(commandBuffer: commandBuffer, sourceImage: getIncoming()[0].outputs[executionIndex], destinationImage: outputs[executionIndex])
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex index: Int = 0) {
+        pooling.encode(commandBuffer: commandBuffer,
+                       sourceImage: getIncoming()[0].getOutput(index: index),
+                       destinationImage: getOrCreateOutput(commandBuffer: commandBuffer, index: index))
     }
 
 }

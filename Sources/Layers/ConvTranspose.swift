@@ -53,8 +53,8 @@ open class ConvTranspose: NetworkLayer {
         assert(size.strideX == size.kernelWidth - 1, "ConvTranspose: stride must be kernelSize - 1")
     }
 
-    open override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
+    open override func initialize(network: Network, device: MTLDevice, temporaryImage: Bool = true) {
+        super.initialize(network: network, device: device, temporaryImage: temporaryImage)
         let incoming = getIncoming()
 
         // Load custom metal kernels
@@ -75,7 +75,7 @@ open class ConvTranspose: NetworkLayer {
                                w: prevSize.w * size.strideX,
                                f: size.outputChannels)
 
-        createOutputs(size: outputSize)
+        createOutputs(size: outputSize, temporary: temporaryImage)
 
         weightsBuffer = device.makeBuffer(bytes: weightsPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id,
                                                                                                        modifier: ConvTranspose.weightModifier,
@@ -96,10 +96,13 @@ open class ConvTranspose: NetworkLayer {
         return prevSize.f * size.kernelWidth * size.kernelHeight * size.outputChannels
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex index: Int = 0) {
 
         // thread group size variables
         let incoming = getIncoming()
+        let input = incoming[0].getOutput(index: index)
+        let output = getOrCreateOutput(commandBuffer: commandBuffer, index: index)
+
         let w = pipelineCalculate.threadExecutionWidth
         let d = 1
         assert(pipelineCalculate.maxTotalThreadsPerThreadgroup / w / d >= 1, "ERROR: wrong thread group size")
@@ -109,9 +112,9 @@ open class ConvTranspose: NetworkLayer {
         let step2ImageSize = LayerSize(h: outputSize.h + prevSize.h, w: outputSize.w, f: outputSize.f)
 
         let threadsPerGroups = MTLSizeMake(w, h, d)
-        let threadgroupsPerGrid = MTLSize(width: (incoming[0].outputs[executionIndex].texture.width + w - 1) / w,
-                                          height: (incoming[0].outputs[executionIndex].texture.height + h - 1) / h,
-                                          depth: (outputs[executionIndex].texture.arrayLength + d - 1) / d)
+        let threadgroupsPerGrid = MTLSize(width: (input.texture.width + w - 1) / w,
+                                          height: (input.texture.height + h - 1) / h,
+                                          depth: (output.texture.arrayLength + d - 1) / d)
 
         let step1Img = MPSTemporaryImage(commandBuffer: commandBuffer, imageDescriptor: MPSImageDescriptor(layerSize: step1ImageSize))
 
@@ -119,12 +122,14 @@ open class ConvTranspose: NetworkLayer {
         let encoder = commandBuffer.makeComputeCommandEncoder()!
         encoder.label = "convT compute encoder"
         encoder.setComputePipelineState(pipelineCalculate)
-        encoder.setTexture(incoming[0].outputs[executionIndex].texture, index: 0)
+        encoder.setTexture(input.texture, index: 0)
         encoder.setTexture(step1Img.texture, index: 1)
         encoder.setBuffer(weightsBuffer, offset: 0, index: 0)
 
         encoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: threadsPerGroups)
         encoder.endEncoding()
+
+        input.setRead()
 
         let step2Img = MPSTemporaryImage(commandBuffer: commandBuffer, imageDescriptor: MPSImageDescriptor(layerSize: step2ImageSize))
 
@@ -145,7 +150,7 @@ open class ConvTranspose: NetworkLayer {
         encoder3.label = "convT shift top encoder"
         encoder3.setComputePipelineState(pipelineShiftTop)
         encoder3.setTexture(step2Img.texture, index: 0)
-        encoder3.setTexture(outputs[executionIndex].texture, index: 1)
+        encoder3.setTexture(output.texture, index: 1)
 
         encoder3.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: threadsPerGroups)
         encoder3.endEncoding()
