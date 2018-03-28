@@ -36,10 +36,7 @@ open class NetworkLayer: Node {
     public var outputSize: LayerSize!
 
     /// The result images of this layer if permanent
-    private var outputs: [MPSImage]
-
-    /// The output image if temporary
-    private var outputImage: MPSTemporaryImage?
+    private var outputs: [MPSImage!]
 
     /// Descriptor for temporary images
     var descriptor: MPSImageDescriptor?
@@ -72,15 +69,16 @@ open class NetworkLayer: Node {
 
     /// Creates output images or structures for the layer
     public func createOutputs(size: LayerSize, temporary: Bool = true) {
+        guard let maxConcurrentExecutions = network?.maxConcurrentExecutions,
+            maxConcurrentExecutions > 0 else {
+                assertionFailure("Layer has no network while being initialized")
+                return
+        }
         if temporary {
             descriptor = MPSImageDescriptor(layerSize: size)
             descriptor?.storageMode = .private
+            outputs = [MPSImage?](repeating: nil, count: maxConcurrentExecutions)
         } else {
-            guard let maxConcurrentExecutions = network?.maxConcurrentExecutions,
-                    maxConcurrentExecutions > 0 else {
-                        assertionFailure("Layer has no network while being initialized")
-                        return
-            }
             for _ in 0..<maxConcurrentExecutions {
                 outputs.append(MPSImage(device: Device.shared, imageDescriptor: MPSImageDescriptor(layerSize: size)))
             }
@@ -89,35 +87,28 @@ open class NetworkLayer: Node {
 
     /// Gets the output image for a layer
     public func getOutput(index: Int = 0) -> MPSImage {
-        if let outputImage = outputImage {
-            return outputImage
-        } else {
-            assert(index < outputs.count)
-            return outputs[index]
-        }
+        assert(index < outputs.count)
+        return outputs[index]
     }
 
     /// Gets the output image for the layer if it exists. Creates it otherwise.
     public func getOrCreateOutput(commandBuffer: MTLCommandBuffer, index: Int = 0) -> MPSImage {
+        assert(index < outputs.count)
         if let descriptor = descriptor {
-            if outputImage == nil || outputImage?.readCount == 0 {
-                outputImage = MPSTemporaryImage(commandBuffer: commandBuffer, imageDescriptor: descriptor)
-                outputImage?.readCount = getOutgoing().count
-            }
-
-            return outputImage!
-        } else {
-            assert(index < outputs.count)
-            return outputs[index]
+            let tmp = MPSTemporaryImage(commandBuffer: commandBuffer, imageDescriptor: descriptor)
+            tmp.readCount = getOutgoing().count
+            outputs[index] = tmp
         }
+        return outputs[index]
     }
 
     /// Sets the layers output (at specified index if applicable) to be the specified image.
     /// This is often used in layers that don't change the input like the Identity.
     public func rewireIdentity(at index: Int, image: MPSImage) {
         if let temp = image as? MPSTemporaryImage {
-            outputImage = temp
-            outputImage?.readCount = getOutgoing().count
+            //TODO: If output is expected to not be temporary then this could be a problem
+            outputs[index] = image
+            temp.readCount = temp.readCount - 1 + getOutgoing().count
         } else {
             if outputs.isEmpty {
                 createOutputs(size: outputSize, temporary: false)
@@ -143,8 +134,10 @@ open class NetworkLayer: Node {
     }
 
     func destroy() {
-        if let outputImage = outputImage, outputImage.readCount != 0 {
-            outputImage.readCount = 0
+        outputs.forEach {
+            if let temp = $0 as? MPSTemporaryImage, temp.readCount != 0 {
+                temp.readCount = 0
+            }
         }
         outputs.removeAll()
     }

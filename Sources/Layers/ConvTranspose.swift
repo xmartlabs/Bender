@@ -25,7 +25,7 @@ open class ConvTranspose: NetworkLayer {
     private var prevSize: LayerSize!
 
     var pipelineCalculate: MTLComputePipelineState!
-    var pipelineShifLeft: MTLComputePipelineState!
+    var pipelineShiftLeft: MTLComputePipelineState!
     var pipelineShiftTop: MTLComputePipelineState!
 
     var weightsBuffer: MTLBuffer!
@@ -63,7 +63,7 @@ open class ConvTranspose: NetworkLayer {
         pipelineCalculate = MetalShaderManager.shared.getFunction(name: "transpose_conv_calculate",
                                                                   in: Bundle(for: ConvTranspose.self),
                                                                   constants: constants)
-        pipelineShifLeft = MetalShaderManager.shared.getFunction(name: "transpose_conv_shift_left",
+        pipelineShiftLeft = MetalShaderManager.shared.getFunction(name: "transpose_conv_shift_left",
                                                                  in: Bundle(for: ConvTranspose.self),
                                                                  constants: constants)
         pipelineShiftTop = MetalShaderManager.shared.getFunction(name: "transpose_conv_shift_top",
@@ -136,7 +136,7 @@ open class ConvTranspose: NetworkLayer {
         // shift left step
         let encoder2 = commandBuffer.makeComputeCommandEncoder()!
         encoder2.label = "convT shift left encoder"
-        encoder2.setComputePipelineState(pipelineShifLeft)
+        encoder2.setComputePipelineState(pipelineShiftLeft)
         encoder2.setTexture(step1Img.texture, index: 0)
         encoder2.setTexture(step2Img.texture, index: 1)
 

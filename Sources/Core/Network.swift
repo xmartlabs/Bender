@@ -204,7 +204,7 @@ public class Network {
             callback(nil)
             return
         }
-        
+
         guard inputs.count == startNodes.count else {
             fatalError("You must pass as many inputs (" + String(inputs.count) + ") as inputSize's" + String(startNodes.count) +
                 " you passed when creating the network")
