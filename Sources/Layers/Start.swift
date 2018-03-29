@@ -46,10 +46,10 @@ open class Start: NetworkLayer {
             let cropX = (diff < 0) ? 0 : (diff / 2)
             let resizedDescriptor = MPSImageDescriptor(channelFormat: .unorm8, width: cropSize, height: cropSize,
                                                        featureChannels: inputImage.featureChannels)
-            let resizedImg = MPSTemporaryImage(commandBuffer: commandBuffer, imageDescriptor: resizedDescriptor)
+            // Using MPSImage here as MPSTemporaryImage would sometimes result in rubbish output
+            let resizedImg = MPSImage(device: Device.shared, imageDescriptor: resizedDescriptor)
             blitCrop(commandBuffer: commandBuffer, from: inputImage, to: resizedImg, cropX: cropX, cropY: cropY)
-            lanczos.encode(commandBuffer: commandBuffer, sourceTexture: resizedImg.texture, destinationTexture: output.texture)
-            resizedImg.readCount = 0
+            lanczos.encode(commandBuffer: commandBuffer, sourceImage: resizedImg, destinationImage: output)
         } else {
             // If the inputImage does not have the requested output size then we have to resize it.
             let inputAspect = Double(inputImage.width) / Double(inputImage.height)
