@@ -44,9 +44,7 @@ open class Start: NetworkLayer {
             let diff = inputImage.width - inputImage.height
             let cropY = (diff < 0) ? (diff / -2) : 0
             let cropX = (diff < 0) ? 0 : (diff / 2)
-            let resizedDescriptor = MPSImageDescriptor(channelFormat: .unorm8,
-                                                       width: cropSize,
-                                                       height: cropSize,
+            let resizedDescriptor = MPSImageDescriptor(channelFormat: .unorm8, width: cropSize, height: cropSize,
                                                        featureChannels: inputImage.featureChannels)
             let resizedImg = MPSTemporaryImage(commandBuffer: commandBuffer, imageDescriptor: resizedDescriptor)
             blitCrop(commandBuffer: commandBuffer, from: inputImage, to: resizedImg, cropX: cropX, cropY: cropY)
@@ -72,9 +70,7 @@ open class Start: NetworkLayer {
             }
 
             // SCALE
-            let resizedDescriptor = MPSImageDescriptor(channelFormat: .float16,
-                                                       width: scaledW,
-                                                       height: scaledH,
+            let resizedDescriptor = MPSImageDescriptor(channelFormat: .float16, width: scaledW, height: scaledH,
                                                        featureChannels: inputImage.featureChannels)
             let resizedImg = MPSTemporaryImage(commandBuffer: commandBuffer, imageDescriptor: resizedDescriptor)
             lanczos.encode(commandBuffer: commandBuffer, sourceTexture: inputImage.texture, destinationTexture: resizedImg.texture)

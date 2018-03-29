@@ -36,7 +36,7 @@ open class NetworkLayer: Node {
     public var outputSize: LayerSize!
 
     /// The result images of this layer if permanent
-    private var outputs: [MPSImage!]
+    private var outputs: [MPSImage?]
 
     /// Descriptor for temporary images
     var descriptor: MPSImageDescriptor?
@@ -88,7 +88,7 @@ open class NetworkLayer: Node {
     /// Gets the output image for a layer
     public func getOutput(index: Int = 0) -> MPSImage {
         assert(index < outputs.count)
-        return outputs[index]
+        return outputs[index]!
     }
 
     /// Gets the output image for the layer if it exists. Creates it otherwise.
@@ -99,7 +99,7 @@ open class NetworkLayer: Node {
             tmp.readCount = getOutgoing().count
             outputs[index] = tmp
         }
-        return outputs[index]
+        return outputs[index]!
     }
 
     /// Sets the layers output (at specified index if applicable) to be the specified image.
@@ -108,7 +108,7 @@ open class NetworkLayer: Node {
         if let temp = image as? MPSTemporaryImage {
             //TODO: If output is expected to not be temporary then this could be a problem
             outputs[index] = image
-            temp.readCount = temp.readCount - 1 + getOutgoing().count
+            temp.readCount += getOutgoing().count - 1
         } else {
             if outputs.isEmpty {
                 createOutputs(size: outputSize, temporary: false)

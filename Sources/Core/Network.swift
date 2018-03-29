@@ -47,7 +47,6 @@ public class Network {
 
     private var descriptors: [MPSImageDescriptor]!
 
-
     /// - Parameters:
     ///   - inputSizes: An array of tuples where the first item is the identifier of an input node and the second is its size.
     /// Images will be resized if they do not have the correct size
