@@ -19,7 +19,7 @@ class TestViewController: UIViewController {
             imageRecognitionButton.isEnabled = true
         } else {
             imageRecognitionButton.isEnabled = false
-            imageRecognitionButton.setTitle("Image recognition (iOS 11)", for: .normal)
+            imageRecognitionButton.setTitle("Image recognition (iOS 11+ only)", for: .normal)
         }
     }
 
