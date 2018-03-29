@@ -40,17 +40,17 @@ open class ImageLinearTransform: NetworkLayer {
                                                          constants: [FunctionConstant<Float>(index: 0, type: MTLDataType.float, value: scale),
                                                                      FunctionConstant<Float>(index: 1, type: MTLDataType.float, value: shift)])
 
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+        createOutputs(size: outputSize)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
         let encoder = commandBuffer.makeComputeCommandEncoder()!
         encoder.label = "Scale to Image encoder"
         encoder.setComputePipelineState(pipeline)
-        encoder.setTexture(getIncoming()[0].outputImage.texture, index: 0)
-        encoder.setTexture(outputImage.texture, index: 1)
+        encoder.setTexture(getIncoming()[0].outputs[executionIndex].texture, index: 0)
+        encoder.setTexture(outputs[executionIndex].texture, index: 1)
         let threadsPerGroups = MTLSizeMake(32, 8, 1)
-        let threadGroups = outputImage.texture.threadGrid(threadGroup: threadsPerGroups)
+        let threadGroups = outputs[executionIndex].texture.threadGrid(threadGroup: threadsPerGroups)
         encoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadsPerGroups)
         encoder.endEncoding()
     }

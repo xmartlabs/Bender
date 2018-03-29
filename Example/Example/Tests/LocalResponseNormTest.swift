@@ -39,7 +39,7 @@ class LocalResponseNormTest: BenderTest {
         let metalTexture = texture.metalTexture(with: Device.shared)
         let cpuComputed = cpuLocalResponseNorm(input: texture, parameters: parameters)
         styleNet.run(input: MPSImage(texture: metalTexture, featureChannels: texture.depth)) { image in
-            let textureFromGpu = Texture(metalTexture: image.texture, size: texture.size)
+            let textureFromGpu = Texture(metalTexture: image!.texture, size: texture.size)
             assert(textureFromGpu.isEqual(to: cpuComputed, threshold: 0.001))
             completion()
         }

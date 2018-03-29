@@ -27,8 +27,8 @@ open class Constant: NetworkLayer {
         constantOutputImage = MPSImage(texture: constantOutputTexture.metalTexture(with: device), featureChannels: constantOutputTexture.size.f)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
-        outputImage = constantOutputImage
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
+        outputs.append(constantOutputImage)
     }
 
 }

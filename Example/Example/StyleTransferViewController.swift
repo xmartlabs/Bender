@@ -56,7 +56,7 @@ class StyleTransferViewController: UIViewController, ExampleViewController {
         buffer.commit()
         buffer.waitUntilCompleted()
         styleNet.run(input: image, queue: commandQueue) { [weak self] imageA in
-            if let buffer = self?.getPixelBuffer(from: imageA.texture, bufferPool: self!.pixelBufferPool!) {
+            if let buffer = self?.getPixelBuffer(from: imageA!.texture, bufferPool: self!.pixelBufferPool!) {
                 let ciImage = CIImage(cvImageBuffer: buffer)
                 let context = CIContext()
                 let cgImage = context.createCGImage(ciImage, from: ciImage.extent)

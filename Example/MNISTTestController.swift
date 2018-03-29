@@ -176,12 +176,12 @@ class MNISTTestController: UIViewController, ExampleViewController {
     func runNetwork(_ image: MPSImage) {
         networkRunQueue.async { [weak self] in
             self?.network.run(input: image, queue: self!.commandQueue) { [weak self] results in
-                let numbers = Texture(metalTexture: results.texture, size: LayerSize(h: 1, w: 1, f: 10))
+                let numbers = Texture(metalTexture: results!.texture, size: LayerSize(h: 1, w: 1, f: 10))
                 self?.didScan(numbers: numbers.data.flatMap { $0 })
             }
 
             self?.scaledNetwork.run(input: image, queue: self!.commandQueue) { [weak self] (outputImage) in
-                self?._texture = outputImage.texture
+                self?._texture = outputImage!.texture
             }
         }
     }
