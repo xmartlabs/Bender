@@ -29,10 +29,10 @@ open class Add: NetworkLayer {
         outputSize = incoming[0].outputSize
         pipelineAdd = MetalShaderManager.shared.getFunction(name: "sum_matrix" + (outputSize.f > 4 ? "" : "_3"), in: Bundle(for: Add.self))
 
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+        createOutputs(size: outputSize)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
         let incoming = getIncoming()
         let commandEncoder = commandBuffer.makeComputeCommandEncoder()!
         commandEncoder.label = "sum matrix encoder"
@@ -40,10 +40,10 @@ open class Add: NetworkLayer {
         let tpTG = MTLSizeMake(32, 8, 1)
         commandEncoder.setComputePipelineState(pipelineAdd)
 
-        commandEncoder.setTexture(incoming[0].outputImage.texture, index: 0)
-        commandEncoder.setTexture(incoming[1].outputImage.texture, index: 1)
-        commandEncoder.setTexture(outputImage.texture, index: 2)
-        let threadgroupsPerGrid = incoming[0].outputImage.texture.threadGrid(threadGroup: tpTG)
+        commandEncoder.setTexture(incoming[0].outputs[executionIndex].texture, index: 0)
+        commandEncoder.setTexture(incoming[1].outputs[executionIndex].texture, index: 1)
+        commandEncoder.setTexture(outputs[executionIndex].texture, index: 2)
+        let threadgroupsPerGrid = incoming[0].outputs[executionIndex].texture.threadGrid(threadGroup: tpTG)
         commandEncoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: tpTG)
         commandEncoder.endEncoding()
     }

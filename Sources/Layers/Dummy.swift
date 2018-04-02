@@ -18,7 +18,7 @@ open class Dummy: NetworkLayer {
         removeFromGraph()
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
         fatalError("Dummy in execution list")
     }
 

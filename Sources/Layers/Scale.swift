@@ -27,10 +27,10 @@ open class Scale: NetworkLayer {
     open override func initialize(network: Network, device: MTLDevice) {
         super.initialize(network: network, device: device)
         lanczos = MPSImageLanczosScale(device: device)
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+        createOutputs(size: outputSize)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
-        lanczos.encode(commandBuffer: commandBuffer, sourceTexture: getIncoming()[0].outputImage.texture, destinationTexture: outputImage.texture)
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
+        lanczos.encode(commandBuffer: commandBuffer, sourceTexture: getIncoming()[0].outputs[executionIndex].texture, destinationTexture: outputs[executionIndex].texture)
     }
 }
