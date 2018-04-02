@@ -28,7 +28,7 @@ class DependencyListBuilder<T: Node> {
             return !nodes.contains(where: { $0.isEqual(to: incoming) })
         }) else { return }
         nodes.append(node)
-        for node in node.outgoingNodes().flatMap({ $0 as? T }) {
+        for node in node.outgoingNodes().cleanMap({ $0 as? T }) {
             buildExecutionList(node: node)
         }
     }

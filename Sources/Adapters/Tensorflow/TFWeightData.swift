@@ -17,7 +17,7 @@ struct TFWeightData {
     let useBias: Bool
 
     static func getWeightData(node: TFNode) -> TFWeightData? {
-        let varInputs = node.incomingNodes().flatMap { ($0 as? TFNode) }.filter { $0.nodeDef.isTFVariableOrConstOp }
+        let varInputs = node.incomingNodes().cleanMap { ($0 as? TFNode) }.filter { $0.nodeDef.isTFVariableOrConstOp }
         var weightsVar: TFNode
         var biasVar: TFNode?
 
