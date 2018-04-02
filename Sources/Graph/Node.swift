@@ -65,7 +65,7 @@ public extension Node {
 
     /// All incoming connections
     func incomingNodes() -> [Node] {
-        return edgeIn.flatMap { $0() }
+        return edgeIn.cleanMap { $0() }
     }
 
     /// Delete an incoming connection
