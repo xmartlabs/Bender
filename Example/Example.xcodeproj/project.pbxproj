@@ -14,7 +14,6 @@
 		28F828DA1C4B714D00330CF4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28F828D81C4B714D00330CF4 /* LaunchScreen.storyboard */; };
 		46FAFCBD1F02CB89008754E1 /* ConcatTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FAFCBC1F02CB89008754E1 /* ConcatTest.swift */; };
 		46FAFCC11F04142C008754E1 /* ConstantLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FAFCC01F04142C008754E1 /* ConstantLayer.swift */; };
-		8F28C68D1ED724BE0062039F /* g_and_w.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8F28C68C1ED724BE0062039F /* g_and_w.pb */; };
 		8F4466D01ECF756B00915819 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4466CF1ECF756B00915819 /* UIImage.swift */; };
 		8F46BCAD1EE0B52D00DF275A /* mnist-conv1_b in Resources */ = {isa = PBXBuildFile; fileRef = 8F46BCA51EE0B52D00DF275A /* mnist-conv1_b */; };
 		8F46BCAE1EE0B52D00DF275A /* mnist-conv1_w in Resources */ = {isa = PBXBuildFile; fileRef = 8F46BCA61EE0B52D00DF275A /* mnist-conv1_w */; };
@@ -28,9 +27,14 @@
 		8F79B8111EC261D6002D02C8 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 8F79B8101EC261D6002D02C8 /* Shaders.metal */; };
 		8F7C22341F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F7C22331F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework */; };
 		8F7C22351F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F7C22331F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8F8F93F62056DE55004A944C /* MPSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F993500202B316A00CBD374 /* MPSImage.swift */; };
 		8F9F358E1EDCC5FE005F4DAE /* InstanceNormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9F358D1EDCC5FE005F4DAE /* InstanceNormTests.swift */; };
 		8FA6BAB91ED5AB2D004450C0 /* RandomLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA6BAB81ED5AB2D004450C0 /* RandomLoader.swift */; };
-		8FAD35061ED48825004B69DA /* tftest.pbtxt in Resources */ = {isa = PBXBuildFile; fileRef = 8FAD35051ED48825004B69DA /* tftest.pbtxt */; };
+		8FB8F4C42052EE92008587E0 /* mobilenet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8FB8F4C32052EE92008587E0 /* mobilenet.mlmodel */; };
+		8FBF18BB205179DC000246F3 /* mobilenet_frozen.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8FBF18BA205179DC000246F3 /* mobilenet_frozen.pb */; };
+		8FBF18BD20517EA5000246F3 /* mobilenet_labels.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8FBF18BC20517EA5000246F3 /* mobilenet_labels.txt */; };
+		8FBF18C12051C956000246F3 /* DenseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBF18C02051C956000246F3 /* DenseTests.swift */; };
+		8FBF18C42051D149000246F3 /* InceptionExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9934FE202B2F1100CBD374 /* InceptionExample.swift */; };
 		8FCD3E991ED8A88200B1AAE6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCD3E981ED8A88200B1AAE6 /* ViewController.swift */; };
 		8FCD3E9F1ED8B5DF00B1AAE6 /* g_and_w2.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8FCD3E9E1ED8B5DF00B1AAE6 /* g_and_w2.pb */; };
 		8FCD3EA31ED8B67E00B1AAE6 /* rainSquare.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FCD3EA01ED8B67E00B1AAE6 /* rainSquare.png */; };
@@ -39,10 +43,11 @@
 		8FCD3EA71ED8BE1F00B1AAE6 /* SwiftProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCD3EA61ED8BE1F00B1AAE6 /* SwiftProtobuf.framework */; };
 		8FCD3EA81ED8BE1F00B1AAE6 /* SwiftProtobuf.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCD3EA61ED8BE1F00B1AAE6 /* SwiftProtobuf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8FE2D0851EDDD3570080125D /* MNISTTestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE2D0841EDDD3570080125D /* MNISTTestController.swift */; };
-		8FE2D0871EDDD5D30080125D /* mnist.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8FE2D0861EDDD5D30080125D /* mnist.pb */; };
 		8FE2D0891EDDEABC0080125D /* GrayScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE2D0881EDDEABC0080125D /* GrayScale.swift */; };
+		8FF71C7B20333905004A7406 /* imagenet_label_strings.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8FF71C7A20333905004A7406 /* imagenet_label_strings.txt */; };
 		8FF71C7D20333FF3004A7406 /* BatchNormTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF71C7C20333FF3004A7406 /* BatchNormTest.swift */; };
 		8FF71C7F2033466E004A7406 /* Float.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF71C7E2033466E004A7406 /* Float.swift */; };
+		8FF71CC82034B510004A7406 /* denseTest.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8FF71CC72034B510004A7406 /* denseTest.pb */; };
 		8FFF4AD91EDF056D00141E9D /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF4AD81EDF056D00141E9D /* UIViewController.swift */; };
 		8FFF4ADB1EDF3B9100141E9D /* mnist_full.pb in Resources */ = {isa = PBXBuildFile; fileRef = 8FFF4ADA1EDF3B9100141E9D /* mnist_full.pb */; };
 		CFAD25371ED7E9F30003C4FA /* Texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD25361ED7E9F30003C4FA /* Texture.swift */; };
@@ -82,7 +87,6 @@
 		46FAFCBC1F02CB89008754E1 /* ConcatTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConcatTest.swift; path = Example/Tests/ConcatTest.swift; sourceTree = "<group>"; };
 		46FAFCC01F04142C008754E1 /* ConstantLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConstantLayer.swift; path = Example/Tests/Helpers/ConstantLayer.swift; sourceTree = "<group>"; };
 		8F0693361F3527F60004D3E9 /* MetalPerformanceShadersStub.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShadersStub.framework; path = ../Carthage/Build/iOS/MetalPerformanceShadersStub.framework; sourceTree = "<group>"; };
-		8F28C68C1ED724BE0062039F /* g_and_w.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = g_and_w.pb; sourceTree = "<group>"; };
 		8F4466CF1ECF756B00915819 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		8F46BCA51EE0B52D00DF275A /* mnist-conv1_b */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "mnist-conv1_b"; path = "mnist/mnist-conv1_b"; sourceTree = "<group>"; };
 		8F46BCA61EE0B52D00DF275A /* mnist-conv1_w */ = {isa = PBXFileReference; lastKnownFileType = file; name = "mnist-conv1_w"; path = "mnist/mnist-conv1_w"; sourceTree = "<group>"; };
@@ -95,9 +99,14 @@
 		8F79B80E1EC25ECA002D02C8 /* Luminance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Luminance.swift; path = Example/Luminance.swift; sourceTree = "<group>"; };
 		8F79B8101EC261D6002D02C8 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; name = Shaders.metal; path = Example/Shaders.metal; sourceTree = "<group>"; };
 		8F7C22331F30EE6E006DA176 /* MetalPerformanceShadersProxy.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalPerformanceShadersProxy.framework; path = ../Carthage/Build/iOS/MetalPerformanceShadersProxy.framework; sourceTree = "<group>"; };
+		8F9934FE202B2F1100CBD374 /* InceptionExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InceptionExample.swift; path = Example/InceptionExample.swift; sourceTree = "<group>"; };
+		8F993500202B316A00CBD374 /* MPSImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPSImage.swift; sourceTree = "<group>"; };
 		8F9F358D1EDCC5FE005F4DAE /* InstanceNormTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstanceNormTests.swift; path = Example/Tests/InstanceNormTests.swift; sourceTree = "<group>"; };
 		8FA6BAB81ED5AB2D004450C0 /* RandomLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomLoader.swift; sourceTree = "<group>"; };
-		8FAD35051ED48825004B69DA /* tftest.pbtxt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tftest.pbtxt; sourceTree = "<group>"; };
+		8FB8F4C32052EE92008587E0 /* mobilenet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = mobilenet.mlmodel; sourceTree = "<group>"; };
+		8FBF18BA205179DC000246F3 /* mobilenet_frozen.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = mobilenet_frozen.pb; sourceTree = "<group>"; };
+		8FBF18BC20517EA5000246F3 /* mobilenet_labels.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mobilenet_labels.txt; sourceTree = "<group>"; };
+		8FBF18C02051C956000246F3 /* DenseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DenseTests.swift; path = Example/Tests/DenseTests.swift; sourceTree = "<group>"; };
 		8FCD3E981ED8A88200B1AAE6 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Example/ViewController.swift; sourceTree = "<group>"; };
 		8FCD3E9E1ED8B5DF00B1AAE6 /* g_and_w2.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = g_and_w2.pb; sourceTree = "<group>"; };
 		8FCD3EA01ED8B67E00B1AAE6 /* rainSquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rainSquare.png; sourceTree = "<group>"; };
@@ -105,10 +114,11 @@
 		8FCD3EA21ED8B67E00B1AAE6 /* wall-e.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-e.png"; sourceTree = "<group>"; };
 		8FCD3EA61ED8BE1F00B1AAE6 /* SwiftProtobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftProtobuf.framework; path = ../Carthage/Build/iOS/SwiftProtobuf.framework; sourceTree = "<group>"; };
 		8FE2D0841EDDD3570080125D /* MNISTTestController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MNISTTestController.swift; sourceTree = "<group>"; };
-		8FE2D0861EDDD5D30080125D /* mnist.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = mnist.pb; sourceTree = "<group>"; };
 		8FE2D0881EDDEABC0080125D /* GrayScale.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GrayScale.swift; path = Example/GrayScale.swift; sourceTree = "<group>"; };
+		8FF71C7A20333905004A7406 /* imagenet_label_strings.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = imagenet_label_strings.txt; sourceTree = "<group>"; };
 		8FF71C7C20333FF3004A7406 /* BatchNormTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchNormTest.swift; sourceTree = "<group>"; };
 		8FF71C7E2033466E004A7406 /* Float.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Float.swift; path = Example/Tests/Helpers/Float.swift; sourceTree = "<group>"; };
+		8FF71CC72034B510004A7406 /* denseTest.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = denseTest.pb; sourceTree = "<group>"; };
 		8FFF4AD81EDF056D00141E9D /* UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIViewController.swift; path = Example/Tests/Helpers/UIViewController.swift; sourceTree = "<group>"; };
 		8FFF4ADA1EDF3B9100141E9D /* mnist_full.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = mnist_full.pb; sourceTree = "<group>"; };
 		CFAD25361ED7E9F30003C4FA /* Texture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Texture.swift; path = Example/Tests/Helpers/Texture.swift; sourceTree = "<group>"; };
@@ -168,13 +178,15 @@
 			children = (
 				8F46BCA41EE0B52000DF275A /* mnist */,
 				8FFF4ADA1EDF3B9100141E9D /* mnist_full.pb */,
-				8FE2D0861EDDD5D30080125D /* mnist.pb */,
+				8FB8F4C32052EE92008587E0 /* mobilenet.mlmodel */,
+				8FBF18BA205179DC000246F3 /* mobilenet_frozen.pb */,
+				8FF71CC72034B510004A7406 /* denseTest.pb */,
+				8FBF18BC20517EA5000246F3 /* mobilenet_labels.txt */,
+				8FF71C7A20333905004A7406 /* imagenet_label_strings.txt */,
 				8FCD3EA01ED8B67E00B1AAE6 /* rainSquare.png */,
 				8FCD3EA11ED8B67E00B1AAE6 /* wall-e-384.png */,
 				8FCD3EA21ED8B67E00B1AAE6 /* wall-e.png */,
 				8FCD3E9E1ED8B5DF00B1AAE6 /* g_and_w2.pb */,
-				8F28C68C1ED724BE0062039F /* g_and_w.pb */,
-				8FAD35051ED48825004B69DA /* tftest.pbtxt */,
 			);
 			name = data;
 			path = Example/data;
@@ -212,6 +224,7 @@
 				8FCD3E981ED8A88200B1AAE6 /* ViewController.swift */,
 				28F828D11C4B714D00330CF4 /* StyleTransferViewController.swift */,
 				8FE2D0841EDDD3570080125D /* MNISTTestController.swift */,
+				8F9934FE202B2F1100CBD374 /* InceptionExample.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -248,6 +261,7 @@
 				8F9F358D1EDCC5FE005F4DAE /* InstanceNormTests.swift */,
 				46FAFCBC1F02CB89008754E1 /* ConcatTest.swift */,
 				8FF71C7C20333FF3004A7406 /* BatchNormTest.swift */,
+				8FBF18C02051C956000246F3 /* DenseTests.swift */,
 				CFAD25351ED7E9E70003C4FA /* Helpers */,
 			);
 			name = Tests;
@@ -263,6 +277,7 @@
 				CFAD25401ED7EB5A0003C4FA /* CompletionSerializer.swift */,
 				8FFF4AD81EDF056D00141E9D /* UIViewController.swift */,
 				8FF71C7E2033466E004A7406 /* Float.swift */,
+				8F993500202B316A00CBD374 /* MPSImage.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -328,21 +343,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FF71C7B20333905004A7406 /* imagenet_label_strings.txt in Resources */,
 				28F828DA1C4B714D00330CF4 /* LaunchScreen.storyboard in Resources */,
 				8F46BCB31EE0B52D00DF275A /* mnist-fc2_b in Resources */,
 				8F46BCAE1EE0B52D00DF275A /* mnist-conv1_w in Resources */,
-				8FE2D0871EDDD5D30080125D /* mnist.pb in Resources */,
+				8FF71CC82034B510004A7406 /* denseTest.pb in Resources */,
 				8FCD3EA41ED8B67E00B1AAE6 /* wall-e-384.png in Resources */,
 				8F46BCB21EE0B52D00DF275A /* mnist-fc1_w in Resources */,
 				8FCD3EA51ED8B67E00B1AAE6 /* wall-e.png in Resources */,
-				8FAD35061ED48825004B69DA /* tftest.pbtxt in Resources */,
 				8F46BCAD1EE0B52D00DF275A /* mnist-conv1_b in Resources */,
 				8FFF4ADB1EDF3B9100141E9D /* mnist_full.pb in Resources */,
 				8F46BCB01EE0B52D00DF275A /* mnist-conv2_w in Resources */,
 				28F828D71C4B714D00330CF4 /* Assets.xcassets in Resources */,
 				8FCD3EA31ED8B67E00B1AAE6 /* rainSquare.png in Resources */,
-				8F28C68D1ED724BE0062039F /* g_and_w.pb in Resources */,
+				8FBF18BD20517EA5000246F3 /* mobilenet_labels.txt in Resources */,
 				28F828D51C4B714D00330CF4 /* Main.storyboard in Resources */,
+				8FBF18BB205179DC000246F3 /* mobilenet_frozen.pb in Resources */,
 				8F46BCAF1EE0B52D00DF275A /* mnist-conv2_b in Resources */,
 				8F46BCB41EE0B52D00DF275A /* mnist-fc2_w in Resources */,
 				8F46BCB11EE0B52D00DF275A /* mnist-fc1_b in Resources */,
@@ -358,6 +374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F9F358E1EDCC5FE005F4DAE /* InstanceNormTests.swift in Sources */,
+				8F8F93F62056DE55004A944C /* MPSImage.swift in Sources */,
 				CFAD253F1ED7EA930003C4FA /* TestData.swift in Sources */,
 				8FF71C7D20333FF3004A7406 /* BatchNormTest.swift in Sources */,
 				8FF71C7F2033466E004A7406 /* Float.swift in Sources */,
@@ -365,10 +382,13 @@
 				46FAFCBD1F02CB89008754E1 /* ConcatTest.swift in Sources */,
 				CFAD253C1ED7EA090003C4FA /* BenderTestRunner.swift in Sources */,
 				8F79B8111EC261D6002D02C8 /* Shaders.metal in Sources */,
+				8FBF18C42051D149000246F3 /* InceptionExample.swift in Sources */,
 				8FE2D0891EDDEABC0080125D /* GrayScale.swift in Sources */,
 				CFAD25371ED7E9F30003C4FA /* Texture.swift in Sources */,
 				8FCD3E991ED8A88200B1AAE6 /* ViewController.swift in Sources */,
 				8FFF4AD91EDF056D00141E9D /* UIViewController.swift in Sources */,
+				8FB8F4C42052EE92008587E0 /* mobilenet.mlmodel in Sources */,
+				8FBF18C12051C956000246F3 /* DenseTests.swift in Sources */,
 				28F828D21C4B714D00330CF4 /* StyleTransferViewController.swift in Sources */,
 				CFAD253D1ED7EA090003C4FA /* TextureConversionTest.swift in Sources */,
 				CFAD25411ED7EB5A0003C4FA /* CompletionSerializer.swift in Sources */,

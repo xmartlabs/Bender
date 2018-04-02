@@ -45,10 +45,10 @@ open class DepthwiseConvolution: Convolution {
                                  flags: .none)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
         conv?.encode(commandBuffer: commandBuffer,
-                     sourceImage: getIncoming()[0].outputImage,
-                     destinationImage: outputImage)
+                     sourceImage: getIncoming()[0].outputs[executionIndex],
+                     destinationImage: outputs[executionIndex])
     }
 
 }

@@ -25,10 +25,10 @@ open class Softmax: NetworkLayer {
         outputSize = incoming[0].outputSize
 
         kernel = MPSCNNSoftMax(device: device)
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+        createOutputs(size: outputSize)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
-        kernel.encode(commandBuffer: commandBuffer, sourceImage: getIncoming()[0].outputImage, destinationImage: outputImage)
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
+        kernel.encode(commandBuffer: commandBuffer, sourceImage: getIncoming()[0].outputs[executionIndex], destinationImage: outputs[executionIndex])
     }
 }

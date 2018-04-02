@@ -69,6 +69,8 @@ class TFConvDilationOptimizer: TFOptimizer {
                         let shape: [Int32] = blockShape.nodeDef.valueData()?.toArray(), shape.count == 2 {
                         node.nodeDef.attr["dilations"]?.list.i[1] = Int64(shape[0])
                         node.nodeDef.attr["dilations"]?.list.i[2] = Int64(shape[1])
+                        node.nodeDef.attr["padding"]?.s = "SAME".data(using: .utf8)!
+
                     }
                     _ = stbConsts.map { $0.strip() }
                     stb.removeFromGraph()

@@ -31,24 +31,24 @@ class Luminance: NetworkLayer {
         precondition(incoming[1].outputSize == incoming[0].outputSize, "Luminance layer must have two inputs with same size")
         super.initialize(network: network, device: device)
         outputSize = incoming[0].outputSize
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+        createOutputs(size: outputSize)
     }
 
-    override func execute(commandBuffer: MTLCommandBuffer) {
+    override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
         let incoming = getIncoming()
         if !enabled {
-            outputImage = incoming[0].outputImage
+            outputs[executionIndex] = incoming[0].outputs[executionIndex]
             return
         }
         let encoder = commandBuffer.makeComputeCommandEncoder()!
         encoder.label = "Luminance encoder"
         encoder.setComputePipelineState(pipelineLuminance)
-        encoder.setTexture(incoming[0].outputImage.texture, index: 0)
-        encoder.setTexture(incoming[1].outputImage.texture, index: 1)
-        encoder.setTexture(outputImage.texture, index: 2)
+        encoder.setTexture(incoming[0].outputs[executionIndex].texture, index: 0)
+        encoder.setTexture(incoming[1].outputs[executionIndex].texture, index: 1)
+        encoder.setTexture(outputs[executionIndex].texture, index: 2)
         let threadsPerGroups = MTLSizeMake(32, 8, 1)
-        let threadGroups = MTLSizeMake(outputImage.texture.width / threadsPerGroups.width,
-                                       outputImage.texture.height / threadsPerGroups.height, 1)
+        let threadGroups = MTLSizeMake(outputs[executionIndex].texture.width / threadsPerGroups.width,
+                                       outputs[executionIndex].texture.height / threadsPerGroups.height, 1)
         encoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadsPerGroups)
         encoder.endEncoding()
     }

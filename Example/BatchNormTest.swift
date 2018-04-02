@@ -21,11 +21,11 @@ struct BatchNormDataSet {
     static let offset = [Float](repeating: 1, count: 8)
 
     static func resultWithScale(val: Float) -> Float {
-        return (val - mean[0]) * scale[0] / (variance[0] + epsilon) + offset[0]
+        return (val - mean[0]) * scale[0] / sqrt(variance[0] + epsilon) + offset[0]
     }
 
     static func resultSimple(val: Float) -> Float {
-        return (val - mean[0]) / (variance[0] + epsilon)
+        return (val - mean[0]) / sqrt(variance[0] + epsilon)
     }
 
     typealias Test = (inputTexture: Texture, useScale: Bool, expected: Texture)
@@ -96,7 +96,7 @@ class BatchNormTest: BenderTest {
         styleNet.initialize()
         let metalTexture = inputTexture.metalTexture(with: Device.shared)
         styleNet.run(input: MPSImage(texture: metalTexture, featureChannels: inputTexture.depth)) { image in
-            let textureFromGpu = Texture(metalTexture: image.texture, size: expectedOutput.size)
+            let textureFromGpu = Texture(metalTexture: image!.texture, size: expectedOutput.size)
             assert(textureFromGpu.isEqual(to: expectedOutput, threshold: 0.01))
             completion()
         }

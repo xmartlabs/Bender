@@ -22,8 +22,8 @@ open class Identity: NetworkLayer {
         outputSize = incoming[0].outputSize
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
-        outputImage = getIncoming()[0].outputImage
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
+        outputs[executionIndex] = getIncoming()[0].outputs[executionIndex]
     }
 
 }

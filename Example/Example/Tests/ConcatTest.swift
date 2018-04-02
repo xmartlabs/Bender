@@ -177,7 +177,7 @@ class ConcatTest: BenderTest {
         styleNet.initialize()
         let metalTexture = inputTextures[0].metalTexture(with: Device.shared)
         styleNet.run(input: MPSImage(texture: metalTexture, featureChannels: inputTextures[0].depth)) { image in
-            let textureFromGpu = Texture(metalTexture: image.texture, size: expectedOutput.size)
+            let textureFromGpu = Texture(metalTexture: image!.texture, size: expectedOutput.size)
             assert(textureFromGpu.isEqual(to: expectedOutput))
             completion()
         }

@@ -79,11 +79,11 @@ open class Pooling: NetworkLayer {
                                    f: prevSize.f)
         }
 
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+        createOutputs(size: outputSize)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
-        pooling.encode(commandBuffer: commandBuffer, sourceImage: getIncoming()[0].outputImage, destinationImage: outputImage)
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
+        pooling.encode(commandBuffer: commandBuffer, sourceImage: getIncoming()[0].outputs[executionIndex], destinationImage: outputs[executionIndex])
     }
 
 }

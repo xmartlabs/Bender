@@ -30,7 +30,7 @@ open class FullyConnected: NetworkLayer {
     var transpose: TransposeFunction?
 
     public init(neurons: Int, neuronType: ActivationNeuronType = .none, useBias: Bool = false, weights: Data? = nil, bias: Data? = nil,
-                transpose: TransposeFunction? = nil, id: String? = nil) {
+                transpose: TransposeFunction? = permute(order: [3, 1, 0, 2]), id: String? = nil) {
         self.neurons = neurons
         self.neuronType = neuronType
         self.useBias = useBias
@@ -56,7 +56,7 @@ open class FullyConnected: NetworkLayer {
         }
 
         updateWeights(device: device)
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+        createOutputs(size: outputSize)
     }
 
     open func getWeightsSize() -> Int {
@@ -100,10 +100,10 @@ open class FullyConnected: NetworkLayer {
                                       flags: .none)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
         kernel?.encode(commandBuffer: commandBuffer,
-                       sourceImage: getIncoming()[0].outputImage,
-                       destinationImage: outputImage)
+                       sourceImage: getIncoming()[0].outputs[executionIndex],
+                       destinationImage: outputs[executionIndex])
     }
 
 }

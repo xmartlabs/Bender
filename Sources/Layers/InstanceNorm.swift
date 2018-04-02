@@ -39,16 +39,16 @@ open class InstanceNorm: NetworkLayer {
         super.initialize(network: network, device: device)
         let incoming = getIncoming()
         outputSize = incoming[0].outputSize
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+        createOutputs(size: outputSize)
         scaleBuffer = device.makeBuffer(bytes: scale?.pointer() ?? network.parameterLoader.loadWeights(for: id,
                                                                                                        modifier: InstanceNorm.scaleModifier,
                                                                                                        size: outputSize.f),
-                                         length: max(4, outputSize.f) * Constants.FloatSize,
+                                         length: outputSize.f * Constants.FloatSize,
                                          options: [])
         shiftBuffer = device.makeBuffer(bytes: shift?.pointer() ?? network.parameterLoader.loadWeights(for: id,
                                                                                                        modifier: InstanceNorm.shiftModifier,
                                                                                                        size: outputSize.f),
-                                         length: max(4, outputSize.f) * Constants.FloatSize,
+                                         length: outputSize.f * Constants.FloatSize,
                                          options: [])
         let isArray = outputSize.f > 4
         inormPS = MetalShaderManager.shared.getFunction(name: isArray ? "instance_norm" : "instance_norm_3", in: Bundle(for: InstanceNorm.self))
@@ -62,9 +62,9 @@ open class InstanceNorm: NetworkLayer {
                                           count: max(4, outputSize.f) * Constants.FloatSize)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
 
-        let inputImage: MPSImage = getIncoming()[0].outputImage
+        let inputImage: MPSImage = getIncoming()[0].outputs[executionIndex]
         let maxThreads = 256
         let threadWidth = min(maxThreads, outputSize.w)
         let threadHeight = min(maxThreads / threadWidth, outputSize.h)
@@ -76,7 +76,7 @@ open class InstanceNorm: NetworkLayer {
         commandEncoder5.setComputePipelineState(inormPS)
 
         commandEncoder5.setTexture(inputImage.texture, index: 0)
-        commandEncoder5.setTexture(outputImage.texture, index: 1) // out texture
+        commandEncoder5.setTexture(outputs[executionIndex].texture, index: 1) // out texture
 
         commandEncoder5.setBuffer(scaleBuffer, offset: 0, index: 0)
         commandEncoder5.setBuffer(shiftBuffer, offset: 0, index: 1)

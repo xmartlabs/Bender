@@ -66,7 +66,7 @@ open class Convolution: NetworkLayer {
             conv?.offset = MPSOffset(x: Int(convSize.kernelWidth)/2, y: Int(convSize.kernelHeight)/2, z: 0)
         }
 
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+        createOutputs(size: outputSize)
     }
 
     open func getWeightsSize() -> Int {
@@ -117,10 +117,10 @@ open class Convolution: NetworkLayer {
                                  flags: .none)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
         conv?.encode(commandBuffer: commandBuffer,
-                     sourceImage: getIncoming()[0].outputImage,
-                     destinationImage: outputImage)
+                     sourceImage: getIncoming()[0].outputs[executionIndex],
+                     destinationImage: outputs[executionIndex])
     }
 
 }

@@ -50,7 +50,7 @@ open class LocalResponseNorm: NetworkLayer {
         let incoming = getIncoming()
 
         outputSize = incoming.first?.outputSize
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+        createOutputs(size: outputSize)
 
         let constants: [FunctionConstantBase] = [
             FunctionConstant(index: 0, type: MTLDataType.ushort, value: parameters.depthRadius),
@@ -64,16 +64,16 @@ open class LocalResponseNorm: NetworkLayer {
                                                                           constants: constants)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
         let incoming = getIncoming()
         let commandEncoder = commandBuffer.makeComputeCommandEncoder()!
         commandEncoder.label = "Local Response Norm encoder"
         let tpTG = MTLSizeMake(32, 8, 1)
         commandEncoder.setComputePipelineState(pipelineLocalResponseNorm)
 
-        commandEncoder.setTexture(incoming[0].outputImage.texture, index: 0)
-        commandEncoder.setTexture(outputImage.texture, index: 1)
-        let threadgroupsPerGrid = incoming[0].outputImage.texture.threadGrid(threadGroup: tpTG)
+        commandEncoder.setTexture(incoming[0].outputs[executionIndex].texture, index: 0)
+        commandEncoder.setTexture(outputs[executionIndex].texture, index: 1)
+        let threadgroupsPerGrid = incoming[0].outputs[executionIndex].texture.threadGrid(threadGroup: tpTG)
         commandEncoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: tpTG)
         commandEncoder.endEncoding()
     }

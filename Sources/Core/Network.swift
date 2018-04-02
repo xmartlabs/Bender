@@ -26,6 +26,10 @@ public class Network {
     /// Responsible for loading the parameters
     public var parameterLoader: ParameterLoader
 
+    /// If you encode several command buffers before the previous one finishes execution then we might need to duplicate internal resources
+    /// to avoid different executions to write on each others results.
+    public var maxConcurrentExecutions = 1
+
     /// If set to true will print information about the graph and generated dependency list
     public var verbose = false
 
@@ -34,6 +38,7 @@ public class Network {
     }
 
     var initialized = false
+
 
     /// - Parameters:
     ///   - inputSizes: An array of tuples where the first item is the identifier of an input node and the second is its size.
@@ -166,17 +171,24 @@ public class Network {
         input: MPSImage,
         queue: MTLCommandQueue? = nil,
         dispatchQueue: DispatchQueue? = nil,
-        callback: @escaping (MPSImage) -> Void) {
+        executionIndex: Int = 0,
+        callback: @escaping (MPSImage?) -> Void) {
 
-        run(inputs: [input], queue: queue, dispatchQueue: dispatchQueue, callback: callback)
+        run(inputs: [input], queue: queue, dispatchQueue: dispatchQueue, executionIndex: executionIndex, callback: callback)
     }
 
     public func run(
         inputs: [MPSImage],
         queue: MTLCommandQueue? = nil,
         dispatchQueue: DispatchQueue? = nil,
-        callback: @escaping (MPSImage) -> Void) {
+        executionIndex: Int = 0,
+        callback: @escaping (MPSImage?) -> Void) {
 
+        guard initialized else {
+            callback(nil)
+            return
+        }
+        
         guard inputs.count == startNodes.count else {
             fatalError("You must pass as many inputs (" + String(inputs.count) + ") as inputSize's" + String(startNodes.count) +
                 " you passed when creating the network")
@@ -192,7 +204,7 @@ public class Network {
         }
         autoreleasepool {
             for layer in nodes {
-                layer.execute(commandBuffer: commandBuffer)
+                layer.execute(commandBuffer: commandBuffer, executionIndex: executionIndex)
             }
             commandBuffer.commit()
 
@@ -201,11 +213,11 @@ public class Network {
                     guard let me = self else { return }
 
                     commandBuffer.waitUntilCompleted()
-                    callback(me.nodes.last!.outputImage)
+                    callback(me.nodes.last!.outputs[executionIndex])
                 }
             } else {
                 commandBuffer.waitUntilCompleted()
-                callback(nodes.last!.outputImage)
+                callback(nodes.last!.outputs[executionIndex])
             }
         }
     }

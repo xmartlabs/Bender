@@ -17,3 +17,22 @@ public struct Shape {
     }
 
 }
+
+extension Shape {
+
+    func at(_ index: Int) -> Int {
+        switch index {
+        case 0:
+            return self.height
+        case 1:
+            return self.width
+        case 2:
+            return self.inputChannels
+        case 3:
+            return self.outputChannels
+        default:
+            fatalError()
+        }
+    }
+
+}

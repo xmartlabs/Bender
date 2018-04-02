@@ -75,7 +75,7 @@ open class ConvTranspose: NetworkLayer {
                                w: prevSize.w * size.strideX,
                                f: size.outputChannels)
 
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+        createOutputs(size: outputSize)
 
         weightsBuffer = device.makeBuffer(bytes: weightsPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id,
                                                                                                        modifier: ConvTranspose.weightModifier,
@@ -96,7 +96,7 @@ open class ConvTranspose: NetworkLayer {
         return prevSize.f * size.kernelWidth * size.kernelHeight * size.outputChannels
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
 
         // thread group size variables
         let incoming = getIncoming()
@@ -109,9 +109,9 @@ open class ConvTranspose: NetworkLayer {
         let step2ImageSize = LayerSize(h: outputSize.h + prevSize.h, w: outputSize.w, f: outputSize.f)
 
         let threadsPerGroups = MTLSizeMake(w, h, d)
-        let threadgroupsPerGrid = MTLSize(width: (incoming[0].outputImage.texture.width + w - 1) / w,
-                                          height: (incoming[0].outputImage.texture.height + h - 1) / h,
-                                          depth: (outputImage.texture.arrayLength + d - 1) / d)
+        let threadgroupsPerGrid = MTLSize(width: (incoming[0].outputs[executionIndex].texture.width + w - 1) / w,
+                                          height: (incoming[0].outputs[executionIndex].texture.height + h - 1) / h,
+                                          depth: (outputs[executionIndex].texture.arrayLength + d - 1) / d)
 
         let step1Img = MPSTemporaryImage(commandBuffer: commandBuffer, imageDescriptor: MPSImageDescriptor(layerSize: step1ImageSize))
 
@@ -119,7 +119,7 @@ open class ConvTranspose: NetworkLayer {
         let encoder = commandBuffer.makeComputeCommandEncoder()!
         encoder.label = "convT compute encoder"
         encoder.setComputePipelineState(pipelineCalculate)
-        encoder.setTexture(incoming[0].outputImage.texture, index: 0)
+        encoder.setTexture(incoming[0].outputs[executionIndex].texture, index: 0)
         encoder.setTexture(step1Img.texture, index: 1)
         encoder.setBuffer(weightsBuffer, offset: 0, index: 0)
 
@@ -145,7 +145,7 @@ open class ConvTranspose: NetworkLayer {
         encoder3.label = "convT shift top encoder"
         encoder3.setComputePipelineState(pipelineShiftTop)
         encoder3.setTexture(step2Img.texture, index: 0)
-        encoder3.setTexture(outputImage.texture, index: 1)
+        encoder3.setTexture(outputs[executionIndex].texture, index: 1)
 
         encoder3.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: threadsPerGroups)
         encoder3.endEncoding()

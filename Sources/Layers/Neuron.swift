@@ -37,10 +37,10 @@ open class Neuron: NetworkLayer {
         outputSize = incoming[0].outputSize
 
         self.neuron = type.createNeuron(device: device)
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+        createOutputs(size: outputSize)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
-        neuron.encode(commandBuffer: commandBuffer, sourceImage: getIncoming()[0].outputImage, destinationImage: outputImage)
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
+        neuron.encode(commandBuffer: commandBuffer, sourceImage: getIncoming()[0].outputs[executionIndex], destinationImage: outputs[executionIndex])
     }
 }

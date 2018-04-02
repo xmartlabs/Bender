@@ -11,9 +11,8 @@ import UIKit
 class TestViewController: UIViewController {
 
     let testRunner = BenderTestRunner()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+
+    @IBAction func run(_ sender: Any) {
         testRunner.run()
     }
 

@@ -9,8 +9,8 @@
 #include <metal_stdlib>
 using namespace metal;
 
-kernel void instance_norm_3(constant float4 &scale[[buffer(0)]],
-                            constant float4 &shift[[buffer(1)]],
+kernel void instance_norm_3(constant float* scale[[buffer(0)]],
+                            constant float* shift[[buffer(1)]],
                             texture2d<float, access::read> in[[texture(0)]],
                             texture2d<float, access::write> out[[texture(1)]],
                             ushort2 gid[[thread_position_in_grid]],
@@ -92,11 +92,11 @@ kernel void instance_norm_3(constant float4 &scale[[buffer(0)]],
 
     const float4 sigma = sqrt(shared_mem[0] + float4(1e-4));
 
-    float4 multiplier = scale / sigma;
+    float4 multiplier = float4(scale[0], scale[1], scale[2], scale[3]) / sigma;
     for(ushort xIndex = gid.x; xIndex < width; xIndex += tg_size.x) {
         for(ushort yIndex = gid.y; yIndex < height; yIndex += tg_size.y) {
             float4 val = in.read(ushort2(xIndex, yIndex));
-            out.write(clamp((val - mean) * multiplier + shift, -10.0, 10.0), ushort2(xIndex, yIndex));
+            out.write(clamp((val - mean) * multiplier + float4(shift[0], shift[1], shift[2], shift[3]), -10.0, 10.0), ushort2(xIndex, yIndex));
         }
     }
 }

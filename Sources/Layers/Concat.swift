@@ -36,7 +36,7 @@ open class Concat: NetworkLayer {
         axisThatMustBeEqual.forEach { outputDimensions[$0] = incoming[0].outputSize[$0] }
 
         outputSize = LayerSize(h: outputDimensions[.h]!, w: outputDimensions[.w]!, f: outputDimensions[.f]!)
-        outputImage = MPSImage(device: device, imageDescriptor: MPSImageDescriptor(layerSize: outputSize))
+        createOutputs(size: outputSize)
 
         var shaderFunc = ""
         switch axis {
@@ -53,7 +53,7 @@ open class Concat: NetworkLayer {
         pipeline = MetalShaderManager.shared.getFunction(name: shaderFunc, in: Bundle(for: Concat.self))
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer) {
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
         let incoming = getIncoming()
         let commandEncoder = commandBuffer.makeComputeCommandEncoder()!
         commandEncoder.label = "Concat encoder"
@@ -61,11 +61,11 @@ open class Concat: NetworkLayer {
         commandEncoder.setComputePipelineState(pipeline)
 
         (0..<min(maxInputTextures, incoming.count)).forEach {
-            commandEncoder.setTexture(incoming[$0].outputImage.texture, index: $0)
+            commandEncoder.setTexture(incoming[$0].outputs[executionIndex].texture, index: $0)
         }
 
-        commandEncoder.setTexture(outputImage.texture, index: maxInputTextures)
-        let threadgroupsPerGrid = outputImage.texture.threadGrid(threadGroup: tpTG)
+        commandEncoder.setTexture(outputs[executionIndex].texture, index: maxInputTextures)
+        let threadgroupsPerGrid = outputs[executionIndex].texture.threadGrid(threadGroup: tpTG)
         commandEncoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: tpTG)
         commandEncoder.endEncoding()
     }

@@ -36,7 +36,7 @@ open class NetworkLayer: Node {
     public var outputSize: LayerSize!
 
     /// The result image of this layer
-    public var outputImage: MPSImage!
+    public var outputs: [MPSImage]
 
     /// points to the network where this layer is being executed
     public weak var network: Network?
@@ -52,6 +52,7 @@ open class NetworkLayer: Node {
             self.id = "Anonymous_\(NetworkLayer.counter)"
             NetworkLayer.counter += 1
         }
+        outputs = []
     }
 
     /// Validates the correctness of a layers inputs and parameters
@@ -63,8 +64,23 @@ open class NetworkLayer: Node {
         validate()
     }
 
+    public func createOutputs(size: LayerSize) {
+        guard let maxConcurrentExecutions = network?.maxConcurrentExecutions,
+                maxConcurrentExecutions > 0 else {
+            return
+        }
+        for _ in 0..<maxConcurrentExecutions {
+            outputs.append(MPSImage(device: Device.shared, imageDescriptor: MPSImageDescriptor(layerSize: size)))
+        }
+
+    }
+
     /// Runs the layer
-    open func execute(commandBuffer: MTLCommandBuffer) {
+    ///
+    /// - Parameters:
+    ///   - commandBuffer: MTLCommandBuffer that will run the layer
+    ///   - executionIndex: Execution index for concurrent executions. Index for output images
+    open func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
         fatalError("Not implemented")
     }
 

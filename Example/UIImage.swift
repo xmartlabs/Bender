@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import MetalKit
+import MetalPerformanceShaders
 
 extension UIImage {
 
@@ -26,4 +28,42 @@ extension UIImage {
         return UIColor(red: r, green: g, blue: b, alpha: a)
     }
 
+    func toMPS(loader: MTKTextureLoader) -> MPSImage? {
+        guard let cgImage = self.cgImage,
+            let texture = try? loader.newTexture(cgImage: cgImage, options: [MTKTextureLoader.Option.SRGB : NSNumber(value: false)]) else {
+            return nil
+        }
+
+        return MPSImage(texture: texture, featureChannels: 4)
+    }
+
+    func toCVPixelBuffer(height: CGFloat = 224, width: CGFloat = 224) -> CVPixelBuffer? {
+        let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
+        var pixelBuffer : CVPixelBuffer?
+        let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(width), Int(height), kCVPixelFormatType_32ARGB, attrs, &pixelBuffer)
+        guard status == kCVReturnSuccess else {
+            return nil
+        }
+
+        if let pixelBuffer = pixelBuffer {
+            CVPixelBufferLockBaseAddress(pixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
+            let pixelData = CVPixelBufferGetBaseAddress(pixelBuffer)
+
+            let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
+            let context = CGContext(data: pixelData, width: Int(width), height: Int(height), bitsPerComponent: 8, bytesPerRow: CVPixelBufferGetBytesPerRow(pixelBuffer), space: rgbColorSpace, bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue)
+
+            context?.translateBy(x: 0, y: height)
+            context?.scaleBy(x: 1.0, y: -1.0)
+
+            UIGraphicsPushContext(context!)
+            self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
+            UIGraphicsPopContext()
+            CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags(rawValue: 0))
+
+            return pixelBuffer
+        }
+
+        return nil
+    }
+    
 }
