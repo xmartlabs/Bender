@@ -166,7 +166,7 @@ public class Network {
             layer.initialize(network: self, device: Device.shared, temporaryImage: !permanentOutputNodes.contains(layer))
         }
 
-        descriptors = nodes.flatMap { $0.descriptor }
+        descriptors = nodes.compactMap { $0.descriptor }
 
         if verbose {
             _ = nodes.map {

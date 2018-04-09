@@ -17,28 +17,20 @@ open class DepthwiseConvolution: Convolution {
         super.init(convSize: convSize, neuronType: neuronType, useBias: useBias, padding: padding, weights: weights, bias: bias, id: id)
     }
 
-    open override func getWeightsSize() -> Int {
-        return prevSize.f * convSize.kernelHeight * convSize.kernelWidth
+    open override func createCNNDescriptor(device: MTLDevice) {
+        cnnDescriptor = MPSCNNDepthWiseConvolutionDescriptor(kernelWidth: convSize.kernelWidth,
+                                                             kernelHeight: convSize.kernelHeight,
+                                                             inputFeatureChannels: prevSize.f,
+                                                             outputFeatureChannels: convSize.outputChannels,
+                                                             neuronFilter: neuronType.createNeuron(device: device))
+        cnnDescriptor.dilationRateX = convSize.dilationX
+        cnnDescriptor.dilationRateY = convSize.dilationY
+        cnnDescriptor.strideInPixelsX = convSize.strideX
+        cnnDescriptor.strideInPixelsY = convSize.strideY
     }
 
-    open override func makeConv(device: MTLDevice, weights: UnsafePointer<Float>, bias: UnsafePointer<Float>?) {
-        let desc = MPSCNNDepthWiseConvolutionDescriptor(
-            kernelWidth: convSize.kernelWidth,
-            kernelHeight: convSize.kernelHeight,
-            inputFeatureChannels: prevSize.f,
-            outputFeatureChannels: convSize.outputChannels,
-            neuronFilter: neuronType.createNeuron(device: device))
-
-        desc.dilationRateX = convSize.dilationX
-        desc.dilationRateY = convSize.dilationY
-        desc.strideInPixelsX = convSize.strideX
-        desc.strideInPixelsY = convSize.strideY
-
-        conv = MPSCNNConvolution(device: device,
-                                 convolutionDescriptor: desc,
-                                 kernelWeights: weights,
-                                 biasTerms: bias,
-                                 flags: .none)
+    open override func getWeightsSize() -> Int {
+        return prevSize.f * convSize.kernelHeight * convSize.kernelWidth
     }
 
 }
