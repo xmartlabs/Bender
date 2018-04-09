@@ -46,6 +46,7 @@ class InceptionViewController: UIViewController, UINavigationControllerDelegate 
 
         // after adding all our layers we are able to initialize the network
         mobilenetwork.addPreProcessing(layers: [Neuron(type: ActivationNeuronType.custom(neuron: MPSCNNNeuronLinear(device: Device.shared, a: 2.0, b: -1)), id: "scale_neuron")])
+        mobilenetwork.permanentOutputNodes = mobilenetwork.nodes
         mobilenetwork.initialize()
 
         guard let inceptionUrl = Bundle.main.url(forResource: "inception_v3", withExtension: "pb") else {
