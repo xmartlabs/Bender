@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MetalBender/MPSCNNConvolution_iOS10.h>
 
 //! Project version number for Bender.
 FOUNDATION_EXPORT double BenderVersionNumber;

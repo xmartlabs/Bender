@@ -21,7 +21,7 @@ public class Network {
     }
 
     /// All the layers of the network
-    var nodes = [NetworkLayer]()
+    public private(set) var nodes = [NetworkLayer]()
 
     /// Nodes for which the result will be a MPSImage instead of MPSTemporaryImage.
     /// You can use `node(for id: String)` to get hold of the nodes.
@@ -166,7 +166,7 @@ public class Network {
             layer.initialize(network: self, device: Device.shared, temporaryImage: !permanentOutputNodes.contains(layer))
         }
 
-        descriptors = nodes.flatMap { $0.descriptor }
+        descriptors = nodes.compactMap { $0.descriptor }
 
         if verbose {
             _ = nodes.map {

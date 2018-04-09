@@ -134,12 +134,11 @@ class MNISTTestController: UIViewController, ExampleViewController {
     func importMNISTNetwork() {
         // Import the MNIST network from a TF exported graph
         let url = Bundle.main.url(forResource: "mnist_full", withExtension: "pb")!
-        let converter = TFConverter.default(verbose: true)
+        let converter = TFConverter.default(verbose: false)
 
         network = Network.load(url: url, inputSize: inputSize, converter: converter, performInitialize: false)
         network.addPreProcessing(layers: [GrayScale(), Neuron(type: .custom(neuron: MPSCNNNeuronLinear(device: Device.shared, a: 255, b: 0)))])
         network.addPostProcessing(layers: [Softmax()])
-        network.verbose = true
 
         network.initialize()
     }

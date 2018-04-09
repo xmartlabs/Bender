@@ -24,7 +24,9 @@
 		8F3DE15F1EBBD0C700D81949 /* Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3DE15E1EBBD0C700D81949 /* Add.swift */; };
 		8F4466CE1ECF5F8E00915819 /* TFWeightData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4466CD1ECF5F8E00915819 /* TFWeightData.swift */; };
 		8F4466D91ECF831300915819 /* ProtoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4466D81ECF831300915819 /* ProtoExtensions.swift */; };
+		8F480E4F207BBA36000FAE68 /* MPSCNNConvolution_iOS10.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F480E4E207BBA36000FAE68 /* MPSCNNConvolution_iOS10.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8F5114682040497D00451CD9 /* DepthwiseConvolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5114672040497D00451CD9 /* DepthwiseConvolution.swift */; };
+		8F57270C2072B0D600DCBAA8 /* ParameterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F57270B2072B0D600DCBAA8 /* ParameterDataSource.swift */; };
 		8F60A3141EC4D04E00296167 /* ImageLinearTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A3131EC4D04E00296167 /* ImageLinearTransform.swift */; };
 		8F60A31A1EC4DBE800296167 /* Pooling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A3191EC4DBE800296167 /* Pooling.swift */; };
 		8F60A31D1EC4E6E400296167 /* PaddingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A31C1EC4E6E400296167 /* PaddingType.swift */; };
@@ -32,6 +34,7 @@
 		8F60A3211EC4F9CD00296167 /* Softmax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A3201EC4F9CD00296167 /* Softmax.swift */; };
 		8F60A3231EC4FA7A00296167 /* SpatialNorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A3221EC4FA7A00296167 /* SpatialNorm.swift */; };
 		8F67C877204D6A21004CD647 /* bender_metal_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F67C876204D6A21004CD647 /* bender_metal_types.h */; };
+		8F69E7552073C01900DC03EF /* Bender-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F69E7542073BD5100DC03EF /* Bender-Bridging-Header.h */; };
 		8F79B7F91EC21AC2002D02C8 /* ConvTranspose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FC1EBA70F900586D1B /* ConvTranspose.swift */; };
 		8F79B7FA1EC21BE8002D02C8 /* Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FD1EBA70F900586D1B /* Crop.swift */; };
 		8F79B7FB1EC21C1D002D02C8 /* InstanceNorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983F51EBA70F200586D1B /* InstanceNorm.swift */; };
@@ -113,7 +116,9 @@
 		8F3DE15E1EBBD0C700D81949 /* Add.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Add.swift; sourceTree = "<group>"; };
 		8F4466CD1ECF5F8E00915819 /* TFWeightData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFWeightData.swift; sourceTree = "<group>"; };
 		8F4466D81ECF831300915819 /* ProtoExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProtoExtensions.swift; sourceTree = "<group>"; };
+		8F480E4E207BBA36000FAE68 /* MPSCNNConvolution_iOS10.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPSCNNConvolution_iOS10.h; sourceTree = "<group>"; };
 		8F5114672040497D00451CD9 /* DepthwiseConvolution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepthwiseConvolution.swift; sourceTree = "<group>"; };
+		8F57270B2072B0D600DCBAA8 /* ParameterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterDataSource.swift; sourceTree = "<group>"; };
 		8F60A3131EC4D04E00296167 /* ImageLinearTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLinearTransform.swift; sourceTree = "<group>"; };
 		8F60A3191EC4DBE800296167 /* Pooling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pooling.swift; sourceTree = "<group>"; };
 		8F60A31C1EC4E6E400296167 /* PaddingType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddingType.swift; sourceTree = "<group>"; };
@@ -121,6 +126,7 @@
 		8F60A3201EC4F9CD00296167 /* Softmax.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Softmax.swift; sourceTree = "<group>"; };
 		8F60A3221EC4FA7A00296167 /* SpatialNorm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpatialNorm.swift; sourceTree = "<group>"; };
 		8F67C876204D6A21004CD647 /* bender_metal_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bender_metal_types.h; sourceTree = "<group>"; };
+		8F69E7542073BD5100DC03EF /* Bender-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bender-Bridging-Header.h"; sourceTree = "<group>"; };
 		8F79B7FF1EC233A8002D02C8 /* ActivationNeuronType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivationNeuronType.swift; sourceTree = "<group>"; };
 		8F79B8071EC248CD002D02C8 /* Dummy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
 		8F79B8091EC2514A002D02C8 /* MTLDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MTLDevice.swift; sourceTree = "<group>"; };
@@ -216,6 +222,7 @@
 			children = (
 				8FAB77171ECC85CF0050AB16 /* Adapters */,
 				8FAB77371ECC991B0050AB16 /* Graph */,
+				8F480E50207BBA46000FAE68 /* Headers */,
 				8FA984191EBA71D500586D1B /* Helpers */,
 				8FA983F41EBA70BF00586D1B /* Metal Shaders */,
 				8FA983F31EBA70B800586D1B /* Layers */,
@@ -223,6 +230,7 @@
 				28F828801C494B2C00330CF4 /* Bender.h */,
 				28F828821C494B2C00330CF4 /* Info.plist */,
 				8FE3ECB21F3367BD00C0B5DE /* Bender-Swift.h */,
+				8F69E7542073BD5100DC03EF /* Bender-Bridging-Header.h */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -243,6 +251,7 @@
 				8F0669B61EC37424009F5C7C /* ParameterLoader.swift */,
 				8F0669B91EC3A31B009F5C7C /* PerLayerBinaryLoader.swift */,
 				8F0669BB1EC3A4C1009F5C7C /* SingleBinaryLoader.swift */,
+				8F57270B2072B0D600DCBAA8 /* ParameterDataSource.swift */,
 			);
 			name = "Parameter Loader";
 			sourceTree = "<group>";
@@ -255,6 +264,14 @@
 				8F4466D81ECF831300915819 /* ProtoExtensions.swift */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		8F480E50207BBA46000FAE68 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8F480E4E207BBA36000FAE68 /* MPSCNNConvolution_iOS10.h */,
+			);
+			path = Headers;
 			sourceTree = "<group>";
 		};
 		8F94C53B1ECE1DAA00D5E0E6 /* Optimizers */ = {
@@ -424,7 +441,9 @@
 			files = (
 				8FE3ECB31F3367BD00C0B5DE /* Bender-Swift.h in Headers */,
 				28F828811C494B2C00330CF4 /* Bender.h in Headers */,
+				8F69E7552073C01900DC03EF /* Bender-Bridging-Header.h in Headers */,
 				8F67C877204D6A21004CD647 /* bender_metal_types.h in Headers */,
+				8F480E4F207BBA36000FAE68 /* MPSCNNConvolution_iOS10.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,7 +480,7 @@
 				TargetAttributes = {
 					28F8287C1C494B2C00330CF4 = {
 						CreatedOnToolsVersion = 7.2;
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 0930;
 					};
 				};
 			};
@@ -579,6 +598,7 @@
 				8FAB77261ECC86170050AB16 /* tensor_shape.pb.swift in Sources */,
 				8FA6BAC21ED5CFCE004450C0 /* TFInstanceNormOptimizer.swift in Sources */,
 				8F79B7FA1EC21BE8002D02C8 /* Crop.swift in Sources */,
+				8F57270C2072B0D600DCBAA8 /* ParameterDataSource.swift in Sources */,
 				8F79B80A1EC2514A002D02C8 /* MTLDevice.swift in Sources */,
 				8F0669B11EC364A3009F5C7C /* PALFunctionConstant.swift in Sources */,
 				8F94C5341ECE0DC600D5E0E6 /* TFOptimizer.swift in Sources */,
@@ -725,6 +745,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Bender;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Sources/Bender-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
@@ -749,6 +770,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xmartlabs.Bender;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Sources/Bender-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;

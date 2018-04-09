@@ -20,6 +20,8 @@ open class Convolution: NetworkLayer {
 
     var weightsPointer: Data?
     var biasPointer: Data?
+    var dataSource: Any?
+    var cnnDescriptor: MPSCNNConvolutionDescriptor!
 
     var prevSize: LayerSize!
     public var convSize: ConvSize
@@ -53,6 +55,7 @@ open class Convolution: NetworkLayer {
         outputSize = LayerSize(h: padding == .same ? prevSize.h / convSize.strideY : (prevSize.h - convSize.kernelHeight) / convSize.strideY + 1,
                                w: padding == .same ? prevSize.w / convSize.strideX : (prevSize.w - convSize.kernelWidth) / convSize.strideX + 1,
                                f: convSize.outputChannels)
+        createCNNDescriptor(device: device)
         updateWeights(device: device)
         if padding == .same {
             let padHeight = ((outputSize.h - 1) * convSize.strideY + convSize.kernelHeight - prevSize.h)
@@ -68,6 +71,20 @@ open class Convolution: NetworkLayer {
         createOutputs(size: outputSize, temporary: temporaryImage)
     }
 
+    open func createCNNDescriptor(device: MTLDevice) {
+        cnnDescriptor = MPSCNNConvolutionDescriptor(kernelWidth: convSize.kernelWidth,
+                                                    kernelHeight: convSize.kernelHeight,
+                                                    inputFeatureChannels: prevSize.f,
+                                                    outputFeatureChannels: convSize.outputChannels,
+                                                    neuronFilter: neuronType.createNeuron(device: device))
+        cnnDescriptor.strideInPixelsX = convSize.strideX
+        cnnDescriptor.strideInPixelsY = convSize.strideY
+        if #available(iOS 11.0, *) {
+            cnnDescriptor.dilationRateX = convSize.dilationX
+            cnnDescriptor.dilationRateY = convSize.dilationY
+        }
+    }
+
     open func getWeightsSize() -> Int {
         return prevSize.f * convSize.kernelHeight * convSize.kernelWidth * convSize.outputChannels
     }
@@ -81,39 +98,42 @@ open class Convolution: NetworkLayer {
             return
         }
 
-        let weights = weightsPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id,
-                                                                                       modifier: Convolution.weightModifier,
-                                                                                       size: getWeightsSize())
-        var bias: UnsafePointer<Float>? = nil
-        if useBias {
-            bias = biasPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id,
-                                                                                 modifier: Convolution.biasModifier,
-                                                                                 size: convSize.outputChannels)
-        }
+        if #available(iOS 11.0, *) {
+            if let weightsPointer = weightsPointer {
+                dataSource = ConvolutionDataSource(cnnDescriptor: cnnDescriptor,
+                                                   weights: UnsafeMutableRawPointer(mutating: weightsPointer.pointer()),
+                                                   bias: UnsafeMutablePointer(mutating: biasPointer?.pointer() as UnsafePointer<Float>?))
+            } else {
+                dataSource = ConvolutionDataSource(cnnDescriptor: cnnDescriptor, parameterLoader: network.parameterLoader,
+                                                   layerId: id, weightCount: getWeightsSize(), biasCount: convSize.outputChannels)
+            }
+            makeConv(device: device, weights: nil, bias: nil)
+        } else {
+            let weights = weightsPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id,
+                                                                                           modifier: Convolution.weightModifier,
+                                                                                           size: getWeightsSize())
 
-        makeConv(device: device, weights: weights, bias: bias)
+            var bias: UnsafePointer<Float>? = nil
+            if useBias {
+                bias = biasPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id,
+                                                                                     modifier: Convolution.biasModifier,
+                                                                                     size: convSize.outputChannels)
+            }
+            makeConv(device: device, weights: weights, bias: bias)
+        }
     }
 
-    open func makeConv(device: MTLDevice, weights: UnsafePointer<Float>, bias: UnsafePointer<Float>?) {
-        let desc = MPSCNNConvolutionDescriptor(
-            kernelWidth: convSize.kernelWidth,
-            kernelHeight: convSize.kernelHeight,
-            inputFeatureChannels: prevSize.f,
-            outputFeatureChannels: convSize.outputChannels,
-            neuronFilter: neuronType.createNeuron(device: device))
-
+    open func makeConv(device: MTLDevice, weights: UnsafePointer<Float>?, bias: UnsafePointer<Float>?) {
         if #available(iOS 11.0, *) {
-            desc.dilationRateX = convSize.dilationX
-            desc.dilationRateY = convSize.dilationY
+            // swiftlint:disable:next force_cast
+            conv = MPSCNNConvolution(device: device, weights: dataSource as! MPSCNNConvolutionDataSource)
+        } else {
+            conv = MPSCNNConvolution(device: device,
+                                     convolutionDescriptor: cnnDescriptor,
+                                     kernelWeights: weights!,
+                                     biasTerms: bias,
+                                     flags: MPSCNNConvolutionFlags.none)
         }
-        desc.strideInPixelsX = convSize.strideX
-        desc.strideInPixelsY = convSize.strideY
-
-        conv = MPSCNNConvolution(device: device,
-                                 convolutionDescriptor: desc,
-                                 kernelWeights: weights,
-                                 biasTerms: bias,
-                                 flags: .none)
     }
 
     open override func execute(commandBuffer: MTLCommandBuffer, executionIndex index: Int = 0) {
