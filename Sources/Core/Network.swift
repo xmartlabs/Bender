@@ -23,6 +23,10 @@ public class Network {
     /// All the layers of the network
     var nodes = [NetworkLayer]()
 
+    /// Nodes for which the result will be a MPSImage instead of MPSTemporaryImage.
+    /// You can use `node(for id: String)` to get hold of the nodes.
+    public var permanentOutputNodes = [NetworkLayer]()
+
     /// Responsible for loading the parameters
     public var parameterLoader: ParameterLoader
 
@@ -37,8 +41,11 @@ public class Network {
         return nodes.first(where: { $0.id == id })
     }
 
-    var initialized = false
+    private var initialized = false
 
+    private var runningCount = 0
+
+    private var descriptors: [MPSImageDescriptor]!
 
     /// - Parameters:
     ///   - inputSizes: An array of tuples where the first item is the identifier of an input node and the second is its size.
@@ -146,14 +153,24 @@ public class Network {
             nodes = DependencyListBuilder().list(from: startNodes as [NetworkLayer])
         }
 
-        for layer in nodes {
-            layer.initialize(network: self, device: Device.shared)
+        if let outputNode = nodes.last, !permanentOutputNodes.contains(outputNode) {
+            permanentOutputNodes.append(outputNode)
         }
+
+        // Remove dummy nodes
+        nodes.forEach { ($0 as? Dummy)?.removeFromGraph() }
         nodes = nodes.filter { !($0 is Dummy) }
+
+        // initialize layers
+        for layer in nodes {
+            layer.initialize(network: self, device: Device.shared, temporaryImage: !permanentOutputNodes.contains(layer))
+        }
+
+        descriptors = nodes.flatMap { $0.descriptor }
 
         if verbose {
             _ = nodes.map {
-                debugPrint($0.id)
+                debugPrint($0, " => ", $0.id)
             }
         }
 
@@ -167,32 +184,34 @@ public class Network {
     ///   - queue: the command queue on which to run the kernels
     ///   - dispatchQueue: the dispatch queue where to run
     ///   - callback: will be called with the output image
-    public func run(
-        input: MPSImage,
-        queue: MTLCommandQueue? = nil,
-        dispatchQueue: DispatchQueue? = nil,
-        executionIndex: Int = 0,
-        callback: @escaping (MPSImage?) -> Void) {
+    public func run(input: MPSImage,
+                    queue: MTLCommandQueue? = nil,
+                    dispatchQueue: DispatchQueue? = nil,
+                    executionIndex: Int = 0,
+                    callback: @escaping (MPSImage?) -> Void) {
 
         run(inputs: [input], queue: queue, dispatchQueue: dispatchQueue, executionIndex: executionIndex, callback: callback)
     }
 
-    public func run(
-        inputs: [MPSImage],
-        queue: MTLCommandQueue? = nil,
-        dispatchQueue: DispatchQueue? = nil,
-        executionIndex: Int = 0,
-        callback: @escaping (MPSImage?) -> Void) {
+    public func run(inputs: [MPSImage],
+                    queue: MTLCommandQueue? = nil,
+                    dispatchQueue: DispatchQueue? = nil,
+                    executionIndex: Int = 0,
+                    callback: @escaping (MPSImage?) -> Void) {
 
         guard initialized else {
             callback(nil)
             return
         }
-        
+
         guard inputs.count == startNodes.count else {
             fatalError("You must pass as many inputs (" + String(inputs.count) + ") as inputSize's" + String(startNodes.count) +
                 " you passed when creating the network")
         }
+
+        // Increment running count
+        runningCount += 1
+
         let commandQueue = queue ?? Device.shared.makeCommandQueue()!
 
         commandQueue.insertDebugCaptureBoundary() // DEBUG
@@ -202,6 +221,10 @@ public class Network {
         for (index, input) in inputs.enumerated() {
             startNodes[index].inputImage = input
         }
+
+        // prefetch storage for run
+        MPSTemporaryImage.prefetchStorage(with: commandBuffer, imageDescriptorList: descriptors)
+
         autoreleasepool {
             for layer in nodes {
                 layer.execute(commandBuffer: commandBuffer, executionIndex: executionIndex)
@@ -213,11 +236,13 @@ public class Network {
                     guard let me = self else { return }
 
                     commandBuffer.waitUntilCompleted()
-                    callback(me.nodes.last!.outputs[executionIndex])
+                    callback(me.nodes.last!.getOutput(index: executionIndex))
+                    me.runningCount -= 1
                 }
             } else {
                 commandBuffer.waitUntilCompleted()
-                callback(nodes.last!.outputs[executionIndex])
+                callback(nodes.last!.getOutput(index: executionIndex))
+                runningCount -= 1
             }
         }
     }
@@ -291,6 +316,20 @@ public class Network {
     func startNode(for name: String) -> Start? {
         return startNodes.first { $0.inputName == name }
     }
+
+    /// Blocking function that destroys resources and uninitializes the network. Should be called before a network is to be destroyed
+    /// but not from main thread
+    public func destroy() {
+        // Avoids new runs as side-effect
+        initialized = false
+        while runningCount > 0 {
+            usleep(10000) // 10ms
+        }
+        for node in nodes {
+            node.destroy()
+        }
+    }
+
 }
 
 //extension Network: GraphProtocol {}

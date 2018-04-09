@@ -45,12 +45,12 @@ open class LocalResponseNorm: NetworkLayer {
         assert(parameters.depthRadius <= 20, "depthRadius must be less or equal to 20")
     }
 
-    open override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
+    open override func initialize(network: Network, device: MTLDevice, temporaryImage: Bool = true) {
+        super.initialize(network: network, device: device, temporaryImage: temporaryImage)
         let incoming = getIncoming()
 
         outputSize = incoming.first?.outputSize
-        createOutputs(size: outputSize)
+        createOutputs(size: outputSize, temporary: temporaryImage)
 
         let constants: [FunctionConstantBase] = [
             FunctionConstant(index: 0, type: MTLDataType.ushort, value: parameters.depthRadius),
@@ -64,16 +64,17 @@ open class LocalResponseNorm: NetworkLayer {
                                                                           constants: constants)
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
-        let incoming = getIncoming()
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex index: Int = 0) {
+        let incoming = getIncoming()[0]
+        let input = incoming.getOutput(index: index)
         let commandEncoder = commandBuffer.makeComputeCommandEncoder()!
         commandEncoder.label = "Local Response Norm encoder"
         let tpTG = MTLSizeMake(32, 8, 1)
         commandEncoder.setComputePipelineState(pipelineLocalResponseNorm)
 
-        commandEncoder.setTexture(incoming[0].outputs[executionIndex].texture, index: 0)
-        commandEncoder.setTexture(outputs[executionIndex].texture, index: 1)
-        let threadgroupsPerGrid = incoming[0].outputs[executionIndex].texture.threadGrid(threadGroup: tpTG)
+        commandEncoder.setTexture(input.texture, index: 0)
+        commandEncoder.setTexture(getOrCreateOutput(commandBuffer: commandBuffer, index: index).texture, index: 1)
+        let threadgroupsPerGrid = input.texture.threadGrid(threadGroup: tpTG)
         commandEncoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: tpTG)
         commandEncoder.endEncoding()
     }

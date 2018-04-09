@@ -20,4 +20,11 @@ public extension MPSImage {
     var size: LayerSize {
         return LayerSize(h: height, w: width, f: featureChannels)
     }
+
+    func setRead() {
+        if let `self` = self as? MPSTemporaryImage, self.readCount != 0 {
+            self.readCount -= 1
+        }
+    }
+
 }

@@ -57,6 +57,8 @@ public extension Node {
             edgeIn[index] = captureWeakly(object: new)
             if let outIndex = new.edgeOut.index(where: { $0.isEqual(to: old)}) {
                 new.edgeOut[outIndex] = self
+            } else {
+                new.edgeOut.append(self)
             }
         }
     }

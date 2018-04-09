@@ -26,8 +26,8 @@ open class Concat: NetworkLayer {
         validatePreconditions(with: axisThatMustBeEqual)
     }
 
-    open override func initialize(network: Network, device: MTLDevice) {
-        super.initialize(network: network, device: device)
+    open override func initialize(network: Network, device: MTLDevice, temporaryImage: Bool = true) {
+        super.initialize(network: network, device: device, temporaryImage: temporaryImage)
         let axisThatMustBeEqual = LayerSizeAxis.all.filter { $0 != axis }
         let incoming = getIncoming()
 
@@ -36,7 +36,7 @@ open class Concat: NetworkLayer {
         axisThatMustBeEqual.forEach { outputDimensions[$0] = incoming[0].outputSize[$0] }
 
         outputSize = LayerSize(h: outputDimensions[.h]!, w: outputDimensions[.w]!, f: outputDimensions[.f]!)
-        createOutputs(size: outputSize)
+        createOutputs(size: outputSize, temporary: temporaryImage)
 
         var shaderFunc = ""
         switch axis {
@@ -53,21 +53,27 @@ open class Concat: NetworkLayer {
         pipeline = MetalShaderManager.shared.getFunction(name: shaderFunc, in: Bundle(for: Concat.self))
     }
 
-    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
+    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex index: Int = 0) {
         let incoming = getIncoming()
+        let output = getOrCreateOutput(commandBuffer: commandBuffer, index: index)
+
         let commandEncoder = commandBuffer.makeComputeCommandEncoder()!
         commandEncoder.label = "Concat encoder"
         let tpTG = MTLSizeMake(32, 8, 1)
         commandEncoder.setComputePipelineState(pipeline)
 
         (0..<min(maxInputTextures, incoming.count)).forEach {
-            commandEncoder.setTexture(incoming[$0].outputs[executionIndex].texture, index: $0)
+            commandEncoder.setTexture(incoming[$0].getOutput(index: index).texture, index: $0)
         }
 
-        commandEncoder.setTexture(outputs[executionIndex].texture, index: maxInputTextures)
-        let threadgroupsPerGrid = outputs[executionIndex].texture.threadGrid(threadGroup: tpTG)
+        commandEncoder.setTexture(output.texture, index: maxInputTextures)
+        let threadgroupsPerGrid = output.texture.threadGrid(threadGroup: tpTG)
         commandEncoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: tpTG)
         commandEncoder.endEncoding()
+
+        incoming.forEach {
+            $0.getOutput(index: index).setRead()
+        }
     }
 
     private func validatePreconditions(with axisThatMustBeEqual: [LayerSizeAxis]) {

@@ -21,10 +21,6 @@ open class DepthwiseConvolution: Convolution {
         return prevSize.f * convSize.kernelHeight * convSize.kernelWidth
     }
 
-    open override func updatedCheckpoint(device: MTLDevice) {
-        updateWeights(device: device)
-    }
-
     open override func makeConv(device: MTLDevice, weights: UnsafePointer<Float>, bias: UnsafePointer<Float>?) {
         let desc = MPSCNNDepthWiseConvolutionDescriptor(
             kernelWidth: convSize.kernelWidth,
@@ -43,12 +39,6 @@ open class DepthwiseConvolution: Convolution {
                                  kernelWeights: weights,
                                  biasTerms: bias,
                                  flags: .none)
-    }
-
-    open override func execute(commandBuffer: MTLCommandBuffer, executionIndex: Int = 0) {
-        conv?.encode(commandBuffer: commandBuffer,
-                     sourceImage: getIncoming()[0].outputs[executionIndex],
-                     destinationImage: outputs[executionIndex])
     }
 
 }
