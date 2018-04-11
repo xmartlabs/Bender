@@ -7,8 +7,13 @@
 //
 
 #include <metal_stdlib>
-#include "bender_metal_types.h"
+
 using namespace metal;
+
+typedef half texture_type;
+typedef half4 texture_type4;
+typedef half calculation_type;
+typedef half4 calculation_type4;
 
 constant ushort filter_x   [[ function_constant(0) ]];
 constant ushort filter_y   [[ function_constant(1) ]];

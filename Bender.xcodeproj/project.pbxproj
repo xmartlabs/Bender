@@ -33,7 +33,6 @@
 		8F60A31F1EC4F16200296167 /* FullyConnected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A31E1EC4F16200296167 /* FullyConnected.swift */; };
 		8F60A3211EC4F9CD00296167 /* Softmax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A3201EC4F9CD00296167 /* Softmax.swift */; };
 		8F60A3231EC4FA7A00296167 /* SpatialNorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A3221EC4FA7A00296167 /* SpatialNorm.swift */; };
-		8F67C877204D6A21004CD647 /* bender_metal_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F67C876204D6A21004CD647 /* bender_metal_types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8F69E7552073C01900DC03EF /* Bender-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F69E7542073BD5100DC03EF /* Bender-Bridging-Header.h */; };
 		8F79B7F91EC21AC2002D02C8 /* ConvTranspose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FC1EBA70F900586D1B /* ConvTranspose.swift */; };
 		8F79B7FA1EC21BE8002D02C8 /* Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA983FD1EBA70F900586D1B /* Crop.swift */; };
@@ -125,7 +124,6 @@
 		8F60A31E1EC4F16200296167 /* FullyConnected.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullyConnected.swift; sourceTree = "<group>"; };
 		8F60A3201EC4F9CD00296167 /* Softmax.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Softmax.swift; sourceTree = "<group>"; };
 		8F60A3221EC4FA7A00296167 /* SpatialNorm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpatialNorm.swift; sourceTree = "<group>"; };
-		8F67C876204D6A21004CD647 /* bender_metal_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bender_metal_types.h; sourceTree = "<group>"; };
 		8F69E7542073BD5100DC03EF /* Bender-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bender-Bridging-Header.h"; sourceTree = "<group>"; };
 		8F79B7FF1EC233A8002D02C8 /* ActivationNeuronType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivationNeuronType.swift; sourceTree = "<group>"; };
 		8F79B8071EC248CD002D02C8 /* Dummy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
@@ -269,7 +267,6 @@
 		8F480E50207BBA46000FAE68 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				8F67C876204D6A21004CD647 /* bender_metal_types.h */,
 				8F480E4E207BBA36000FAE68 /* MPSCNNConvolution_iOS10.h */,
 			);
 			path = Headers;
@@ -442,7 +439,6 @@
 				8FE3ECB31F3367BD00C0B5DE /* Bender-Swift.h in Headers */,
 				28F828811C494B2C00330CF4 /* Bender.h in Headers */,
 				8F69E7552073C01900DC03EF /* Bender-Bridging-Header.h in Headers */,
-				8F67C877204D6A21004CD647 /* bender_metal_types.h in Headers */,
 				8F480E4F207BBA36000FAE68 /* MPSCNNConvolution_iOS10.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
