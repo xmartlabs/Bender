@@ -102,10 +102,11 @@ open class Convolution: NetworkLayer {
             if let weightsPointer = weightsPointer {
                 dataSource = ConvolutionDataSource(cnnDescriptor: cnnDescriptor,
                                                    weights: UnsafeMutableRawPointer(mutating: weightsPointer.pointer()),
-                                                   bias: UnsafeMutablePointer(mutating: biasPointer?.pointer() as UnsafePointer<Float>?))
+                                                   bias: useBias ? UnsafeMutablePointer(mutating: biasPointer?.pointer() as UnsafePointer<Float>?)
+                                                    : nil)
             } else {
                 dataSource = ConvolutionDataSource(cnnDescriptor: cnnDescriptor, parameterLoader: network.parameterLoader,
-                                                   layerId: id, weightCount: getWeightsSize(), biasCount: convSize.outputChannels)
+                                                   layerId: id, weightCount: getWeightsSize(), biasCount: useBias ? convSize.outputChannels : 0)
             }
             makeConv(device: device, weights: nil, bias: nil)
         } else {
