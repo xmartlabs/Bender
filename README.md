@@ -17,12 +17,12 @@ Bender is an abstraction layer over MetalPerformanceShaders useful for working w
 ## Contents
 * [Introduction](#introduction)
 * [Why did we need Bender](#why)
-* [Basic usage](#basic-usage)
+* [Basic usage](#usage)
 * [Requirements](#requirements)
 * [Getting involved](#getting-involved)
 * [Examples](#examples)
 * [Installation](#installation)
-* [Changelog](#changelog)
+* [Changelog](#change-log)
 
 The documentation can be found under the `Documentation` folder:
 * [API](Documentation/API.md) contains the most important information to get started.
