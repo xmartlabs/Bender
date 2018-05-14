@@ -113,7 +113,7 @@ open class ConvTranspose: NetworkLayer {
         cnnDescriptor.dilationRateY = size.dilationY
     }
 
-    @available(iOS 11.0, *)
+    @available(iOS 11.3.1, *)
     open func makeConv(device: MTLDevice) {
         guard let network = network else { return }
         let dataSource = ConvolutionDataSource(cnnDescriptor: cnnDescriptor,
