@@ -12,8 +12,8 @@ using namespace metal;
 
 typedef half texture_type;
 typedef half4 texture_type4;
-typedef half calculation_type;
-typedef half4 calculation_type4;
+typedef float calculation_type;
+typedef float4 calculation_type4;
 
 constant ushort filter_x   [[ function_constant(0) ]];
 constant ushort filter_y   [[ function_constant(1) ]];
@@ -40,6 +40,10 @@ kernel void transpose_conv_calculate(
     // - weights in HWNC. Should we change this? Tensorflow has HWNC
 
     // All threads in threadgroup will read the same weights
+
+    if (src.get_width() <= gid.x || src.get_height() <= gid.y) {
+        return;
+    }
 
     ushort in_depth = src.get_array_size();
     ushort output_size = dest.get_array_size() * 4;
@@ -93,13 +97,22 @@ kernel void transpose_conv_shift_left(
     ushort in_x = filter_x * gid.x;
     ushort out_x = (filter_x - 1) * gid.x;
     ushort in_out_y = filter_y * gid.y;
+    ushort src_height = src.get_height();
+    ushort src_width = src.get_width();
+
+    if (out_x >= dest.get_width() || in_out_y >= dest.get_height()) {
+        return;
+    }
 
     // loop through filter_y
     for (ushort fy=0; fy<filter_y; fy++)
     {
-        calculation_type4 pix_prev = calculation_type4(src.read(ushort2(in_x - 1, in_out_y + fy), gid.z));
-        calculation_type4 pix1 = calculation_type4(src.read(ushort2(in_x, in_out_y + fy), gid.z));
-        calculation_type4 pix2 = calculation_type4(src.read(ushort2(in_x + 1, in_out_y + fy), gid.z));
+        calculation_type4 pix_prev = (in_x - 1) >= 0 && (in_x - 1) < src_width && (in_out_y + fy) < src_height ?
+                                        calculation_type4(src.read(ushort2(in_x - 1, in_out_y + fy), gid.z)) : calculation_type4(0.0);
+        calculation_type4 pix1 =  in_x < src_width && (in_out_y + fy) < src_height ?
+                                calculation_type4(src.read(ushort2(in_x, in_out_y + fy), gid.z)) : calculation_type4(0.0);
+        calculation_type4 pix2 = (in_x + 1) < src_width && (in_out_y + fy) < src_height ?
+                                calculation_type4(src.read(ushort2(in_x + 1, in_out_y + fy), gid.z)) : calculation_type4(0.0);
         dest.write(texture_type4(pix_prev + pix1), ushort2(out_x, in_out_y + fy), gid.z);
         dest.write(texture_type4(pix2), ushort2(out_x + 1, in_out_y + fy), gid.z);
     }
@@ -111,18 +124,25 @@ kernel void transpose_conv_shift_top(
 
                                       ushort3 gid [[thread_position_in_grid]]
                                       ) {
-
     //base positions
     ushort in_out_x = (filter_x - 1) * gid.x;
     ushort in_y = filter_y * gid.y;
     ushort out_y = (filter_y - 1) * gid.y;
+    ushort src_height = src.get_height();
+    ushort src_width = src.get_width();
 
+    if (in_out_x >= dest.get_width() || out_y >= dest.get_height()) {
+        return;
+    }
     // loop through x
     for (uint fx=0; fx<filter_x-1; fx++)
     {
-        calculation_type4 pix_prev = calculation_type4(src.read(ushort2(in_out_x + fx, in_y - 1), gid.z));
-        calculation_type4 pix1 = calculation_type4(src.read(ushort2(in_out_x + fx, in_y), gid.z));
-        calculation_type4 pix2 = calculation_type4(src.read(ushort2(in_out_x + fx, in_y + 1), gid.z));
+        calculation_type4 pix_prev = (in_out_x + fx) < src_width && (in_y - 1) >= 0 && (in_y - 1) < src_height ?
+                    calculation_type4(src.read(ushort2(in_out_x + fx, in_y - 1), gid.z)) : calculation_type4(0.0);
+        calculation_type4 pix1 = (in_out_x + fx) < src_width && in_y < src_height ?
+                    calculation_type4(src.read(ushort2(in_out_x + fx, in_y), gid.z)) : calculation_type4(0.0);
+        calculation_type4 pix2 = (in_out_x + fx) < src_width && (in_y + 1) < src_height ?
+                    calculation_type4(src.read(ushort2(in_out_x + fx, in_y + 1), gid.z)) : calculation_type4(0.0);
         dest.write(texture_type4(pix_prev + pix1), ushort2(in_out_x + fx, out_y), gid.z);
         dest.write(texture_type4(pix2), ushort2(in_out_x + fx, out_y + 1), gid.z);
     }
