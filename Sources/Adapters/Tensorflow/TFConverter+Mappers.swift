@@ -101,8 +101,14 @@ public extension TFConverter {
             kernelHeight: weightData.weightShape.kernelHeight,
             strideX: Int(strides.x),
             strideY: Int(strides.y))
+
+        var weights = weightData.weights
+        if #available(iOS 11.3.1, *) {
+            // We use MPSCNNConvolutionTranspose in this case and must transpose the weights
+            weights = weightData.weights != nil ? permute(order: [2, 0, 1, 3])(weightData.weights!, weightData.weightShape.toShape) : nil
+        }
         return ConvTranspose(size: convSize,
-                             weights: weightData.weights,
+                             weights: weights,
                              bias: weightData.bias,
                              id: node.nodeDef.name)
     }
