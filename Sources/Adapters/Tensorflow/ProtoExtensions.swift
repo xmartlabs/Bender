@@ -88,6 +88,28 @@ extension Tensorflow_NodeDef {
         return nil
     }
 
+    func valueScalar() -> Float? {
+        if isTFConstOp, let tensor = attr["value"]?.tensor {
+            switch tensor.dtype {
+            case .dtFloat:
+                return tensor.floatVal.first
+            case .dtDouble:
+                if let doubleVal = tensor.doubleVal.first {
+                    return Float(doubleVal)
+                }
+                break
+            case .dtInt8, .dtInt16, .dtInt32, .dtUint8:
+                if let intVal = tensor.intVal.first {
+                    return Float(intVal)
+                }
+                break
+            default:
+                break
+            }
+        }
+        return nil
+    }
+
 }
 
 extension Tensorflow_TensorShapeProto {

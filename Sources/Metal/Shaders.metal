@@ -51,3 +51,19 @@ kernel void image_linear_transform(texture2d<texture_type, access::read> inTextu
     calculation_type4 out = clamp(i*imageScale + imageShift, 0.0h, 1.0h);
     outTexture.write(texture_type4(out.r, out.g, out.b, 1.0h), ushort2(gid.x,gid.y));
 }
+
+/// Multiplies a scalar by an image
+kernel void multiply_scalar(texture2d_array<texture_type, access::read> inTexture [[texture(0)]],
+                            texture2d_array<texture_type, access::write> outTexture [[texture(1)]],
+                            ushort3 gid [[thread_position_in_grid]]
+                            ) {
+    outTexture.write(inTexture.read(ushort2(gid.x,gid.y), gid.z) * imageScale, ushort2(gid.x,gid.y), gid.z);
+}
+
+/// Multiplies a scalar by an image
+kernel void multiply_scalar_3(texture2d<texture_type, access::read> inTexture [[texture(0)]],
+                              texture2d<texture_type, access::write> outTexture [[texture(1)]],
+                              ushort2 gid [[thread_position_in_grid]]
+                              ) {
+    outTexture.write(inTexture.read(gid) * imageScale, ushort2(gid.x,gid.y));
+}

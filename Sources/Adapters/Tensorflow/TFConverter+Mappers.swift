@@ -22,6 +22,14 @@ public extension TFConverter {
         return Softmax(id: node.nodeDef.name)
     }
 
+    private func mulMapper(node: TFNode) -> NetworkLayer {
+        let scalarNode = node.incomingNodes().cleanMap { ($0 as? TFNode) }.first { $0.nodeDef.isTFConstOp }
+        guard let scalar = scalarNode?.nodeDef.valueScalar() else {
+            fatalError("Got no scalar for Multiply")
+        }
+        return Multiply(scalar: scalar, id: node.nodeDef.name)
+    }
+
     private func poolingMapper(_ type: PoolingType) -> (TFNode) -> NetworkLayer {
         return { node in
             guard let pad = node.nodeDef.attr["padding"]?.s,
@@ -216,6 +224,9 @@ public extension TFConverter {
     func setupMappers() {
         // MARK: Add
         mappers[Constants.Ops.Add] = addMapper
+
+        // MARK: Mul
+        mappers[Constants.Ops.Mul] = mulMapper
 
         // MARK: Activation neurons
         mappers[Constants.Ops.Relu] = neuronMapper(.relu)

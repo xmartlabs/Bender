@@ -25,6 +25,7 @@
 		8F4466CE1ECF5F8E00915819 /* TFWeightData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4466CD1ECF5F8E00915819 /* TFWeightData.swift */; };
 		8F4466D91ECF831300915819 /* ProtoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4466D81ECF831300915819 /* ProtoExtensions.swift */; };
 		8F480E4F207BBA36000FAE68 /* MPSCNNConvolution_iOS10.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F480E4E207BBA36000FAE68 /* MPSCNNConvolution_iOS10.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8F4EEB1420B2FF09006DCA12 /* Multiply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4EEB1320B2FF09006DCA12 /* Multiply.swift */; };
 		8F5114682040497D00451CD9 /* DepthwiseConvolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5114672040497D00451CD9 /* DepthwiseConvolution.swift */; };
 		8F57270C2072B0D600DCBAA8 /* ParameterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F57270B2072B0D600DCBAA8 /* ParameterDataSource.swift */; };
 		8F60A3141EC4D04E00296167 /* ImageLinearTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60A3131EC4D04E00296167 /* ImageLinearTransform.swift */; };
@@ -116,6 +117,7 @@
 		8F4466CD1ECF5F8E00915819 /* TFWeightData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TFWeightData.swift; sourceTree = "<group>"; };
 		8F4466D81ECF831300915819 /* ProtoExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProtoExtensions.swift; sourceTree = "<group>"; };
 		8F480E4E207BBA36000FAE68 /* MPSCNNConvolution_iOS10.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPSCNNConvolution_iOS10.h; sourceTree = "<group>"; };
+		8F4EEB1320B2FF09006DCA12 /* Multiply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Multiply.swift; sourceTree = "<group>"; };
 		8F5114672040497D00451CD9 /* DepthwiseConvolution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepthwiseConvolution.swift; sourceTree = "<group>"; };
 		8F57270B2072B0D600DCBAA8 /* ParameterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterDataSource.swift; sourceTree = "<group>"; };
 		8F60A3131EC4D04E00296167 /* ImageLinearTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLinearTransform.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				8F60A3201EC4F9CD00296167 /* Softmax.swift */,
 				8FA8E32D1EC0FD8800E8BAD8 /* Start.swift */,
 				8F60A3221EC4FA7A00296167 /* SpatialNorm.swift */,
+				8F4EEB1320B2FF09006DCA12 /* Multiply.swift */,
 			);
 			path = Layers;
 			sourceTree = "<group>";
@@ -586,6 +589,7 @@
 				4697C2191ED31F8D003ED2E9 /* local_response_norm.metal in Sources */,
 				8FAB77391ECC993A0050AB16 /* Graph.swift in Sources */,
 				8F94C53D1ECE1DD000D5E0E6 /* TFVariableProcessor.swift in Sources */,
+				8F4EEB1420B2FF09006DCA12 /* Multiply.swift in Sources */,
 				8FAB772E1ECC8D6E0050AB16 /* TFGraphLoader.swift in Sources */,
 				8FAB77241ECC86170050AB16 /* node_def.pb.swift in Sources */,
 				8FA984261EBA77E400586D1B /* LayerSize.swift in Sources */,
