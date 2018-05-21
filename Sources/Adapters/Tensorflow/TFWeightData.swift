@@ -31,7 +31,13 @@ struct TFWeightData {
                 biasVar = varInputs[1]
                 weightsVar = varInputs[0]
             } else {
-                fatalError("Conv2D(Transpose) must have 1 or 2 Variable input and one of them must be a bias")
+                if varInputs[0].nodeDef.shape?.dim.count == 4 && varInputs[1].nodeDef.shape!.dim.isEmpty {
+                    weightsVar = varInputs[0]
+                } else if varInputs[1].nodeDef.shape?.dim.count == 4 && varInputs[0].nodeDef.shape!.dim.isEmpty {
+                    weightsVar = varInputs[1]
+                } else {
+                    fatalError("Conv2D(Transpose) must have 1 or 2 Variable input and one of them must be a bias")
+                }
             }
         } else {
             fatalError("Conv2D(Transpose) must have 1 or 2 Variable input")
