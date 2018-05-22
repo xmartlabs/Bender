@@ -109,7 +109,7 @@ Follow these steps to run the examples:
 * Open Bender workspace and run the *Example* project.
 
 > There is an Image recognition example which includes a MobileNet model in Bender and one in CoreML. It is also set up to run an Inception model but you will have to download it separately as it is almost 100 MB in size.
-You can download it from http://download.tensorflow.org/models/inception_v3_2016_08_28.tar.gz but then you have to freeze it and add it to the 'Example' Xcode project as 'inception_v3.pb'. 
+You can download it from http://download.tensorflow.org/models/inception_v3_2016_08_28.tar.gz but then you have to freeze it and add it to the 'Example' Xcode project as 'inception_v3.pb'.
 
 ## Installation
 
@@ -118,7 +118,7 @@ You can download it from http://download.tensorflow.org/models/inception_v3_2016
 To install Bender, simply add the following line to your Podfile:
 
 ```ruby
-pod 'MetalBender', '~> 0.4'
+pod 'MetalBender', '~> 0.5'
 ```
 
 > Remember that Bender compiles for iOS 10. So you must add `platform :ios, '10.0'` to your Podfile
@@ -130,7 +130,7 @@ pod 'MetalBender', '~> 0.4'
 To install Bender, add the following line to your Cartfile:
 
 ```ogdl
-github "xmartlabs/Bender" ~> 0.4
+github "xmartlabs/Bender" ~> 0.5
 ```
 
 Then run:

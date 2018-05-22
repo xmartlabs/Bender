@@ -1,6 +1,18 @@
 # Change Log
 All notable changes to Bender will be documented in this file.
 
+## [0.5.0](https://github.com/xmartlabs/Bender/releases/tag/0.5.0)
+
+Added:
+
+* BatchNorm
+* Support for multiple inputs
+* Add support for depthwise and atrous (dilated) convolutions in iOS 11
+* Change some kernels to run on half instead of float
+* Use MPSTemporaryImage by default
+
+and some fixes.
+
 ## [0.4.1](https://github.com/xmartlabs/Bender/releases/tag/0.4.1)
 
 * Support for Xcode 9.1.
