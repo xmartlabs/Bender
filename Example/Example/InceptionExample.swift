@@ -64,14 +64,18 @@ class InceptionViewController: UIViewController, UINavigationControllerDelegate 
     @IBAction func runNetwork(_ sender: Any) {
         if selectedIndex == 1 {
             if let buffer = imageView.image?.toCVPixelBuffer() {
-                print(buffer)
-                let pred = try! model.prediction(input__0: buffer).MobilenetV1__Predictions__Reshape_1__0
-                let floatPtr = pred.dataPointer.bindMemory(to: Double.self, capacity: pred.count)
-                let arr = Array(UnsafeBufferPointer(start: floatPtr, count: pred.count))
-                let top5 = arr.argsort(by: > ).prefix(5)
-                label.text = top5.reduce("") {
-                    return $0 + (classLabels?[$1] ?? "__") + "\n"
+                do {
+                    let pred = try model.prediction(input__0: buffer).MobilenetV1__Predictions__Reshape_1__0
+                    let floatPtr = pred.dataPointer.bindMemory(to: Double.self, capacity: pred.count)
+                    let arr = Array(UnsafeBufferPointer(start: floatPtr, count: pred.count))
+                    let top5 = arr.argsort(by: > ).prefix(5)
+                    label.text = top5.reduce("") {
+                        return $0 + (classLabels?[$1] ?? "__") + "\n"
+                    }
+                } catch {
+                    print("Error: could not predict image")
                 }
+
             }
         } else {
             guard let image = imageView.image?.toMPS(loader: textureLoader) else {

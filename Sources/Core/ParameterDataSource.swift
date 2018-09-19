@@ -10,6 +10,14 @@ import MetalPerformanceShaders
 @available(iOS 11.0, *)
 public class ConvolutionDataSource: NSObject, MPSCNNConvolutionDataSource {
 
+    public func copy(with zone: NSZone? = nil) -> Any {
+        if let parameterLoader = parameterLoader {
+            return ConvolutionDataSource(cnnDescriptor: cnnDescriptor, parameterLoader: parameterLoader, layerId: layerId, weightCount: weightCount, biasCount: biasCount, useHalf: useHalf)
+        } else {
+            return ConvolutionDataSource(cnnDescriptor: cnnDescriptor, weights: weightsPointer, bias: biasPointer, useHalf: useHalf)
+        }
+    }
+
     var useHalf: Bool
     var cnnDescriptor: MPSCNNConvolutionDescriptor
     var weightsPointer: UnsafeMutableRawPointer?
