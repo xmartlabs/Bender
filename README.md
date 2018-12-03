@@ -153,7 +153,7 @@ This can be found in the [CHANGELOG.md](CHANGELOG.md) file.
 <!-- Links -->
 [Xmartlabs]: http://xmartlabs.com
 [Importing]: Documentation/Importing.md
-[CONTRIBUTING]: https://github.com/xmartlabs/Bender/blob/master/CONTRIBUTING.md
+[CONTRIBUTING]: .github/CONTRIBUTING.md
 [API]: Documentation/API.md
 [Supported Layers]: Documentation/Supported_Layers.md
 
