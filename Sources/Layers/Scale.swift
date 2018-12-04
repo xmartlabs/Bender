@@ -27,7 +27,7 @@ open class Scale: NetworkLayer {
     open override func initialize(network: Network, device: MTLDevice, temporaryImage: Bool = true) {
         super.initialize(network: network, device: device, temporaryImage: temporaryImage)
         lanczos = MPSImageLanczosScale(device: device)
-        createOutputs(size: outputSize, temporary: true)
+        createOutputs(size: outputSize, temporary: temporaryImage)
     }
 
     open override func execute(commandBuffer: MTLCommandBuffer, executionIndex index: Int = 0) {
