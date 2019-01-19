@@ -11,5 +11,5 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.ios.source_files = 'Sources/**/*.{swift,metal}', 'Sources/Headers/*.h'
   s.dependency 'SwiftProtobuf', '1.0.0'
-  s.dependency 'MetalPerformanceShadersProxy', '0.2.0'
+  s.dependency 'MetalPerformanceShadersProxy', '0.3.0'
 end
