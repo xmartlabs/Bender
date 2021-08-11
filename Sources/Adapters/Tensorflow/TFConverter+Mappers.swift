@@ -55,7 +55,7 @@ public extension TFConverter {
         var pads: [Int] = [0, 0, 0, 0]
         if let paddings = node.nodeDef.attr["explicit_paddings"]?.tensor.tensorContent {
             let padArray: [Int32] = paddings.toArray()
-            if padArray.filter({ $0 != 0 }).count > 1 {                
+            if padArray.filter({ $0 != 0 }).count > 1 {
                 // This only supports padding H and W dimensions
                 pads = padArray[2..<6].map { Int($0) }
             }
@@ -66,7 +66,6 @@ public extension TFConverter {
                 edgeMode = .clamp
             }
         }
-
 
         if node.nodeDef.isTFDepthwiseConvOp, #available(iOS 11.0, *) {
             //transpose weights

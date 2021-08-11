@@ -25,24 +25,33 @@ open class BatchNorm: NetworkLayer {
     public init(mean: Data? = nil, variance: Data? = nil, offset: Data? = nil, scale: Data? = nil, epsilon: Float = 0, id: String? = nil) {
         self.epsilon = epsilon
         if let mean = mean, let variance = variance {
-            params = mean
-            params?.append(variance)
+            var paramData = mean
+            paramData.append(variance)
 
             if let scale = scale {
-                params?.append(scale)
+                paramData.append(scale)
             } else {
-                let scaleArr = [Float](repeating: 1.0, count: variance.count / MemoryLayout<Float>.size)
-                params?.append(UnsafeBufferPointer(start: scaleArr, count: scaleArr.count))
+                var scaleArr = [Float](repeating: 1.0, count: variance.count / MemoryLayout<Float>.size)
+                let arrayCount = scaleArr.count
+                withUnsafePointer(to: &scaleArr) {
+                    paramData.append(UnsafeBufferPointer(start: $0, count: arrayCount))
+                }
             }
 
             if let offset = offset {
-                params?.append(offset)
+                paramData.append(offset)
             } else {
-                let offsetArr = [Float](repeating: 0.0, count: variance.count / MemoryLayout<Float>.size)
-                params?.append(UnsafeBufferPointer(start: offsetArr, count: offsetArr.count))
+                var offsetArr = [Float](repeating: 0.0, count: variance.count / MemoryLayout<Float>.size)
+                let arrayCount = offsetArr.count
+                withUnsafePointer(to: &offsetArr) {
+                    paramData.append(UnsafeBufferPointer(start: $0, count: arrayCount))
+                }
             }
-            params?.append(UnsafeBufferPointer(start: [epsilon], count: 1))
-            params = params?.toFloat16()
+            var epsArray = [epsilon]
+            withUnsafePointer(to: &epsArray) {
+                paramData.append(UnsafeBufferPointer(start: $0, count: 1))
+            }
+            params = paramData.toFloat16()
             allParamsSet = true
 
         } else if let scale = scale, let offset = offset {
@@ -80,7 +89,10 @@ open class BatchNorm: NetworkLayer {
                 d1.append(Data(bytes: network.parameterLoader.loadWeights(for: id, modifier: BatchNorm.offsetModifier, size: outputSize.f),
                                count: outputSize.f * Constants.FloatSize))
             }
-            d1.append(UnsafeBufferPointer(start: [epsilon], count: 1))
+            var epsArray = [epsilon]
+            withUnsafePointer(to: &epsArray) {
+                d1.append(UnsafeBufferPointer(start: $0, count: 1))
+            }
             self.params = d1.toFloat16()
         }
         if let params = params {

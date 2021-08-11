@@ -10,7 +10,9 @@ import Foundation
 public extension Array {
 
     func toData(count: Int? = nil) -> Data {
-        return Data(buffer: UnsafeBufferPointer(start: self, count: Swift.min(count ?? self.count, self.count)))
+        return withUnsafePointer(to: self) {
+            return Data(buffer: UnsafeBufferPointer(start: $0, count: Swift.min(count ?? self.count, self.count)))
+        }
     }
 
     func cleanMap<ElementOfResult>(_ block: (Element) -> ElementOfResult?) -> [ElementOfResult] {
