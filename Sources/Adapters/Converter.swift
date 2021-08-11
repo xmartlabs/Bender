@@ -12,6 +12,6 @@ import Foundation
 public protocol Converter {
 
     /// Converts a model from another framework to Bender
-    func convertGraph(file: URL) -> [NetworkLayer]
+    func convertGraph(file: URL, startNodes: [Start]) -> [NetworkLayer]
 
 }

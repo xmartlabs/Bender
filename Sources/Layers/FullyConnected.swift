@@ -75,7 +75,7 @@ open class FullyConnected: NetworkLayer {
         let weights = weightsPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id,
                                                                                        modifier: Convolution.weightModifier,
                                                                                        size: getWeightsSize())
-        var bias: UnsafePointer<Float>? = nil
+        var bias: UnsafePointer<Float>?
         if useBias {
             bias = biasPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id,
                                                                                  modifier: Convolution.biasModifier,

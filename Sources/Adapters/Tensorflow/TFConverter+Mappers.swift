@@ -51,6 +51,23 @@ public extension TFConverter {
             fatalError("Could not get weight information for this Conv2DTranspose")
         }
 
+        var edgeMode: MPSImageEdgeMode = .zero
+        var pads: [Int] = [0, 0, 0, 0]
+        if let paddings = node.nodeDef.attr["explicit_paddings"]?.tensor.tensorContent {
+            let padArray: [Int32] = paddings.toArray()
+            if padArray.filter({ $0 != 0 }).count > 1 {                
+                // This only supports padding H and W dimensions
+                pads = padArray[2..<6].map { Int($0) }
+            }
+        }
+        if let padMode = node.nodeDef.attr["pad_mode"]?.s,
+           let padString = String(data: padMode, encoding: .utf8) {
+            if padString == "REFLECT" || padString == "SYMMETRIC" {
+                edgeMode = .clamp
+            }
+        }
+
+
         if node.nodeDef.isTFDepthwiseConvOp, #available(iOS 11.0, *) {
             //transpose weights
             let weights = weightData.weights != nil ? HWIOtoIOWH(weights: weightData.weights!, shape: weightData.weightShape.toShape) : nil
@@ -68,6 +85,8 @@ public extension TFConverter {
                                         padding: PaddingType.fromTF(padString),
                                         weights: weights,
                                         bias: weightData.bias,
+                                        paddings: pads,
+                                        edgeMode: edgeMode,
                                         id: node.nodeDef.name)
         } else {
             //transpose weights
@@ -83,6 +102,8 @@ public extension TFConverter {
                                padding: PaddingType.fromTF(padString),
                                weights: weights,
                                bias: weightData.bias,
+                               paddings: pads,
+                               edgeMode: edgeMode,
                                id: node.nodeDef.name)
         }
     }
@@ -216,6 +237,7 @@ public extension TFConverter {
     func setupMappers() {
         // MARK: Add
         mappers[Constants.Ops.Add] = addMapper
+        mappers[Constants.Ops.AddV2] = addMapper
 
         // MARK: Activation neurons
         mappers[Constants.Ops.Relu] = neuronMapper(.relu)
@@ -254,6 +276,7 @@ public extension TFConverter {
         // MARK: BatchNorm
         mappers[Constants.Ops.BatchNormGlobal] = batchnormMapper
         mappers[Constants.Ops.FusedBatchNorm] = batchnormMapper
+        mappers[Constants.Ops.FusedBatchNormV3] = batchnormMapper
     }
 
 }

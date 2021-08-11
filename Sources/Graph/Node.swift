@@ -53,9 +53,9 @@ public extension Node {
     /// occurrence of `old` in the `new` node.
     func replace(incomingEdge old: Node, with new: Node) {
         let incoming = incomingNodes()
-        if let index = incoming.index(where: { $0.isEqual(to: old) }) {
+        if let index = incoming.firstIndex(where: { $0.isEqual(to: old) }) {
             edgeIn[index] = captureWeakly(object: new)
-            if let outIndex = new.edgeOut.index(where: { $0.isEqual(to: old)}) {
+            if let outIndex = new.edgeOut.firstIndex(where: { $0.isEqual(to: old)}) {
                 new.edgeOut[outIndex] = self
             } else {
                 new.edgeOut.append(self)
@@ -70,7 +70,7 @@ public extension Node {
 
     /// Delete an incoming connection
     func deleteIncomingEdge(node: Node) {
-        if let index = edgeIn.index(where: { $0()?.isEqual(to: node) ?? false }) {
+        if let index = edgeIn.firstIndex(where: { $0()?.isEqual(to: node) ?? false }) {
             _ = edgeIn.remove(at: index)
         }
     }
@@ -82,7 +82,7 @@ public extension Node {
 
     /// Delete an outgoing connection
     func deleteOutgoingEdge(node: Node) {
-        if let index = edgeOut.index(where: { $0.isEqual(to: node) }) {
+        if let index = edgeOut.firstIndex(where: { $0.isEqual(to: node) }) {
             edgeOut.remove(at: index)
         }
     }

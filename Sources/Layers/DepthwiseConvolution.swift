@@ -13,8 +13,11 @@ import MetalPerformanceShadersProxy
 open class DepthwiseConvolution: Convolution {
 
     public required override init(convSize: ConvSize, neuronType: ActivationNeuronType = .none, useBias: Bool = false,
-                                  padding: PaddingType = .same, weights: Data? = nil, bias: Data? = nil, id: String? = nil) {
-        super.init(convSize: convSize, neuronType: neuronType, useBias: useBias, padding: padding, weights: weights, bias: bias, id: id)
+                                  padding: PaddingType = .same, weights: Data? = nil, bias: Data? = nil,
+                                  paddings: [Int] = [0, 0, 0, 0], edgeMode: MPSImageEdgeMode = .zero,
+                                  id: String? = nil) {
+        super.init(convSize: convSize, neuronType: neuronType, useBias: useBias, padding: padding,
+                   weights: weights, bias: bias, paddings: paddings, edgeMode: edgeMode, id: id)
     }
 
     open override func createCNNDescriptor(device: MTLDevice) {

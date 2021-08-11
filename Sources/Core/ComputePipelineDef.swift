@@ -9,8 +9,8 @@
 /// Hash key for MTLComputePipelineState
 struct ComputePipelineDef: Hashable {
 
-    var hashValue: Int {
-        return function.hashValue
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(function)
     }
 
     /// Name of compute kernel function
