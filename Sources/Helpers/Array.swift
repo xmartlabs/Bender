@@ -10,8 +10,10 @@ import Foundation
 public extension Array {
 
     func toData(count: Int? = nil) -> Data {
-        return withUnsafePointer(to: self) {
-            return Data(buffer: UnsafeBufferPointer(start: $0, count: Swift.min(count ?? self.count, self.count)))
+        return withUnsafeBytes { pointer in
+            let elements = Swift.min(count ?? self.count, self.count)
+            return Data(bytes: pointer.baseAddress!,
+                        count: Int(elements * MemoryLayout<Self.Element>.size))
         }
     }
 

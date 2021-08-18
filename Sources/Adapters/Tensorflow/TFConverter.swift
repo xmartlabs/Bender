@@ -113,7 +113,7 @@ open class TFConverter: Converter {
     public func translateOperators(graph: TFGraph, startNodes: [Start]) -> [NetworkLayer] {
         var layers = [NetworkLayer]()
         var processed = [String: NetworkLayer]() // maps TF node names to layers (to link nodes)
-
+        
         for node in graph.nodes {
             if let mapper = mappers[node.nodeDef.op] {
                 let layer = mapper(node)
@@ -129,10 +129,13 @@ open class TFConverter: Converter {
                         layer.addIncomingEdge(from: inputLayer)
                     }
                 }
-            } else if (node.nodeDef.op == Constants.Ops.Placeholder),
-                      let layer = startNodes.first(where: { $0.inputName == node.nodeDef.name }) {
-                layers.insert(layer, at: 0)
-                processed[node.nodeDef.name] = layer
+            } else if node.nodeDef.op == Constants.Ops.Placeholder {
+                let layer = startNodes.count == 1 ? startNodes.first :
+                    startNodes.first(where: { $0.inputName == node.nodeDef.name })
+                if let layer = layer {
+                    layers.insert(layer, at: 0)
+                    processed[node.nodeDef.name] = layer
+                }
             } else if !(ignoredOps.contains(node.nodeDef.op)) {
                 // We found an unsupported layer. We ignore it but warn.
                 if verbose {

@@ -5,13 +5,14 @@
 //  Created by Mathias Claassen on 2/7/18.
 //
 
+import CoreML
 import MetalPerformanceShaders
 import MetalPerformanceShadersProxy
 import MetalKit
 import MetalBender
 import UIKit
 
-@available(iOS 11.0, *)
+@available(iOS 12.0, *)
 class InceptionViewController: UIViewController, UINavigationControllerDelegate {
 
     var inception: Network?
@@ -34,7 +35,9 @@ class InceptionViewController: UIViewController, UINavigationControllerDelegate 
         setupNetwork()
         classLabels = readClassLabels("mobilenet_labels")
         inceptionLabels = readClassLabels("imagenet_label_strings")
-        model = mobilenet()
+        let config = MLModelConfiguration()
+        config.computeUnits = .all
+        model = try! mobilenet(configuration: config)
     }
 
     func setupNetwork() {
@@ -149,15 +152,17 @@ class InceptionViewController: UIViewController, UINavigationControllerDelegate 
 
 }
 
-@available(iOS 11.0, *)
+@available(iOS 12.0, *)
 extension InceptionViewController: UIImagePickerControllerDelegate {
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
 
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
         picker.dismiss(animated: true)
-        guard let image = info["UIImagePickerControllerOriginalImage"] as? UIImage else {
+
+        guard let image = info[.originalImage] as? UIImage else {
             return
         }
         imageView.image = image

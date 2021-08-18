@@ -31,26 +31,17 @@ open class BatchNorm: NetworkLayer {
             if let scale = scale {
                 paramData.append(scale)
             } else {
-                var scaleArr = [Float](repeating: 1.0, count: variance.count / MemoryLayout<Float>.size)
-                let arrayCount = scaleArr.count
-                withUnsafePointer(to: &scaleArr) {
-                    paramData.append(UnsafeBufferPointer(start: $0, count: arrayCount))
-                }
+                let scaleArr = [Float](repeating: 1.0, count: variance.count / MemoryLayout<Float>.size)
+                paramData.append(scaleArr.toData())
             }
 
             if let offset = offset {
                 paramData.append(offset)
             } else {
-                var offsetArr = [Float](repeating: 0.0, count: variance.count / MemoryLayout<Float>.size)
-                let arrayCount = offsetArr.count
-                withUnsafePointer(to: &offsetArr) {
-                    paramData.append(UnsafeBufferPointer(start: $0, count: arrayCount))
-                }
+                let offsetArr = [Float](repeating: 0.0, count: variance.count / MemoryLayout<Float>.size)
+                paramData.append(offsetArr.toData())
             }
-            var epsArray = [epsilon]
-            withUnsafePointer(to: &epsArray) {
-                paramData.append(UnsafeBufferPointer(start: $0, count: 1))
-            }
+            paramData.append([epsilon].toData())
             params = paramData.toFloat16()
             allParamsSet = true
 

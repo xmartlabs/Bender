@@ -96,14 +96,17 @@ public extension Texture {
         var bytes = [UInt16](repeating: 0, count: count)
         let region = MTLRegionMake2D(0, 0, size.w, size.h)
         for i in 0..<texture.arrayLength {
-            texture.getBytes(
-                &bytes + i * 4 * size.w * size.h * MemoryLayout<UInt16>.stride,
-                bytesPerRow: size.w * 4 * MemoryLayout<UInt16>.stride,
-                bytesPerImage: 0,
-                from: region,
-                mipmapLevel: 0,
-                slice: i
-            )
+            bytes.withUnsafeMutableBytes { pointer in
+                let writePointer = pointer.baseAddress!.advanced(by: i * 4 * size.w * size.h * MemoryLayout<UInt16>.stride)
+                texture.getBytes(
+                    writePointer, // &bytes + i * 4 * size.w * size.h * MemoryLayout<UInt16>.stride
+                    bytesPerRow: size.w * 4 * MemoryLayout<UInt16>.stride,
+                    bytesPerImage: 0,
+                    from: region,
+                    mipmapLevel: 0,
+                    slice: i
+                )
+            }
         }
         var output = [Float](repeatElement(0, count: count))
         var bufferFloat16 = vImage_Buffer(data: &bytes, height: 1, width: UInt(count), rowBytes: count * 2)

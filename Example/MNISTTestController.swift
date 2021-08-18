@@ -188,7 +188,7 @@ class MNISTTestController: UIViewController, ExampleViewController {
     func didScan(numbers: [Float]) {
         guard numbers.count == 10 else { return }
         DispatchQueue.main.async { [weak self] in
-            if let max = numbers.max(), let index = numbers.index(of: max) {
+            if let max = numbers.max(), let index = numbers.firstIndex(of: max) {
                 self?.resultLabel.text = "Found \(index)"
             } else {
                 self?.resultLabel.text = "None"
