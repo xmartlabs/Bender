@@ -166,7 +166,7 @@ If you use this code in your research please cite us:
 
 @misc{xmartlabs-2017-bender,
   author = {Mathias Claassen and Santiago Castro},
-  title = {Bender: Easily craft fast Neural Networks on iOS!},
+  title = {Bender: Easily craft fast Neural Networks on {iOS}!},
   year = {2017},
   publisher = {GitHub},
   journal = {GitHub repository},
