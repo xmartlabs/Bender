@@ -160,3 +160,15 @@ This can be found in the [CHANGELOG.md](CHANGELOG.md) file.
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fxmartlabs%2FBender.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fxmartlabs%2FBender?ref=badge_large)
+
+## Citation
+If you use this code in your research please cite us:
+
+@misc{xmartlabs-2017-bender,
+  author = {Mathias Claassen, Santiago Castro},
+  title = {Bender: Easily craft fast Neural Networks on iOS!},
+  year = {2017},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/xmartlabs/bender}}
+}
