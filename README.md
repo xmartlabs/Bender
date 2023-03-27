@@ -164,6 +164,7 @@ This can be found in the [CHANGELOG.md](CHANGELOG.md) file.
 ## Citation
 If you use this code in your research please cite us:
 
+```bibtex
 @misc{xmartlabs-2017-bender,
   author = {Mathias Claassen and Santiago Castro},
   title = {Bender: Easily craft fast Neural Networks on {iOS}!},
@@ -172,3 +173,4 @@ If you use this code in your research please cite us:
   journal = {GitHub repository},
   howpublished = {\url{https://github.com/xmartlabs/bender}}
 }
+```
