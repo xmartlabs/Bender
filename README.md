@@ -171,6 +171,6 @@ If you use this code in your research please cite us:
   year = {2017},
   publisher = {GitHub},
   journal = {GitHub repository},
-  howpublished = {\url{https://github.com/xmartlabs/bender}}
+  howpublished = {\url{https://xmartlabs.github.io/Bender/}}
 }
 ```
