@@ -25,24 +25,24 @@ open class BatchNorm: NetworkLayer {
     public init(mean: Data? = nil, variance: Data? = nil, offset: Data? = nil, scale: Data? = nil, epsilon: Float = 0, id: String? = nil) {
         self.epsilon = epsilon
         if let mean = mean, let variance = variance {
-            params = mean
-            params?.append(variance)
+            var paramData = mean
+            paramData.append(variance)
 
             if let scale = scale {
-                params?.append(scale)
+                paramData.append(scale)
             } else {
                 let scaleArr = [Float](repeating: 1.0, count: variance.count / MemoryLayout<Float>.size)
-                params?.append(UnsafeBufferPointer(start: scaleArr, count: scaleArr.count))
+                paramData.append(scaleArr.toData())
             }
 
             if let offset = offset {
-                params?.append(offset)
+                paramData.append(offset)
             } else {
                 let offsetArr = [Float](repeating: 0.0, count: variance.count / MemoryLayout<Float>.size)
-                params?.append(UnsafeBufferPointer(start: offsetArr, count: offsetArr.count))
+                paramData.append(offsetArr.toData())
             }
-            params?.append(UnsafeBufferPointer(start: [epsilon], count: 1))
-            params = params?.toFloat16()
+            paramData.append([epsilon].toData())
+            params = paramData.toFloat16()
             allParamsSet = true
 
         } else if let scale = scale, let offset = offset {
@@ -80,7 +80,10 @@ open class BatchNorm: NetworkLayer {
                 d1.append(Data(bytes: network.parameterLoader.loadWeights(for: id, modifier: BatchNorm.offsetModifier, size: outputSize.f),
                                count: outputSize.f * Constants.FloatSize))
             }
-            d1.append(UnsafeBufferPointer(start: [epsilon], count: 1))
+            var epsArray = [epsilon]
+            withUnsafePointer(to: &epsArray) {
+                d1.append(UnsafeBufferPointer(start: $0, count: 1))
+            }
             self.params = d1.toFloat16()
         }
         if let params = params {

@@ -31,7 +31,7 @@ class DenseTest: BenderTest {
         let url = Bundle.main.url(forResource: "denseTest", withExtension: "pb")!
         let converter = TFConverter.default()
 
-        let sizes = [("dense1/BiasAdd", LayerSize(h: 4, w: 2, f: 3))]
+        let sizes = [("x1", LayerSize(h: 4, w: 2, f: 3))]
 
         let inputImage = MPSImage(device: Device.shared, imageDescriptor: MPSImageDescriptor(channelFormat: .float16, width: 2, height: 4, featureChannels: 3))
         inputImage.writeBytes(float32to16(UnsafeMutablePointer(mutating: DenseDataSet.input), count: 24),

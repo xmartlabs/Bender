@@ -22,11 +22,13 @@ extension Constants {
     struct Ops {
 
         static let Add = "Add"
+        static let AddV2 = "AddV2"
         static let Assign = "Assign"
         static let AvgPool = "AvgPool"
         static let BatchToSpace = "BatchToSpaceND"
         static let BatchNormGlobal = "BatchNormWithGlobalNormalization"
         static let FusedBatchNorm = "FusedBatchNorm"
+        static let FusedBatchNormV3 = "FusedBatchNormV3"
         static let BiasAdd = "BiasAdd"
         static let Concat = "ConcatV2"
         static let ConcatV1 = "Concat"
@@ -40,6 +42,7 @@ extension Constants {
         static let MaxPool = "MaxPool"
         static let Mul = "Mul"
         static let Mean = "Mean"
+        static let Placeholder = "Placeholder"
         static let Pow = "Pow"
         static let RealDiv = "RealDiv"
         static let QuantizedConv2D = "QuantizedConv2D"

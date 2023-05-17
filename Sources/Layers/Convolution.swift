@@ -29,17 +29,22 @@ open class Convolution: NetworkLayer {
     var conv: MPSCNNConvolution?
     let neuronType: ActivationNeuronType
     public var padding: PaddingType
+    public var paddings: [Int]
+    public var edgeMode: MPSImageEdgeMode
 
     var useBias: Bool
 
     public init(convSize: ConvSize, neuronType: ActivationNeuronType = .none, useBias: Bool = false,
-                padding: PaddingType = .same, weights: Data? = nil, bias: Data? = nil, id: String? = nil) {
+                padding: PaddingType = .same, weights: Data? = nil, bias: Data? = nil,
+                paddings: [Int] = [0, 0, 0, 0], edgeMode: MPSImageEdgeMode = .zero, id: String? = nil) {
         self.convSize = convSize
         self.neuronType = neuronType
         self.useBias = useBias
         self.padding = padding
         self.weightsPointer = weights
         self.biasPointer = bias
+        self.edgeMode = edgeMode
+        self.paddings = paddings
         super.init(id: id)
     }
 
@@ -52,21 +57,28 @@ open class Convolution: NetworkLayer {
         super.initialize(network: network, device: device, temporaryImage: temporaryImage)
         let incoming = getIncoming()
         prevSize = incoming[0].outputSize
-        outputSize = LayerSize(h: padding == .same ? prevSize.h / convSize.strideY : (prevSize.h - convSize.kernelHeight) / convSize.strideY + 1,
-                               w: padding == .same ? prevSize.w / convSize.strideX : (prevSize.w - convSize.kernelWidth) / convSize.strideX + 1,
+        let paddedW = prevSize.w + paddings[0] + paddings[1]
+        let paddedH = prevSize.h + paddings[2] + paddings[3]
+        outputSize = LayerSize(h: padding == .same ? paddedH / convSize.strideY : (paddedH - convSize.kernelHeight) / convSize.strideY + 1,
+                               w: padding == .same ? paddedW / convSize.strideX : (paddedW - convSize.kernelWidth) / convSize.strideX + 1,
                                f: convSize.outputChannels)
         createCNNDescriptor(device: device)
         updateWeights(device: device)
         if padding == .same {
-            let padHeight = ((outputSize.h - 1) * convSize.strideY + convSize.kernelHeight - prevSize.h)
-            let padWidth  = ((outputSize.w - 1) * convSize.strideX + convSize.kernelWidth - prevSize.w)
+            let padHeight = ((outputSize.h - 1) * convSize.strideY + convSize.kernelHeight - paddedH)
+            let padWidth  = ((outputSize.w - 1) * convSize.strideX + convSize.kernelWidth - paddedW)
             let padTop = Int(padHeight / 2)
             let padLeft = Int(padWidth / 2)
 
-            conv?.offset = MPSOffset(x: ((Int(convSize.kernelWidth)/2) - padLeft), y: (Int(convSize.kernelHeight/2) - padTop), z: 0)
+            conv?.offset = MPSOffset(x: ((Int(convSize.kernelWidth)/2) - padLeft),
+                                     y: (Int(convSize.kernelHeight/2) - padTop),
+                                     z: 0)
         } else {
-            conv?.offset = MPSOffset(x: Int(convSize.kernelWidth)/2, y: Int(convSize.kernelHeight)/2, z: 0)
+            conv?.offset = MPSOffset(x: Int(convSize.kernelWidth)/2 - paddings[0],
+                                     y: Int(convSize.kernelHeight)/2 - paddings[2],
+                                     z: 0)
         }
+        conv?.edgeMode = edgeMode
 
         createOutputs(size: outputSize, temporary: temporaryImage)
     }
@@ -114,7 +126,7 @@ open class Convolution: NetworkLayer {
                                                                                            modifier: Convolution.weightModifier,
                                                                                            size: getWeightsSize())
 
-            var bias: UnsafePointer<Float>? = nil
+            var bias: UnsafePointer<Float>?
             if useBias {
                 bias = biasPointer?.pointer() ?? network.parameterLoader.loadWeights(for: id,
                                                                                      modifier: Convolution.biasModifier,

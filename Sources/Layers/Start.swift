@@ -63,10 +63,10 @@ open class Start: NetworkLayer {
                 return
             } else if aspect > 0.0 { // input aspect ratio greater than output aspect ratio
                 scaledH = outputSize.h
-                scaledW = Int(Double(outputSize.w) * inputAspect)
+                scaledW = Int(Double(scaledH) * inputAspect)
             } else { // input aspect ratio smaller than output aspect ratio
                 scaledW = outputSize.w
-                scaledH = Int(Double(outputSize.h) / inputAspect)
+                scaledH = Int(Double(scaledW) / inputAspect)
             }
 
             // SCALE

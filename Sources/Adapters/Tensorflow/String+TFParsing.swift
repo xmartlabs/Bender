@@ -6,7 +6,7 @@
 //
 //
 
-extension Tensorflow_NodeDef {
+public extension Tensorflow_NodeDef {
 
     var isTFAddOp: Bool { return op == Constants.Ops.Add }
     var isTFVariableAssignOp: Bool { return op == Constants.Ops.Assign }

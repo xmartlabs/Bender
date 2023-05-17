@@ -107,7 +107,7 @@ public class Network {
     }
 
     func load(url: URL, converter: Converter, performInitialize: Bool) {
-        set(layers: converter.convertGraph(file: url))
+        set(layers: converter.convertGraph(file: url, startNodes: startNodes))
 
         if performInitialize {
             initialize()
@@ -119,18 +119,6 @@ public class Network {
         let inputNodes = nodes.filter { $0.getIncoming().isEmpty }
         assert(inputNodes.count == startNodes.count,
                "Number of network inputs(\(inputNodes.count)) and input sizes(\(startNodes.count)) are not equal")
-        if inputNodes.count == 1 {
-            inputNodes[0].addIncomingEdge(from: startNodes[0])
-            nodes.insert(startNodes[0], at: 0)
-        } else {
-            for node in startNodes {
-                assert(!nodes.contains(node), "THIS is to make sure that they haven't been inserted. TODO: remove this")
-                let inputNode = inputNodes.first { $0.id == node.inputName }
-
-                inputNode?.addIncomingEdge(from: node)
-                nodes.insert(node, at: 0)
-            }
-        }
     }
 
     /// Validates that the network has been correctly converted and set up
@@ -263,7 +251,7 @@ public class Network {
     /// Should only be used when converting graphs from other models. Is not needed if defining the network yourself.
     public func addPreProcessing(layers: [NetworkLayer]) {
         guard !layers.isEmpty else { return }
-        guard !initialized, let start = startNodes.first, nodes.index(of: start) != nil else {
+        guard !initialized, let start = startNodes.first, nodes.firstIndex(of: start) != nil else {
             fatalError("Must not call this function after initializing. Also only call after converting from a different model")
         }
 
@@ -281,7 +269,7 @@ public class Network {
     /// Should only be used when converting graphs from other models. Is not needed if defining the network yourself.
     public func addPreProcessing(layers: [String: [NetworkLayer]]) {
         guard !layers.isEmpty else { return }
-        guard !initialized, let start = startNodes.first, nodes.index(of: start) != nil else {
+        guard !initialized, let start = startNodes.first, nodes.firstIndex(of: start) != nil else {
             fatalError("Must not call this function after initializing. Also only call after converting from a different model")
         }
         for (inputName, preprocessing) in layers {

@@ -44,7 +44,7 @@ open class TFConverter: Converter {
     }
 
     /// Creates a TFConverter with the default optimizers.
-    open static func `default`(
+    public static func `default`(
         type: ProtoFileType = .binary,
         additionalOptimizers: [TFOptimizer] = [],
         verbose: Bool = false) -> TFConverter {
@@ -71,7 +71,7 @@ open class TFConverter: Converter {
     ///   - file: The file where the TensorFlow graph is stored
     ///   - type: If the file is in text or binary format
     /// - Returns: The converted network layers
-    open func convertGraph(file: URL) -> [NetworkLayer] {
+    open func convertGraph(file: URL, startNodes: [Start]) -> [NetworkLayer] {
         let loader = TFGraphLoader()
         var graph = loader.load(file: file, type: type)
 
@@ -83,7 +83,7 @@ open class TFConverter: Converter {
         }
 
         runOptimizers(graph: &graph)
-        return translateOperators(graph: graph)
+        return translateOperators(graph: graph, startNodes: startNodes)
     }
 
     /// Runs all the optimizers on the graph passed as argument.
@@ -110,10 +110,10 @@ open class TFConverter: Converter {
     ///
     /// - Parameter graph: The TFGraph to be mapped
     /// - Returns: An array of mapped oprations as NetworkLayer's
-    public func translateOperators(graph: TFGraph) -> [NetworkLayer] {
+    public func translateOperators(graph: TFGraph, startNodes: [Start]) -> [NetworkLayer] {
         var layers = [NetworkLayer]()
         var processed = [String: NetworkLayer]() // maps TF node names to layers (to link nodes)
-
+        
         for node in graph.nodes {
             if let mapper = mappers[node.nodeDef.op] {
                 let layer = mapper(node)
@@ -128,6 +128,13 @@ open class TFConverter: Converter {
                     if let inputLayer = processed[input.nodeDef.name] {
                         layer.addIncomingEdge(from: inputLayer)
                     }
+                }
+            } else if node.nodeDef.op == Constants.Ops.Placeholder {
+                let layer = startNodes.count == 1 ? startNodes.first :
+                    startNodes.first(where: { $0.inputName == node.nodeDef.name })
+                if let layer = layer {
+                    layers.insert(layer, at: 0)
+                    processed[node.nodeDef.name] = layer
                 }
             } else if !(ignoredOps.contains(node.nodeDef.op)) {
                 // We found an unsupported layer. We ignore it but warn.

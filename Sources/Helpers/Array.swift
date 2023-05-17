@@ -10,7 +10,11 @@ import Foundation
 public extension Array {
 
     func toData(count: Int? = nil) -> Data {
-        return Data(buffer: UnsafeBufferPointer(start: self, count: Swift.min(count ?? self.count, self.count)))
+        return withUnsafeBytes { pointer in
+            let elements = Swift.min(count ?? self.count, self.count)
+            return Data(bytes: pointer.baseAddress!,
+                        count: Int(elements * MemoryLayout<Self.Element>.size))
+        }
     }
 
     func cleanMap<ElementOfResult>(_ block: (Element) -> ElementOfResult?) -> [ElementOfResult] {

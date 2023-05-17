@@ -56,10 +56,16 @@ open class InstanceNorm: NetworkLayer {
 
     open override func updatedCheckpoint(device: MTLDevice) {
         guard let network = network else { return }
-        scaleBuffer.contents().copyBytes(from: network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.scaleModifier, size: outputSize.f),
-                                          count: max(4, outputSize.f) * Constants.FloatSize)
-        shiftBuffer.contents().copyBytes(from: network.parameterLoader.loadWeights(for: id, modifier: InstanceNorm.shiftModifier, size: outputSize.f),
-                                          count: max(4, outputSize.f) * Constants.FloatSize)
+        scaleBuffer.contents()
+            .copyMemory(from: network.parameterLoader.loadWeights(for: id,
+                                                                  modifier: InstanceNorm.scaleModifier,
+                                                                  size: outputSize.f),
+                        byteCount: max(4, outputSize.f) * Constants.FloatSize)
+        shiftBuffer.contents()
+            .copyMemory(from: network.parameterLoader.loadWeights(for: id,
+                                                                  modifier: InstanceNorm.shiftModifier,
+                                                                  size: outputSize.f),
+                        byteCount: max(4, outputSize.f) * Constants.FloatSize)
     }
 
     open override func execute(commandBuffer: MTLCommandBuffer, executionIndex index: Int = 0) {
